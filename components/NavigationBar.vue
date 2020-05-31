@@ -13,7 +13,7 @@
       </nav>
       <div class="chainid">
         <span class="status"></span>
-        {{chainId}}
+        <span>{{chainId}}</span>
       </div>
     </div>
   </nav>

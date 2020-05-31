@@ -1,11 +1,14 @@
 <template>
   <div class="home-root">
-    <nav-bar />
-    <tab-menu :active="1"></tab-menu>
+    <nav-bar :active="1" />
     <div class="welcome">
-      Welcome Oasis Block Explorer
+      WELCOME TO OASIS BLOCK EXPLORER
     </div>
     <div class="page-container">
+      <search-box></search-box>
+      <div class="marquee-con">
+        <scroll-news></scroll-news>
+      </div>
       <block-info :blockInfo="blockInfo"></block-info>
       <div class="block-chain-list">
         <div class="list-card block-list">
@@ -39,22 +42,24 @@
   import { fetchBlockInfo, fetchHomeBlockList } from '../fetch/index'
   import BlockTable from '../components/Table/index'
   import NavBar from '../components/NavigationBar'
-  import TabMenu from '../components/TabMenu'
+  import SearchBox from '../components/index/SearchBox'
   import BlockInfo from '../components/index/BlockInfo'
-
+  import ScrollNews from '../components/ScrollNews'
+  import Config from '../config/index'
   export default {
     components: {
       NavBar,
-      TabMenu,
       BlockInfo,
-      BlockTable
+      SearchBox,
+      BlockTable,
+      ScrollNews
     },
     async asyncData({ $axios }) {
       const data = await Promise.all([fetchBlockInfo($axios), fetchHomeBlockList($axios, 10, 'signs'), fetchHomeBlockList($axios, 10, 'proposals')])
       const blockInfo = data[0]
       const { list: signs } = data[1]
       const { list: proposals } = data[2]
-      return { blockInfo, signs, proposals }
+      return { blockInfo, signs, proposals, newsList: Config.news }
     },
     mounted() {
       // this.repool()
@@ -131,13 +136,12 @@
     z-index: 1;
   }
   .welcome {
-    line-height: 6.81rem;
+    line-height: 1;
     color: $theme-color;
-    font-size: 3.13rem;
+    font-size: rem(40);
     text-align: center;
-    background-color: #F8F8F8;
-    @include regular;;
-    margin-top: 1.69rem;
+    @include regular;
+    margin-top: rem(76);
   }
   hr {
     width:100%;

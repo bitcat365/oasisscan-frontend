@@ -2,7 +2,6 @@
   <form @submit.stop.prevent="onsubmit" class="search-box">
     <div class="form-inner">
       <input v-model="text" type="text" :placeholder="$t('home.search')"></input>
-      <img class="search-icon" src="../../assets/search.png" />
       <a class="search-button" @click.stop.prevent="onsubmit">{{$t('search')}}</a>
     </div>
   </form>
@@ -36,49 +35,46 @@
   @import "../../assets/css/common";
   .search-box {
     margin: 0 auto;
-    padding: 85px 0 85px;
+    padding: rem(60) 0 rem(60);
     position: relative;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     > .form-inner{
-      width: 592px;
+      width: rem(600);
       position: relative;
       > input[type="text"] {
         display: inline-block;
         width: 100%;
-        height: 52px;
-        padding:17px 198px 17px 70px;
-        font-size: 18px;
+        height: rem(50);
+        padding:rem(17) rem(134) rem(17) rem(17);
+        font-size: rem(18);
         line-height: 1;
         color: rgba(55, 65, 107, 1);
         background-color: rgba(248,248,248,1);
-        border-radius:26px;
+        border-radius: rem(6);
         border: 0;
         &:focus{
           outline: 0;
         }
       }
-      > .search-icon{
-        width: 18px;
-        position: absolute;
-        top: 17px;
-        left: 26px;
-      }
       > .search-button {
         position: absolute;
-        top: 5px;
-        right: -145px;
-        height:42px;
-        font-size: 14px;
+        top: 0px;
+        right: 0px;
+        height: 100%;
+        width: rem(107);
+        font-size: rem(14);
         line-height: 1;
         padding:0 36px;
-        border-radius:21px;
+        border-radius: rem(6);
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
         display: flex;
         align-items: center;
         color: white;
         @include medium;
-        background: rgba(230,0,122,1);
+        background: rgba(149,149,149,1);
       }
     }
   }

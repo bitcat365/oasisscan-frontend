@@ -1,4 +1,18 @@
 {
   "chainId": "questnet",
-  "editURL": " https://forms.gle/sAmcF9aYZ7wJfZYU9"
+  "editURL": " https://forms.gle/sAmcF9aYZ7wJfZYU9",
+  "news": [
+    {
+      "url": "https://www.baidu.com",
+      "content": "Oasislab - A safe way to use the data."
+    },
+    {
+      "url": "https://www.baidu.com",
+      "content": "2Oasislab - A safe way to use the data."
+    },
+    {
+      "url": "https://www.baidu.com",
+      "content": "3Oasislab - A safe way to use the data."
+    }
+  ]
 }
