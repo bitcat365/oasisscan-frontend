@@ -9,7 +9,7 @@
     props: ['light']
   }
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
   .logo {
     color: #37416B;
     display: flex;

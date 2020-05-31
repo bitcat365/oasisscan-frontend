@@ -40,7 +40,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../assets/css/common";
   .footer {
     position: absolute;
@@ -56,6 +56,6 @@
     align-items: center;
     justify-content: center;
     margin-top: 1.88rem;
-    .medium;
+    @include medium;;
   }
 </style>

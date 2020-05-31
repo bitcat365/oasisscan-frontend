@@ -211,7 +211,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../../../assets/css/common";
 
   .container {
@@ -233,7 +233,7 @@
     margin-top: 1.75rem;
     margin-bottom: 2.06rem;
     padding: 0;
-    .regular;
+    @include regular;;
     font-weight: normal;
     color: black;
     line-height: 2.06rem;
@@ -249,7 +249,7 @@
     .name {
       color: #434343;
       font-size: 1.13rem;
-      .regular;
+      @include regular;;
       display: flex;
       align-items: center;
       .link {
@@ -292,13 +292,13 @@
         .label {
           font-size: 1rem;
           color: #7A7A7A;
-          .bold;
+          @include bold;
           width: 6rem;
         }
         .value {
           font-size: 1rem;
           color: #7A7A7A;
-          .regular;
+          @include regular;;
         }
       }
     }
@@ -314,8 +314,8 @@
     .status{
       line-height: 1.75rem;
       font-size: 1.25rem;
-      .regular;
-      background-color: @theme-color;
+      @include regular;;
+      background-color: $theme-color;
       margin-top: 1.06rem;
       padding: 0 .75rem;
       color: white;

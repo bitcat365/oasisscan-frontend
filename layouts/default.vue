@@ -14,17 +14,17 @@
     }
   }
 </script>
-<style lang="less">
+<style lang="scss">
   @import "../assets/css/common";
   .page-container {
     margin: 0 auto;
     width: 61.06rem;
   }
   body, button, input, select, textarea, a {
-    color: @n-color;
+    color: $n-color;
   }
   a:visited,a:active{
-    color: @n-color;
+    color: $n-color;
   }
 html {
   font-size: 16px;

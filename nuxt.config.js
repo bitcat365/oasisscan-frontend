@@ -62,8 +62,8 @@ module.exports = {
     proxy: true
   },
   proxy: {
-    '/validator/': 'http://127.0.0.1:8181/'
-    // '/validator/': 'http://173.212.206.65:8181/'
+    // '/validator/': 'http://127.0.0.1:8181/'
+    '/validator/': 'http://173.212.206.65:8181/'
   },
   /*
   ** Build configuration

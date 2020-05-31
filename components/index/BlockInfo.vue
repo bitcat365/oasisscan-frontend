@@ -32,7 +32,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   .block-chain-info {
     position: relative;
     width: 100%;

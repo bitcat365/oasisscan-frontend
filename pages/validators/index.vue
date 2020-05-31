@@ -106,7 +106,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../../assets/css/common";
 
   .container {
@@ -121,7 +121,7 @@
       font-size: 1.5rem;
       padding: 0;
       margin: 0;
-      .regular;
+      @include regular;;
       color: black;
       font-weight: normal;
     }

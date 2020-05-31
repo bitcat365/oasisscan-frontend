@@ -110,7 +110,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   .page-wrapper {
     display: flex;
     align-items: center;

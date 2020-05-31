@@ -7,7 +7,7 @@ export async function fetchBlockInfo($axios) {
   return {}
 }
 export async function fetchHomeBlockList($axios, pageSize, orderBy) {
-  let { code, data: { list } } = await $axios.$get(`/validator/list?pageSize=${pageSize}&orderBy=${orderBy}`, {}).catch(() => ({ code: -1 }))
+  let { code, data: { list } = { list: [] } } = await $axios.$get(`/validator/list?pageSize=${pageSize}&orderBy=${orderBy}`, {}).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []
   }

@@ -72,7 +72,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../../assets/css/common";
 
   .container {
@@ -87,7 +87,7 @@
       font-size: 1.5rem;
       padding: 0;
       margin: 0;
-      .regular;
+      @include regular;;
       color: black;
       font-weight: normal;
     }
@@ -103,7 +103,7 @@
     font-size: 1.25rem;
     font-weight: normal;
     line-height: 1.75rem;
-    .medium;
+    @include medium;
     color: #626262;
   }
   .page-navigation {

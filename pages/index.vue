@@ -115,7 +115,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../assets/css/common";
   .main-content{
     min-height: calc(100vh - 60px - 80px);
@@ -132,11 +132,11 @@
   }
   .welcome {
     line-height: 6.81rem;
-    color: @theme-color;
+    color: $theme-color;
     font-size: 3.13rem;
     text-align: center;
     background-color: #F8F8F8;
-    .regular;
+    @include regular;;
     margin-top: 1.69rem;
   }
   hr {
@@ -170,7 +170,7 @@
         box-sizing: content-box;
         height: 4.25rem;
         font-size: 1.13rem;
-        .regular;
+        @include regular;;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
         font-weight:400;
         display: flex;
@@ -197,7 +197,7 @@
           tbody {
             tr {
               td:first-child {
-                color: @theme-color;
+                color: $theme-color;
               }
               td:nth-child(2) {
                 color: #4472DE;

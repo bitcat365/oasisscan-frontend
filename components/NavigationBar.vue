@@ -40,7 +40,7 @@ console.log('Config', Config)
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../assets/css/common";
 
   .nav-bar{
@@ -68,7 +68,7 @@ console.log('Config', Config)
       > .chainid{
         color: white;
         font-size: 1rem;
-        .regular;
+        @include regular;;
         display: flex;
         align-items: center;
         padding-right: 0.89rem;

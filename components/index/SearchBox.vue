@@ -32,7 +32,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../../assets/css/common";
   .search-box {
     margin: 0 auto;
@@ -77,7 +77,7 @@
         display: flex;
         align-items: center;
         color: white;
-        .medium;
+        @include medium;
         background: rgba(230,0,122,1);
       }
     }

@@ -20,7 +20,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../assets/css/common";
   .menus {
     display: flex;

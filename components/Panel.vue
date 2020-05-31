@@ -26,7 +26,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   @import "../assets/css/common";
   .panel-wrapper{
     background-color: white;
@@ -40,7 +40,7 @@
     background: #E0E0E0;
     border: 1px solid #D8D8D8;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    .regular;
+    @include regular;;
     color: #3C3C3C;
     line-height: 1;
     display: flex;

@@ -32,7 +32,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   @import "../../assets/css/common";
   .info-list {
     list-style: none;
@@ -58,7 +58,7 @@
         padding-right: 20px;
         word-break: break-all;
         > a {
-          color: @theme-color;
+          color: $theme-color;
         }
       }
     }

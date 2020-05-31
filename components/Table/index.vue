@@ -106,7 +106,7 @@
   }
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
   table {
     border-collapse: collapse;
     border-spacing: 0;
