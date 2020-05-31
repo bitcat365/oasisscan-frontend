@@ -1,37 +1,52 @@
 <template>
   <div class="home-root">
     <nav-bar :active="1" />
-    <div class="welcome">
-      WELCOME TO OASIS BLOCK EXPLORER
-    </div>
-    <div class="page-container">
+    <div class="top-content">
+      <div class="welcome">
+        WELCOME TO OASIS BLOCK EXPLORER
+      </div>
       <search-box></search-box>
       <div class="marquee-con">
         <scroll-news></scroll-news>
       </div>
-      <block-info :blockInfo="blockInfo"></block-info>
-      <div class="block-chain-list">
-        <div class="list-card block-list">
-          <p class="title">
+    </div>
+    <div class="bottom-content">
+      <div class="page-container">
+        <div class="dashboard-con">
+          <panel title="Network Status" class-name="panel">
+            <slot>
+              <block-info :blockInfo="blockInfo"></block-info>
+            </slot>
+          </panel>
+          <panel title="Transaction History" class-name="panel">
+            <slot>
+              <div>456</div>
+            </slot>
+          </panel>
+        </div>
+        <div class="block-chain-list">
+          <div class="list-card block-list">
+            <p class="title">
             <span class="title-text">
               VALIDATOR(TOP SIGNATURES)
             </span>
-            <a href="./validators">More</a>
-          </p>
-          <p class="table-wrapper">
-            <block-table root-class="blocks-table" :columns="blockListColumns" :data="signs" />
-          </p>
-        </div>
-        <div class="list-card transaction-list">
-          <p class="title">
+              <a href="./validators">More</a>
+            </p>
+            <p class="table-wrapper">
+              <block-table root-class="blocks-table" :columns="blockListColumns" :data="signs" />
+            </p>
+          </div>
+          <div class="list-card transaction-list">
+            <p class="title">
             <span class="title-text">
             VALIDATOR(TOP PROPOSALS)
             </span>
-            <a href="./validators">More</a>
-          </p>
-          <p class="table-wrapper">
-            <block-table root-class="txs-table" :columns="transactionColumns" :data="proposals" />
-          </p>
+              <a href="./validators">More</a>
+            </p>
+            <p class="table-wrapper">
+              <block-table root-class="txs-table" :columns="transactionColumns" :data="proposals" />
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -45,6 +60,7 @@
   import SearchBox from '../components/index/SearchBox'
   import BlockInfo from '../components/index/BlockInfo'
   import ScrollNews from '../components/ScrollNews'
+  import Panel from '../components/Panel'
   import Config from '../config/index'
   export default {
     components: {
@@ -52,6 +68,7 @@
       BlockInfo,
       SearchBox,
       BlockTable,
+      Panel,
       ScrollNews
     },
     async asyncData({ $axios }) {
@@ -131,6 +148,14 @@
     position: relative;
     overflow-x: hidden;
   }
+  .top-content{
+    background-color: #F3F3F3;
+    padding-bottom: rem(12);
+  }
+  .bottom-content{
+    background-color: rgb(247,247,247);
+    padding-top: rem(12);
+  }
   .page-container {
     position: relative;
     z-index: 1;
@@ -141,7 +166,7 @@
     font-size: rem(40);
     text-align: center;
     @include regular;
-    margin-top: rem(76);
+    padding-top: rem(76);
   }
   hr {
     width:100%;
@@ -151,6 +176,15 @@
     background:rgba(55,65,107,0.1);
     margin-block-start: 0;
     margin-block-end: 0;
+  }
+  .dashboard-con {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    > .panel{
+      box-sizing: border-box;
+      width: rem(594);
+    }
   }
   .block-chain-list{
     position: relative;

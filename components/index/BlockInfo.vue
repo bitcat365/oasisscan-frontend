@@ -1,28 +1,51 @@
 <template>
   <div class="block-chain-info">
-    <div class="block-card">
-      <div class="info-title">Height</div>
-      <div class="info-number">{{blockInfo.height | intFormat}}</div>
+    <div>
+      <block-status name="Block Height" value="1278473">
+        <template slot="icon">
+          <img class="icon1" src="../../assets/b1.png" />
+        </template>
+      </block-status>
+      <block-status name="Current Epoch" value="1278">
+        <template slot="icon">
+          <img class="icon3" src="../../assets/b3.png">
+        </template>
+      </block-status>
+      <block-status name="Total Transactions" value="127834" :border="false">
+        <template slot="icon">
+          <img class="icon5" src="../../assets/b5.png">
+        </template>
+      </block-status>
     </div>
-    <div class="block-card">
-      <div class="info-title">Node</div>
-      <div class="info-number">{{blockInfo.totalNodes | intFormat}}</div>
-    </div>
-    <div class="block-card">
-      <div class="info-title">Validator</div>
-      <div class="info-number">{{blockInfo.entity | intFormat}}</div>
-    </div>
-    <div class="block-card">
-      <div class="info-title">Escrow</div>
-      <div class="info-number">{{blockInfo.escrow | intFormat}}</div>
+    <div class="seperate"></div>
+    <div>
+      <block-status name="Total Escrow" value="1278473">
+        <template slot="icon">
+          <img class="icon2" src="../../assets/b2.png">
+        </template>
+      </block-status>
+      <block-status name="Active validator" value="127">
+        <template slot="icon">
+          <img class="icon4" src="../../assets/b4.png">
+        </template>
+      </block-status>
+      <block-status name="Total Delegators" value="1231" :border="false">
+        <template slot="icon">
+          <img class="icon6" src="../../assets/b6.png">
+        </template>
+      </block-status>
     </div>
   </div>
 </template>
 
 <script>
+  import BlockStatus from './BlockStatus'
   export default {
     props: ['blockInfo'],
     name: 'BlockInfo',
+    components: {
+      BlockStatus
+    },
     data() {
       return {
       }
@@ -33,35 +56,26 @@
 </script>
 
 <style scoped lang="scss">
+  @import "../../assets/css/common";
   .block-chain-info {
     position: relative;
     width: 100%;
-    text-align: center;
-    margin: 2.06rem auto 0;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    .block-card {
-      border: 1px solid #979797;
-      box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-      border-radius: 2px;
-      width: 14.56rem;
-      transition: all .2s ease-in-out;
-      &:hover {
-        box-shadow: 0 6px 12px 0 rgba(0,0,0,0.30);
-        transform: translateY(-5px) scale(1.02);
-        transform-origin: bottom;
-      }
-      > .info-number{
-        color: #FF7A59;
-        font-size: 1.5rem;
-        line-height: 4.69rem;
-      }
-      > .info-title{
-        background: #E0E0E0;
-        line-height: 3rem;
-        color: #3A3A3A;
-        font-size: 1.13rem;
-      }
+    align-items: center;
+    padding-left: rem(22);
+    padding-right: rem(22);
+    .seperate {
+      height: rem(250);
+      width: 1px;
+      background-color: #D4D4D4;
+    }
+    .icon1,.icon2,.icon3,.icon4,.icon5,.icon6 {
+      width: rem(40);
+    }
+    .icon4 {
+      width: rem(33);
     }
   }
 </style>

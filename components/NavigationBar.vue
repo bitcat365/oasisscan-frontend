@@ -83,7 +83,6 @@
     line-height: 1;
     height: rem(60);
     background-image: linear-gradient(269deg, #FF7322 0%, #FF3F0F 100%);
-    border: 1px solid #979797;
     > .container {
       align-items: stretch;
       display: flex;

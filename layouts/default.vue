@@ -18,7 +18,7 @@
   @import "../assets/css/common";
   .page-container {
     margin: 0 auto;
-    width: 61.06rem;
+    width: rem(1200);
   }
   body, button, input, select, textarea, a {
     color: $n-color;
@@ -35,6 +35,14 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+  @media
+  (-webkit-min-device-pixel-ratio: 2),
+  (min-resolution: 192dpi) {
+    /* Retina-specific stuff here */
+    html {
+      font-size: $rem-base/1 + px;
+    }
+  }
 body{
 }
 #__layout {

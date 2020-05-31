@@ -2,7 +2,8 @@
   <div :class="rootClasses">
     <div class="panel-title">
       <slot name="icon"></slot>
-      <slot name="header"></slot>
+      <slot v-if="!title" name="header"></slot>
+      <span v-else>{{title}}</span>
     </div>
     <div class="panel-content">
       <slot></slot>
@@ -15,13 +16,22 @@
   export default {
     name: 'Panel',
     props: {
-      rootClass: {
+      className: {
+        type: String,
+        default: ''
+      },
+      title: {
         type: String,
         default: ''
       }
     },
+    data() {
+      return {
+        rootClasses: 'panel-wrapper'
+      }
+    },
     created() {
-      this.rootClasses = cls('panel-wrapper', this.rootClass)
+      this.rootClasses = cls('panel-wrapper', this.className)
     }
   }
 </script>
@@ -30,21 +40,17 @@
   @import "../assets/css/common";
   .panel-wrapper{
     background-color: white;
-    padding:0;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.5);
+    padding: rem(20);
+    border-radius: rem(8);
   }
   .panel-title{
     position: relative;
     height: 3rem;
     font-size: 1rem;
-    background: #E0E0E0;
-    border: 1px solid #D8D8D8;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
-    @include regular;;
+    @include regular;
     color: #3C3C3C;
     line-height: 1;
     display: flex;
     align-items: center;
-    padding-left: 2.81rem;
   }
 </style>
