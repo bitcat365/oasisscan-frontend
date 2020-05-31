@@ -27,7 +27,7 @@
     color: $n-color;
   }
 html {
-  font-size: 16px;
+  font-size: $rem-base + px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;

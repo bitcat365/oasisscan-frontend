@@ -10,6 +10,7 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import "../assets/css/common";
   .logo {
     color: #37416B;
     display: flex;
@@ -19,7 +20,7 @@
     line-height: 1;
     font-family: 'Gotham Pro Black';
     > .logo-oasis{
-      height: 2.44rem
+      height: rem(47);
     }
   }
 </style>

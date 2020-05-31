@@ -25,3 +25,7 @@ $theme-color: #FF7A59;
 @mixin bold {
   font-family: PingFangSC-Semibold;
 }
+$rem-base: 16;
+@function rem($px) {
+  @return $px/$rem-base + rem;
+}
