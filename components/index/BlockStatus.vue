@@ -36,8 +36,8 @@
     display: flex;
     flex-direction: row;
     width: rem(203);
-    padding-bottom: rem(27);
-    padding-top: rem(27);
+    padding-bottom: rem(15);
+    padding-top: rem(20);
     &.border {
       border-bottom: 1px solid #D4D4D4;
     }

@@ -66,6 +66,8 @@
     align-items: center;
     padding-left: rem(22);
     padding-right: rem(22);
+    padding-top: rem(18);
+    padding-bottom: rem(18);
     .seperate {
       height: rem(250);
       width: 1px;

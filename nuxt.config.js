@@ -39,6 +39,7 @@ module.exports = {
     '~/plugins/axios.js',
     '@/plugins/iview',
     '~/plugins/i18n.js',
+    '~/plugins/highchart.js',
     '~/plugins/filters.js'
   ],
 

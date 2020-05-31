@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClasses">
+  <div class="panel-wrapper">
     <div class="panel-title">
       <slot name="icon"></slot>
       <slot v-if="!title" name="header"></slot>
@@ -12,14 +12,9 @@
 </template>
 
 <script>
-  import cls from 'classnames'
   export default {
     name: 'Panel',
     props: {
-      className: {
-        type: String,
-        default: ''
-      },
       title: {
         type: String,
         default: ''
@@ -31,7 +26,6 @@
       }
     },
     created() {
-      this.rootClasses = cls('panel-wrapper', this.className)
     }
   }
 </script>
@@ -45,7 +39,6 @@
   }
   .panel-title{
     position: relative;
-    height: 3rem;
     font-size: 1rem;
     @include regular;
     color: #3C3C3C;

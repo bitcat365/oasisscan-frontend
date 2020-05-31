@@ -13,15 +13,11 @@
     <div class="bottom-content">
       <div class="page-container">
         <div class="dashboard-con">
-          <panel title="Network Status" class-name="panel">
-            <slot>
-              <block-info :blockInfo="blockInfo"></block-info>
-            </slot>
+          <panel title="Network Status" class="panel">
+            <block-info :blockInfo="blockInfo"></block-info>
           </panel>
-          <panel title="Transaction History" class-name="panel">
-            <slot>
-              <div>456</div>
-            </slot>
+          <panel title="Transaction History" class="panel">
+            <chart/>
           </panel>
         </div>
         <div class="block-chain-list">
@@ -59,6 +55,7 @@
   import NavBar from '../components/NavigationBar'
   import SearchBox from '../components/index/SearchBox'
   import BlockInfo from '../components/index/BlockInfo'
+  import Chart from '../components/index/Chart'
   import ScrollNews from '../components/ScrollNews'
   import Panel from '../components/Panel'
   import Config from '../config/index'
@@ -66,6 +63,7 @@
     components: {
       NavBar,
       BlockInfo,
+      Chart,
       SearchBox,
       BlockTable,
       Panel,
@@ -184,6 +182,7 @@
     > .panel{
       box-sizing: border-box;
       width: rem(594);
+      padding-bottom: 0;
     }
   }
   .block-chain-list{
