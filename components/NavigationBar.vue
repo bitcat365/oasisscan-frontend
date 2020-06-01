@@ -23,7 +23,6 @@
   import Config from '../config/index.json'
   import Logo from './Logo'
   import Vue from 'vue'
-  console.log('Config', Config)
   export default {
     name: 'NavigationBar',
     props: {

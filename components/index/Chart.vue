@@ -5,9 +5,23 @@
 </template>
 
 <script>
+  import {getMonth} from '../../utils';
+
   export default {
-    name: "Chart",
+    name: 'Chart',
     data() {
+      const days = 31
+      const daysArray = []
+      for (let day = 0; day < days; day++) {
+        if (day % 3 === 0) {
+          const thatDay = new Date(new Date().setDate(1 - day))
+          daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
+          continue
+        }
+        daysArray.push('')
+      }
+      daysArray.reverse()
+      console.log('daysArray', daysArray)
       return {
         chartOptions: {
           chart: {
@@ -17,25 +31,18 @@
             text: ''
           },
           legend: {
-            layout: 'vertical',
-            align: 'left',
-            verticalAlign: 'top',
-            x: 150,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: '#FFFFFF'
+            enabled: false
           },
           xAxis: {
+            title: {
+              text: ''
+            },
             categories: [
-              'Monday',
-              'Tuesday',
-              'Wednesday',
-              'Thursday',
-              'Friday',
-              'Saturday',
-              'Sunday'
-            ]
+              ...daysArray
+            ],
+            labels: {
+              step: 3
+            }
           },
           yAxis: {
             title: {
@@ -43,23 +50,27 @@
             }
           },
           tooltip: {
-            shared: true,
-            valueSuffix: ' units'
+            shared: false,
+            valueSuffix: '',
+            formatter: function () {
+              return this.y
+            }
           },
           credits: {
             enabled: false
           },
           plotOptions: {
             areaspline: {
-              fillOpacity: 0.5
+              fillOpacity: 0.2,
+              color: '#F86E49',
+              marker: {
+                enabled: false
+              }
             }
           },
-          series: [{
-            name: 'John',
-            data: [3, 4, 3, 5, 4, 10, 12]
-          }, {
-            name: 'Jane',
-            data: [1, 3, 4, 3, 3, 5, 4]
+          series: [ {
+            name: '',
+            data: [1, 3, 4, 3, 3, 5, 4, 7, 21, 8, 1, 3, 4, 3, 3, 5, 4, 7, 21, 8, 1, 3, 4, 3, 3, 5, 4, 7, 21, 8, 21, 17]
           }]
         }
       }
