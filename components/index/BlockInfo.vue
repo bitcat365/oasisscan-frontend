@@ -1,17 +1,17 @@
 <template>
   <div class="block-chain-info">
     <div>
-      <block-status name="Block Height" value="1278473">
+      <block-status name="Block Height" :value="blockInfo.curHeight">
         <template slot="icon">
           <img class="icon1" src="../../assets/b1.png" />
         </template>
       </block-status>
-      <block-status name="Current Epoch" value="1278">
+      <block-status name="Current Epoch" :value="blockInfo.curEpoch">
         <template slot="icon">
           <img class="icon3" src="../../assets/b3.png">
         </template>
       </block-status>
-      <block-status name="Total Transactions" value="127834" :border="false">
+      <block-status name="Total Transactions" :value="blockInfo.totalTxs" :border="false">
         <template slot="icon">
           <img class="icon5" src="../../assets/b5.png">
         </template>
@@ -19,17 +19,17 @@
     </div>
     <div class="seperate"></div>
     <div>
-      <block-status name="Total Escrow" value="1278473">
+      <block-status name="Total Escrow" :value="blockInfo.totalEscrow || -1">
         <template slot="icon">
           <img class="icon2" src="../../assets/b2.png">
         </template>
       </block-status>
-      <block-status name="Active validator" value="127">
+      <block-status name="Active validator" :value="blockInfo.activeValidator">
         <template slot="icon">
           <img class="icon4" src="../../assets/b4.png">
         </template>
       </block-status>
-      <block-status name="Total Delegators" value="1231" :border="false">
+      <block-status name="Total Delegators" :value="blockInfo.totalDelegate" :border="false">
         <template slot="icon">
           <img class="icon6" src="../../assets/b6.png">
         </template>
@@ -41,11 +41,11 @@
 <script>
   import BlockStatus from './BlockStatus'
   export default {
-    props: ['blockInfo'],
     name: 'BlockInfo',
     components: {
       BlockStatus
     },
+    props: ['blockInfo'],
     data() {
       return {
       }

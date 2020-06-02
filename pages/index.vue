@@ -17,7 +17,7 @@
             <block-info :blockInfo="blockInfo"></block-info>
           </panel>
           <panel title="Transaction History" class="panel">
-            <chart/>
+            <chart :tx-history="txHistory"/>
           </panel>
         </div>
         <div class="block-chain-list">
@@ -29,7 +29,7 @@
               <a href="./validators">More</a>
             </p>
             <p class="table-wrapper">
-              <block-table root-class="blocks-table" :columns="blockListColumns" :data="signs" />
+              <block-table root-class="blocks-table" :columns="blockListColumns" :data="blocks" />
             </p>
           </div>
           <div class="list-card transaction-list">
@@ -40,7 +40,7 @@
               <a href="./validators">More</a>
             </p>
             <p class="table-wrapper">
-              <block-table root-class="txs-table" :columns="transactionColumns" :data="proposals" />
+              <block-table root-class="txs-table" :columns="transactionColumns" :data="transactions" />
             </p>
           </div>
         </div>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import { fetchBlockInfo, fetchHomeBlockList } from '../fetch/index'
+  import { fetchBlockInfo, fetchHomeBlockList, fetchTransactionsList, fetchTxHistory } from '../fetch/index'
   import BlockTable from '../components/Table/index'
   import NavBar from '../components/NavigationBar'
   import SearchBox from '../components/index/SearchBox'
@@ -70,11 +70,12 @@
       ScrollNews
     },
     async asyncData({ $axios }) {
-      const data = await Promise.all([fetchBlockInfo($axios), fetchHomeBlockList($axios, 10, 'signs'), fetchHomeBlockList($axios, 10, 'proposals')])
+      const data = await Promise.all([fetchBlockInfo($axios), fetchHomeBlockList($axios), fetchTransactionsList($axios), fetchTxHistory($axios)])
       const blockInfo = data[0]
-      const { list: signs } = data[1]
-      const { list: proposals } = data[2]
-      return { blockInfo, signs, proposals, newsList: Config.news }
+      const txHistory = data[3]
+      const { list: blocks } = data[1]
+      const { list: transactions } = data[2]
+      return { blockInfo, blocks, transactions, newsList: Config.news, txHistory }
     },
     mounted() {
       // this.repool()
@@ -102,32 +103,40 @@
         timer: -1,
         blockListColumns: [
           {
-            title: 'Validator',
-            key: 'name'
+            title: 'Height',
+            key: 'height'
           },
           {
-            title: 'Signatures',
-            key: 'signs'
+            title: 'Proposer',
+            key: 'proposer'
           },
           {
-            title: 'Score',
-            key: 'score'
+            title: 'txs',
+            key: 'txs'
+          },
+          {
+            title: 'Time',
+            key: 'timestamp'
           }
         ],
         transactionColumns: [
           {
-            title: 'Validator',
+            title: 'Tx Hash',
             // class: 136,
-            key: 'name'
+            key: 'txHash'
           },
           {
-            title: 'Proposals',
+            title: 'Height',
             // class: 180,
-            key: 'proposals'
+            key: 'height'
           },
           {
-            title: 'Score',
-            key: 'score'
+            title: 'Type',
+            key: 'type'
+          },
+          {
+            title: 'Time',
+            key: 'timestamp'
           }
         ]
       }

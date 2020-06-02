@@ -22,11 +22,11 @@
         default: ''
       },
       value: {
-        type: String,
+        type: [String, Number],
         default: ''
       }
     },
-    name: "BlockStatus"
+    name: 'BlockStatus'
   }
 </script>
 

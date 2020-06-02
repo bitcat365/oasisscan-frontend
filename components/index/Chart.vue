@@ -5,20 +5,25 @@
 </template>
 
 <script>
-  import {getMonth} from '../../utils';
+  import { getMonth } from '../../utils';
 
   export default {
     name: 'Chart',
-    data() {
-      const days = 31
-      const daysArray = []
-      for (let day = 0; day < days; day++) {
-        if (day % 3 === 0) {
-          const thatDay = new Date(new Date().setDate(1 - day))
-          daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
-          continue
+    props: {
+      txHistory: {
+        type: Array,
+        default: function () {
+          return []
         }
-        daysArray.push('')
+      }
+    },
+    data() {
+      const days = this.txHistory.length
+      const daysArray = []
+      const latest = this.txHistory[days - 1].key * 1000;
+      for (let day = 0; day < days; day++) {
+        const thatDay = new Date(new Date(latest).setDate(1 - day))
+        daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
       }
       daysArray.reverse()
       console.log('daysArray', daysArray)
@@ -70,13 +75,13 @@
           },
           series: [ {
             name: '',
-            data: [1, 3, 4, 3, 3, 5, 4, 7, 21, 8, 1, 3, 4, 3, 3, 5, 4, 7, 21, 8, 1, 3, 4, 3, 3, 5, 4, 7, 21, 8, 21, 17]
+            data: this.txHistory.map(h => h.value)
           }]
         }
       }
     },
     mounted() {
-      console.log('this.$refs.chart',this.$refs)
+      console.log('this.$refs.chart',this.$refs, this.txHistory)
     }
   }
 </script>

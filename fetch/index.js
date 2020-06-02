@@ -1,24 +1,30 @@
 import { floatFormat, hashFormat, percent } from '../utils/index'
 export async function fetchBlockInfo($axios) {
-  const { code, data: blockInfo } = await $axios.$get('/validator/network').catch(() => ({ code: -1 }))
+  const { code, data: blockInfo } = await $axios.$get('/dashboard/network').catch(() => ({ code: -1 }))
   if (code === 0) {
     return blockInfo
   }
   return {}
 }
-export async function fetchHomeBlockList($axios, pageSize, orderBy) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get(`/validator/list?pageSize=${pageSize}&orderBy=${orderBy}`, {}).catch(() => ({ code: -1 }))
+export async function fetchTxHistory($axios) {
+  const { code, data: { list } = { list: [] } } = await $axios.$get('/chain/transactionhistory').catch(() => ({ code: -1 }))
+  if (code === 0) {
+    return list
+  }
+  return []
+}
+export async function fetchHomeBlockList($axios, pageSize = 10, page = 1) {
+  let { code, data: { list } = { list: [] } } = await $axios.$get(`/chain/blocks?size=${pageSize}&page=${page}`, {}).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []
   }
   list = list.map((item, index) => {
-    const name = item.name ? item.name : 'Validator'
     return {
-      num: index + 1,
       ...item,
-      name
+      timestamp: { value: item.timestamp * 1000, type: 'time' },
+      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
     }
-  })
+  });
   return { list }
 }
 export async function fetchBlockList($axios, entityId) {
@@ -42,11 +48,11 @@ export async function fetchBlockList($axios, entityId) {
   return { signs, proposals }
 }
 
-export async function fetchTransactionsList($axios, page = 1, page_size = 10) {
-  let { code, data: list, query_num: total, total_num: totalRecordsCount } = await $axios.$get('/alief/transactions/list/info', {
+export async function fetchTransactionsList($axios, page = 1, size = 10) {
+  let { code, data: { list } = { list: [] } } = await $axios.$get('/chain/transactions', {
     params: {
       page,
-      page_size
+      size
     }
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
@@ -54,16 +60,13 @@ export async function fetchTransactionsList($axios, page = 1, page_size = 10) {
   }
   const res = list.map((item) => {
     return {
-      params: item.params,
-      blockHeight: { text: item.block_num, link: `blocks/${item.block_num}`, type: 'link' },
-      transactionId: { text: item.trx_id, link: `txs/${item.trx_id}`, type: 'link' },
-      sender: item.signer && item.signer.length > 10 ? { text: item.signer, link: `accounts/${item.signer}`, type: 'link' } : item.signer,
-      time: { value: item.timestamp, type: 'time' },
-      type: `${item.ex_module}(${item.ex_function})`,
-      status: { value: item.status, type: 'locale' }
+      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
+      txHash: { text: item.txHash, link: `txs/${item.txHash}`, type: 'link' },
+      timestamp: { value: item.timestamp * 1000, type: 'time' },
+      type: `${item.method}`
     }
   })
-  return { list: res, total, totalRecordsCount }
+  return { list: res }
 }
 
 export async function fetchValidatorsList($axios) {

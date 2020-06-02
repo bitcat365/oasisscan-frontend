@@ -62,10 +62,11 @@ module.exports = {
     credentials: false,
     proxy: true
   },
-  proxy: {
-    // '/validator/': 'http://127.0.0.1:8181/'
-    '/validator/': 'http://173.212.206.65:8181/'
-  },
+  proxy: [
+    'http://www.oasisscan.com:8181/chain',
+    'http://www.oasisscan.com:8181/chain',
+    'http://www.oasisscan.com:8181/dashboard',
+  ],
   /*
   ** Build configuration
   */
