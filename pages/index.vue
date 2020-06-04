@@ -122,12 +122,10 @@
         transactionColumns: [
           {
             title: 'Tx Hash',
-            // class: 136,
             key: 'txHash'
           },
           {
             title: 'Height',
-            // class: 180,
             key: 'height'
           },
           {
@@ -241,17 +239,20 @@
       }
       .table-wrapper {
         background-color: white;
-        /deep/ .table {
-          tbody {
+        /deep/ .blocks-table {
+          thead {
             tr {
-              td:first-child {
-                color: $theme-color;
+              th:nth-child(2) {
+                width: rem(180);
               }
-              td:nth-child(2) {
-                color: #4472DE;
-              }
-              td:last-child {
-                color: #CECECE;
+            }
+          }
+        }
+        /deep/ .txs-table {
+          thead {
+            tr {
+              th:nth-child(3) {
+                width: rem(180);
               }
             }
           }
