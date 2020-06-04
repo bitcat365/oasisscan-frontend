@@ -1,6 +1,25 @@
 <template>
   <section class="footer">
-    Power By OASIS SCAN
+    <div class="page-container">
+      <div class="logo">
+        <img src="../assets/oasis-logo.png" />
+        Power By OASIS SCAN
+      </div>
+      <div class="social-con">
+        <div class="social">
+          <a class="social-item wechat">
+            <img src="../assets/wechat.png">
+          </a>
+          <a class="social-item twitter">
+            <img src="../assets/twitter.png">
+          </a>
+          <a class="social-item telegram">
+            <img src="../assets/telegram.png">
+          </a>
+        </div>
+        Need help? FAQ
+      </div>
+    </div>
   </section>
 </template>
 
@@ -47,8 +66,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-image: linear-gradient(269deg, #FF7322 0%, #FF3F0F 100%);
-    border: 1px solid #979797;
+    background-color: #FF4212;
     height: rem(100);
     color: white;
     font-size: 1.13rem;
@@ -56,6 +74,38 @@
     align-items: center;
     justify-content: center;
     margin-top: 1.88rem;
-    @include medium;;
+    @include medium;
+    .logo {
+      display: flex;
+      flex-direction: column;
+      font-size: rem(14);
+      padding-top: rem(15);
+      img {
+        width: rem(61);
+        margin-bottom: rem(10);
+      }
+    }
+    .social-con {
+      position: absolute;
+      top: rem(35);
+      right: rem(0);
+      font-size: rem(14);
+      line-height: rem(20);
+      text-align: right;
+      .social {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        font-size: 0;
+        line-height: 1;
+        margin-bottom: rem(5);
+        > .social-item {
+          margin-left: rem(10);
+          img {
+            width: rem(30);
+          }
+        }
+      }
+    }
   }
 </style>

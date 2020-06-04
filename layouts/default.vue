@@ -17,6 +17,7 @@
 <style lang="scss">
   @import "../assets/css/common";
   .page-container {
+    position: relative;
     margin: 0 auto;
     width: rem(1200);
   }

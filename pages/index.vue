@@ -211,6 +211,7 @@
     .list-card {
       background-color: white;
       padding-bottom: rem(28);
+      border-radius: rem(8);
       .title {
         position: relative;
         box-sizing: content-box;
