@@ -49,7 +49,7 @@
     right: 0;
     background-image: linear-gradient(269deg, #FF7322 0%, #FF3F0F 100%);
     border: 1px solid #979797;
-    height: 5.75rem;
+    height: rem(100);
     color: white;
     font-size: 1.13rem;
     display: flex;

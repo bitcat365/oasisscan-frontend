@@ -48,7 +48,7 @@ body{
 #__layout {
   position: relative;
   min-height: 100vh;
-  padding-bottom: 7.63rem;
+  padding-bottom: rem(100);
   min-width: 1000px;
 }
 *,

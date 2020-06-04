@@ -183,7 +183,7 @@
   }
   .table-row{
     &.odd {
-      /*background:rgba(55,65,107,0.03);*/
+      background:rgba(0,0,0,0.02);
     }
     &.show-expand {
       border-bottom: 0;

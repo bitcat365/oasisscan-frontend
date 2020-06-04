@@ -24,7 +24,7 @@
           <div class="list-card block-list">
             <p class="title">
             <span class="title-text">
-              VALIDATOR(TOP SIGNATURES)
+              Latest Blocks
             </span>
               <a href="./validators">More</a>
             </p>
@@ -35,7 +35,7 @@
           <div class="list-card transaction-list">
             <p class="title">
             <span class="title-text">
-            VALIDATOR(TOP PROPOSALS)
+            Latest Transactions
             </span>
               <a href="./validators">More</a>
             </p>
@@ -198,43 +198,44 @@
     position: relative;
     width: 100%;
     margin:1.56rem auto 0px;
-    padding-bottom:1px;
+    padding-bottom: rem(50);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     .block-list {
-      width: 29.63rem;
+      width: rem(594);
     }
     .transaction-list{
-      width: 29.63rem;
+      width: rem(594);
     }
     .list-card {
       background-color: white;
-      border: 1px solid #D8D8D8;
+      padding-bottom: rem(28);
       .title {
         position: relative;
         box-sizing: content-box;
-        height: 4.25rem;
-        font-size: 1.13rem;
+        font-size: rem(16);
+        padding: rem(20);
+        padding-bottom: rem(10);
         @include regular;;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
         font-weight:400;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background-color: #E0E0E0;;
         .title-text {
-          padding-left: 3rem;
           display: flex;
           align-items: center;
           color: #3C3C3C;
         }
         a {
           position: absolute;
-          right: 1.31rem;
-          bottom: 1.31rem;
-          font-size: 0.94rem;
-          color: #727272;
+          right: rem(26);
+          top: rem(20);
+          font-size: rem(12);
+          color: white;
+          padding:rem(5) rem(15);
+          background-color: #979797;
+          border-radius: rem(4);
         }
       }
       .table-wrapper {
