@@ -64,7 +64,7 @@ module.exports = {
   },
   proxy: [
     'http://www.oasisscan.com:8181/chain',
-    'http://www.oasisscan.com:8181/chain',
+    'http://www.oasisscan.com:8181/validator',
     'http://www.oasisscan.com:8181/dashboard',
   ],
   /*

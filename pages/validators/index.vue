@@ -1,9 +1,7 @@
 <template>
   <div>
-    <nav-bar />
-    <tab-menu :active="2"></tab-menu>
+    <nav-bar :active="2"/>
     <div class="page-container container">
-      <block-info :blockInfo="blockInfo"></block-info>
       <div class="title">
         <h1>VALIDATORS</h1>
         <div class="operate">
