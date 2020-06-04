@@ -7,13 +7,13 @@
       </div>
       <div class="social-con">
         <div class="social">
-          <a class="social-item wechat">
+          <a href="/" class="social-item wechat">
             <img src="../assets/wechat.png">
           </a>
-          <a class="social-item twitter">
+          <a href="/" class="social-item twitter">
             <img src="../assets/twitter.png">
           </a>
-          <a class="social-item telegram">
+          <a href="/" class="social-item telegram">
             <img src="../assets/telegram.png">
           </a>
         </div>
