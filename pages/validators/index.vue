@@ -27,7 +27,7 @@
         <input v-model="name" placeholder="Search Validator" type="text"></input>
       </div>
       <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" />
+        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" @sort="sort"/>
       </div>
     </div>
   </div>
@@ -58,6 +58,20 @@
         const $axios = this.$axios
         const { list } = await fetchValidatorsList($axios)
         this.list = list
+      },
+      async sort({ key, sortType }) {
+        console.log(key, sortType)
+        const $axios = this.$axios
+        if (this.currentSortKey) {
+          const currentSortColumn = this.columns.find(c => c.key === this.currentSortKey)
+          currentSortColumn.sortType = ''
+        }
+        const { list } = await fetchValidatorsList($axios, key, sortType === 'up' ? 'asc' : 'desc')
+        this.list = list
+        const co = this.columns.find(c => c.key === key)
+        co.sortType = sortType
+        this.columns = [...this.columns]
+        this.currentSortKey = key
       }
     },
     computed: {
@@ -85,6 +99,7 @@
         list: [],
         name: '',
         type: 'active',
+        currentSortKey: '',
         columns: [
           {
             title: 'Rank',
@@ -108,11 +123,13 @@
           },
           {
             title: 'Uptime',
-            key: 'uptime'
+            key: 'uptime',
+            sortable: true
           },
           {
             title: 'Score',
-            key: 'score'
+            key: 'score',
+            sortable: true
           }
         ]
       }
@@ -183,7 +200,7 @@
     input[type=text] {
       width: rem(206);
       height: rem(30);
-      border: 1px solid #979797;
+      border: 0;
       box-shadow: 0 0 1px 0 rgba(0,0,0,0.50);
       border-radius: rem(4);
       padding:0 rem(16);

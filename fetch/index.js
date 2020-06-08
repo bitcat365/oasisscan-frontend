@@ -69,9 +69,16 @@ export async function fetchTransactionsList($axios, page = 1, size = 10) {
   return { list: res }
 }
 
-export async function fetchValidatorsList($axios) {
+export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
+  let orderParams = {}
+  if (orderBy) {
+    orderParams.orderBy = orderBy;
+    orderParams.sort = sort;
+  }
   let { code, data: { list } = {} } = await $axios.$get('/validator/list', {
-    params: {}
+    params: {
+      ...orderParams
+    }
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []

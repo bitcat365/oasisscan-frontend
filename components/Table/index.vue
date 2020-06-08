@@ -4,29 +4,38 @@
     <tr>
       <th v-if="expand" class="table-expand-icon-th"></th>
       <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
-        {{item.title}}
+        <div class="header-title">
+          {{item.title}}
+          <div v-if="item.sortable" class="sorts" @click="sort(item.key, item.sortType)">
+            <img v-if="item.sortType === 'up'" class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow-light.svg">
+            <img v-else class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow.svg">
+            <div class="sep"></div>
+            <img v-if="item.sortType === 'down'" :data-type="item.sortType=== 'down'" class="down" src="../../assets/arrow-light.svg">
+            <img v-else class="down" :data-type="item.sortType=== 'down'" src="../../assets/arrow.svg">
+          </div>
+        </div>
       </th>
     </tr>
     </thead>
     <tbody>
-      <tr
-          v-for="(row, rowIndex) in rowData"
-          :key="'row' + rowIndex"
-          :class="['table-row',
+    <tr
+      v-for="(row, rowIndex) in rowData"
+      :key="'row' + rowIndex"
+      :class="['table-row',
           rowData[rowIndex+1] && rowData[rowIndex+1].isExtendedRow ? 'show-expand': '',
       row.isExtendedRow ? 'extended-row' : 'main-row',
        row.odd === true || (row.isExtendedRow && rowData[rowIndex-1].odd) ? 'odd' :'']">
-        <td v-if="expand" :class="['table-row-expand-icon-cell']" @click="expandRow(rowIndex)">
-          <Icon v-if="!row.isExtendedRow" class="table-row-expand-icon" :type="!row.expand ? 'ios-add' : 'ios-remove'" />
-        </td>
-        <td v-if="row.isExtendedRow" class="table-row-expand-cell" :colspan="colspan">{{$t(row.key)}}&nbsp;:&nbsp;{{row.value}}</td>
-        <table-cell
-          v-for="(columnItem, columnIndex) in columns"
-          v-else
-          :key="`column${rowIndex}-${columnIndex}`"
-          :data="row[columnItem.key]"
-          :root-class="cellClass"/>
-      </tr>
+      <td v-if="expand" :class="['table-row-expand-icon-cell']" @click="expandRow(rowIndex)">
+        <Icon v-if="!row.isExtendedRow" class="table-row-expand-icon" :type="!row.expand ? 'ios-add' : 'ios-remove'" />
+      </td>
+      <td v-if="row.isExtendedRow" class="table-row-expand-cell" :colspan="colspan">{{$t(row.key)}}&nbsp;:&nbsp;{{row.value}}</td>
+      <table-cell
+        v-for="(columnItem, columnIndex) in columns"
+        v-else
+        :key="`column${rowIndex}-${columnIndex}`"
+        :data="row[columnItem.key]"
+        :root-class="cellClass"/>
+    </tr>
     </tbody>
   </table>
 </template>
@@ -68,6 +77,22 @@
       }
     },
     methods: {
+      sort(key, sortType) {
+        let nextType
+        if (sortType) {
+          if (sortType === 'up') {
+            nextType = 'down'
+          } else {
+            nextType = 'up'
+          }
+        } else {
+          nextType = 'up'
+        }
+        this.$emit('sort', {
+          key,
+          sortType: nextType
+        })
+      },
       markRow(rowData) {
         let index = 0
         rowData = rowData || this.rowData
@@ -107,6 +132,7 @@
 </script>
 
 <style scoped lang="scss">
+  @import "../../assets/css/common";
   table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -179,6 +205,24 @@
     }
     .header-column {
       color: rgba(55, 65, 107, 1);
+    }
+    .sorts {
+      display: flex;
+      flex-direction: column;
+      margin-left: rem(5);
+      cursor: pointer;
+      .sep {
+        width: 100%;
+        height: rem(2);
+      }
+      .down {
+        transform: rotate(-180deg);
+      }
+    }
+    .header-title {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
     }
   }
   .table-row{
