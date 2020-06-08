@@ -73,7 +73,6 @@
 
 <style scoped lang="scss">
   @import "../assets/css/common";
-
   .nav-bar{
     position: relative;
     z-index: 100;
@@ -83,16 +82,16 @@
     height: rem(60);
     background-image: linear-gradient(269deg, #FF7322 0%, #FF3F0F 100%);
     > .container {
-      align-items: stretch;
-      display: flex;
       width: 100%;
       margin: 0 auto;
       position: relative;
-      justify-content: space-between;
       > .navs{
         position: relative;
         display: flex;
         font-size: rem(16);
+        width: rem(1200);
+        height: 100%;
+        margin: 0 auto;
         > .nav {
           display: flex;
           align-items: center;
@@ -115,6 +114,9 @@
         }
       }
       > .nav-logo{
+        position: absolute;
+        left: 0;
+        top: 0;
         height: 100%;
         font-size: 20px;
         color: white;
@@ -122,19 +124,33 @@
         align-items: stretch;
       }
       > .chainid{
+        position: absolute;
+        right: 0.89rem;
+        top: 0;
+        height: 100%;
         color: white;
         font-size: 1rem;
         line-height: 1;
         @include regular;
         display: flex;
         align-items: center;
-        margin-right: 0.89rem;
         .status{
           width: rem(10);
           height: rem(10);
           border-radius: 50%;
           margin-right: 0.42rem;
           background-color: #40FF02;
+        }
+      }
+    }
+  }
+  @media screen and (max-width:rem(1200 + 240 * 2)){
+    .nav-bar{
+      > .container {
+        > .navs{
+          margin-left: rem(240);
+          margin-right: rem(240);
+          width: auto;
         }
       }
     }
