@@ -1,14 +1,30 @@
 <template>
-  <div>
+  <div class="validators-root">
     <nav-bar :active="2"/>
     <div class="page-container container">
       <div class="title">
-        <h1>VALIDATORS</h1>
-        <div class="operate">
-          <input v-model="name" placeholder="Search Validator" type="text"></input>
+        <h1>VALIDATORS<span class="total-count"> ({{this.list.length}})</span></h1>
+        <div class="validator-info">
+          <div class="info-item">
+            <div class="active-count">75</div>
+            <div class="info-name">active validators</div>
+          </div>
+          <div class="info-item">
+            <div class="active-count">20</div>
+            <div class="info-name">inactive validators</div>
+          </div>
+          <div class="info-item">
+            <div class="active-count">12353</div>
+            <div class="info-name">Delegators</div>
+          </div>
+        </div>
+      </div>
+      <div class="operate">
+        <div class="tag-con">
           <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">active</div>
           <div :class="['type inactive', type === 'inactive'? 'sel' : '']" @click="type='inactive'">inactive</div>
         </div>
+        <input v-model="name" placeholder="Search Validator" type="text"></input>
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" />
@@ -107,60 +123,104 @@
 <style scoped lang="scss">
   @import "../../assets/css/common";
 
+  .validators-root {
+    background-color: #f7f7f7;
+  }
   .container {
-    padding-top: 30px;
+    padding-bottom: rem(50);
+  }
+  .validator-info {
+    background-color: white;
+    border-radius: rem(8);
+    height: rem(40);
+    width: rem(540);
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 rem(20);
+    > .info-item{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .active-count {
+        color: #FF7A59;
+        font-size: rem(14);
+      }
+      .info-name {
+        padding-left: rem(4);
+        font-size: rem(12);
+      }
+    }
   }
   .title {
-    height: 4.75rem;
+    padding-top: rem(20);
     display: flex;
     align-items: center;
     justify-content: space-between;
     h1 {
-      font-size: 1.5rem;
+      font-size: rem(20);
       padding: 0;
       margin: 0;
       @include regular;;
       color: black;
       font-weight: normal;
+      span {
+        font-size: rem(14);
+        color: rgba(0, 0, 0, 0.5);
+      }
     }
-    .operate {
+  }
+  .operate {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .tag-con {
       display: flex;
       flex-direction: row;
-      input[type=text] {
-        width: 16.75rem;
-        height: 2.25rem;
-        border: 1px solid #979797;
-        box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
-        border-radius: 3px;
-        padding:0 0.44rem;
-        outline: none;
+    }
+    input[type=text] {
+      width: rem(206);
+      height: rem(30);
+      border: 1px solid #979797;
+      box-shadow: 0 0 1px 0 rgba(0,0,0,0.50);
+      border-radius: rem(4);
+      padding:0 rem(16);
+      outline: none;
+    }
+    .type {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      height: rem(24);
+      font-size: rem(12);
+      padding: 0 0.75rem;
+      border: 1px solid #979797;
+      border-radius: rem(4);
+      color: #333333;
+      margin-left: rem(12);
+      margin-bottom: rem(12);
+      margin-top: rem(12);
+      cursor: pointer;
+      background-color: white;
+      &.sel {
+        color: white;
+        background-color: #808080;
       }
-      .type {
-        display: flex;
-        align-items: center;
-        text-align: center;
-        height: 2.38rem;
-        font-size: 1.25rem;
-        padding: 0 0.75rem;
-        border: 1px solid #979797;
-        border-radius: 6px;
-        color: #BABABA;
-        margin-left: 0.63rem;
-        cursor: pointer;
-        &.sel {
-          color: white;
-          background-color: #808080;
-        }
-        .inactive{
-          margin-left: 1.06rem;
-        }
+      .inactive{
+        margin-left: 1.06rem;
+      }
+      &:first-child {
+        margin-left: 0;
       }
     }
   }
   .block-list-wrapper {
     background-color: white;
-    padding:0 1.13rem;
-    border: 1px solid #979797;
+    padding:0 rem(30);
+    padding-bottom: rem(24);
+    border-radius: rem(8);
     .block-total-list{
       padding: 0;
       width: 100%;
