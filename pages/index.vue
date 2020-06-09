@@ -26,7 +26,7 @@
             <span class="title-text">
               Latest Blocks
             </span>
-              <a href="./validators">More</a>
+              <a href="./blocks">More</a>
             </p>
             <p class="table-wrapper">
               <block-table root-class="blocks-table" :columns="blockListColumns" :data="blocks" />
@@ -37,7 +37,7 @@
             <span class="title-text">
             Latest Transactions
             </span>
-              <a href="./validators">More</a>
+              <a href="./transactions">More</a>
             </p>
             <p class="table-wrapper">
               <block-table root-class="txs-table" :columns="transactionColumns" :data="transactions" />
