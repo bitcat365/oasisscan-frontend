@@ -27,25 +27,22 @@ export async function fetchHomeBlockList($axios, pageSize = 10, page = 1) {
   });
   return { list }
 }
-export async function fetchBlockList($axios, entityId) {
-  let { code, data: {signs, proposals} } = await $axios.$get(`/validator/stats?entityId=${encodeURIComponent(entityId)}`, {}).catch(() => ({ code: -1 }))
-  if (code !== 0) {
-    signs = []
-    proposals = []
-  }
-  signs = signs.map((sign, index) => {
-    return {
-      num: index + 1,
-      ...sign
+export async function fetchBlockList($axios, page = 1, size = 20) {
+  let { code, data: { list } = { list: [] } } = await $axios.$get(`/chain/blocks`, {
+    params: {
+      page,
+      size
     }
-  })
-  proposals = proposals.map((proposal, index) => {
+  }).catch(() => ({ code: -1 }))
+  list = list.map((item, index) => {
     return {
-      num: index + 1,
-      ...proposal
+      ...item,
+      timestamp: { value: item.timestamp * 1000, type: 'time' },
+      proposer: { text: item.proposer, link: `validators/detail/${item.proposer}`, type: 'link' },
+      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
     }
-  })
-  return { signs, proposals }
+  });
+  return { list }
 }
 
 export async function fetchTransactionsList($axios, page = 1, size = 10) {

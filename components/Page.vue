@@ -175,7 +175,7 @@
       height:40px;
       border-radius:2px;
       border:1px solid rgba(55,65,107,0.1);
-      margin: 0 10px;
+      margin: 0 0 0 10px;
       text-align: center;
       display: flex;
       align-items: center;
