@@ -27,7 +27,19 @@
         <input v-model="name" placeholder="Search Validator" type="text"></input>
       </div>
       <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" @sort="sort"/>
+        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" @sort="sort">
+          <template v-slot:uptime="slotData">
+            <div class="uptime-item green" v-if="slotData.data.replace('%', '') >=80">{{slotData.data}}</div>
+            <div class="uptime-item yellow" v-else-if="slotData.data.replace('%', '') >=50">{{slotData.data}}</div>
+            <div class="uptime-item red" v-else>{{slotData.data}}</div>
+          </template>
+          <template v-slot:name="slotData">
+           <div class="validator-name">
+             <img class="name-icon" src="../../assets/oasis-official-logo-s.png">
+             <router-link :to="$i18n.path(slotData.data.link)">{{ slotData.data.text }}</router-link>
+           </div>
+          </template>
+        </block-table>
       </div>
     </div>
   </div>
@@ -107,7 +119,8 @@
           },
           {
             title: 'Validator',
-            key: 'name'
+            key: 'name',
+            slot: true
           },
           {
             title: 'Signatures',
@@ -124,6 +137,7 @@
           {
             title: 'Uptime',
             key: 'uptime',
+            slot: true,
             sortable: true
           },
           {
@@ -139,7 +153,32 @@
 
 <style scoped lang="scss">
   @import "../../assets/css/common";
-
+  .validator-name {
+    display: flex;
+    align-items: center;
+  }
+  .name-icon {
+    margin-right: rem(5);
+    width: rem(30);
+  }
+  .uptime-item {
+    color: white;
+    text-align: center;
+    height: rem(22);
+    border-radius: rem(4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.green {
+      background-color: #2ED47A ;
+    }
+    &.yellow {
+      background-color: #FFB946;
+    }
+    &.red {
+      background-color: #F7685B;
+    }
+  }
   .validators-root {
     background-color: #f7f7f7;
   }
@@ -244,6 +283,7 @@
       margin-left: 0;
       border-radius: 1px;
       /deep/ td, /deep/ th {
+        vertical-align: middle;
         padding: 18px 10px;
       }
       /deep/ tr th, /deep/ tr td{

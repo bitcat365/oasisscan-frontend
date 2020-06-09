@@ -34,7 +34,11 @@
         v-else
         :key="`column${rowIndex}-${columnIndex}`"
         :data="row[columnItem.key]"
-        :root-class="cellClass"/>
+        :root-class="cellClass">
+        <template v-if="columnItem.slot" v-slot:default="slotProps">
+          <slot :name="columnItem.key" v-bind:data="slotProps.data"></slot>
+        </template>
+      </table-cell>
     </tr>
     </tbody>
   </table>
