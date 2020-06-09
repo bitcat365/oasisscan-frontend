@@ -1,9 +1,9 @@
 <template>
   <div class="blocks-root">
-    <nav-bar :active="3"/>
+    <nav-bar :active="4"/>
     <div class="page-container container">
       <div class="title">
-        <h1>BLOCKS<span class="total-count"> ({{total}})</span></h1>
+        <h1>TRANSACTIONS<span class="total-count"> ({{total}})</span></h1>
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import { fetchBlockList } from '../../fetch/index'
+  import { fetchTransactionsList } from '../../fetch/index'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
   import Page from '../../components/Page'
@@ -31,14 +31,14 @@
       Page
     },
     async asyncData({ $axios }) {
-      const { list } = await fetchBlockList($axios, 1, 20)
+      const { list } = await fetchTransactionsList($axios, 1, 20)
       console.log('list', list)
       return { list }
     },
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list } = await fetchBlockList($axios, pageNumber, this.sizer)
+        const { list } = await fetchTransactionsList($axios, pageNumber, this.sizer)
         this.page = pageNumber
         this.list = list
         document.documentElement.scrollTop = document.body.scrollTop = 0
@@ -60,25 +60,25 @@
         name: '',
         columns: [
           {
+            title: 'TX Hash',
+            key: 'txHash'
+          },
+          {
             title: 'Height',
             key: 'height'
           },
+          {
+            title: 'Fee',
+            key: 'fee'
+          },
+          {
+            title: 'Method',
+            key: 'method'
+          },
           // {
-          //   title: 'Epoch',
-          //   key: 'epoch'
+          //   title: 'Status',
+          //   key: 'timestamp'
           // },
-          {
-            title: 'Block Hash',
-            key: 'hash'
-          },
-          {
-            title: 'Proposer',
-            key: 'proposer'
-          },
-          {
-            title: 'Txs',
-            key: 'txs'
-          },
           {
             title: 'Times',
             key: 'timestamp'
@@ -136,7 +136,7 @@
       }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
-          width: 100px
+          width: rem(240)
         }
         &:last-child {
           padding-left: 0;

@@ -3,6 +3,9 @@
     <span v-if="isRaw" v-html="data.value"></span>
     <span v-else-if="isLocale">{{$t(data.value)}}</span>
     <span v-else-if="isHash">{{data.value | hashFormat }}</span>
+    <router-link v-else-if="isHashLink" :to="$i18n.path(data.link)">
+      {{data.text | hashFormat }}
+    </router-link>
     <span v-else-if="isTime">{{data.value | timeFormat }}</span>
     <router-link v-else-if="isAnchor" :to="$i18n.path(data.link)">{{ data.text }}</router-link>
     <span v-else>{{data}}</span>
@@ -51,6 +54,9 @@
       },
       isHash() {
         return this.isObject && this.data.type === 'hash'
+      },
+      isHashLink() {
+        return this.isObject && this.data.type === 'hash-link'
       },
       isRaw() {
         return this.isObject && this.data.type === 'raw'

@@ -57,8 +57,9 @@ export async function fetchTransactionsList($axios, page = 1, size = 10) {
   }
   const res = list.map((item) => {
     return {
+      ...item,
       height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.txHash, link: `txs/${item.txHash}`, type: 'link' },
+      txHash: { text: item.txHash, link: `transactions/${item.txHash}`, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       type: `${item.method}`
     }
