@@ -1,62 +1,70 @@
 <template>
-  <div>
+  <div class="detail-root">
     <nav-bar />
-    <tab-menu :active="2"></tab-menu>
     <div class="page-container container">
-      <block-info :blockInfo="blockInfo"></block-info>
       <h1>VALIDATOR INFO</h1>
       <panel>
         <template v-slot:header>
           <span>Detail</span>
-          <a :href="editURL" class="edit">
-            Edit
-          </a>
         </template>
         <div class="info-con">
-          <div class="left">
-            <img v-if="!icon" class="icon" src="../../../assets/node_icon.png">
-            <img v-else class="icon" :src="icon">
-            <span v-if="active" class="status">active</span>
-            <span v-else class="status inactive">inactive</span>
-            <div class="rank">{{rank}}</div>
-          </div>
-          <div class="right">
-            <div class="name">
-              {{name}} <a v-if="website" :href="website">
-              <img class="link" src="../../../assets/link.png"/>
-            </a>
-            </div>
-           <div class="detail">
-             <div class="column column1">
-               <div class="twoline">
-                 <div class="label">Entity ID</div>
-                 <div class="value">{{entityId}}</div>
-               </div>
-               <div class="oneline">
-                 <div class="label">Escrow</div>
-                 <div class="value">{{escrow}}</div>
-               </div>
-               <div class="oneline">
-                 <div class="label">Balance</div>
-                 <div class="value">{{balance}}</div>
-               </div>
+         <div class="base-inco">
+           <div class="left">
+             <img v-if="!icon || true" class="icon" src="../../../assets/node_icon.png">
+             <img v-else class="icon" :src="icon">
+             <span v-if="active" class="status">active</span>
+             <span v-else class="status inactive">inactive</span>
+           </div>
+           <div class="right">
+             <div class="name">
+               {{name}}
+               <div class="rank">{{rank}}</div>
+
              </div>
-             <div class="column column2">
-               <div class="twoline">
-                 <div class="label">Node</div>
-                 <div class="value">{{nodes[0]}}</div>
+             <div class="detail">
+               <div class="column column1">
+                 <div class="oneline">
+                   <div class="label">Node Id</div>
+                   <div class="value">{{nodes[0]}}</div>
+                 </div>
+                 <div class="oneline">
+                   <div class="label">Escrow</div>
+                   <div class="value">{{escrow}}</div>
+                 </div>
+                 <div class="oneline">
+                   <div class="label">Balance</div>
+                   <div class="value">{{balance}}</div>
+                 </div>
                </div>
-               <div class="oneline">
-                 <div class="label">Signatures</div>
-                 <div class="value">{{signs}}</div>
-               </div>
-               <div class="oneline">
-                 <div class="label">Proposer</div>
-                 <div class="value">{{proposals}}</div>
+               <div class="column column2">
+                 <div class="oneline">
+                   <div class="label">Entity ID</div>
+                   <div class="value">{{entityId}}</div>
+                 </div>
+                 <div class="oneline">
+                   <div class="label">Signatures</div>
+                   <div class="value">{{signs}}</div>
+                 </div>
+                 <div class="oneline">
+                   <div class="label">Proposer</div>
+                   <div class="value">{{proposals}}</div>
+                 </div>
                </div>
              </div>
            </div>
+         </div>
+          <div class="sep"></div>
+          <div class="desc">
+            <div class="label">Website</div>
+            <div class="value"> <a v-if="website" :href="website">{{website}}</a></div>
           </div>
+          <div class="desc">
+            <div class="label">Description</div>
+            <div class="value">An all-in-one data privacy and management API that integrates directly with your stack</div>
+          </div>
+          <a :href="editURL" class="edit">
+            Update validator info?
+          </a>
         </div>
       </panel>
       <div class="list-panels">
@@ -110,12 +118,12 @@
     async asyncData({ $axios, params }) {
       const entityId = decodeURIComponent(params.id)
       const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', icon = '', active } = await fetchValidatorDetail($axios, entityId)
-      const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
-      const blockInfo = await fetchBlockInfo($axios)
+      // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
+      // const blockInfo = await fetchBlockInfo($axios)
       const res = {
-        signsList,
-        proposalsList,
-        blockInfo,
+        signsList: [],
+        proposalsList: [],
+        blockInfo: {},
         name,
         escrow,
         proposals,
@@ -214,51 +222,78 @@
 <style scoped lang="scss">
   @import "../../../assets/css/common";
 
+
   .container {
     padding-bottom: 2rem;
   }
   .edit {
     position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    font-size: 0.94rem;
-    color: #727272;
-    padding:0 1.44rem;
+    right: rem(20);
+    bottom: rem(28);
+    font-size: rem(12);
+    line-height: rem(17);
+    color: #B8B8B8;
     display: flex;
     align-items: center;
   }
   h1{
-    font-size: 1.5rem;
-    margin-top: 1.75rem;
-    margin-bottom: 2.06rem;
-    padding: 0;
+    font-size: rem(20);
+    margin-bottom: rem(20);
+    padding-top: rem(20);
     @include regular;;
     font-weight: normal;
-    color: black;
-    line-height: 2.06rem;
+    color: #161616;
+    line-height: rem(28);
+  }
+  .detail-root {
+    background-color: #f7f7f7;
   }
   .info-con {
-    padding: 2.56rem 2.75rem;
-    padding-right: 0;
-    border: 1px solid #979797;
-    border-radius: 1px;
-    border-top: 0;
-    display: flex;
-    flex-direction: row;
-    .name {
-      color: #434343;
-      font-size: 1.13rem;
-      @include regular;;
+    position: relative;
+    padding: rem(20);
+    padding-bottom: 0;
+    border-radius: rem(8);
+    .base-inco {
+      display: flex;
+      flex-direction: row;
+    }
+    .sep {
+      border-top: 1px solid rgba(0,0,0,0.20);
+      height: 0;
+      margin-top: rem(18);
+      margin-bottom: rem(18);
+    }
+    .desc {
+      line-height: rem(20);
       display: flex;
       align-items: center;
-      .link {
-        width: 1.44rem;
-        height: 1.44rem;
-        margin-left: 0.44rem;
-        position: relative;
-        top: 0.2rem;
+      margin-top: rem(8);
+      &:first-child{
+        margin-top: rem(0);
       }
+      .label {
+        @include medium;
+        font-size: rem(16);
+        color: #3E3E3E;
+        width: rem(124);
+        text-align: left;
+      }
+      .value {
+        color: #5F5F5F;
+        @include regular;
+        font-size: rem(11);
+        a {
+          color: #3273DC;
+        }
+      }
+    }
+    .name {
+      color: #3E3E3E;
+      font-size: rem(16);
+      line-height: rem(22);
+      @include medium;
+      display: flex;
+      align-items: center;
     }
     .right {
       margin-left: 2.56rem;
@@ -267,6 +302,7 @@
       .detail {
         display: flex;
         flex-direction: row;
+        margin-top: rem(16);
       }
       .column {
         overflow: hidden;
@@ -278,7 +314,12 @@
         .oneline {
           display: flex;
           flex-direction: row;
+          line-height: rem(20);
+          margin-top: rem(8);
           .value {
+          }
+          &:first-child {
+            margin-top: 0;
           }
         }
         .twoline {
@@ -290,59 +331,63 @@
           }
         }
         .label {
-          font-size: 1rem;
-          color: #7A7A7A;
-          @include bold;
-          width: 6rem;
+          font-size: rem(14);
+          color: #3E3E3E;
+          @include medium;
+          width: rem(90);
+          text-align: left;
         }
         .value {
-          font-size: 1rem;
-          color: #7A7A7A;
+          font-size: rem(14);
+          color: #5F5F5F;
+          flex: 1;
+          overflow: hidden;
           @include regular;;
         }
       }
     }
     .left {
-      width: 5.56rem;
+      width: rem(80);
       position: relative;
     }
     .icon{
-      width: 5.56rem;
-      height: 5.56rem;
+      width: rem(80);
+      height: rem(80);
       border: 0;
     }
     .status{
-      line-height: 1.75rem;
-      font-size: 1.25rem;
+      display: block;
+      line-height: rem(20);
+      width: rem(80);
+      font-size: rem(12);
       @include regular;;
       background-color: $theme-color;
-      margin-top: 1.06rem;
-      padding: 0 .75rem;
+      margin: rem(11) auto 0;
       color: white;
+      text-align: center;
+      border-radius: rem(4);
       &.inactive {
-        background-color: #B6B6B6;;
+        background-color: #B6B6B6;
       }
     }
     .rank{
-      position: absolute;
-      right: -1.5rem;
-      top: -1.5rem;
-      width: 2.5rem;
-      height: 2.5rem;
-      background-image: url("../../../assets/rank.png");
-      background-size: 100%;
+      width: rem(22);
+      height: rem(22);
       color: white;
-      font-size: 1.25rem;
+      font-size: rem(12);
       display: flex;
       align-content: center;
       justify-content: center;
-      padding-top: 0.2rem;
+      background-color: $theme-color;
+      border-radius: 50%;
+      margin-left: rem(10);
     }
   }
   .list-panels {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top: rem(12);
   }
   .voters-panel {
     width: 30.13rem;
@@ -358,5 +403,12 @@
     padding-top: 30px;
     display: flex;
     justify-content: flex-end;
+  }
+  @media(-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2) {
+    .info-con {
+      .sep {
+        border-width: 0.5px;
+      }
+    }
   }
 </style>
