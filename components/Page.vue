@@ -1,5 +1,20 @@
 <template>
-  <div :class="rootClasses">
+  <div v-if="type==='simple'" :class="rootClasses">
+    <div class="sim-btn" @click="first">
+      <img src="../assets/first.svg"/>
+    </div>
+    <div class="sim-btn" @click="previous">
+      <img src="../assets/pre.svg"/>
+    </div>
+    <span class="sim-text">Page {{page}} of {{total}}</span>
+    <div class="sim-btn" @click="next">
+      <img src="../assets/next.svg"/>
+    </div>
+    <div class="sim-btn" @click="last">
+      <img src="../assets/latest.svg" />
+    </div>
+  </div>
+  <div v-else :class="rootClasses">
     <span class="sizer">{{$t('pageSize', {sizer: sizer})}}</span>
     <button class="previous" @click="previous">
       <Icon type="md-arrow-dropleft" class="previous-arrow" />
@@ -25,6 +40,7 @@
   import cls from 'classnames';
   export default {
     props: {
+      type: String,
       rootClass: String,
       sizer: Number,
       page: Number,
@@ -41,6 +57,13 @@
       this.rootClasses = cls('page-wrapper', this.rootClass)
     },
     methods: {
+      first() {
+        console.log('ffff')
+        this.$emit('goto', 1)
+      },
+      last() {
+        this.$emit('goto', this.total)
+      },
       previous() {
         if (this.page <= 1) {
           return
@@ -111,6 +134,27 @@
 </script>
 
 <style scoped lang="scss">
+  @import "../assets/css/common";
+  .sim-btn {
+    width: rem(40);
+    height: rem(24);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: rem(9);
+    &:first-child {
+      margin-left: rem(0);
+    }
+    img {
+      height: rem(24);
+    }
+  }
+  .sim-text {
+    color: #979797;
+    font-size: rem(12);
+    margin-left: rem(9);
+  }
   .page-wrapper {
     display: flex;
     align-items: center;

@@ -179,6 +179,29 @@ export async function fetchTransactionDetail($axios, txHash) {
     type: `${info.ex_module}(${info.ex_function})`
   }
 }
+export async function getBlockByProposer($axios, entityId, size = 5, page = 1) {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/getBlockByProposer`, {
+    params: {
+      proposer: entityId,
+      page,
+      size
+    }
+  });
+  console.log('totalSize', totalSize)
+  return {
+    list: list.map((item) => {
+      return {
+        ...item,
+        height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
+        hash: { text: item.hash, link: `transactions/${item.hash}`, type: 'hash-link' },
+        timestamp: { value: item.timestamp * 1000, type: 'time' },
+        type: `${item.method}`
+      }
+    }),
+    totalSize
+  }
+}
+
 export async function fetchValidatorDetail($axios, entityId) {
   let { code, data, ...others } = await $axios.$get(`/validator/info?entityId=${encodeURIComponent(entityId)}`, {
     params: {
@@ -209,7 +232,7 @@ export async function fetchValidatorDetail($axios, entityId) {
 }
 
 export async function fetchAddressDetail($axios, address) {
-  let { code, data } = await $axios.$get('/alief/address/info', {
+  let { code, data: { list } = { list: [] } } = await $axios.$get('/alief/address/info', {
     params: {
       address: address
     }

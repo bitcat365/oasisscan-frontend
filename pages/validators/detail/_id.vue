@@ -67,7 +67,7 @@
           </a>
         </div>
       </panel>
-      <div class="list-panels">
+      <div v-if="false" class="list-panels">
         <panel root-class="voters-panel">
           <template v-slot:header>
             <span>Signatures</span>
@@ -93,6 +93,16 @@
           />
         </panel>
       </div>
+      <panel class="block-list-wrapper">
+        <template v-slot:header>
+          <span>Proposels</span>
+        </template>
+        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList">
+        </block-table>
+        <div class="page-navigation">
+          <page type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" root-class="block-page" @goto="goto"></page>
+        </div>
+      </panel>
     </div>
   </div>
 </template>
@@ -100,11 +110,11 @@
 <script>
   import Panel from '../../../components/Panel'
   import BlockTable from '../../../components/Table/index'
-
+  import Page from '../../../components/Page'
   import NavBar from '../../../components/NavigationBar'
   import TabMenu from '../../../components/TabMenu'
   import BlockInfo from '../../../components/index/BlockInfo'
-  import { fetchBlockInfo, fetchBlockList, fetchValidatorDetail } from '../../../fetch'
+  import { fetchBlockInfo, fetchBlockList, fetchValidatorDetail, getBlockByProposer } from '../../../fetch'
   import Config from '../../../config'
   export default {
     name: 'validatorDetail',
@@ -112,15 +122,16 @@
       NavBar,
       BlockTable,
       Panel,
-      TabMenu,
-      BlockInfo
+      Page
     },
     async asyncData({ $axios, params }) {
       const entityId = decodeURIComponent(params.id)
       const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', icon = '', active } = await fetchValidatorDetail($axios, entityId)
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
-      // const blockInfo = await fetchBlockInfo($axios)
+      const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityId)
       const res = {
+        blockList,
+        totalBlockListSize,
         signsList: [],
         proposalsList: [],
         blockInfo: {},
@@ -134,7 +145,7 @@
         icon,
         active,
         entityId
-      }
+      };
       return res
     },
     data() {
@@ -142,42 +153,24 @@
       return {
         editURL: Config.editURL,
         rank,
-        listSchema: [
+        blockListSizer: 5,
+        blockListPage: 1,
+        blockListColumns: [
           {
-            label: 'rank',
-            key: 'rank'
+            title: 'Height',
+            key: 'height'
           },
           {
-            label: 'name',
-            key: 'name'
+            title: 'Block Hash',
+            key: 'hash'
           },
           {
-            label: 'website',
-            key: 'website'
+            title: 'Txs',
+            key: 'txs'
           },
           {
-            label: 'votesTotal',
-            key: 'votesTotal'
-          },
-          {
-            label: 'stashAddress',
-            key: 'stashAddress'
-          },
-          {
-            label: 'sessionAddress',
-            key: 'sessionAddress'
-          },
-          {
-            label: 'mortgageTotal',
-            key: 'mortgageTotal'
-          },
-          {
-            label: 'mindCount',
-            key: 'mindCount'
-          },
-          {
-            label: 'missCount',
-            key: 'missCount'
+            title: 'Times',
+            key: 'timestamp'
           }
         ],
         list: [],
@@ -213,7 +206,11 @@
     },
     methods: {
       async goto(pageNumber) {
-
+        const $axios = this.$axios
+        const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, this.entityId, this.blockListSizer, this.blockListPage)
+        this.blockList = blockList
+        this.totalBlockListSize = totalBlockListSize
+        this.blockListPage = pageNumber
       },
     }
   }
@@ -221,8 +218,6 @@
 
 <style scoped lang="scss">
   @import "../../../assets/css/common";
-
-
   .container {
     padding-bottom: 2rem;
   }
@@ -400,9 +395,17 @@
     }
   }
   .page-navigation {
-    padding-top: 30px;
+    padding-top: rem(16);
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+  }
+  .block-list-wrapper {
+    margin-top: rem(21);
+    padding-bottom: rem(15);
+    .block-total-list{
+      width: calc(100% - 20px);
+      margin-left: 10px;
+    }
   }
   @media(-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2) {
     .info-con {
