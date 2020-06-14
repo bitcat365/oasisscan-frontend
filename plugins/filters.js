@@ -38,3 +38,7 @@ Vue.filter('timeFormat', (val) => {
 Vue.filter('hashFormat', (val) => {
   return hashFormat(val)
 })
+
+Vue.filter('pretty', (value) => {
+  return JSON.stringify(JSON.parse(value), null, 2);
+})

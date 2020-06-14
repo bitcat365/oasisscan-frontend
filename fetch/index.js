@@ -156,22 +156,24 @@ export async function fetchTransactionsOfBlock($axios, blockHeight, page = 1, pa
  * @returns {Promise<void>}
  */
 export async function fetchTransactionDetail($axios, txHash) {
-  let { code, info } = await $axios.$get('/alief/transaction/info', {
+  let { code, data } = await $axios.$get(`/chain/transaction/${txHash}`, {
     params: {
-      query_data: txHash
     }
   })
   if (code !== 0) {
-    info = {}
+    data = {}
   }
+  console.log('data', data)
   return {
-    transactionHash: { text: info.trx_id, link: `txs/${info.trx_id}`, type: 'link' },
-    blockHeight: info.block_num ? { text: info.block_num, link: `blocks/${info.block_num}`, type: 'link' } : undefined,
-    params: JSON.stringify(info.params) ,
-    sender:info.signer && info.signer.length > 10 ?  { text: info.signer, link: `accounts/${info.signer}`, type: 'link' } : info.signer,
-    recipientAddress: info.params && info.params.to ? { text: info.params.to, link: `accounts/${info.params.to}`, type: 'link' } : '',
-    time: { value: info.timestamp, type: 'time' },
-    type: `${info.ex_module}(${info.ex_function})`
+    txHash: data.txHash,
+    method: data.method,
+    from: data.from,
+    to: data.to,
+    raw: data.raw,
+    timestamp: data.timestamp,
+    height: { text: data.height, link: `blocks/${data.height}`, type: 'link' },
+    fee: data.fee,
+    nonce: data.nonce
   }
 }
 export async function getBlockByProposer($axios, entityId, size = 5, page = 1) {

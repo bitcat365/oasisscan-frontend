@@ -35,7 +35,8 @@
     "less-loader": "^4.1.0",
     "moment": "^2.26.0",
     "nuxt": "^2.4.0",
-    "vue-i18n": "^8.11.2"
+    "vue-i18n": "^8.11.2",
+    "vue-json-pretty": "^1.6.3"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
