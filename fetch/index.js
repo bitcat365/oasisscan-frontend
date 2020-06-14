@@ -46,7 +46,7 @@ export async function fetchBlockList($axios, page = 1, size = 20) {
 }
 
 export async function fetchTransactionsList($axios, page = 1, size = 10) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get('/chain/transactions', {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/transactions', {
     params: {
       page,
       size
@@ -64,7 +64,7 @@ export async function fetchTransactionsList($axios, page = 1, size = 10) {
       type: `${item.method}`
     }
   })
-  return { list: res }
+  return { list: res, totalSize }
 }
 
 export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
@@ -100,22 +100,20 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
 }
 
 export async function fetchBlockDetail($axios, hashOrBlockHeight) {
-  let { code, info } = await $axios.$get('/alief/block/info', {
+  let { code, data } = await $axios.$get(`/chain/block/${hashOrBlockHeight}`, {
     params: {
-      query_data: hashOrBlockHeight
     }
-  })
+  });
   if (code !== 0) {
-    info = {}
+    data = {}
   }
   return {
-    blockHeight: { text: info.block_num, link: `blocks/${info.block_num}`, type: 'link' },
-    time: { value: info.timestamp, type: 'time' },
-    parentHash: { text: info.parent_hash, link: `blocks/${info.parent_hash}`, type: 'link' },
-    blockHash: { text: info.block_hash, link: `blocks/${info.block_hash}`, type: 'link' },
-    rootHash: info.extrinsics_root,
-    stateRoot: info.state_root,
-    validator: { text: info.validator_name || info.validator_address, link: `validators/detail/${info.validator_address}`, type: 'link' }
+    height: data.height,
+    epoch: data.epoch,
+    hash: data.hash,
+    txs: data.txs,
+    proposer: data.proposer,
+    timestamp: { value: data.timestamp, type: 'time' },
   }
 }
 
@@ -128,30 +126,27 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
  * @param query_type
  * @returns {Promise<{total, list: *, totalRecordsCount}>}
  */
-export async function fetchTransactionsOfBlock($axios, blockHeight, query_type = 'block_num', page = 1, pageSize = 10) {
-  let { code, data: list, query_num: total, total_num: totalRecordsCount } = await $axios.$get('/alief/transactions', {
+export async function fetchTransactionsOfBlock($axios, blockHeight, page = 1, pageSize = 10) {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('chain/transactions', {
     params: {
       page,
-      query_type,
-      page_size: pageSize,
-      query_data: blockHeight
+      size: pageSize,
+      height: blockHeight
     }
-  })
+  });
   if (code !== 0) {
     list = []
   }
   const res = list.map((item) => {
     return {
-      params: item.params,
-      blockHeight: { text: item.block_num, link: `blocks/${item.block_num}`, type: 'link' },
-      transactionId: { text: hashFormat(item.trx_id), link: `txs/${item.trx_id}`, type: 'link' },
-      sender: item.signer && item.signer.length > 10 ? { text: item.signer, link: `accounts/${item.signer}`, type: 'link' } : item.signer,
-      time: { value: item.timestamp, type: 'time' },
-      type: `${item.ex_module}(${item.ex_function})`,
-      status: { value: item.status, type: 'locale' }
+      ...item,
+      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
+      txHash: { text: item.txHash, link: `transactions/${item.txHash}`, type: 'hash-link' },
+      timestamp: { value: item.timestamp * 1000, type: 'time' },
+      type: `${item.method}`
     }
-  })
-  return { list: res, total, totalRecordsCount }
+  });
+  return { list: res, totalSize }
 }
 
 /**

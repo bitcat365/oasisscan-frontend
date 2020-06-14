@@ -37,28 +37,27 @@
   .info-list {
     list-style: none;
     > li {
-      min-height: 50px;
-      font-size:14px;
+      font-size: rem(14);
       font-family:PingFangSC-Regular;
       font-weight:400;
-      color:rgba(55,65,107,1);
-      line-height: 1.5;
+      line-height: rem(20);
       display: flex;
       align-items: center;
-      padding: 12px 0;
+      padding: rem(8) 0;
       &:nth-child(odd){
-        background:rgba(55,65,107,0.03);
+        /*background:rgba(55,65,107,0.03);*/
       }
       > .label {
         padding-left: 20px;
         width: 180px;
+        color: #3E3E3E;
       }
       > .value {
-        color:rgba(55,65,107,0.7);
+        color: #5F5F5F;
         padding-right: 20px;
         word-break: break-all;
         > a {
-          color: $theme-color;
+          color: #3273DC;
         }
       }
     }
