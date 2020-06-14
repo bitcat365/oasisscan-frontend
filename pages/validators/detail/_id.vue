@@ -1,6 +1,6 @@
 <template>
   <div class="detail-root">
-    <nav-bar />
+    <nav-bar :active="2"/>
     <div class="page-container container">
       <h1>VALIDATOR INFO</h1>
       <panel>

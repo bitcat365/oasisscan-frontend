@@ -155,6 +155,10 @@
   }
   .top-content{
     background-color: #F3F3F3;
+    background-image: url("../assets/backggrund.png");
+    background-size: rem(1428) rem(332);
+    background-position: right top;
+    background-repeat: no-repeat;
     padding-bottom: rem(12);
   }
   .bottom-content{

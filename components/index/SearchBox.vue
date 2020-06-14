@@ -53,7 +53,8 @@
         color: rgba(55, 65, 107, 1);
         background-color: rgba(248,248,248,1);
         border-radius: rem(6);
-        border: 0;
+        border:1px solid #959595;
+        border-right: 0;
         &:focus{
           outline: 0;
         }
@@ -76,11 +77,6 @@
         @include medium;
         background: rgba(149,149,149,1);
       }
-    }
-  }
-  @media (max-width: 960px) {
-    .search-box {
-      display: none;
     }
   }
 </style>

@@ -66,7 +66,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #FF4212;
+    background-color: #595959;
     height: rem(100);
     color: white;
     font-size: 1.13rem;

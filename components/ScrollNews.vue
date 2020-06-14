@@ -3,9 +3,9 @@
     <div class="textBox">
       <transition name="slide">
         <p class="text" :key="text.id">
+          <img class="laba" src="../assets/laba.png"/>
           <a :href="text.link">
-            <img class="laba" src="../assets/laba.png">
-            {{text.val}}
+            <span>{{text.val}}</span>
           </a>
         </p>
       </transition>
@@ -46,7 +46,7 @@
             this.number += 1
           }
           this.startMove()
-        }, 2000) // 滚动不需要停顿则将2000改成动画持续时间
+        }, 5000) // 滚动不需要停顿则将2000改成动画持续时间
       }
     }
   }
@@ -56,6 +56,7 @@
   @import "../assets/css/common";
   .laba{
     width: rem(20);
+    height: rem(18);
     margin-right: rem(10);
   }
   .textBox {
@@ -69,12 +70,14 @@
     width: 100%;
     position: absolute;
     bottom: 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
   }
   a {
-    align-items: center;
-    display: flex;
     font-size: rem(16);
-    justify-content: center;
+    color: #000;
+    opacity: 0.3;
   }
   .slide-enter-active, .slide-leave-active {
     transition: all 0.5s linear;

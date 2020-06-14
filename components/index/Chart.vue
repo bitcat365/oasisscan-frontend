@@ -22,7 +22,8 @@
       const daysArray = []
       const latest = this.txHistory[days - 1].key * 1000;
       for (let day = 0; day < days; day++) {
-        const thatDay = new Date(new Date(latest).setDate(1 - day))
+        const thatDay = new Date(latest)
+        thatDay.setDate(new Date(latest).getDate() - day)
         daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
       }
       daysArray.reverse()
