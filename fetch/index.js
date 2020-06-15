@@ -94,7 +94,7 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
   })
   res.forEach((item, index) => {
     const name = item.name ? item.name : 'Validator'
-    item.name = { text: name, link: `validators/detail/${encodeURIComponent(item.entityId)}?rank=${item.rank}`, type: 'link' }
+    item.name = { text: name, link: `validators/detail/${encodeURIComponent(item.entityId)}`, type: 'link' }
   })
   return { list: res }
 }
@@ -176,6 +176,50 @@ export async function fetchTransactionDetail($axios, txHash) {
     nonce: data.nonce
   }
 }
+
+export async function getEventsByProposer($axios, entityId, size = 5, page = 1) {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/powerevent`, {
+    params: {
+      address: entityId,
+      page,
+      size
+    }
+  });
+  return {
+    list: list.map((item) => {
+      return {
+        ...item,
+        height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
+        txHash: { text: item.txHash, link: `transactions/${item.txHash}`, type: 'hash-link' },
+        timestamp: { value: item.timestamp * 1000, type: 'time' },
+        amountAndShares: `${item.amount}/${item.shares}`
+      }
+    }),
+    totalSize
+  }
+}
+
+export async function getDelegatorsByProposer($axios, entityId, size = 5, page = 1) {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/validator/delegators`, {
+    params: {
+      validator: entityId,
+      page,
+      size
+    }
+  });
+  return {
+    list: list.map((item) => {
+      return {
+        ...item,
+        entityId: { text: item.entityId, type: 'hash' },
+        percent: { value: item.percent, type: 'percent' },
+        amountAndShares: `${item.amount}/${item.shares}`
+      }
+    }),
+    totalSize
+  }
+}
+
 export async function getBlockByProposer($axios, entityId, size = 5, page = 1) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/getBlockByProposer`, {
     params: {

@@ -67,35 +67,41 @@
           </a>
         </div>
       </panel>
-      <div v-if="false" class="list-panels">
-        <panel root-class="voters-panel">
+      <div class="list-panels">
+        <panel class="voters-panel">
           <template v-slot:header>
-            <span>Signatures</span>
+            <span>Delegators</span>
           </template>
           <block-table
-            :data="signsList"
-            :columns="columns"
+            :data="delegatorsList"
+            :columns="columns1"
             :expand="false"
             root-class="block-total-list"
             cell-class="block-total-list-cell"
           />
+          <div class="page-navigation">
+            <page type="simple" :sizer="eventListSizer" :records-count="totalDelegatorSize" :page="delegatorListPage" root-class="block-page" @goto="gotoDelegators"></page>
+          </div>
         </panel>
-        <panel root-class="voters-panel">
+        <panel class="voters-panel">
           <template v-slot:header>
-            <span>Proposals</span>
+            <span>Escrow Event</span>
           </template>
           <block-table
-            :data="proposalsList"
+            :data="evensList"
             :columns="columns2"
             :expand="false"
             root-class="block-total-list"
             cell-class="block-total-list-cell"
           />
+          <div class="page-navigation">
+            <page type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" root-class="block-page" @goto="gotoEvents"></page>
+          </div>
         </panel>
       </div>
       <panel class="block-list-wrapper">
         <template v-slot:header>
-          <span>Proposels</span>
+          <span>Proposals</span>
         </template>
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList">
         </block-table>
@@ -112,9 +118,7 @@
   import BlockTable from '../../../components/Table/index'
   import Page from '../../../components/Page'
   import NavBar from '../../../components/NavigationBar'
-  import TabMenu from '../../../components/TabMenu'
-  import BlockInfo from '../../../components/index/BlockInfo'
-  import { fetchBlockInfo, fetchBlockList, fetchValidatorDetail, getBlockByProposer } from '../../../fetch'
+  import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer } from '../../../fetch'
   import Config from '../../../config'
   export default {
     name: 'validatorDetail',
@@ -126,7 +130,7 @@
     },
     async asyncData({ $axios, params }) {
       const entityId = decodeURIComponent(params.id)
-      const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', icon = '', active } = await fetchValidatorDetail($axios, entityId)
+      const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', icon = '', active, rank } = await fetchValidatorDetail($axios, entityId)
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
       const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityId)
       const res = {
@@ -144,17 +148,23 @@
         website,
         icon,
         active,
+        rank,
         entityId
       };
       return res
     },
     data() {
-      const { rank } = this.$route.query
       return {
         editURL: Config.editURL,
-        rank,
         blockListSizer: 5,
+        eventListSizer: 5,
         blockListPage: 1,
+        delegatorListPage: 1,
+        eventListPage: 1,
+        totalDelegatorSize: 0,
+        totalEventListSize: 0,
+        delegatorsList: [],
+        evensList: [],
         blockListColumns: [
           {
             title: 'Height',
@@ -174,43 +184,67 @@
           }
         ],
         list: [],
-        columns: [
+        columns1: [
           {
-            title: 'Block',
-            key: 'blocks'
+            title: 'Entity',
+            key: 'entityId'
           },
           {
-            title: 'Signs',
-            key: 'count'
+            title: 'Amount/Shares',
+            key: 'amountAndShares'
           },
           {
-            title: 'Score',
-            key: 'score'
+            title: 'Percentage',
+            key: 'percent'
           }
         ],
         columns2: [
           {
-            title: 'Block',
-            key: 'blocks'
+            title: 'Height',
+            key: 'height'
           },
           {
-            title: 'Proposer',
-            key: 'count'
+            title: 'Tx Hash',
+            key: 'txHash'
           },
           {
-            title: 'Score',
-            key: 'score'
+            title: 'Amount/Shares',
+            key: 'amountAndShares'
+          },
+          {
+            title: 'Time',
+            key: 'timestamp'
           }
         ]
       }
     },
+    mounted() {
+      this.gotoEvents(1)
+      this.gotoDelegators(1)
+    },
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, this.entityId, this.blockListSizer, this.blockListPage)
-        this.blockList = blockList
-        this.totalBlockListSize = totalBlockListSize
+        const { list, totalSize } = await getBlockByProposer($axios, this.entityId, this.blockListSizer, this.blockListPage + 1)
+        this.blockList = list
+        this.totalBlockListSize = totalSize
         this.blockListPage = pageNumber
+      },
+      async gotoEvents(pageNumber) {
+        const $axios = this.$axios
+        const { list, totalSize } = await getEventsByProposer($axios, this.entityId, this.eventListSizer, this.blockListPage + 1)
+        this.evensList = list
+        console.log('evensList', list)
+        this.totalEventListSize = totalSize
+        this.eventListPage = pageNumber
+      },
+      async gotoDelegators(pageNumber) {
+        const $axios = this.$axios
+        const { list, totalSize } = await getDelegatorsByProposer($axios, this.entityId, this.eventListSizer, this.delegatorListPage + 1)
+        this.delegatorsList = list
+        console.log('delegatorsList', list)
+        this.totalDelegatorSize = totalSize
+        this.delegatorListPage = pageNumber
       },
     }
   }
@@ -385,10 +419,8 @@
     margin-top: rem(12);
   }
   .voters-panel {
-    width: 30.13rem;
+    width: rem(594);
     margin-top: 1.44rem;
-    border: 1px solid #D8D8D8;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
     .block-total-list {
       width: 100%;
       margin-left: 0;

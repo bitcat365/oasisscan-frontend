@@ -46,24 +46,20 @@
 </template>
 
 <script>
-  import { fetchValidatorsList, fetchBlockInfo } from '../../fetch/index'
+  import { fetchValidatorsList } from '../../fetch/index'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
-  import TabMenu from '../../components/TabMenu'
-  import BlockInfo from '../../components/index/BlockInfo'
 
   export default {
     name: 'index',
     components: {
       NavBar,
       BlockTable,
-      TabMenu,
-      BlockInfo
     },
     async asyncData({ $axios }) {
       const { list } = await fetchValidatorsList($axios)
-      const blockInfo = await fetchBlockInfo($axios)
-      return { list, blockInfo }
+      // const blockInfo = await fetchBlockInfo($axios)
+      return { list }
     },
     methods: {
       async goto(pageNumber) {

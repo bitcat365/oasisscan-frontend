@@ -3,6 +3,7 @@
     <span v-if="isRaw" v-html="data.value"></span>
     <span v-else-if="isLocale">{{$t(data.value)}}</span>
     <span v-else-if="isHash">{{data.value | hashFormat }}</span>
+    <span v-else-if="isPercent">{{data.value | percentFormat }}</span>
     <router-link v-else-if="isHashLink" :to="$i18n.path(data.link)">
       {{data.text | hashFormat }}
     </router-link>
@@ -60,6 +61,9 @@
       },
       isRaw() {
         return this.isObject && this.data.type === 'raw'
+      },
+      isPercent() {
+        return this.isObject && this.data.type === 'percent'
       }
     }
   }

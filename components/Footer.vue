@@ -24,11 +24,9 @@
 </template>
 
 <script>
-  import Logo from './Logo'
   export default {
     name: 'Footer',
     components: {
-      Logo
     },
     methods: {
       languageClick(name) {
