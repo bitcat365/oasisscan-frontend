@@ -67,6 +67,18 @@
           </a>
         </div>
       </panel>
+      <div v-if="false" class="list-panels">
+        <panel class="voters-panel">
+          <template v-slot:header>
+            <span>Escrow Status</span>
+          </template>
+        </panel>
+        <panel class="voters-panel">
+          <template v-slot:header>
+            <span>Signatures</span>
+          </template>
+        </panel>
+      </div>
       <div class="list-panels">
         <panel class="voters-panel half-table-panel">
           <template v-slot:header>
@@ -443,7 +455,6 @@
   }
   .voters-panel {
     width: rem(594);
-    margin-top: 1.44rem;
     .block-total-list {
       width: 100%;
       margin-left: 0;
