@@ -72,7 +72,12 @@
           <template v-slot:header>
             <span>Delegators</span>
           </template>
+          <p v-if="delegatorsList && delegatorsList.length === 0" class="no-result">
+            <img class="empty-icon" src="../../../assets/empty.png">
+            No Delegators
+          </p>
           <block-table
+            v-if="delegatorsList && delegatorsList.length > 0"
             :data="delegatorsList"
             :columns="columns1"
             :expand="false"
@@ -81,6 +86,7 @@
           />
           <div class="page-navigation">
             <page
+              v-if="delegatorsList && delegatorsList.length > 0"
               type="simple"
               :sizer="eventListSizer"
               :records-count="totalDelegatorSize"
@@ -180,7 +186,7 @@
         eventListPage: 1,
         totalDelegatorSize: 0,
         totalEventListSize: 0,
-        delegatorsList: [],
+        delegatorsList: null,
         evensList: null,
         blockListColumns: [
           {
