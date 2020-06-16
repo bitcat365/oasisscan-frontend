@@ -15,7 +15,7 @@ export function hashFormat(val) {
   if (!val) {
     return ''
   }
-  return val.substr(0, 12) + '...' + val.substr(-12)
+  return val.substr(0, 8) + '...' + val.substr(-8)
 }
 export function intFormat(val) {
   if (!val) {

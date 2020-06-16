@@ -68,7 +68,7 @@
         </div>
       </panel>
       <div class="list-panels">
-        <panel class="voters-panel">
+        <panel class="voters-panel half-table-panel">
           <template v-slot:header>
             <span>Delegators</span>
           </template>
@@ -76,26 +76,43 @@
             :data="delegatorsList"
             :columns="columns1"
             :expand="false"
-            root-class="block-total-list"
+            class="block-total-list  delegator-table"
             cell-class="block-total-list-cell"
           />
           <div class="page-navigation">
-            <page type="simple" :sizer="eventListSizer" :records-count="totalDelegatorSize" :page="delegatorListPage" root-class="block-page" @goto="gotoDelegators"></page>
+            <page
+              type="simple"
+              :sizer="eventListSizer"
+              :records-count="totalDelegatorSize"
+              :page="delegatorListPage"
+              root-class="block-page"
+              @goto="gotoDelegators"></page>
           </div>
         </panel>
-        <panel class="voters-panel">
+        <panel class="voters-panel half-table-panel">
           <template v-slot:header>
             <span>Escrow Event</span>
           </template>
+          <p v-if="evensList && evensList.length === 0" class="no-result">
+            <img class="empty-icon" src="../../../assets/empty.png">
+            No Escrow Event
+          </p>
           <block-table
+            v-if="evensList && evensList.length > 0"
             :data="evensList"
             :columns="columns2"
             :expand="false"
-            root-class="block-total-list"
+            class="block-total-list"
             cell-class="block-total-list-cell"
           />
-          <div class="page-navigation">
-            <page type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" root-class="block-page" @goto="gotoEvents"></page>
+          <div v-if="evensList && evensList.length > 0" class="page-navigation">
+            <page
+              type="simple"
+              :sizer="eventListSizer"
+              :records-count="totalEventListSize"
+              :page="eventListPage"
+              root-class="block-page"
+              @goto="gotoEvents"/>
           </div>
         </panel>
       </div>
@@ -164,7 +181,7 @@
         totalDelegatorSize: 0,
         totalEventListSize: 0,
         delegatorsList: [],
-        evensList: [],
+        evensList: null,
         blockListColumns: [
           {
             title: 'Height',
@@ -225,14 +242,14 @@
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await getBlockByProposer($axios, this.entityId, this.blockListSizer, this.blockListPage + 1)
+        const { list, totalSize } = await getBlockByProposer($axios, this.entityId, this.blockListSizer, pageNumber)
         this.blockList = list
         this.totalBlockListSize = totalSize
         this.blockListPage = pageNumber
       },
       async gotoEvents(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await getEventsByProposer($axios, this.entityId, this.eventListSizer, this.blockListPage + 1)
+        const { list, totalSize } = await getEventsByProposer($axios, this.entityId, this.eventListSizer, pageNumber)
         this.evensList = list
         console.log('evensList', list)
         this.totalEventListSize = totalSize
@@ -240,7 +257,7 @@
       },
       async gotoDelegators(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await getDelegatorsByProposer($axios, this.entityId, this.eventListSizer, this.delegatorListPage + 1)
+        const { list, totalSize } = await getDelegatorsByProposer($axios, this.entityId, this.eventListSizer, pageNumber)
         this.delegatorsList = list
         console.log('delegatorsList', list)
         this.totalDelegatorSize = totalSize
@@ -437,6 +454,37 @@
     .block-total-list{
       width: calc(100% - 20px);
       margin-left: 10px;
+    }
+  }
+  .no-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(55, 65, 107, 1);
+    padding: rem(80) 0;
+    .empty-icon {
+      width: rem(80);
+      margin-bottom: rem(11);
+    }
+  }
+  .half-table-panel {
+    /deep/ .panel-content{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: rem(272);
+    }
+  }
+  /deep/ .delegator-table {
+    thead tr{
+      th:nth-child(1){
+        width: rem(250);
+      }
+      th:nth-child(3){
+        width: rem(100);
+      }
     }
   }
   @media(-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2) {

@@ -211,7 +211,7 @@ export async function getDelegatorsByProposer($axios, entityId, size = 5, page =
     list: list.map((item) => {
       return {
         ...item,
-        entityId: { text: item.entityId, type: 'hash' },
+        entityId: { value: item.entityId, type: 'hash' },
         percent: { value: item.percent, type: 'percent' },
         amountAndShares: `${item.amount}/${item.shares}`
       }
