@@ -78,7 +78,9 @@
       return { blockInfo, blocks, transactions, newsList: Config.news, txHistory }
     },
     mounted() {
-      this.repool()
+      this.timer = setTimeout(() => {
+        this.repool()
+      }, 6000)
     },
     beforeDestroy() {
       clearTimeout(this.timer)
