@@ -28,7 +28,7 @@ export async function fetchHomeBlockList($axios, pageSize = 10, page = 1) {
   return { list }
 }
 export async function fetchBlockList($axios, page = 1, size = 20) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get(`/chain/blocks`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/blocks`, {
     params: {
       page,
       size
@@ -37,12 +37,13 @@ export async function fetchBlockList($axios, page = 1, size = 20) {
   list = list.map((item, index) => {
     return {
       ...item,
+      hash: { value: item.hash, type: 'hash' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       // proposer: { text: item.proposer, link: `validators/detail/${item.proposer}`, type: 'link' },
       height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
     }
   });
-  return { list }
+  return { list, totalSize }
 }
 
 export async function fetchTransactionsList($axios, page = 1, size = 10) {

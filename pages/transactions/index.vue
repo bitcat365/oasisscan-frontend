@@ -31,16 +31,17 @@
       Page
     },
     async asyncData({ $axios }) {
-      const { list } = await fetchTransactionsList($axios, 1, 20)
+      const { list, totalSize } = await fetchTransactionsList($axios, 1, 20)
       console.log('list', list)
-      return { list }
+      return { list, total: totalSize }
     },
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list } = await fetchTransactionsList($axios, pageNumber, this.sizer)
+        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer)
         this.page = pageNumber
         this.list = list
+        this.total = totalSize
         document.documentElement.scrollTop = document.body.scrollTop = 0
       }
     },
@@ -54,7 +55,6 @@
     data() {
       return {
         sizer: 20,
-        total: 10000,
         page: 1,
         list: [],
         name: '',
