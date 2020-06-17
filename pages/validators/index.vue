@@ -117,8 +117,7 @@
         columns: [
           {
             title: 'Rank',
-            key: 'rank',
-            sortable: true
+            key: 'rank'
           },
           {
             title: 'Validator',
