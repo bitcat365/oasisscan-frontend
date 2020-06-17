@@ -106,6 +106,9 @@
           if (index >= 0) {
             validators.splice(index, 1)
           }
+          if (validators.length >= 20) {
+            validators.shift()
+          }
           validators.push(id)
         } else {
           validators.splice(index, 1)
