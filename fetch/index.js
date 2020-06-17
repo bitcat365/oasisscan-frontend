@@ -38,7 +38,7 @@ export async function fetchBlockList($axios, page = 1, size = 20) {
     return {
       ...item,
       timestamp: { value: item.timestamp * 1000, type: 'time' },
-      proposer: { text: item.proposer, link: `validators/detail/${item.proposer}`, type: 'link' },
+      // proposer: { text: item.proposer, link: `validators/detail/${item.proposer}`, type: 'link' },
       height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
     }
   });
