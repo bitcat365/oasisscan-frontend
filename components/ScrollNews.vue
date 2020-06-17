@@ -56,8 +56,9 @@
   @import "../assets/css/common";
   .laba{
     width: rem(20);
-    height: rem(18);
+    height: rem(20);
     margin-right: rem(10);
+    opacity: 0.3
   }
   .textBox {
     width: 100%;
