@@ -1,18 +1,14 @@
 {
-  "chainId": "questnet",
+  "chainId": "AMBER",
   "editURL": " https://forms.gle/sAmcF9aYZ7wJfZYU9",
   "news": [
     {
-      "url": "https://www.baidu.com",
-      "content": "Oasislab - A safe way to use the data."
+      "url": "https://medium.com/oasis-protocol-project/introducing-the-amber-network-a-release-candidate-for-mainnet-7fe9c8d6a5c5",
+      "content": "Introducing the Amber Network (a release candidate for Mainnet)"
     },
     {
-      "url": "https://www.baidu.com",
-      "content": "2Oasislab - A safe way to use the data."
-    },
-    {
-      "url": "https://www.baidu.com",
-      "content": "3Oasislab - A safe way to use the data."
+      "url": "https://docs.oasis.dev/operators/amber-network.html",
+      "content": "The Oasis Amber Network"
     }
   ]
 }
