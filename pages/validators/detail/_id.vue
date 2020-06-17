@@ -80,7 +80,7 @@
         </panel>
       </div>
       <div class="list-panels">
-        <panel class="voters-panel half-table-panel">
+        <panel v-if="delegatorsList" class="voters-panel half-table-panel">
           <template v-slot:header>
             <span>Delegators</span>
           </template>
@@ -107,7 +107,7 @@
               @goto="gotoDelegators"></page>
           </div>
         </panel>
-        <panel class="voters-panel half-table-panel">
+        <panel v-if="evensList" class="voters-panel half-table-panel">
           <template v-slot:header>
             <span>Escrow Event</span>
           </template>
@@ -120,9 +120,15 @@
             :data="evensList"
             :columns="columns2"
             :expand="false"
-            class="block-total-list"
+            class="block-total-list events-list"
             cell-class="block-total-list-cell"
-          />
+          >
+            <template v-slot:amountAndShares="slotData">
+              <div class="amount-share" :class="positiveStyle(slotData.data)">
+                {{showAmountShare(slotData.data)}}
+              </div>
+            </template>
+          </block-table>
           <div v-if="evensList && evensList.length > 0" class="page-navigation">
             <page
               type="simple"
@@ -244,7 +250,8 @@
           },
           {
             title: 'Amount/Shares',
-            key: 'amountAndShares'
+            key: 'amountAndShares',
+            slot: true
           },
           {
             title: 'Time',
@@ -281,12 +288,49 @@
         this.totalDelegatorSize = totalSize
         this.delegatorListPage = pageNumber
       },
+      showAmountShare(amountShare) {
+        const f = amountShare.split('/')[0]
+        console.log('f', f)
+        if (f > 0) {
+          return '+' + amountShare
+        } else if (f < 0) {
+          return '-' + amountShare
+        }
+        return amountShare
+      },
+      positiveStyle(amountShare) {
+        const f = amountShare.split('/')[0]
+        if (f > 0) {
+          return 'positive'
+        } else if (f < 0) {
+          return 'negative'
+        }
+        return ''
+      }
     }
   }
 </script>
 
 <style scoped lang="scss">
   @import "../../../assets/css/common";
+  /deep/ .events-list {
+    thead {
+      th:nth-child(1) {
+        width:rem(90)
+      }
+      th:nth-child(4) {
+        width:rem(110)
+      }
+    }
+  }
+  .amount-share{
+    &.positive {
+      color: #00B538;
+    }
+    &.negative {
+      color: #B60000;
+    }
+  }
   .container {
     padding-bottom: 2rem;
   }
@@ -487,8 +531,11 @@
     }
   }
   .half-table-panel {
+    display: flex;
+    flex-direction: column;
     /deep/ .panel-content{
       display: flex;
+      flex: 1;
       flex-direction: column;
       justify-content: space-between;
       min-height: rem(272);
