@@ -129,7 +129,7 @@
         top: 0;
         height: 100%;
         color: white;
-        font-size: 1rem;
+        font-size: 0.8rem;
         line-height: 1;
         @include regular;
         display: flex;
