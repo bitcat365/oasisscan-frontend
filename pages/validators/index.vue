@@ -41,7 +41,7 @@
           </template>
           <template v-slot:escrowChange24="slotData">
            <div class="escrow-change24" :class="slotData.data > 0 ? 'positive' : (slotData.data < 0 ? 'negative' : '')">
-             {{slotData.data}}
+            {{showChange(slotData.data)}}
            </div>
           </template>
           <template v-slot:rank="slotData">
@@ -117,6 +117,14 @@
         Vue.nextTick(() => {
           this.list = [...this.list]
         })
+      },
+      showChange(value) {
+        if (value > 0) {
+          return '+' + value
+        } else if (value < 0) {
+          return '-' + value
+        }
+        return value
       }
     },
     computed: {

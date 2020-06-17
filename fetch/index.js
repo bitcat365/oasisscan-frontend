@@ -83,7 +83,8 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
   }
   const res = list.map((item, index) => {
     return {
-      ...item
+      ...item,
+      commission: { value: item.commission, type: 'percent' },
     }
   })
   res.forEach((item, index) => {
