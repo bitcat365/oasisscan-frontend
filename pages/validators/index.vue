@@ -44,6 +44,13 @@
              {{slotData.data}}
            </div>
           </template>
+          <template v-slot:rank="slotData">
+           <div class="rank">
+             {{slotData.data.rank}}
+             <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/start.png">
+             <img @click="star(slotData.data.entityId, true)" v-else class="star" src="../../assets/unstar.png">
+           </div>
+          </template>
         </block-table>
       </div>
     </div>
@@ -51,6 +58,8 @@
 </template>
 
 <script>
+  import LS from 'local-storage'
+  import Vue from 'vue'
   import { fetchValidatorsList } from '../../fetch/index'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
@@ -86,11 +95,48 @@
         co.sortType = sortType
         this.columns = [...this.columns]
         this.currentSortKey = key
+      },
+      star(id, star) {
+        let validators = LS('StaredValidators')
+        if (!validators) {
+          validators = []
+        }
+        const index = validators.findIndex(v => v === id)
+        if (star) {
+          if (index >= 0) {
+            validators.splice(index, 1)
+          }
+          validators.push(id)
+        } else {
+          validators.splice(index, 1)
+        }
+        LS('StaredValidators', validators)
+        Vue.nextTick(() => {
+          this.list = [...this.list]
+        })
       }
     },
     computed: {
       showList() {
-        return this.list.filter((item) => {
+        let validators = LS('StaredValidators')
+        if (!validators) {
+          validators = []
+        }
+        console.log('validators', validators)
+        return [...this.list].sort((a, b) => {
+          const aIndex = validators.findIndex(v => v === a.entityId)
+          const bIndex = validators.findIndex(v => v === b.entityId)
+          if (aIndex - bIndex === 0) {
+            return a.rank - b.rank
+          } else {
+            return bIndex - aIndex
+          }
+        }).map((item) => {
+          return {
+            ...item,
+            rank: { rank: item.rank, stared: !!validators.find(v => v === item.entityId), entityId: item.entityId }
+          }
+        }).filter((item) => {
           let filter1 = true
           let filter2 = true
           if (this.name) {
@@ -117,7 +163,8 @@
         columns: [
           {
             title: 'Rank',
-            key: 'rank'
+            key: 'rank',
+            slot: true
           },
           {
             title: 'Validator',
@@ -165,6 +212,16 @@
     }
     &.negative {
       color: #B60000;
+    }
+  }
+  .rank {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .star {
+      width: rem(10);
+      margin-top: rem(5);
+      cursor: pointer;
     }
   }
   .validator-name {
@@ -302,7 +359,8 @@
       }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
-          width: 100px;
+          width: 60px;
+          text-align: center;
         }
         &:last-child {
           padding-left: 0;
