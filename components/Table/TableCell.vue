@@ -27,9 +27,6 @@
       return {}
     },
     mounted() {
-      if (String(this.data).indexOf('%') >= 0) {
-        console.log('$slots.default', this.$scopedSlots)
-      }
     },
     computed: {
       rootclass() {

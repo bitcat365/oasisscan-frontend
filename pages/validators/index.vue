@@ -6,15 +6,15 @@
         <h1>VALIDATORS<span class="total-count"> ({{this.list.length}})</span></h1>
         <div class="validator-info">
           <div class="info-item">
-            <div class="active-count">75</div>
+            <div class="active-count">{{active}}</div>
             <div class="info-name">active validators</div>
           </div>
           <div class="info-item">
-            <div class="active-count">20</div>
+            <div class="active-count">{{inactive}}</div>
             <div class="info-name">inactive validators</div>
           </div>
           <div class="info-item">
-            <div class="active-count">12353</div>
+            <div class="active-count">{{delegators}}</div>
             <div class="info-name">Delegators</div>
           </div>
         </div>
@@ -39,6 +39,11 @@
              <router-link :to="$i18n.path(slotData.data.link)">{{ slotData.data.text }}</router-link>
            </div>
           </template>
+          <template v-slot:escrowChange24="slotData">
+           <div class="escrow-change24" :class="slotData.data > 0 ? 'positive' : (slotData.data < 0 ? 'negative' : '')">
+             {{slotData.data}}
+           </div>
+          </template>
         </block-table>
       </div>
     </div>
@@ -57,9 +62,10 @@
       BlockTable,
     },
     async asyncData({ $axios }) {
-      const { list } = await fetchValidatorsList($axios)
+      const { list, active, inactive, delegators } = await fetchValidatorsList($axios)
       // const blockInfo = await fetchBlockInfo($axios)
-      return { list }
+      console.log('list', list)
+      return { list, active, inactive, delegators }
     },
     methods: {
       async goto(pageNumber) {
@@ -111,7 +117,8 @@
         columns: [
           {
             title: 'Rank',
-            key: 'rank'
+            key: 'rank',
+            sortable: true
           },
           {
             title: 'Validator',
@@ -119,26 +126,30 @@
             slot: true
           },
           {
-            title: 'Signatures',
-            key: 'signs'
-          },
-          {
-            title: 'Proposals',
-            key: 'proposals'
-          },
-          {
             title: 'Escrow',
-            key: 'escrow'
+            key: 'escrow',
+            sortable: true
+          },
+          {
+            title: 'Change(24h)',
+            key: 'escrowChange24',
+            slot: true,
+            sortable: true
+          },
+          {
+            title: 'Delegators',
+            key: 'delegators',
+            sortable: true
+          },
+          {
+            title: 'Commission',
+            key: 'commission',
+            sortable: true
           },
           {
             title: 'Uptime',
             key: 'uptime',
             slot: true,
-            sortable: true
-          },
-          {
-            title: 'Score',
-            key: 'score',
             sortable: true
           }
         ]
@@ -149,6 +160,14 @@
 
 <style scoped lang="scss">
   @import "../../assets/css/common";
+  .escrow-change24 {
+    &.positive {
+      color: #00B538;
+    }
+    &.negative {
+      color: #B60000;
+    }
+  }
   .validator-name {
     display: flex;
     align-items: center;
@@ -284,10 +303,7 @@
       }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
-          width: 50px;
-        }
-        &:nth-child(6) {
-          width: 110px;
+          width: 100px;
         }
         &:last-child {
           padding-left: 0;

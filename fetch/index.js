@@ -73,7 +73,7 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
     orderParams.orderBy = orderBy;
     orderParams.sort = sort;
   }
-  let { code, data: { list } = {} } = await $axios.$get('/validator/list', {
+  let { code, data: { list, active, inactive, delegators } = {} } = await $axios.$get('/validator/list', {
     params: {
       ...orderParams
     }
@@ -86,17 +86,11 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
       ...item
     }
   })
-  res.filter(item => item.active).forEach((item,index)=>{
-    item.rank = index + 1;
-  })
-  res.filter(item => !item.active).forEach((item,index)=>{
-    item.rank = index + 1;
-  })
   res.forEach((item, index) => {
     const name = item.name ? item.name : 'Validator'
     item.name = { text: name, link: `validators/detail/${encodeURIComponent(item.entityId)}`, type: 'link' }
   })
-  return { list: res }
+  return { list: res, active, inactive, delegators }
 }
 
 export async function fetchBlockDetail($axios, hashOrBlockHeight) {
