@@ -108,7 +108,7 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
     hash: data.hash,
     txs: data.txs,
     proposer: data.proposer,
-    timestamp: { value: data.timestamp, type: 'time' },
+    timestamp: { value: data.timestamp * 1000, type: 'time' },
   }
 }
 

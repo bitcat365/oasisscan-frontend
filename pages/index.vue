@@ -220,7 +220,7 @@
         font-size: rem(16);
         padding: rem(20);
         padding-bottom: rem(10);
-        @include regular;;
+        @include regular;
         font-weight:400;
         display: flex;
         align-items: center;
