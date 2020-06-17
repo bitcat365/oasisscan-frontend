@@ -40,7 +40,7 @@
               <a href="./transactions">More</a>
             </p>
             <p class="table-wrapper">
-              <block-table root-class="txs-table" :columns="transactionColumns" :data="transactions" />
+              <block-table class="txs-table" :columns="transactionColumns" :data="transactions" />
             </p>
           </div>
         </div>
@@ -255,6 +255,9 @@
         /deep/ .txs-table {
           thead {
             tr {
+              th:nth-child(1) {
+                width: rem(180);
+              }
               th:nth-child(3) {
                 width: rem(180);
               }
