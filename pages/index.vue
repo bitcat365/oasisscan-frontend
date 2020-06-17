@@ -78,7 +78,7 @@
       return { blockInfo, blocks, transactions, newsList: Config.news, txHistory }
     },
     mounted() {
-      // this.repool()
+      this.repool()
     },
     beforeDestroy() {
       clearTimeout(this.timer)
@@ -86,13 +86,13 @@
     methods: {
       async repool() {
         const $axios = this.$axios
-        const data = await Promise.all([fetchBlockInfo($axios), fetchHomeBlockList($axios)])
+        const data = await Promise.all([fetchBlockInfo($axios), fetchHomeBlockList($axios), fetchTransactionsList($axios)])
         const blockInfo = data[0]
-        const { list: blockList } = data[1]
-        const { list: transactionList } = data[2]
+        const { list: blocks } = data[1]
+        const { list: transactions } = data[2]
+        this.blocks = blocks
         this.blockInfo = blockInfo
-        this.blockList = blockList
-        this.transactionList = transactionList
+        this.transactions = transactions
         this.timer = setTimeout(() => {
           this.repool()
         }, 6000)
