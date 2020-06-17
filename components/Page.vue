@@ -160,8 +160,8 @@
     align-items: center;
   }
   .previous,.next {
-    width:40px;
-    height:40px;
+    width:20px;
+    height:20px;
     border-radius:2px;
     border:1px solid rgba(55,65,107,0.1);
     cursor: pointer;
@@ -215,8 +215,8 @@
     display: flex;
     align-items: center;
     input {
-      width:40px;
-      height:40px;
+      width:20px;
+      height:20px;
       border-radius:2px;
       border:1px solid rgba(55,65,107,0.1);
       margin: 0 0 0 10px;
