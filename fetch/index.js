@@ -60,8 +60,8 @@ export async function fetchTransactionsList($axios, page = 1, size = 10) {
   const res = list.map((item) => {
     return {
       ...item,
-      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.txHash, link: `transactions/${item.txHash}`, type: 'hash-link' },
+      height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
+      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       type: `${item.method}`
     }
@@ -168,7 +168,7 @@ export async function fetchTransactionDetail($axios, txHash) {
     to: data.to,
     raw: data.raw,
     timestamp: data.timestamp,
-    height: { text: data.height, link: `blocks/${data.height}`, type: 'link' },
+    height: { text: data.height, link: `/blocks/${data.height}`, type: 'link' },
     fee: data.fee,
     nonce: data.nonce
   }
@@ -231,7 +231,7 @@ export async function getBlockByProposer($axios, entityId, size = 5, page = 1) {
       return {
         ...item,
         height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
-        hash: { text: item.hash, link: `transactions/${item.hash}`, type: 'hash-link' },
+        hash: { value: item.hash, type: 'hash' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         type: `${item.method}`
       }
