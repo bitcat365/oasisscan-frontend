@@ -3,14 +3,14 @@
     <div class="page-container">
       <div class="logo">
         <img src="../assets/oasis-logo.png" />
-        Power By BIT CAT
+        Power By Bit Cat
       </div>
       <div class="social-con">
         <div class="social">
-          <a href="https://twitter.com/BitCat365" class="social-item twitter">
+          <a href="https://twitter.com/BitCat365" target="_blank" class="social-item twitter">
             <img src="../assets/twitter.png">
           </a>
-          <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" class="social-item telegram">
+          <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" target="_blank" class="social-item telegram">
             <img src="../assets/telegram.png">
           </a>
         </div>
