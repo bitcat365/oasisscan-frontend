@@ -38,7 +38,7 @@
                        <img class="alert" src="../../../assets/alert.svg">
                        <div class="api" slot="content">
                          <div class="rate-item" v-for="rate in rates">
-                           <div>{{rate.rate}}（start epoch {{rate.start}}）</div>
+                           <div>{{rate.rate * 100 + '%'}}（start epoch {{rate.start}}）</div>
                          </div>
                        </div>
                      </Poptip>
