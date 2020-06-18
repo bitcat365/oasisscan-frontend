@@ -481,7 +481,7 @@
           font-size: rem(14);
           color: #3E3E3E;
           @include medium;
-          width: rem(120);
+          width: rem(112);
           text-align: left;
         }
         .value {
