@@ -69,7 +69,7 @@
                    <div class="value">{{signs}}</div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Proposer</div>
+                   <div class="label">Proposals</div>
                    <div class="value">{{proposals}}</div>
                  </div>
                  <div class="oneline">
@@ -80,6 +80,7 @@
              </div>
            </div>
          </div>
+<!--
           <div class="sep"></div>
           <div class="desc">
             <div class="label">Website</div>
@@ -92,6 +93,7 @@
           <a :href="editURL" class="edit">
             Update validator info?
           </a>
+-->
         </div>
       </panel>
       <div v-if="false" class="list-panels">
@@ -112,7 +114,7 @@
             <span>Delegators</span>
           </template>
           <p v-if="delegatorsList && delegatorsList.length === 0" class="no-result">
-            <img class="empty-icon" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.png">
             No Delegators
           </p>
           <block-table
@@ -120,7 +122,7 @@
             :data="delegatorsList"
             :columns="columns1"
             :expand="false"
-            class="block-total-list  delegator-table"
+            class="block-totasl-list  delegator-table"
             cell-class="block-total-list-cell"
           />
           <div class="page-navigation">
@@ -139,7 +141,7 @@
             <span>Escrow Event</span>
           </template>
           <p v-if="evensList && evensList.length === 0" class="no-result">
-            <img class="empty-icon" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.png">
             No Escrow Event
           </p>
           <block-table
@@ -169,7 +171,7 @@
       </div>
       <panel class="block-list-wrapper">
         <template v-slot:header>
-          <span>Proposals</span>
+          <span>Proposed Blocks</span>
         </template>
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList">
         </block-table>
@@ -251,7 +253,7 @@
             key: 'txs'
           },
           {
-            title: 'Times',
+            title: 'Time',
             key: 'timestamp'
           }
         ],
@@ -567,6 +569,10 @@
     padding: rem(80) 0;
     .empty-icon {
       width: rem(80);
+      margin-bottom: rem(11);
+    }
+    .empty-icon_s {
+      width: rem(50);
       margin-bottom: rem(11);
     }
   }

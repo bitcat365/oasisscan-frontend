@@ -15,7 +15,7 @@
           </div>
           <div class="info-item">
             <div class="active-count">{{delegators}}</div>
-            <div class="info-name">Delegators</div>
+            <div class="info-name">delegators</div>
           </div>
         </div>
       </div>

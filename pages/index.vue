@@ -113,7 +113,7 @@
             key: 'proposer'
           },
           {
-            title: 'txs',
+            title: 'Txs',
             key: 'txs'
           },
           {
