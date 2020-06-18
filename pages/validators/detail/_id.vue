@@ -53,6 +53,7 @@
              </div>
            </div>
          </div>
+<!--
           <div class="sep"></div>
           <div class="desc">
             <div class="label">Website</div>
@@ -65,6 +66,7 @@
           <a :href="editURL" class="edit">
             Update validator info?
           </a>
+-->
         </div>
       </panel>
       <div v-if="false" class="list-panels">
