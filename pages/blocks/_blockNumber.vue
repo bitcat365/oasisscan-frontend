@@ -137,7 +137,6 @@
     margin-top: rem(16);
   }
   .container {
-    padding-top: 30px;
   }
   .title {
     padding-top: rem(20);
