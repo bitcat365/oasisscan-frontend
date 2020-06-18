@@ -87,7 +87,7 @@
             <span>Delegators</span>
           </template>
           <p v-if="delegatorsList && delegatorsList.length === 0" class="no-result">
-            <img class="empty-icon" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.png">
             No Delegators
           </p>
           <block-table
@@ -95,7 +95,7 @@
             :data="delegatorsList"
             :columns="columns1"
             :expand="false"
-            class="block-total-list  delegator-table"
+            class="block-totasl-list  delegator-table"
             cell-class="block-total-list-cell"
           />
           <div class="page-navigation">
@@ -114,7 +114,7 @@
             <span>Escrow Event</span>
           </template>
           <p v-if="evensList && evensList.length === 0" class="no-result">
-            <img class="empty-icon" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.png">
             No Escrow Event
           </p>
           <block-table
@@ -529,6 +529,10 @@
     padding: rem(80) 0;
     .empty-icon {
       width: rem(80);
+      margin-bottom: rem(11);
+    }
+    .empty-icon_s {
+      width: rem(50);
       margin-bottom: rem(11);
     }
   }
