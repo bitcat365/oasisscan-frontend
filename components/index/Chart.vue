@@ -20,7 +20,7 @@
     data() {
       const days = this.txHistory.length
       const daysArray = []
-      const latest = this.txHistory[days - 1].key * 1000;
+      const latest = days > 0 ? this.txHistory[days - 1].key * 1000 : +new Date();
       for (let day = 0; day < days; day++) {
         const thatDay = new Date(latest)
         thatDay.setDate(new Date(latest).getDate() - day)
