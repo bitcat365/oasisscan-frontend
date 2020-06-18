@@ -48,7 +48,7 @@
            <div class="rank">
              {{slotData.data.rank}}
              <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/start.png">
-             <img @click="star(slotData.data.entityId, true)" v-else class="star" src="../../assets/unstar.png">
+             <img @click="star(slotData.data.entityId, true)" v-else class="star unstar" src="../../assets/unstar.png">
            </div>
           </template>
         </block-table>
@@ -234,6 +234,11 @@
       margin-top: rem(5);
       cursor: pointer;
     }
+    .unstar {
+      visibility: hidden;
+      transition: all .3s;
+      opacity: 0;
+    }
   }
   .validator-name {
     display: flex;
@@ -364,6 +369,12 @@
       width: 100%;
       margin-left: 0;
       border-radius: 1px;
+      /deep/ .table-row:hover{
+        .unstar {
+          visibility: visible;
+          opacity: 1;
+        }
+      }
       /deep/ td, /deep/ th {
         vertical-align: middle;
         padding: 18px 10px;
