@@ -36,11 +36,14 @@
     mounted() {
       this.startMove()
     },
+    beforeDestroy(){
+      this.timer && clearTimeout(this.timer)
+    },
     methods: {
       startMove() {
         // eslint-disable-next-line
-        let timer = setTimeout(() => {
-          if (this.number === 2) {
+        this.timer = setTimeout(() => {
+          if (this.number === Config.news.length - 1) {
             this.number = 0
           } else {
             this.number += 1

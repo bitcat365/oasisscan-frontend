@@ -133,16 +133,13 @@
         if (!validators) {
           validators = []
         }
-        console.log('validators', validators)
-        return [...this.list].sort((a, b) => {
+        const staredArray = [...this.list].filter(a => validators.findIndex(v => v === a.entityId) >= 0).sort((a, b) => {
           const aIndex = validators.findIndex(v => v === a.entityId)
           const bIndex = validators.findIndex(v => v === b.entityId)
-          if (aIndex - bIndex === 0) {
-            return a.rank - b.rank
-          } else {
-            return bIndex - aIndex
-          }
-        }).map((item) => {
+          return bIndex - aIndex
+        });
+        const unStaredArray = [...this.list].filter(a => validators.findIndex(v => v === a.entityId) === -1)
+        return [...staredArray, ...unStaredArray].map((item) => {
           return {
             ...item,
             rank: { rank: item.rank, stared: !!validators.find(v => v === item.entityId), entityId: item.entityId }
