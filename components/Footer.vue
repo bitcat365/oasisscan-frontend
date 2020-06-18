@@ -3,7 +3,7 @@
     <div class="page-container">
       <div class="logo">
         <img src="../assets/oasis-logo.png" />
-        Power by Bit Cat
+        Power by Bit Cat🐱
       </div>
       <div class="social-con">
         <div class="social">
