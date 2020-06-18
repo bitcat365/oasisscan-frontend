@@ -19,7 +19,6 @@
              <div class="name">
                {{name}}
                <div class="rank">{{rank}}</div>
-
              </div>
              <div class="detail">
                <div class="column column1">
@@ -28,12 +27,36 @@
                    <div class="value">{{nodes[0]}}</div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Escrow</div>
-                   <div class="value">{{escrow}}</div>
+                   <div class="label">Delegators</div>
+                   <div class="value">{{delegators}}</div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Balance</div>
-                   <div class="value">{{balance}}</div>
+                   <div class="label">Commission rates</div>
+                   <div class="value">
+                     {{rates && rates.length > 0 ? rates[0].rate : 'null' | percentFormat}}
+                     <Poptip trigger="hover" placement="right">
+                       <img class="alert" src="../../../assets/alert.svg">
+                       <div class="api" slot="content">
+                         <div class="rate-item" v-for="rate in rates">
+                           <div>{{rate.rate}}（start epoch {{rate.start}}）</div>
+                         </div>
+                       </div>
+                     </Poptip>
+                   </div>
+                 </div>
+                 <div class="oneline">
+                   <div class="label">Commission bounds</div>
+                   <div class="value">
+                     {{bounds && bounds.length > 0 ? bounds[0].min * 100 + '%' + '~' + bounds[0].max * 100 + '%' : 'null'}}
+                     <Poptip trigger="hover" placement="right">
+                       <img class="alert" src="../../../assets/alert.svg">
+                       <div class="api" slot="content">
+                         <div class="rate-item" v-for="bound in bounds">
+                           <div>{{bound.min * 100 + '%' + '~' + bound.max * 100 + '%'}}（start epoch {{bound.start}}）</div>
+                         </div>
+                       </div>
+                     </Poptip>
+                   </div>
                  </div>
                </div>
                <div class="column column2">
@@ -48,6 +71,10 @@
                  <div class="oneline">
                    <div class="label">Proposer</div>
                    <div class="value">{{proposals}}</div>
+                 </div>
+                 <div class="oneline">
+                   <div class="label">Nonce</div>
+                   <div class="value">{{nonce}}</div>
                  </div>
                </div>
              </div>
@@ -171,7 +198,7 @@
     },
     async asyncData({ $axios, params }) {
       const entityId = decodeURIComponent(params.id)
-      const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', icon = '', active, rank } = await fetchValidatorDetail($axios, entityId)
+      const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', icon = '', active, rank, delegators, rates, bounds, nonce } = await fetchValidatorDetail($axios, entityId)
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
       const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityId)
       const res = {
@@ -190,7 +217,11 @@
         icon,
         active,
         rank,
-        entityId
+        entityId,
+        delegators,
+        rates,
+        bounds,
+        nonce
       };
       return res
     },
@@ -313,6 +344,12 @@
 
 <style scoped lang="scss">
   @import "../../../assets/css/common";
+  .alert {
+    width: rem(16);
+    height: rem(16);
+    margin-left: rem(7);
+    cursor: pointer;
+  }
   /deep/ .events-list {
     thead {
       th:nth-child(1) {
@@ -442,7 +479,7 @@
           font-size: rem(14);
           color: #3E3E3E;
           @include medium;
-          width: rem(90);
+          width: rem(165);
           text-align: left;
         }
         .value {
@@ -450,7 +487,10 @@
           color: #5F5F5F;
           flex: 1;
           overflow: hidden;
-          @include regular;;
+          display: flex;
+          align-items: center;
+          @include regular;
+          line-height: 1;
         }
       }
     }
