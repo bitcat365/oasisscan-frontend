@@ -176,6 +176,9 @@
         white-space: nowrap;
         &:last-child {
           text-align: right;
+          .header-title {
+            justify-content: flex-end;
+          }
         }
       }
     }

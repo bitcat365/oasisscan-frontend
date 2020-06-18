@@ -252,9 +252,6 @@
                 width: rem(180);
               }
               th:last-child {
-                .header-title {
-                  justify-content: flex-end;
-                }
               }
             }
           }

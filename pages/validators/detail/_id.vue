@@ -173,7 +173,7 @@
         <template v-slot:header>
           <span>Proposed Blocks</span>
         </template>
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList">
+        <block-table class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList">
         </block-table>
         <div class="page-navigation">
           <page type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" root-class="block-page" @goto="goto"></page>

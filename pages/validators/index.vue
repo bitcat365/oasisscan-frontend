@@ -137,7 +137,7 @@
           const aIndex = validators.findIndex(v => v === a.entityId)
           const bIndex = validators.findIndex(v => v === b.entityId)
           return bIndex - aIndex
-        });
+        })
         const unStaredArray = [...this.list].filter(a => validators.findIndex(v => v === a.entityId) === -1)
         return [...staredArray, ...unStaredArray].map((item) => {
           return {
