@@ -1,7 +1,7 @@
 <template>
   <form @submit.stop.prevent="onsubmit" class="search-box">
     <div class="form-inner">
-      <input v-model="text" type="text" :placeholder="$t('home.search')"></input>
+      <input v-model="text" type="text" placeholder="Search by Entity/Block/Block hash/Tx hash"></input>
       <a class="search-button" @click.stop.prevent="onsubmit">{{$t('search')}}</a>
     </div>
   </form>
@@ -19,6 +19,7 @@
     },
     methods: {
       async onsubmit() {
+        return;
         const searchText = this.text.trim()
         const res = await search(this.$axios, searchText)
         if (res.link) {
