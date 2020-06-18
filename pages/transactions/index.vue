@@ -60,7 +60,7 @@
         name: '',
         columns: [
           {
-            title: 'TX Hash',
+            title: 'Tx Hash',
             key: 'txHash'
           },
           {

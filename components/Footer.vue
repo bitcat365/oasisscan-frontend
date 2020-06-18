@@ -3,17 +3,14 @@
     <div class="page-container">
       <div class="logo">
         <img src="../assets/oasis-logo.png" />
-        Power By OASIS SCAN
+        Power By BIT CAT
       </div>
       <div class="social-con">
         <div class="social">
-          <a href="/" class="social-item wechat">
-            <img src="../assets/wechat.png">
-          </a>
-          <a href="/" class="social-item twitter">
+          <a href="https://twitter.com/BitCat365" class="social-item twitter">
             <img src="../assets/twitter.png">
           </a>
-          <a href="/" class="social-item telegram">
+          <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" class="social-item telegram">
             <img src="../assets/telegram.png">
           </a>
         </div>

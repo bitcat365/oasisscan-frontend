@@ -46,7 +46,7 @@
                    <div class="value">{{signs}}</div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Proposer</div>
+                   <div class="label">Proposed Blocks</div>
                    <div class="value">{{proposals}}</div>
                  </div>
                </div>
