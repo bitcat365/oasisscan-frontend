@@ -131,7 +131,7 @@
             key: 'height'
           },
           {
-            title: 'Type',
+            title: 'Method',
             key: 'type'
           },
           {
@@ -251,6 +251,11 @@
               th:nth-child(2) {
                 width: rem(180);
               }
+              th:last-child {
+                .header-title {
+                  justify-content: flex-end;
+                }
+              }
             }
           }
         }
@@ -262,6 +267,11 @@
               }
               th:nth-child(3) {
                 width: rem(180);
+              }
+              th:last-child {
+                .header-title {
+                  justify-content: flex-end;
+                }
               }
             }
           }

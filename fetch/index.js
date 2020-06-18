@@ -21,6 +21,7 @@ export async function fetchHomeBlockList($axios, pageSize = 10, page = 1) {
   list = list.map((item, index) => {
     return {
       ...item,
+      proposer: { value: item.proposer, type: 'hash' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
     }
