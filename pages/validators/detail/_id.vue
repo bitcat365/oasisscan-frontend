@@ -33,8 +33,8 @@
                  <div class="oneline">
                    <div class="label">Commission rates</div>
                    <div class="value">
-                     {{rates && rates.length > 0 ? rates[0].rate : 'null' | percentFormat}}
-                     <Poptip trigger="hover" placement="right">
+                     {{rates && rates.length > 0 ? rates[0].rate * 100 + '%' : 'null' }}
+                     <Poptip v-if="rates && rates.length > 0" trigger="hover" placement="right">
                        <img class="alert" src="../../../assets/alert.svg">
                        <div class="api" slot="content">
                          <div class="rate-item" v-for="rate in rates">
@@ -48,7 +48,7 @@
                    <div class="label">Commission bounds</div>
                    <div class="value">
                      {{bounds && bounds.length > 0 ? bounds[0].min * 100 + '%' + '~' + bounds[0].max * 100 + '%' : 'null'}}
-                     <Poptip trigger="hover" placement="right">
+                     <Poptip v-if="bounds && bounds.length > 0" trigger="hover" placement="right">
                        <img class="alert" src="../../../assets/alert.svg">
                        <div class="api" slot="content">
                          <div class="rate-item" v-for="bound in bounds">
