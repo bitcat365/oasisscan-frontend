@@ -376,6 +376,9 @@
         vertical-align: middle;
         padding: 18px 10px;
       }
+      /deep/ td {
+        padding: rem(10)
+      }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
           width: 60px;
