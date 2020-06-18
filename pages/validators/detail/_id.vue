@@ -222,7 +222,7 @@
             key: 'txs'
           },
           {
-            title: 'Times',
+            title: 'Time',
             key: 'timestamp'
           }
         ],
