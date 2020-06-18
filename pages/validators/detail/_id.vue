@@ -46,7 +46,7 @@
                    <div class="value">{{signs}}</div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Proposed Blocks</div>
+                   <div class="label">Proposals</div>
                    <div class="value">{{proposals}}</div>
                  </div>
                </div>
@@ -144,7 +144,7 @@
       </div>
       <panel class="block-list-wrapper">
         <template v-slot:header>
-          <span>Proposals</span>
+          <span>Proposed Blocks</span>
         </template>
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList">
         </block-table>
