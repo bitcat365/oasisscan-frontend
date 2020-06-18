@@ -31,7 +31,7 @@
                    <div class="value">{{delegators}}</div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Commission rates</div>
+                   <div class="label">Com. rates</div>
                    <div class="value">
                      {{rates && rates.length > 0 ? rates[0].rate : 'null' | percentFormat}}
                      <Poptip trigger="hover" placement="right">
@@ -45,7 +45,7 @@
                    </div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Commission bounds</div>
+                   <div class="label">Com. bounds</div>
                    <div class="value">
                      {{bounds && bounds.length > 0 ? bounds[0].min * 100 + '%' + '~' + bounds[0].max * 100 + '%' : 'null'}}
                      <Poptip trigger="hover" placement="right">
