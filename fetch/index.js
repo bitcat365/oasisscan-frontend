@@ -46,12 +46,23 @@ export async function fetchBlockList($axios, page = 1, size = 20) {
   });
   return { list, totalSize }
 }
+export async function fetchChainMethods($axios) {
+  let { code, data: { list } = { list: [] } } = await $axios.$get('/chain/methods', {
+    params: {
+    }
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
+  }
+  return {list}
+}
 
-export async function fetchTransactionsList($axios, page = 1, size = 10) {
+export async function fetchTransactionsList($axios, page = 1, size = 10, method = '') {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/transactions', {
     params: {
       page,
-      size
+      size,
+      method
     }
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {

@@ -5,6 +5,16 @@
       <div class="title">
         <h1>TRANSACTIONS<span class="total-count"> ({{total}})</span></h1>
       </div>
+      <Dropdown trigger="click" placement="bottom-start" @on-click="change">
+        <a class="show-cur method-dropdown" href="javascript:void(0)">
+          {{method === '' ? 'All Method' : method}}
+          <Icon type="ios-arrow-down"></Icon>
+        </a>
+        <DropdownMenu slot="list">
+          <DropdownItem name="all">All Method</DropdownItem>
+          <DropdownItem v-for="method in methods" :key="method" :name="method">{{method}}</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         </block-table>
@@ -18,7 +28,7 @@
 </template>
 
 <script>
-  import { fetchTransactionsList } from '../../fetch/index'
+  import { fetchTransactionsList, fetchChainMethods } from '../../fetch/index'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
   import Page from '../../components/Page'
@@ -38,19 +48,30 @@
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer)
+        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer, this.method)
         this.page = pageNumber
         this.list = list
         this.total = totalSize
         document.documentElement.scrollTop = document.body.scrollTop = 0
+      },
+      change(name) {
+        console.log('name', name)
+        if (name === 'all') {
+          this.method = ''
+        } else {
+          this.method = name
+        }
+        this.goto(1)
       }
     },
     computed: {
     },
     created() {
     },
-    mounted() {
-
+    async mounted() {
+      const $axios = this.$axios
+      const { list } = await fetchChainMethods($axios)
+      this.methods = list
     },
     data() {
       return {
@@ -58,6 +79,8 @@
         page: 1,
         list: [],
         name: '',
+        methods: [],
+        method: '',
         columns: [
           {
             title: 'Tx Hash',
@@ -91,6 +114,16 @@
 
 <style scoped lang="scss">
   @import "../../assets/css/common";
+  .method-dropdown {
+    margin-top: rem(20);
+    padding: rem(5) rem(20);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    border-radius: rem(4);
+    .show-cur {
+      color: #5F5F5F;
+    }
+  }
   .page-navigation {
     display: flex;
     justify-content: flex-end;
@@ -98,6 +131,7 @@
   }
   .blocks-root {
     background-color: #f7f7f7;
+    min-height: calc(100vh - #{rem(100)});
   }
   .container {
     padding-bottom: rem(50);
