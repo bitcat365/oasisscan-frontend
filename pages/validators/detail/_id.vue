@@ -76,6 +76,11 @@
                    <div class="label">Nonce</div>
                    <div class="value">{{nonce}}</div>
                  </div>
+
+                 <a :href="editURL" target="_blank" class="edit">
+                   Update validator info?
+                 </a>
+
                </div>
              </div>
            </div>
