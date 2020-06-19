@@ -201,7 +201,7 @@
             sortable: true
           },
           {
-            title: 'Uptime(1K block)',
+            title: 'Uptime(1k block)',
             key: 'uptime',
             slot: true,
             sortable: true
