@@ -87,7 +87,7 @@
           </div>
           <div class="desc">
             <div class="label">Description</div>
-            <div class="value">An all-in-one data privacy and management API that integrates directly with your stack</div>
+            <div class="value"></div>
           </div>
           <a :href="editURL" target="_blank" class="edit">
             UPDATE VALIDATOR INFO?
