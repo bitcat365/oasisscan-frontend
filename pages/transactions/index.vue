@@ -155,7 +155,7 @@
     }
   }
   .block-list-wrapper {
-    margin-top: rem(21);
+    margin-top: rem(12);
     background-color: white;
     padding:0 rem(30);
     border-radius: rem(8);
