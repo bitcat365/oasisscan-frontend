@@ -103,7 +103,7 @@
           //   key: 'timestamp'
           // },
           {
-            title: 'Times',
+            title: 'Time',
             key: 'timestamp'
           }
         ]
