@@ -116,7 +116,7 @@
   @import "../../assets/css/common";
   .method-dropdown {
     margin-top: rem(20);
-    padding: rem(5) rem(20);
+    padding: rem(2) rem(10);
     border: 1px solid rgba(0, 0, 0, 0.5);
     display: inline-block;
     border-radius: rem(4);
