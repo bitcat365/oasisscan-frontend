@@ -23,7 +23,7 @@
              <div class="detail">
                <div class="column column1">
                  <div class="oneline">
-                   <div class="label">Node Id</div>
+                   <div class="label">Node ID</div>
                    <div class="value">{{nodes[0]}}</div>
                  </div>
                  <div class="oneline">
