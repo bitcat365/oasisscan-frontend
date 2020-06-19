@@ -89,8 +89,8 @@
             <div class="label">Description</div>
             <div class="value">An all-in-one data privacy and management API that integrates directly with your stack</div>
           </div>
-          <a :href="editURL" class="edit">
-            Update validator info?
+          <a :href="editURL" target="_blank" class="edit">
+            UPDATE VALIDATOR INFO?
           </a>
         </div>
       </panel>
@@ -418,7 +418,7 @@
       }
       .label {
         @include medium;
-        font-size: rem(16);
+        font-size: rem(14);
         color: #3E3E3E;
         width: rem(124);
         text-align: left;
