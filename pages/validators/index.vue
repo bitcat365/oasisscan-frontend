@@ -7,11 +7,11 @@
         <div class="validator-info">
           <div class="info-item">
             <div class="active-count">{{active}}</div>
-            <div class="info-name">active validators</div>
+            <div class="info-name">Active validators</div>
           </div>
           <div class="info-item">
             <div class="active-count">{{inactive}}</div>
-            <div class="info-name">inactive validators</div>
+            <div class="info-name">Inactive validators</div>
           </div>
           <div class="info-item">
             <div class="active-count">{{delegators}}</div>
