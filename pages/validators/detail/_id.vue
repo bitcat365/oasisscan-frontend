@@ -105,7 +105,7 @@
               <div class="total-con">
                 Total
                 <div class="total-value">
-                  <div class="value"> {{escrowAmountStatus.total}} ROSE</div>
+                  <div class="value"> {{escrowAmountStatus.total}} AMBER</div>
                   <div class="share"> ({{escrowSharesStatus.total}} shares)</div>
                 </div>
               </div>
