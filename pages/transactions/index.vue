@@ -120,6 +120,7 @@
     border: 1px solid rgba(0, 0, 0, 0.5);
     display: inline-block;
     border-radius: rem(4);
+    background-color: #ffffff;
     .show-cur {
       color: #5F5F5F;
     }
