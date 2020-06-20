@@ -7,11 +7,11 @@
         <div class="validator-info">
           <div class="info-item">
             <div class="active-count">{{active}}</div>
-            <div class="info-name">Active validators</div>
+            <div class="info-name">active validators</div>
           </div>
           <div class="info-item">
             <div class="active-count">{{inactive}}</div>
-            <div class="info-name">Inactive validators</div>
+            <div class="info-name">inactive validators</div>
           </div>
           <div class="info-item">
             <div class="active-count">{{delegators}}</div>
@@ -21,8 +21,8 @@
       </div>
       <div class="operate">
         <div class="tag-con">
-          <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">active</div>
-          <div :class="['type inactive', type === 'inactive'? 'sel' : '']" @click="type='inactive'">inactive</div>
+          <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">A</div>
+          <div :class="['type inactive', type === 'inactive'? 'sel' : '']" @click="type='inactive'">Inactive</div>
         </div>
         <input v-model="name" placeholder="Search Validator" type="text"></input>
       </div>
