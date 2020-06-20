@@ -106,24 +106,24 @@
                 Total
                 <div class="total-value">
                   <div class="value"> {{escrowAmountStatus.total}} ROSE</div>
-                  <div class="share"> {{escrowSharesStatus.total}} shares</div>
+                  <div class="share"> ({{escrowSharesStatus.total}} shares)</div>
                 </div>
               </div>
               <div class="compare">
                 <div class="self-con">
-                  <div class="title"><span class="label">Self</span> <span class="per">{{escrowAmountStatus.self/escrowAmountStatus.total | percentFormat}}</span></div>
+                  <div class="title"><span class="label">Self</span> <span class="per">({{escrowAmountStatus.self/escrowAmountStatus.total | percentFormat}})</span></div>
                   <div class="values">
                     <div class="value">{{escrowAmountStatus.self}}</div>
-                    <div class="share">{{escrowSharesStatus.self}}</div>
+                    <div class="share">({{escrowSharesStatus.self}} shares)</div>
                   </div>
                 </div>
                 <div class="other-con">
                   <div class="self-con">
-                    <div class="title"><span class="label">Other</span> <span class="per">{{escrowAmountStatus.other/escrowAmountStatus.total | percentFormat}}</span></div>
+                    <div class="title"><span class="label">Other</span> <span class="per">({{escrowAmountStatus.other/escrowAmountStatus.total | percentFormat}})</span></div>
                   </div>
                   <div class="values">
                     <div class="value">{{escrowAmountStatus.other}}</div>
-                    <div class="share">{{escrowSharesStatus.other}}</div>
+                    <div class="share">({{escrowSharesStatus.other}} shares)</div>
                   </div>
                 </div>
               </div>
