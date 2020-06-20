@@ -176,6 +176,7 @@ export async function fetchTransactionDetail($axios, txHash) {
     txHash: data.txHash,
     method: data.method,
     from: data.from,
+    amount: data.amount,
     to: data.to,
     raw: data.raw,
     timestamp: data.timestamp,
