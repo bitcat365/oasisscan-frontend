@@ -65,7 +65,7 @@ module.exports = {
   proxy: [
     'http://95.216.211.124:8181/chain/',
     'http://95.216.211.124:8181/validator/',
-    'http:/95.216.211.124:8181/dashboard/',
+    'http://95.216.211.124:8181/dashboard/',
   ],
   /*
   ** Build configuration
