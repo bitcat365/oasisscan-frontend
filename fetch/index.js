@@ -208,6 +208,16 @@ export async function getEventsByProposer($axios, entityId, size = 5, page = 1) 
   }
 }
 
+export async function validatorStats($axios, entityId) {
+  let { code, data: { signs, proposals } = { signs: [], proposals: [] } } = await $axios.$get(`/validator/stats`, {
+    params: {
+      entityId
+    }
+  })
+  return {
+    signs, proposals
+  }
+}
 export async function getDelegatorsByProposer($axios, entityId, size = 5, page = 1) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/validator/delegators`, {
     params: {

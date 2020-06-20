@@ -6,32 +6,40 @@
 
 <script>
   export default {
-    name: "piechart",
+    name: 'piechart',
+    props: ['data'],
     data() {
       return {
         chartOptions: {
+          colors: ['#4CD4A9', '#919191'],
           chart: {
           },
           title: {
             text: ''
           },
+          credits: {
+            enabled: false
+          },
+          tooltip: {
+            headerFormat: '',
+            pointFormat: '{point.name} ({point.percentage:.2f}%)<br>{point.y}'
+         },
+          plotOptions: {
+            series: {
+              dataLabels: {
+                enabled: false
+              }
+            },
+            pie: {
+              size: 110
+            }
+          },
           series: [{
             type: 'pie',
             name: '浏览器占比',
             data: [
-              ['Firefox',  45.0],
-              ['IE',       26.8],
-              ['Chrome', 12.8],
-              ['Safari',    8.5],
-              ['Opera',     6.2],
-              {
-                name: '其他',
-                y: 0.7,
-                dataLabels: {
-                  // 数据比较少，没有空间显示数据标签，所以将其关闭
-                  enabled: false
-                }
-              }
+              ['Self', parseFloat(this.data.self)],
+              ['Other', parseFloat(this.data.other)]
             ]
           }]
         }
@@ -40,6 +48,11 @@
   }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  @import "../../assets/css/common";
+  .chart-con {
+    margin-top: rem(15);
+    width: rem(135);
+    height: rem(135);
+  }
 </style>

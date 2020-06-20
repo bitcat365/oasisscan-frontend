@@ -94,16 +94,49 @@
           </a>
         </div>
       </panel>
-      <div v-if="false" class="list-panels">
+      <div class="list-panels">
         <panel class="voters-panel">
           <template v-slot:header>
             <span>Escrow Status</span>
           </template>
+          <div class="status-chart-con">
+            <pie-chart :data="escrowAmountStatus"></pie-chart>
+            <div class="status-info-con">
+              <div class="total-con">
+                Total
+                <div class="total-value">
+                  <div class="value"> {{escrowAmountStatus.total}} ROSE</div>
+                  <div class="share"> {{escrowSharesStatus.total}} shares</div>
+                </div>
+              </div>
+              <div class="compare">
+                <div class="self-con">
+                  <div class="title"><span class="label">Self</span> <span class="per">{{escrowAmountStatus.self/escrowAmountStatus.total | percentFormat}}</span></div>
+                  <div class="values">
+                    <div class="value">{{escrowAmountStatus.self}}</div>
+                    <div class="share">{{escrowSharesStatus.self}}</div>
+                  </div>
+                </div>
+                <div class="other-con">
+                  <div class="self-con">
+                    <div class="title"><span class="label">Other</span> <span class="per">{{escrowAmountStatus.other/escrowAmountStatus.total | percentFormat}}</span></div>
+                  </div>
+                  <div class="values">
+                    <div class="value">{{escrowAmountStatus.other}}</div>
+                    <div class="share">{{escrowSharesStatus.other}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </panel>
         <panel class="voters-panel">
           <template v-slot:header>
             <span>Signatures</span>
           </template>
+          <div class="sign-states-con">
+            <kuai :list="signsStates"></kuai>
+          </div>
         </panel>
       </div>
       <div class="list-panels">
@@ -186,7 +219,9 @@
   import BlockTable from '../../../components/Table/index'
   import Page from '../../../components/Page'
   import NavBar from '../../../components/NavigationBar'
-  import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer } from '../../../fetch'
+  import PieChart from '../../../components/validator/piechart'
+  import Kuai from '../../../components/validator/kuai'
+  import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer, validatorStats } from '../../../fetch'
   import Config from '../../../config'
   export default {
     name: 'validatorDetail',
@@ -194,14 +229,33 @@
       NavBar,
       BlockTable,
       Panel,
-      Page
+      Page,
+      PieChart,
+      Kuai
     },
     async asyncData({ $axios, params }) {
       const entityId = decodeURIComponent(params.id)
-      const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', icon = '', active, rank, delegators, rates, bounds, nonce } = await fetchValidatorDetail($axios, entityId)
+      const {
+        name = 'Validator',
+        escrow,
+        proposals,
+        signs,
+        nodes = [''],
+        balance,
+        website = '',
+        icon = '',
+        active,
+        rank,
+        delegators,
+        rates,
+        bounds,
+        nonce,
+        ...others
+      } = await fetchValidatorDetail($axios, entityId)
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
       const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityId)
       const res = {
+        ...others,
         blockList,
         totalBlockListSize,
         signsList: [],
@@ -221,8 +275,8 @@
         delegators,
         rates,
         bounds,
-        nonce
-      };
+        nonce,
+      }
       return res
     },
     data() {
@@ -237,6 +291,7 @@
         totalEventListSize: 0,
         delegatorsList: null,
         evensList: null,
+        signsStates: [],
         blockListColumns: [
           {
             title: 'Height',
@@ -294,8 +349,14 @@
     mounted() {
       this.gotoEvents(1)
       this.gotoDelegators(1)
+      this.getStates()
     },
     methods: {
+      async getStates() {
+        const { signs } = await validatorStats(this.$axios, this.entityId)
+        console.log('signs', signs)
+        this.signsStates = signs
+      },
       async goto(pageNumber) {
         const $axios = this.$axios
         const { list, totalSize } = await getBlockByProposer($axios, this.entityId, this.blockListSizer, pageNumber)
@@ -344,6 +405,62 @@
 
 <style scoped lang="scss">
   @import "../../../assets/css/common";
+  .sign-states-con {
+    margin-top: rem(35);
+  }
+  .status-chart-con {
+    display: flex;
+    flex-direction: row;
+    .status-info-con {
+      padding-left: rem(20);
+      padding-top: rem(15);
+      flex: 1;
+      .total-con {
+        display: flex;
+        flex-direction: row;
+        font-size: rem(16);
+        line-height: rem(22);
+        .total-value {
+          padding-left: rem(13);
+          .value {
+            color: #FF4212;
+            font-size: rem(16);
+            line-height: rem(22);
+          }
+          .share {
+            color: #5F5F5F;
+            font-size: rem(12);
+            line-height: rem(17);
+          }
+        }
+      }
+      .compare {
+        display: flex;
+        flex-direction: row;
+        font-size: rem(14);
+        line-height: rem(22);
+        margin-top: rem(17);
+        .self-con,.other-con {
+          flex: 1;
+          .title {
+          }
+          .value {
+            color: #5F5F5F;
+          }
+          .share {
+            color: #5F5F5F;
+            font-size: rem(12);
+          }
+        }
+        .self-con .title{
+          color: #4CD4A9;
+        }
+        .other-con .title {
+          color: #919191;
+        }
+      }
+    }
+  }
   .alert {
     width: rem(16);
     height: rem(16);
