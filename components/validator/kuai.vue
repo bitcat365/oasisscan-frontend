@@ -24,7 +24,6 @@
     },
     methods: {
       item(row, column) {
-        console.log(row,column)
         return this.list[(row - 1) * this.columns + column - 1]
       }
     }
