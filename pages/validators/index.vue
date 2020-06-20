@@ -21,7 +21,7 @@
       </div>
       <div class="operate">
         <div class="tag-con">
-          <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">A</div>
+          <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">Active</div>
           <div :class="['type inactive', type === 'inactive'? 'sel' : '']" @click="type='inactive'">Inactive</div>
         </div>
         <input v-model="name" placeholder="Search Validator" type="text"></input>
