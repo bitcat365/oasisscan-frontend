@@ -24,7 +24,7 @@
           <img class="icon2" src="../../assets/b2.png">
         </template>
       </block-status>
-      <block-status name="Active validator" :value="blockInfo.activeValidator">
+      <block-status name="Active Validator" :value="blockInfo.activeValidator">
         <template slot="icon">
           <img class="icon4" src="../../assets/b4.png">
         </template>

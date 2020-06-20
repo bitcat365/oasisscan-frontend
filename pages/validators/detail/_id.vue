@@ -23,7 +23,7 @@
              <div class="detail">
                <div class="column column1">
                  <div class="oneline">
-                   <div class="label">Node Id</div>
+                   <div class="label">Node ID</div>
                    <div class="value">{{nodes[0]}}</div>
                  </div>
                  <div class="oneline">
@@ -80,7 +80,6 @@
              </div>
            </div>
          </div>
-<!--
           <div class="sep"></div>
           <div class="desc">
             <div class="label">Website</div>
@@ -88,12 +87,11 @@
           </div>
           <div class="desc">
             <div class="label">Description</div>
-            <div class="value">An all-in-one data privacy and management API that integrates directly with your stack</div>
+            <div class="value"></div>
           </div>
-          <a :href="editURL" class="edit">
-            Update validator info?
+          <a :href="editURL" target="_blank" class="edit">
+            UPDATE VALIDATOR INFO?
           </a>
--->
         </div>
       </panel>
       <div v-if="false" class="list-panels">
@@ -420,7 +418,7 @@
       }
       .label {
         @include medium;
-        font-size: rem(16);
+        font-size: rem(14);
         color: #3E3E3E;
         width: rem(124);
         text-align: left;

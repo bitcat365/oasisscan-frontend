@@ -103,7 +103,7 @@
           //   key: 'timestamp'
           // },
           {
-            title: 'Times',
+            title: 'Time',
             key: 'timestamp'
           }
         ]
@@ -116,7 +116,7 @@
   @import "../../assets/css/common";
   .method-dropdown {
     margin-top: rem(20);
-    padding: rem(5) rem(20);
+    padding: rem(2) rem(10);
     border: 1px solid rgba(0, 0, 0, 0.5);
     display: inline-block;
     border-radius: rem(4);
@@ -155,7 +155,7 @@
     }
   }
   .block-list-wrapper {
-    margin-top: rem(21);
+    margin-top: rem(12);
     background-color: white;
     padding:0 rem(30);
     border-radius: rem(8);
