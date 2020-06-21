@@ -12,8 +12,8 @@
            <div class="left">
              <img v-if="!icon || true" class="icon" src="../../../assets/node_icon.png">
              <img v-else class="icon" :src="icon">
-             <span v-if="active" class="status">active</span>
-             <span v-else class="status inactive">inactive</span>
+             <span v-if="active" class="status">Active</span>
+             <span v-else class="status inactive">Inactive</span>
            </div>
            <div class="right">
              <div class="name">
