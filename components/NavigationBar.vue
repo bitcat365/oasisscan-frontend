@@ -80,7 +80,7 @@
     display: flex;
     line-height: 1;
     height: rem(60);
-    background-image: linear-gradient(269deg, #FF7322 0%, #FF3F0F 100%);
+    background-image: linear-gradient(269deg, #ff3f0f 0%, #FF3F0F 100%);
     > .container {
       width: 100%;
       margin: 0 auto;

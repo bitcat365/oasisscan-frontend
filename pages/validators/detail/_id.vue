@@ -12,8 +12,8 @@
            <div class="left">
              <img v-if="!icon || true" class="icon" src="../../../assets/node_icon.png">
              <img v-else class="icon" :src="icon">
-             <span v-if="active" class="status">active</span>
-             <span v-else class="status inactive">inactive</span>
+             <span v-if="active" class="status">Active</span>
+             <span v-else class="status inactive">Inactive</span>
            </div>
            <div class="right">
              <div class="name">
@@ -105,25 +105,25 @@
               <div class="total-con">
                 Total
                 <div class="total-value">
-                  <div class="value"> {{escrowAmountStatus.total}} ROSE</div>
-                  <div class="share"> {{escrowSharesStatus.total}} shares</div>
+                  <div class="value"> {{escrowAmountStatus.total}} AMBER</div>
+                  <div class="share"> ({{escrowSharesStatus.total}} shares)</div>
                 </div>
               </div>
               <div class="compare">
                 <div class="self-con">
-                  <div class="title"><span class="label">Self</span> <span class="per">{{escrowAmountStatus.self/escrowAmountStatus.total | percentFormat}}</span></div>
+                  <div class="title"><span class="label">Self</span> <span class="per">({{escrowAmountStatus.self/escrowAmountStatus.total | percentFormat}})</span></div>
                   <div class="values">
                     <div class="value">{{escrowAmountStatus.self}}</div>
-                    <div class="share">{{escrowSharesStatus.self}}</div>
+                    <div class="share">({{escrowSharesStatus.self}} shares)</div>
                   </div>
                 </div>
                 <div class="other-con">
                   <div class="self-con">
-                    <div class="title"><span class="label">Other</span> <span class="per">{{escrowAmountStatus.other/escrowAmountStatus.total | percentFormat}}</span></div>
+                    <div class="title"><span class="label">Other</span> <span class="per">({{escrowAmountStatus.other/escrowAmountStatus.total | percentFormat}})</span></div>
                   </div>
                   <div class="values">
                     <div class="value">{{escrowAmountStatus.other}}</div>
-                    <div class="share">{{escrowSharesStatus.other}}</div>
+                    <div class="share">({{escrowSharesStatus.other}} shares)</div>
                   </div>
                 </div>
               </div>
