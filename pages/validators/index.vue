@@ -233,9 +233,11 @@
       width: rem(10);
       margin-top: rem(5);
       cursor: pointer;
+      display: block;
+      opacity: 1;
     }
     .unstar {
-      visibility: hidden;
+      display: none;
       transition: all .3s;
       opacity: 0;
     }
@@ -371,7 +373,7 @@
       border-radius: 1px;
       /deep/ .table-row:hover{
         .unstar {
-          visibility: visible;
+          display: block;
           opacity: 1;
         }
       }
