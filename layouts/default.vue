@@ -50,7 +50,7 @@ body{
   position: relative;
   min-height: 100vh;
   padding-bottom: rem(100);
-  min-width: 1000px;
+  min-width: rem(1280);
 }
 *,
 *:before,
