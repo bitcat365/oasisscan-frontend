@@ -20,11 +20,11 @@
     <tbody>
     <tr
       v-for="(row, rowIndex) in rowData"
-      :key="'row' + rowIndex"
+      :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
       :class="['table-row',
-          rowData[rowIndex+1] && rowData[rowIndex+1].isExtendedRow ? 'show-expand': '',
+      rowData[rowIndex+1] && rowData[rowIndex+1].isExtendedRow ? 'show-expand': '',
       row.isExtendedRow ? 'extended-row' : 'main-row',
-       row.odd === true || (row.isExtendedRow && rowData[rowIndex-1].odd) ? 'odd' :'']">
+      row.odd === true || (row.isExtendedRow && rowData[rowIndex-1].odd) ? 'odd' :'']">
       <td v-if="expand" :class="['table-row-expand-icon-cell']" @click="expandRow(rowIndex)">
         <Icon v-if="!row.isExtendedRow" class="table-row-expand-icon" :type="!row.expand ? 'ios-add' : 'ios-remove'" />
       </td>
@@ -53,6 +53,7 @@
       rootClass: String,
       cellClass: String,
       expandKey: String,
+      primaryKey: String,
       expand: {
         type: Boolean,
         default: false
@@ -64,21 +65,31 @@
     },
     data() {
       const d = {
-        rowData: JSON.parse(JSON.stringify(this.data)),
+        // rowData: JSON.parse(JSON.stringify(this.data)),
         rootClasses: classNames('table', this.rootClass),
         colspan: Object.keys(this.columns).length
       }
-      this.markRow(d.rowData)
+      // this.markRow(d.rowData)
+      // console.log('1111', JSON.stringify(d.rowData))
       return d
     },
     computed: {
-
+      rowData() {
+        let index = 0
+        return this.data.map((item) => {
+          return {
+            ...item,
+            odd: !item.isExtendedRow ? ++index % 2 === 1 : undefined
+          }
+        })
+      }
     },
     watch: {
-      data(newVal, oldVal) {
-        this.rowData = JSON.parse(JSON.stringify(newVal))
-        this.markRow(this.rowData)
-      }
+      // data(newVal, oldVal) {
+      //   this.rowData = JSON.parse(JSON.stringify(newVal))
+      //   this.markRow(this.rowData)
+      //   console.log('2222', JSON.stringify(this.rowData))
+      // }
     },
     methods: {
       sort(key, sortType) {

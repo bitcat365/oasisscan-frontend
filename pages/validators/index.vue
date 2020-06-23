@@ -27,29 +27,35 @@
         <input v-model="name" placeholder="Search Validator" type="text"></input>
       </div>
       <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" @sort="sort">
+        <block-table
+          root-class="block-total-list"
+          cell-class="block-total-list-cell"
+          :columns="columns"
+          :data="showList"
+          primary-key="entityId"
+          @sort="sort">
           <template v-slot:uptime="slotData">
-            <div class="uptime-item green" v-if="slotData.data.replace('%', '') >=80">{{slotData.data}}</div>
-            <div class="uptime-item yellow" v-else-if="slotData.data.replace('%', '') >=50">{{slotData.data}}</div>
+            <div class="uptime-item green" v-if="+slotData.data.replace('%', '') >=80">{{slotData.data}}</div>
+            <div class="uptime-item yellow" v-else-if="+slotData.data.replace('%', '') >=50">{{slotData.data}}</div>
             <div class="uptime-item red" v-else>{{slotData.data}}</div>
           </template>
           <template v-slot:name="slotData">
-           <div class="validator-name">
-             <img class="name-icon" src="../../assets/oasis-official-logo-s.png">
-             <router-link :to="$i18n.path(slotData.data.link)">{{ slotData.data.text }}</router-link>
-           </div>
+            <div class="validator-name">
+              <img class="name-icon" src="../../assets/oasis-official-logo-s.png">
+              <router-link :to="$i18n.path(slotData.data.link)">{{ slotData.data.text }}</router-link>
+            </div>
           </template>
           <template v-slot:escrowChange24="slotData">
-           <div class="escrow-change24" :class="slotData.data > 0 ? 'positive' : (slotData.data < 0 ? 'negative' : '')">
-            {{showChange(slotData.data)}}
-           </div>
+            <div class="escrow-change24" :class="slotData.data > 0 ? 'positive' : (slotData.data < 0 ? 'negative' : '')">
+              {{showChange(slotData.data)}}
+            </div>
           </template>
           <template v-slot:rank="slotData">
-           <div class="rank">
-             {{slotData.data.rank}}
-             <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/start.png">
-             <img @click="star(slotData.data.entityId, true)" v-else class="star unstar" src="../../assets/unstar.png">
-           </div>
+            <div class="rank">
+              {{slotData.data.rank}}
+              <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/start.png">
+              <img @click="star(slotData.data.entityId, true)" v-else class="star unstar" src="../../assets/unstar.png">
+            </div>
           </template>
         </block-table>
       </div>
@@ -114,9 +120,7 @@
           validators.splice(index, 1)
         }
         LS('StaredValidators', validators)
-        Vue.nextTick(() => {
-          this.list = [...this.list]
-        })
+        this.staredValidators = validators
       },
       showChange(value) {
         if (value > 0) {
@@ -129,17 +133,14 @@
     },
     computed: {
       showList() {
-        let validators = LS('StaredValidators')
-        if (!validators) {
-          validators = []
-        }
+        const validators = this.staredValidators
         const staredArray = [...this.list].filter(a => validators.findIndex(v => v === a.entityId) >= 0).sort((a, b) => {
           const aIndex = validators.findIndex(v => v === a.entityId)
           const bIndex = validators.findIndex(v => v === b.entityId)
           return bIndex - aIndex
         })
         const unStaredArray = [...this.list].filter(a => validators.findIndex(v => v === a.entityId) === -1)
-        return [...staredArray, ...unStaredArray].map((item) => {
+        const res = [...staredArray, ...unStaredArray].map((item) => {
           return {
             ...item,
             rank: { rank: item.rank, stared: !!validators.find(v => v === item.entityId), entityId: item.entityId }
@@ -155,15 +156,17 @@
           }
           return filter1 && filter2
         })
+        return res
       }
     },
     created() {
     },
     mounted() {
-
+      this.staredValidators = [...LS('StaredValidators')] || []
     },
     data() {
       return {
+        staredValidators: [],
         list: [],
         name: '',
         type: 'active',
