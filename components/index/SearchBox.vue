@@ -49,7 +49,7 @@
         width: 100%;
         height: rem(50);
         padding:rem(17) rem(134) rem(17) rem(17);
-        font-size: rem(18);
+        font-size: rem(16);
         line-height: 1;
         color: rgba(55, 65, 107, 1);
         background-color: rgba(248,248,248,1);
