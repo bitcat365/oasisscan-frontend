@@ -38,7 +38,7 @@
                        <img class="alert" src="../../../assets/alert.svg">
                        <div class="api" slot="content">
                          <div class="rate-item" v-for="rate in rates">
-                           <div>{{rate.rate * 100 + '%'}}（start at the epoch {{rate.start}}）</div>
+                           <div>{{rate.rate * 100 + '%'}}（start at epoch {{rate.start}}）</div>
                          </div>
                        </div>
                      </Poptip>
@@ -52,7 +52,7 @@
                        <img class="alert" src="../../../assets/alert.svg">
                        <div class="api" slot="content">
                          <div class="rate-item" v-for="bound in bounds">
-                           <div>{{bound.min * 100 + '%' + '~' + bound.max * 100 + '%'}}（start at the epoch {{bound.start}}）</div>
+                           <div>{{bound.min * 100 + '%' + '~' + bound.max * 100 + '%'}}（start at epoch {{bound.start}}）</div>
                          </div>
                        </div>
                      </Poptip>
