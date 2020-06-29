@@ -24,7 +24,7 @@
                <div class="column column1">
                  <div class="oneline">
                    <div class="label">Node ID</div>
-                   <div class="value">{{nodes[0]}}</div>
+                   <div class="value">{{nodes && nodes.length > 0? nodes[0] : ''}}</div>
                  </div>
                  <div class="oneline">
                    <div class="label">Delegators</div>
