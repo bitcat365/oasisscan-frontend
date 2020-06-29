@@ -1,6 +1,6 @@
 import { floatFormat, hashFormat, percent } from '../utils/index'
-export async function fetchBlockInfo($axios) {
-  const { code, data: blockInfo } = await $axios.$get('/dashboard/network').catch(() => ({ code: -1 }))
+export async function fetchBlockInfo($axios, progress = true) {
+  const { code, data: blockInfo } = await $axios.$get('/dashboard/network',{ progress }).catch(() => ({ code: -1 }))
   if (code === 0) {
     return blockInfo
   }
@@ -13,8 +13,8 @@ export async function fetchTxHistory($axios) {
   }
   return []
 }
-export async function fetchHomeBlockList($axios, pageSize = 10, page = 1) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get(`/chain/blocks?size=${pageSize}&page=${page}`, {}).catch(() => ({ code: -1 }))
+export async function fetchHomeBlockList($axios, pageSize = 10, page = 1, progress = true) {
+  let { code, data: { list } = { list: [] } } = await $axios.$get(`/chain/blocks?size=${pageSize}&page=${page}`, { progress }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []
   }
@@ -57,13 +57,14 @@ export async function fetchChainMethods($axios) {
   return {list}
 }
 
-export async function fetchTransactionsList($axios, page = 1, size = 10, method = '') {
+export async function fetchTransactionsList($axios, page = 1, size = 10, method = '', progress = true) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/transactions', {
     params: {
       page,
       size,
       method
-    }
+    },
+    progress
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []
