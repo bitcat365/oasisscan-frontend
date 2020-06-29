@@ -67,7 +67,7 @@
         fromToSchema: [
           {
             label: 'From',
-            key: 'txHash'
+            key: 'from'
           },
           {
             label: 'To',
