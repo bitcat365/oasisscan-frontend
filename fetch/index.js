@@ -57,7 +57,7 @@ export async function fetchChainMethods($axios) {
   return {list}
 }
 
-export async function fetchTransactionsList($axios, page = 1, size = 10, method = '', progress = true) {
+export async function fetchTransactionsList($axios, page = 1, size = 10, method = '', progress = true, sliceLength = 8) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/transactions', {
     params: {
       page,
@@ -73,7 +73,7 @@ export async function fetchTransactionsList($axios, page = 1, size = 10, method 
     return {
       ...item,
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link', sliceLength: 12 },
+      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link', sliceLength },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       type: `${item.method}`
     }

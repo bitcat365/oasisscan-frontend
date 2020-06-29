@@ -41,14 +41,14 @@
       Page
     },
     async asyncData({ $axios }) {
-      const { list, totalSize } = await fetchTransactionsList($axios, 1, 20)
+      const { list, totalSize } = await fetchTransactionsList($axios, 1, 20, '', true, 12)
       console.log('list', list)
       return { list, total: totalSize }
     },
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer, this.method)
+        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer, this.method, true, 12)
         this.page = pageNumber
         this.list = list
         this.total = totalSize
