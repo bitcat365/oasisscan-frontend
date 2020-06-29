@@ -38,7 +38,7 @@ export async function fetchBlockList($axios, page = 1, size = 20) {
   list = list.map((item, index) => {
     return {
       ...item,
-      hash: { value: item.hash, type: 'hash' },
+      hash: { value: item.hash, type: 'hash', sliceLength: 12 },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       // proposer: { text: item.proposer, link: `validators/detail/${item.proposer}`, type: 'link' },
       height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
@@ -73,7 +73,7 @@ export async function fetchTransactionsList($axios, page = 1, size = 10, method 
     return {
       ...item,
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
+      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link', sliceLength: 12 },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       type: `${item.method}`
     }

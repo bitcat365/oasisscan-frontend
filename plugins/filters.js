@@ -40,8 +40,8 @@ Vue.filter('timeFormat', (val) => {
   return moment(val).fromNow()
 })
 
-Vue.filter('hashFormat', (val) => {
-  return hashFormat(val)
+Vue.filter('hashFormat', (val, length = 8) => {
+  return hashFormat(val, length)
 })
 
 Vue.filter('pretty', (value) => {

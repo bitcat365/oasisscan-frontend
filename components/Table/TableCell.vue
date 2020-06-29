@@ -2,10 +2,10 @@
   <td v-if="!$scopedSlots.default" class="table-column text-truncate" :class="rootclass">
     <span v-if="isRaw" v-html="data.value"></span>
     <span v-else-if="isLocale">{{$t(data.value)}}</span>
-    <span v-else-if="isHash">{{data.value | hashFormat }}</span>
+    <span v-else-if="isHash">{{data.value | hashFormat(data.sliceLength ? data.sliceLength : undefined) }}</span>
     <span v-else-if="isPercent">{{data.value | percentFormat }}</span>
     <a v-else-if="isHashLink" :href="data.link">
-      {{data.text | hashFormat }}
+      {{data.text | hashFormat(data.sliceLength ? data.sliceLength : undefined) }}
     </a>
     <span v-else-if="isTime">{{data.value | timeFormat }}</span>
     <a v-else-if="isAnchor" :href="data.link">{{ data.text }}</a>

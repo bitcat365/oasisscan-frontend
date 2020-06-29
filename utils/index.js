@@ -11,11 +11,11 @@ export function convertTime(list) {
   })
   return list
 }
-export function hashFormat(val) {
+export function hashFormat(val, length = 8) {
   if (!val) {
     return ''
   }
-  return val.substr(0, 8) + '...' + val.substr(-8)
+  return val.substr(0, length) + '...' + val.substr(-length)
 }
 export function intFormat(val) {
   if (!val) {
