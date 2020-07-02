@@ -40,8 +40,8 @@ export async function fetchBlockList($axios, page = 1, size = 20) {
       ...item,
       hash: { value: item.hash, type: 'hash', sliceLength: 12 },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
-      // proposer: { text: item.proposer, link: `validators/detail/${item.proposer}`, type: 'link' },
-      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
+      proposer: { text: item.proposer, link: `validators/detail/${item.entityAddress}`, type: 'hash-link' },
+      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' }
     }
   });
   return { list, totalSize }
@@ -102,8 +102,8 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
     }
   })
   res.forEach((item, index) => {
-    const name = item.name ? item.name : 'Validator'
-    item.name = { text: name, link: `validators/detail/${encodeURIComponent(item.entityAddress)}`, type: 'link' }
+    const name = item.name ? item.name : item.entityAddress
+    item.name = { text: name, icon: item.icon, link: `validators/detail/${encodeURIComponent(item.entityAddress)}`, type: item.name ? 'link' : 'hash-link' }
   })
   return { list: res, active, inactive, delegators }
 }

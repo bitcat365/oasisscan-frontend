@@ -10,14 +10,15 @@
         <div class="info-con">
          <div class="base-inco">
            <div class="left">
-             <img v-if="!icon || true" class="icon" src="../../../assets/node_icon.png">
+             <img v-if="!icon" class="icon" src="../../../assets/node_icon.png">
              <img v-else class="icon" :src="icon">
              <span v-if="active" class="status">Active</span>
              <span v-else class="status inactive">Inactive</span>
            </div>
            <div class="right">
              <div class="name">
-               {{name}}
+               <span v-if="name"> {{name}}</span>
+               <span v-else> {{entityAddress | hashFormat(12)}}</span>
                <div class="rank">{{rank}}</div>
              </div>
              <div class="detail">
