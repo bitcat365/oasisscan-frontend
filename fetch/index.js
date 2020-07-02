@@ -200,8 +200,8 @@ export async function getEventsByProposer($axios, address, size = 5, page = 1) {
     list: list.map((item) => {
       return {
         ...item,
-        height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
-        txHash: { text: item.txHash, link: `transactions/${item.txHash}`, type: 'hash-link' },
+        height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
+        txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         amountAndShares: `${item.amount}/${item.shares}`
       }
@@ -254,7 +254,7 @@ export async function getBlockByProposer($axios, address, size = 5, page = 1) {
     list: list.map((item) => {
       return {
         ...item,
-        height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
+        height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
         hash: { value: item.hash, type: 'hash' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         type: `${item.method}`
