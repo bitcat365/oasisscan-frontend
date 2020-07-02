@@ -103,7 +103,7 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
   })
   res.forEach((item, index) => {
     const name = item.name ? item.name : 'Validator'
-    item.name = { text: name, link: `validators/detail/${encodeURIComponent(item.entityId)}`, type: 'link' }
+    item.name = { text: name, link: `validators/detail/${encodeURIComponent(item.entityAddress)}`, type: 'link' }
   })
   return { list: res, active, inactive, delegators }
 }
@@ -187,10 +187,10 @@ export async function fetchTransactionDetail($axios, txHash) {
   }
 }
 
-export async function getEventsByProposer($axios, entityId, size = 5, page = 1) {
+export async function getEventsByProposer($axios, address, size = 5, page = 1) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/powerevent`, {
     params: {
-      address: entityId,
+      address: address,
       page,
       size
     }
@@ -209,20 +209,20 @@ export async function getEventsByProposer($axios, entityId, size = 5, page = 1) 
   }
 }
 
-export async function validatorStats($axios, entityId) {
+export async function validatorStats($axios, address) {
   let { code, data: { signs, proposals } = { signs: [], proposals: [] } } = await $axios.$get(`/validator/stats`, {
     params: {
-      entityId
+      address
     }
   })
   return {
     signs, proposals
   }
 }
-export async function getDelegatorsByProposer($axios, entityId, size = 5, page = 1) {
+export async function getDelegatorsByProposer($axios, address, size = 5, page = 1) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/validator/delegators`, {
     params: {
-      validator: entityId,
+      address,
       page,
       size
     }
@@ -231,7 +231,7 @@ export async function getDelegatorsByProposer($axios, entityId, size = 5, page =
     list: list.map((item) => {
       return {
         ...item,
-        entityId: { value: item.entityId, type: 'hash' },
+        address: { value: item.address, type: 'hash' },
         percent: { value: item.percent, type: 'percent' },
         amountAndShares: `${item.amount}/${item.shares}`
       }
@@ -240,10 +240,10 @@ export async function getDelegatorsByProposer($axios, entityId, size = 5, page =
   }
 }
 
-export async function getBlockByProposer($axios, entityId, size = 5, page = 1) {
+export async function getBlockByProposer($axios, address, size = 5, page = 1) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/getBlockByProposer`, {
     params: {
-      proposer: entityId,
+      address,
       page,
       size
     }
@@ -263,9 +263,10 @@ export async function getBlockByProposer($axios, entityId, size = 5, page = 1) {
   }
 }
 
-export async function fetchValidatorDetail($axios, entityId) {
-  let { code, data, ...others } = await $axios.$get(`/validator/info?entityId=${encodeURIComponent(entityId)}`, {
+export async function fetchValidatorDetail($axios, address) {
+  let { code, data, ...others } = await $axios.$get(`/validator/info`, {
     params: {
+      address
     }
   })
   if (code !== 0) {

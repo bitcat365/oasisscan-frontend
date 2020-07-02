@@ -23,12 +23,8 @@
              <div class="detail">
                <div class="column column1">
                  <div class="oneline">
-                   <div class="label">Node ID</div>
-                   <div class="value">{{nodes && nodes.length > 0? nodes[0] : ''}}</div>
-                 </div>
-                 <div class="oneline">
-                   <div class="label">Delegators</div>
-                   <div class="value">{{delegators}}</div>
+                   <div class="label">Node Address</div>
+                   <div class="value">{{nodeAddress? nodeAddress : ''}}</div>
                  </div>
                  <div class="oneline">
                    <div class="label">Com. rates</div>
@@ -61,17 +57,21 @@
                </div>
                <div class="column column2">
                  <div class="oneline">
-                   <div class="label">Entity ID</div>
-                   <div class="value">{{entityId}}</div>
+                   <div class="label">Entity Address</div>
+                   <div class="value">{{entityAddress}}</div>
                  </div>
                  <div class="oneline">
-                   <div class="label">Signatures</div>
-                   <div class="value">{{signs}}</div>
+                   <div class="label">Delegators</div>
+                   <div class="value">{{delegators}}</div>
                  </div>
-                 <div class="oneline">
-                   <div class="label">Proposals</div>
-                   <div class="value">{{proposals}}</div>
-                 </div>
+                 <!--<div class="oneline">-->
+                   <!--<div class="label">Signatures</div>-->
+                   <!--<div class="value">{{signs}}</div>-->
+                 <!--</div>-->
+                 <!--<div class="oneline">-->
+                   <!--<div class="label">Proposals</div>-->
+                   <!--<div class="value">{{proposals}}</div>-->
+                 <!--</div>-->
                  <div class="oneline">
                    <div class="label">Nonce</div>
                    <div class="value">{{nonce}}</div>
@@ -87,7 +87,7 @@
           </div>
           <div class="desc">
             <div class="label">Description</div>
-            <div class="value"></div>
+            <div class="value">{{description}}</div>
           </div>
           <a :href="editURL" target="_blank" class="edit">
             UPDATE VALIDATOR INFO?
@@ -132,7 +132,7 @@
         </panel>
         <panel class="voters-panel">
           <template v-slot:header>
-            <span>Signatures</span>
+            <span>Signatures</span><span class="title-value">({{signs}})</span>
           </template>
           <div class="sign-states-con">
             <kuai :list="signsStates"></kuai>
@@ -234,7 +234,7 @@
       Kuai
     },
     async asyncData({ $axios, params }) {
-      const entityId = decodeURIComponent(params.id)
+      const entityAddress = decodeURIComponent(params.id)
       const {
         name = 'Validator',
         escrow,
@@ -251,9 +251,9 @@
         bounds,
         nonce,
         ...others
-      } = await fetchValidatorDetail($axios, entityId)
+      } = await fetchValidatorDetail($axios, entityAddress)
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
-      const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityId)
+      const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityAddress)
       const res = {
         ...others,
         blockList,
@@ -271,7 +271,7 @@
         icon,
         active,
         rank,
-        entityId,
+        entityAddress,
         delegators,
         rates,
         bounds,
@@ -313,8 +313,8 @@
         list: [],
         columns1: [
           {
-            title: 'Entity',
-            key: 'entityId'
+            title: 'Address',
+            key: 'address'
           },
           {
             title: 'Amount/Shares',
@@ -353,20 +353,20 @@
     },
     methods: {
       async getStates() {
-        const { signs } = await validatorStats(this.$axios, this.entityId)
+        const { signs } = await validatorStats(this.$axios, this.entityAddress)
         console.log('signs', signs)
         this.signsStates = signs
       },
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await getBlockByProposer($axios, this.entityId, this.blockListSizer, pageNumber)
+        const { list, totalSize } = await getBlockByProposer($axios, this.entityAddress, this.blockListSizer, pageNumber)
         this.blockList = list
         this.totalBlockListSize = totalSize
         this.blockListPage = pageNumber
       },
       async gotoEvents(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await getEventsByProposer($axios, this.entityId, this.eventListSizer, pageNumber)
+        const { list, totalSize } = await getEventsByProposer($axios, this.entityAddress, this.eventListSizer, pageNumber)
         this.evensList = list
         console.log('evensList', list)
         this.totalEventListSize = totalSize
@@ -374,7 +374,7 @@
       },
       async gotoDelegators(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await getDelegatorsByProposer($axios, this.entityId, this.eventListSizer, pageNumber)
+        const { list, totalSize } = await getDelegatorsByProposer($axios, this.entityAddress, this.eventListSizer, pageNumber)
         this.delegatorsList = list
         console.log('delegatorsList', list)
         this.totalDelegatorSize = totalSize
@@ -407,6 +407,10 @@
   @import "../../../assets/css/common";
   .sign-states-con {
     margin-top: rem(35);
+  }
+  .title-value{
+    font-size: rem(12);
+    color: rgba(0,0,0,.5);
   }
   .status-chart-con {
     display: flex;
@@ -659,6 +663,11 @@
     .block-total-list {
       width: 100%;
       margin-left: 0;
+    }
+    /deep/ {
+      .panel-title {
+        align-items: flex-end;
+      }
     }
   }
   .page-navigation {
