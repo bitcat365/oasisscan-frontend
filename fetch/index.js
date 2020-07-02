@@ -48,6 +48,7 @@ export async function fetchBlockList($axios, page = 1, size = 20) {
 }
 export async function fetchChainMethods($axios) {
   let { code, data: { list } = { list: [] } } = await $axios.$get('/chain/methods', {
+    progress: false,
     params: {
     }
   }).catch(() => ({ code: -1 }))
