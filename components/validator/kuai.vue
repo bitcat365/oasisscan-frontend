@@ -48,7 +48,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: rem(8);
+    #margin-top: rem(8);
     &:first-child {
       margin-top: 0;
     }
