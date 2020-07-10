@@ -203,7 +203,7 @@ export async function getEventsByProposer($axios, address, size = 5, page = 1) {
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
         txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
-        amountAndShares: `${item.amount}/${item.shares}`
+        amountAndShares: { value: `${item.amount}/${item.shares}`, add: item.add }
       }
     }),
     totalSize
@@ -264,6 +264,28 @@ export async function getBlockByProposer($axios, address, size = 5, page = 1) {
   }
 }
 
+/**
+ * 验证人trend统计
+ * @param $axios
+ * @param address
+ * @returns {Promise<void>}
+ */
+export async function fetchEscrowTrendByAddress($axios, address) {
+  let { code, data: { list } = { list: [] } } = await $axios.$get(`/validator/escrowstats`, {
+    params: {
+      address
+    }
+  })
+  if (code !== 0) {
+    return {
+      list: []
+    }
+  } else {
+    return {
+      list
+    }
+  }
+}
 export async function fetchValidatorDetail($axios, address) {
   let { code, data, ...others } = await $axios.$get(`/validator/info`, {
     params: {

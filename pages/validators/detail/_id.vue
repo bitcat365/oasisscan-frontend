@@ -133,10 +133,28 @@
         </panel>
         <panel class="voters-panel">
           <template v-slot:header>
+            <span>Escrow Trend</span>
+          </template>
+          <div class="escrow-trend-con">
+            <trend-chart :trends="escrowTrendData"></trend-chart>
+          </div>
+        </panel>
+      </div>
+      <div class="list-panels">
+        <panel class="voters-panel">
+          <template v-slot:header>
             <span>Signatures</span><span class="title-value">({{signs}})</span>
           </template>
           <div class="sign-states-con">
             <kuai :list="signsStates"></kuai>
+          </div>
+        </panel>
+        <panel class="voters-panel">
+          <template v-slot:header>
+            <span>Proposals</span><span class="title-value">({{proposals}})</span>
+          </template>
+          <div class="proposals-states-con">
+            <kuai :list="proposalsStates"></kuai>
           </div>
         </panel>
       </div>
@@ -185,8 +203,8 @@
             cell-class="block-total-list-cell"
           >
             <template v-slot:amountAndShares="slotData">
-              <div class="amount-share" :class="positiveStyle(slotData.data)">
-                {{showAmountShare(slotData.data)}}
+              <div class="amount-share" :class="positiveStyle(slotData.data.add)">
+                {{showAmountShare(slotData.data.value, slotData.data.add)}}
               </div>
             </template>
           </block-table>
@@ -221,8 +239,9 @@
   import Page from '../../../components/Page'
   import NavBar from '../../../components/NavigationBar'
   import PieChart from '../../../components/validator/piechart'
+  import TrendChart from '../../../components/validator/trendchart'
   import Kuai from '../../../components/validator/kuai'
-  import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer, validatorStats } from '../../../fetch'
+  import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer, validatorStats, fetchEscrowTrendByAddress } from '../../../fetch'
   import Config from '../../../config'
   export default {
     name: 'validatorDetail',
@@ -232,10 +251,14 @@
       Panel,
       Page,
       PieChart,
+      TrendChart,
       Kuai
     },
     async asyncData({ $axios, params }) {
-      const entityAddress = decodeURIComponent(params.id)
+      const entityAddress = decodeURIComponent(params.id);
+      const data = await Promise.all([
+        fetchValidatorDetail($axios, entityAddress),
+        fetchEscrowTrendByAddress($axios, entityAddress)])
       const {
         name = 'Validator',
         escrow,
@@ -252,13 +275,16 @@
         bounds,
         nonce,
         ...others
-      } = await fetchValidatorDetail($axios, entityAddress)
+      } = data[0]
+      const { list: escrowTrendData } = data[1]
+      console.log('escrowTrendData', escrowTrendData)
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
       const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityAddress)
       const res = {
         ...others,
         blockList,
         totalBlockListSize,
+        escrowTrendData: [...escrowTrendData].reverse(),
         signsList: [],
         proposalsList: [],
         blockInfo: {},
@@ -293,6 +319,7 @@
         delegatorsList: null,
         evensList: null,
         signsStates: [],
+        proposalsStates: [],
         blockListColumns: [
           {
             title: 'Height',
@@ -354,9 +381,10 @@
     },
     methods: {
       async getStates() {
-        const { signs } = await validatorStats(this.$axios, this.entityAddress)
+        const { signs, proposals } = await validatorStats(this.$axios, this.entityAddress)
         console.log('signs', signs)
         this.signsStates = signs
+        this.proposalsStates = proposals
       },
       async goto(pageNumber) {
         const $axios = this.$axios
@@ -381,24 +409,19 @@
         this.totalDelegatorSize = totalSize
         this.delegatorListPage = pageNumber
       },
-      showAmountShare(amountShare) {
-        const f = amountShare.split('/')[0]
-        console.log('f', f)
-        if (f > 0) {
+      showAmountShare(amountShare, add) {
+        if (add) {
           return '+' + amountShare
-        } else if (f < 0) {
+        } else {
           return '-' + amountShare
         }
-        return amountShare
       },
-      positiveStyle(amountShare) {
-        const f = amountShare.split('/')[0]
-        if (f > 0) {
+      positiveStyle(add) {
+        if (add) {
           return 'positive'
-        } else if (f < 0) {
+        } else {
           return 'negative'
         }
-        return ''
       }
     }
   }
@@ -406,8 +429,18 @@
 
 <style scoped lang="scss">
   @import "../../../assets/css/common";
-  .sign-states-con {
-    margin-top: rem(35);
+  .sign-states-con,.proposals-states-con {
+    margin-top: rem(20);
+  }
+  .proposals-states-con {
+    /deep/ {
+      .kuai.yes {
+        background: url("../../../assets/proposal.png");
+        background-size:  100% 100%;
+        width: rem(18);
+        height: rem(18);
+      }
+    }
   }
   .title-value{
     font-size: rem(12);
