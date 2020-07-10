@@ -20,7 +20,7 @@
     line-height: 1;
     font-family: 'Gotham Pro Black';
     > .logo-oasis{
-      height: rem(47);
+      height: rem(42);
     }
   }
 </style>
