@@ -1,7 +1,7 @@
 <template>
   <div class="kuai-con">
     <div :key="row" class="kuai-row" v-for="row in rows">
-      <Tooltip v-for="column in columns" :key="`${row}-${column}`" :content="`block ${item(row, column).height} `">
+      <Tooltip v-for="column in columns" :key="`${row}-${column}`" :content="`Block ${item(row, column).height} `">
         <div class="kuai" :class="item(row, column).block ? 'yes': 'no'"></div>
       </Tooltip>
     </div>
