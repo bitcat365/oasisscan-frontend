@@ -1,22 +1,19 @@
 <template>
   <div class="blocks-root">
-    <nav-bar :active="5"/>
+    <nav-bar :active="3"/>
     <div class="page-container container">
       <div class="title">
-        <h1>TRANSACTIONS<span class="total-count"> ({{total}})</span></h1>
+        <h1>ACCOUNTS<span class="total-count"> ({{total}})</span></h1>
       </div>
-      <Dropdown trigger="click" placement="bottom-start" @on-click="change">
-        <a class="show-cur method-dropdown" href="javascript:void(0)">
-          {{method === '' ? 'All Method' : method}}
-          <Icon type="ios-arrow-down"></Icon>
-        </a>
-        <DropdownMenu slot="list">
-          <DropdownItem name="all">All Method</DropdownItem>
-          <DropdownItem v-for="method in methods" :key="method" :name="method">{{method}}</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
       <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList">
+          <template v-slot:rank="slotData">
+            <div class="rank">
+              {{slotData.data.rank}}
+              <img @click="star(slotData.data.id, false)" v-if="slotData.data.stared" class="star" src="../../assets/start.png">
+              <img @click="star(slotData.data.id, true)" v-else class="star unstar" src="../../assets/unstar.png">
+            </div>
+          </template>
         </block-table>
         <div class="page-navigation">
           <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
@@ -28,7 +25,8 @@
 </template>
 
 <script>
-  import { fetchTransactionsList, fetchChainMethods } from '../../fetch/index'
+  import LS from 'local-storage'
+  import { fetchAccountsList } from '../../fetch/index'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
   import Page from '../../components/Page'
@@ -41,70 +39,92 @@
       Page
     },
     async asyncData({ $axios }) {
-      const { list, totalSize } = await fetchTransactionsList($axios, 1, 20, '', true, 12)
+      const { list, totalSize } = await fetchAccountsList($axios, 1, 20)
       console.log('list', list)
       return { list, total: totalSize }
     },
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer, this.method, true, 12)
+        const { list, totalSize } = await fetchAccountsList($axios, pageNumber, this.sizer)
         this.page = pageNumber
         this.list = list
         this.total = totalSize
         document.documentElement.scrollTop = document.body.scrollTop = 0
       },
-      change(name) {
-        console.log('name', name)
-        if (name === 'all') {
-          this.method = ''
-        } else {
-          this.method = name
+      star(id, star) {
+        let accounts = LS('StaredAccounts')
+        if (!accounts) {
+          accounts = []
         }
-        this.goto(1)
-      }
+        const index = accounts.findIndex(v => v === id)
+        if (star) {
+          if (index >= 0) {
+            accounts.splice(index, 1)
+          }
+          if (accounts.length >= 20) {
+            accounts.shift()
+          }
+          accounts.push(id)
+        } else {
+          accounts.splice(index, 1)
+        }
+        LS('staredAccounts', accounts)
+        this.staredAccounts = accounts
+      },
     },
     computed: {
+      showList() {
+        const accounts = this.staredAccounts
+        const staredArray = [...this.list].filter(a => accounts.findIndex(v => v === a.id) >= 0).sort((a, b) => {
+          const aIndex = accounts.findIndex(v => v === a.id)
+          const bIndex = accounts.findIndex(v => v === b.id)
+          return bIndex - aIndex
+        })
+        const unStaredArray = [...this.list].filter(a => accounts.findIndex(v => v === a.id) === -1)
+        return [...staredArray, ...unStaredArray].map((item) => {
+          return {
+            ...item,
+            rank: { rank: item.rank, stared: !!accounts.find(v => v === item.id), id: item.id }
+          }
+        })
+      }
     },
     created() {
     },
     async mounted() {
       const $axios = this.$axios
-      const { list } = await fetchChainMethods($axios)
-      this.methods = list
+      const localStared = LS('StaredAccounts') || []
+      this.staredAccounts = [...localStared]
+
     },
     data() {
       return {
         sizer: 20,
         page: 1,
         list: [],
-        name: '',
-        methods: [],
-        method: '',
+        staredAccounts: [],
         columns: [
           {
-            title: 'Tx Hash',
-            key: 'txHash'
+            title: 'Rank',
+            key: 'rank',
+            slot: true
           },
           {
-            title: 'Height',
-            key: 'height'
+            title: 'Accounts',
+            key: 'address'
           },
           {
-            title: 'Fee',
-            key: 'fee'
+            title: 'Available',
+            key: 'available'
           },
           {
-            title: 'Method',
-            key: 'method'
+            title: 'Escrow',
+            key: 'escrow'
           },
-          // {
-          //   title: 'Status',
-          //   key: 'timestamp'
-          // },
           {
-            title: 'Time',
-            key: 'timestamp'
+            title: 'Amount',
+            key: 'total'
           }
         ]
       }
@@ -114,15 +134,21 @@
 
 <style scoped lang="scss">
   @import "../../assets/css/common";
-  .method-dropdown {
-    margin-top: rem(20);
-    padding: rem(2) rem(10);
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    display: inline-block;
-    border-radius: rem(4);
-    background-color: #ffffff;
-    .show-cur {
-      color: #5F5F5F;
+  .rank {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .star {
+      width: rem(10);
+      margin-top: rem(5);
+      cursor: pointer;
+      display: block;
+      opacity: 1;
+    }
+    .unstar {
+      display: none;
+      transition: all .3s;
+      opacity: 0;
     }
   }
   .page-navigation {
@@ -165,13 +191,27 @@
       width: 100%;
       margin-left: 0;
       border-radius: 1px;
+      /deep/ .table-row:hover{
+        .unstar {
+          display: block;
+          opacity: 1;
+        }
+      }
       /deep/ td, /deep/ th {
         vertical-align: middle;
         padding: 18px 10px;
       }
+      /deep/ td {
+        padding: 0 10px;
+        height: rem(57);
+      }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
-          width: rem(240)
+          width: 60px;
+          text-align: center;
+        }
+        &:nth-child(2) {
+          width: 400px;
         }
         &:last-child {
           padding-left: 0;

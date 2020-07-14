@@ -55,7 +55,27 @@ export async function fetchChainMethods($axios) {
   if (code !== 0) {
     list = []
   }
-  return {list}
+  return { list }
+}
+
+export async function fetchAccountsList($axios, page = 1, size = 10) {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/account/list', {
+    params: {
+      page,
+      size
+    }
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map((item) => {
+    return {
+      ...item,
+      address: { text: item.address, link: `/accounts/${item.address}`, type: 'link' },
+      id: item.address
+    }
+  })
+  return { list: res, totalSize }
 }
 
 export async function fetchTransactionsList($axios, page = 1, size = 10, method = '', progress = true, sliceLength = 8) {

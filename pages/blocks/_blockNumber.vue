@@ -1,6 +1,6 @@
 <template>
   <div class="root">
-    <nav-bar :active="3" />
+    <nav-bar :active="4" />
     <div class="page-container container">
       <div class="title">
         <h1>BLOCK DETAILS</h1>

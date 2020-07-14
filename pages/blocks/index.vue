@@ -1,6 +1,6 @@
 <template>
   <div class="blocks-root">
-    <nav-bar :active="3"/>
+    <nav-bar :active="4"/>
     <div class="page-container container">
       <div class="title">
         <h1>BLOCKS<span class="total-count"> ({{total}})</span></h1>
