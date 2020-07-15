@@ -75,7 +75,7 @@ export async function fetchAccountsList($axios, page = 1, size = 10) {
   const res = list.map((item) => {
     return {
       ...item,
-      address: { text: item.address, link: `/accounts/${item.address}`, type: 'link' },
+      address: { text: item.address, link: `/accounts/detail/${item.address}`, type: 'link' },
       id: item.address
     }
   })
