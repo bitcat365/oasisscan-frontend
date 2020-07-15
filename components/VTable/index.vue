@@ -2,7 +2,10 @@
   <ul class="info-list">
     <li v-for="item in uiHeaders" :key="item.key">
       <span class="label">{{$t(item.label)}}</span>
-      <span v-if="data[item.key] && typeof data[item.key] === 'object' && data[item.key].type ==='time'" class="value">{{data[item.key].value|timeFormat}}</span>
+      <span v-if="item.slot" class="value">
+        <slot :name="item.key" :data="data[item.key]"></slot>
+      </span>
+      <span v-else-if="data[item.key] && typeof data[item.key] === 'object' && data[item.key].type ==='time'" class="value">{{data[item.key].value|timeFormat}}</span>
       <span v-else-if="data[item.key] && typeof data[item.key] === 'object' && data[item.key].type ==='link'" class="value"><router-link :to="data[item.key].link">{{data[item.key].text}}</router-link></span>
       <span v-else-if="data[item.key] && typeof data[item.key] === 'object' && data[item.key].type ==='raw-link'" class="value"><a :href="data[item.key].link" target="_blank">{{data[item.key].text}}</a></span>
       <span v-else-if="data[item.key] && typeof data[item.key] === 'object' && data[item.key].type ==='int'" class="value">{{data[item.key].value|intFormat}}</span>
@@ -51,6 +54,7 @@
         padding-left: 20px;
         width: 180px;
         color: #3E3E3E;
+        font-family: PingFangSC-Medium;
       }
       > .value {
         color: #5F5F5F;

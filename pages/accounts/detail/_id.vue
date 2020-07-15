@@ -1,40 +1,40 @@
 <template>
   <div class="root">
-    <nav-bar :active="4" />
+    <nav-bar :active="3" />
     <div class="page-container container">
       <div class="title">
-        <h1>TRANSACTION DETAILS</h1>
+        <h1>ACCOUNT DETIALS</h1>
       </div>
       <panel>
         <template v-slot:header>
           <span>Overview</span>
         </template>
-        <v-table class="v-table" :headers="listSchema" :data="data"></v-table>
+        <v-table class="v-table" :headers="listSchema" :data="data">
+          <template v-slot:address="slotData">
+            <div class="address-item">
+              <span>{{slotData.data}}</span> <span class="copy-con" v-clipboard="slotData.data"> <img class="copy-icon" src="../../../assets/copy.png"></span>
+            </div>
+          </template>
+        </v-table>
       </panel>
       <panel class="trx-panel">
-        <template v-slot:header>
-          <span>{{data.method}}</span>
-        </template>
-        <v-table  v-if="data.method === 'staking.Transfer'" class="v-table" :headers="fromToSchema" :data="data"></v-table>
-        <div class="raw-data" v-else>
-          <pre> {{data.raw | pretty}}</pre>
-        </div>
+
       </panel>
     </div>
   </div>
 </template>
 
 <script>
-  import Panel from '../../components/Panel'
-  import VTable from '../../components/VTable/index'
-  import NavBar from '../../components/NavigationBar'
-  import { fetchTransactionDetail } from '~/fetch/index'
+  import Panel from '../../../components/Panel'
+  import VTable from '../../../components/VTable/index'
+  import NavBar from '../../../components/NavigationBar'
+  import { fetchAccountDetail } from '../../../fetch/index'
 
   export default {
-    name: 'transactionDetail',
+    name: 'accountDetail',
     components: { NavBar, Panel, VTable},
     async asyncData({ $axios, params }) {
-      const data = await fetchTransactionDetail($axios, params.id)
+      const data = await fetchAccountDetail($axios, params.id)
       return {
         data
       }
@@ -43,20 +43,25 @@
       return {
         listSchema: [
           {
-            label: 'TxHash',
-            key: 'txHash'
+            label: 'address',
+            key: 'address',
+            slot: true
           },
           {
-            label: 'Time',
-            key: 'timestamp'
+            label: 'Total Balance',
+            key: 'total'
           },
           {
-            label: 'Height',
-            key: 'height'
+            label: 'Available',
+            key: 'available'
           },
           {
-            label: 'Fee',
-            key: 'fee'
+            label: 'Escrow',
+            key: 'escrow'
+          },
+          {
+            label: 'Debonding',
+            key: 'debonding'
           },
           {
             label: 'Nonce',
@@ -88,7 +93,21 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
+  @import "../../../assets/css/common";
+  .address-item {
+    display: flex;
+    align-items: center;
+  }
+  .copy-con {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 rem(6);
+    .copy-icon {
+      width: rem(16);
+      height: rem(16);
+    }
+  }
   .root {
     background-color: #f7f7f7;
     padding-bottom: rem(50);

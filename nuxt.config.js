@@ -40,6 +40,7 @@ module.exports = {
     '@/plugins/iview',
     '~/plugins/i18n.js',
     '~/plugins/highchart.js',
+    '~/plugins/clipboard.js',
     '~/plugins/filters.js'
   ],
 
