@@ -6,14 +6,7 @@
         <h1>ACCOUNTS<span class="total-count"> ({{total}})</span></h1>
       </div>
       <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList">
-          <template v-slot:rank="slotData">
-            <div class="rank">
-              {{slotData.data.rank}}
-              <img @click="star(slotData.data.id, false)" v-if="slotData.data.stared" class="star" src="../../assets/start.png">
-              <img @click="star(slotData.data.id, true)" v-else class="star unstar" src="../../assets/unstar.png">
-            </div>
-          </template>
+        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         </block-table>
         <div class="page-navigation">
           <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
@@ -74,41 +67,21 @@
       },
     },
     computed: {
-      showList() {
-        const accounts = this.staredAccounts
-        const staredArray = [...this.list].filter(a => accounts.findIndex(v => v === a.id) >= 0).sort((a, b) => {
-          const aIndex = accounts.findIndex(v => v === a.id)
-          const bIndex = accounts.findIndex(v => v === b.id)
-          return bIndex - aIndex
-        })
-        const unStaredArray = [...this.list].filter(a => accounts.findIndex(v => v === a.id) === -1)
-        return [...staredArray, ...unStaredArray].map((item) => {
-          return {
-            ...item,
-            rank: { rank: item.rank, stared: !!accounts.find(v => v === item.id), id: item.id }
-          }
-        })
-      }
     },
     created() {
     },
-    async mounted() {
+    mounted() {
       const $axios = this.$axios
-      const localStared = LS('StaredAccounts') || []
-      this.staredAccounts = [...localStared]
-
     },
     data() {
       return {
         sizer: 20,
         page: 1,
         list: [],
-        staredAccounts: [],
         columns: [
           {
             title: 'Rank',
             key: 'rank',
-            slot: true
           },
           {
             title: 'Accounts',
