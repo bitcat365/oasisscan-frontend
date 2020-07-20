@@ -58,9 +58,49 @@ export async function fetchChainMethods($axios) {
   return { list }
 }
 export async function fetchAccountDetail($axios, address) {
-  let { code, data = { data: {} } } = await $axios.$get(`/chain/account/info/${address}`, {
+  let { code, data = { } } = await $axios.$get(`/chain/account/info/${address}`, {
   }).catch(() => ({ code: -1 }))
   return data
+}
+export async function fetchAccountDelegations($axios, address, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/account/delegations`, {
+    params: {
+      address,
+      page,
+      size
+    }
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map((item) => {
+    const name = item.validatorName ? item.validatorName : item.validatorAddress
+    return {
+      ...item,
+      validatorName: { text: name, link: `validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
+    }
+  })
+  return { list: res, totalSize }
+}
+export async function fetchAccountDebonding($axios, address, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/account/debonding`, {
+    params: {
+      address,
+      page,
+      size
+    }
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map((item) => {
+    const name = item.validatorName ? item.validatorName : item.validatorAddress
+    return {
+      ...item,
+      validatorName: { text: name, link: `validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
+    }
+  })
+  return { list: res, totalSize }
 }
 export async function fetchAccountsList($axios, page = 1, size = 10) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/account/list', {

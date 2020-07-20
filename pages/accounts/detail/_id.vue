@@ -9,38 +9,144 @@
         <template v-slot:header>
           <span>Overview</span>
         </template>
-        <v-table class="v-table" :headers="listSchema" :data="data">
-          <template v-slot:address="slotData">
-            <div class="address-item">
-              <span>{{slotData.data}}</span> <span class="copy-con" v-clipboard="slotData.data"> <img class="copy-icon" src="../../../assets/copy.png"></span>
-            </div>
+        <div class="overview-content">
+          <v-table class="v-table" :headers="listSchema" :data="data">
+            <template v-slot:address="slotData">
+              <div class="address-item">
+                <span>{{slotData.data}}</span> <span class="copy-con" v-clipboard="slotData.data"> <img class="copy-icon" src="../../../assets/copy.png"></span>
+              </div>
+            </template>
+          </v-table>
+          <pie-chart :data="data"></pie-chart>
+        </div>
+      </panel>
+      <div class="list-panels">
+        <panel class="voters-panel">
+          <template v-slot:header>
+            <span>Escrow Active</span>
           </template>
-        </v-table>
-      </panel>
-      <panel class="trx-panel">
-
-      </panel>
+          <p v-if="delegationsList && delegationsList.length === 0" class="no-result">
+            <img class="empty-icon_s" src="../../../assets/empty.png">
+            No Delegators
+          </p>
+          <block-table
+            v-if="delegationsList && delegationsList.length > 0"
+            :data="delegationsList"
+            :columns="columns1"
+            :expand="false"
+            class="block-total-list  delegator-table"
+            cell-class="block-total-list-cell"
+          />
+          <div class="page-navigation">
+            <page
+              v-if="delegationsList && delegationsList.length > 0"
+              type="simple"
+              :sizer="delegationsListSizer"
+              :records-count="totalDelegationsSize"
+              :page="delegationsListPage"
+              root-class="block-page"
+              @goto="gotoDelegations"></page>
+          </div>
+        </panel>
+        <panel class="voters-panel">
+          <template v-slot:header>
+            <span>Escrow Debonding</span>
+          </template>
+          <p v-if="debondingsList && debondingsList.length === 0" class="no-result">
+            <img class="empty-icon_s" src="../../../assets/empty.png">
+            No Delegators
+          </p>
+          <block-table
+            v-if="debondingsList && debondingsList.length > 0"
+            :data="debondingsList"
+            :columns="columns2"
+            :expand="false"
+            class="block-total-list  delegator-table"
+            cell-class="block-total-list-cell"
+          />
+          <div class="page-navigation">
+            <page
+              v-if="debondingsList && debondingsList.length > 0"
+              type="simple"
+              :sizer="debondingsListSizer"
+              :records-count="totalDebondingsSize"
+              :page="debondingsListPage"
+              root-class="block-page"
+              @goto="gotoDeboundings"></page>
+          </div>
+        </panel>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   import Panel from '../../../components/Panel'
+  import BlockTable from '../../../components/Table/index'
   import VTable from '../../../components/VTable/index'
   import NavBar from '../../../components/NavigationBar'
-  import { fetchAccountDetail } from '../../../fetch/index'
+  import PieChart from '../../../components/accounts/piechart'
+  import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations } from '../../../fetch/index'
 
   export default {
     name: 'accountDetail',
-    components: { NavBar, Panel, VTable},
+    components: { PieChart, NavBar, Panel, VTable, BlockTable},
     async asyncData({ $axios, params }) {
-      const data = await fetchAccountDetail($axios, params.id)
+      const datas = await Promise.all([
+        fetchAccountDetail($axios, params.id),
+        fetchAccountDelegations($axios, params.id),
+        fetchAccountDebonding($axios, params.id)
+      ])
+      const data = await datas[0]
+      const { list: delegationsList, totalSize: totalDelegationsSize } = await datas[1]
+      const { list: debondingsList, totalSize: totalDebondingsSize } = await datas[2]
+      console.log(delegationsList,'delegationsList')
+      console.log(debondingsList,'debondingsList')
+      console.log(totalDebondingsSize,'totalDebondingsSize')
+      console.log(totalDelegationsSize,'totalDelegationsSize')
       return {
-        data
+        totalDebondingsSize,
+        totalDelegationsSize,
+        accountAddress: params.id,
+        data,
+        delegationsList,
+        debondingsList
       }
     },
     data() {
       return {
+        delegationsListSizer: 5,
+        delegationsListPage: 1,
+        debondingsListSizer: 5,
+        debondingsListPage: 1,
+        columns1: [
+          {
+            title: 'Validator',
+            key: 'validatorName'
+          },
+          {
+            title: 'Amount',
+            key: 'amount'
+          },
+          {
+            title: 'Reward',
+            key: 'shares'
+          }
+        ],
+        columns2: [
+          {
+            title: 'Validator',
+            key: 'validatorName'
+          },
+          {
+            title: 'Amount',
+            key: 'amount'
+          },
+          {
+            title: 'Reward',
+            key: 'shares'
+          }
+        ],
         listSchema: [
           {
             label: 'address',
@@ -68,32 +174,40 @@
             key: 'nonce'
           }
         ],
-        list: [],
-        fromToSchema: [
-          {
-            label: 'From',
-            key: 'from'
-          },
-          {
-            label: 'To',
-            key: 'to'
-          },
-          {
-            label: 'Amount',
-            key: 'amount'
-          }
-        ]
+        list: []
       }
     },
     async mounted() {
+      console.log('data', this.data)
     },
     methods: {
+      async gotoDelegations(pageNumber) {
+        const $axios = this.$axios
+        const { list, totalSize } = await fetchAccountDelegations($axios, this.accountAddress, this.delegationsListSizer, pageNumber)
+        this.delegationsList = list
+        console.log('delegatorsList', list)
+        this.totalDelegationsSize = totalSize
+        this.delegationsListPage = pageNumber
+      },
+      async gotoDeboundings(pageNumber) {
+        const $axios = this.$axios
+        const { list, totalSize } = await fetchAccountDebonding($axios, this.accountAddress, this.debondingsListSizer, pageNumber)
+        this.debondingsList = list
+        console.log('delegatorsList', list)
+        this.totalDebondingsSize = totalSize
+        this.debondingsListPage = pageNumber
+      }
     }
   }
 </script>
 
 <style scoped lang="scss">
   @import "../../../assets/css/common";
+  .overview-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .address-item {
     display: flex;
     align-items: center;
@@ -152,13 +266,6 @@
       }
     }
   }
-  .trx-panel {
-    margin-top: rem(12);
-    .block-total-list {
-      width: 100%;
-      margin-left: 0;
-    }
-  }
   .page-navigation {
     padding-top: 30px;
     display: flex;
@@ -175,6 +282,28 @@
     .empty-icon {
       width: rem(80);
       margin-bottom: rem(11);
+    }
+    .empty-icon_s {
+      width: rem(50);
+      margin-bottom: rem(11);
+    }
+  }
+  .list-panels {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: rem(12);
+  }
+  .voters-panel {
+    width: rem(594);
+    .block-total-list {
+      width: 100%;
+      margin-left: 0;
+    }
+    /deep/ {
+      .panel-title {
+        align-items: flex-end;
+      }
     }
   }
 </style>
