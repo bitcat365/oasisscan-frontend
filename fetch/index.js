@@ -197,15 +197,17 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
  * @param blockHeight
  * @param page
  * @param pageSize
+ * @param address
  * @param query_type
  * @returns {Promise<{total, list: *, totalRecordsCount}>}
  */
-export async function fetchTransactionsOfBlock($axios, blockHeight, page = 1, pageSize = 10) {
+export async function fetchTransactions($axios, blockHeight = '', address = '', page = 1, pageSize = 10) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('chain/transactions', {
     params: {
       page,
       size: pageSize,
-      height: blockHeight
+      height: blockHeight,
+      address
     }
   });
   if (code !== 0) {

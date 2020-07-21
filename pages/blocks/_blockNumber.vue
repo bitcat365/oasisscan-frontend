@@ -13,7 +13,7 @@
       </panel>
       <panel class="trx-panel" v-if="!isRequesting">
         <template v-slot:header>
-          <span>{{$t('transactionInfo')}}</span>
+          <span>Transactions</span>
         </template>
         <p v-if="total === 0" class="no-result">
           <img class="empty-icon" src="../../assets/empty.png">
@@ -41,7 +41,8 @@
   import VTable from '../../components/VTable/index'
 
   import NavBar from '../../components/NavigationBar'
-  import { fetchBlockDetail, fetchTransactionsOfBlock } from '~/fetch/index'
+  import { fetchBlockDetail, fetchTransactions } from '../../fetch';
+
   export default {
     name: 'blockDetail',
     components: { NavBar, Panel, BlockTable, Page, VTable },
@@ -117,7 +118,7 @@
         this.fetchList(pageNumber)
       },
       async fetchList(page = 1) {
-        const { list, totalSize } = await fetchTransactionsOfBlock(this.$axios, this.$route.params.blockNumber, page, this.sizer)
+        const { list, totalSize } = await fetchTransactions(this.$axios, this.$route.params.blockNumber, '', page, this.sizer)
         this.list = list
         this.total = totalSize
         this.page = page
