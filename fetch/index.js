@@ -192,6 +192,20 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
 }
 
 /**
+ * 搜索
+ * @param key
+ * @returns {Promise<void>}
+ */
+export async function search($axios, key) {
+  let { code, data} = await $axios.$get('/chain/search', {
+    params: {
+      key
+    }
+  });
+  return data
+}
+
+/**
  * 获取某一个块下的交易记录
  * @param $axios
  * @param blockHeight
@@ -216,8 +230,8 @@ export async function fetchTransactions($axios, blockHeight = '', address = '', 
   const res = list.map((item) => {
     return {
       ...item,
-      height: { text: item.height, link: `blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.txHash, link: `transactions/${item.txHash}`, type: 'hash-link' },
+      height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
+      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       type: `${item.method}`
     }
@@ -396,35 +410,3 @@ export async function fetchAddressDetail($axios, address) {
   }
 }
 
-export async function search($axios, str) {
-  if (str.match(/^\d{1,15}$/)) {
-    const info = await fetchBlockDetail($axios, str)
-    if (info.blockHeight) {
-      return { type: 'block', link: `/blocks/${str}` }
-    } else {
-      return { type: 'block', link: '' }
-    }
-  }
-  if (str.match(/^5[a-zA-Z0-9]+/) && str.length === 48) {
-    const info = await fetchAddressDetail($axios, str)
-    if (typeof info.balance !== 'undefined') {
-      return { type: 'accounts', link: `/accounts/${str}` }
-    } else {
-      return { type: 'accounts', link: '' }
-    }
-  }
-  if (str.match(/^0x[0-9A-Fa-f]+$/)) {
-    const data = await fetchTransactionDetail($axios, str)
-    console.log('data', data)
-    if (typeof data.blockHeight !== 'undefined') {
-      return { type: 'transaction', link: `/txs/${str}` }
-    }
-    const block = await fetchBlockDetail($axios, str)
-    console.log('block', block)
-    if (block.blockHeight !== 'undefined') {
-      return { type: 'block', link: `/blocks/${str}` }
-    }
-    return { type: 'hash', link: '' }
-  }
-  return { type: 'unknown' }
-}
