@@ -87,4 +87,7 @@ body{
   color: #fff;
   background-color: #35495e;
 }
+  .ivu-spin-dot {
+    background-color: #ff3f0f;
+  }
 </style>

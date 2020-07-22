@@ -20,6 +20,7 @@
     methods: {
       async onsubmit() {
         const searchText = this.text.trim()
+        this.$Spin.show()
         const res = await search(this.$axios, searchText)
         if (res) {
           switch (res.type) {
@@ -40,11 +41,13 @@
               break
           }
         }
+        setTimeout(() => {
+          // this.$Spin.hide()
+        }, 1000)
       }
     }
   }
 </script>
-
 <style scoped lang="scss">
   @import "../../assets/css/common";
   .search-box {
