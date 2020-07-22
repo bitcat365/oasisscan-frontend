@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import { search } from '../../fetch'
+  import { search, onSearch } from '../../fetch'
 
   export default {
     name: 'SearchBox',
@@ -19,31 +19,7 @@
     },
     methods: {
       async onsubmit() {
-        const searchText = this.text.trim()
-        this.$Spin.show()
-        const res = await search(this.$axios, searchText)
-        if (res) {
-          switch (res.type) {
-            case 'validator':
-              this.$router.push(`/validators/detail/${res.result}`)
-              break
-            case 'transaction':
-              this.$router.push(`/transactions/${res.result}`)
-              break
-            case 'account':
-              this.$router.push(`/account/detail/${res.result}`)
-              break
-            case 'block':
-              this.$router.push(`/blocks/${res.result}`)
-              break
-            default:
-              this.$router.push(`/not_found/${searchText}`)
-              break
-          }
-        }
-        setTimeout(() => {
-          // this.$Spin.hide()
-        }, 1000)
+        onSearch(this, this.text)
       }
     }
   }

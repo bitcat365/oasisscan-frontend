@@ -12,9 +12,17 @@
         <router-link :to="'/blocks'" class="nav" :class="isActive(4)" @click="tapMenu($event, 3)">BLOCKS</router-link>
         <router-link :to="'/transactions'" class="nav" :class="isActive(5)" @click="tapMenu($event, 4)">TRANSACTIONS</router-link>
       </nav>
-      <div class="chainid">
-        <span class="status"></span>
-        <span>{{chainId}}</span>
+      <div class="right-menu">
+        <div class="chainid">
+          <span class="status"></span>
+          <span>{{chainId}}</span>
+        </div>
+        <form v-if="active !== 1" @submit.stop.prevent="onsubmit" class="search-input-con">
+          <input v-model="keywords" class="search-input" type="text" placeholder="Search by Entity/Block/Block hash/Tx hash"></input>
+          <div class="search-btn">
+            <img class="search-icon" src="../assets/search.png"/>
+          </div>
+        </form>
       </div>
     </div>
   </nav>
@@ -24,6 +32,8 @@
   import Config from '../config/index.json'
   import Logo from './Logo'
   import Vue from 'vue'
+  import { onSearch } from '../fetch';
+
   export default {
     name: 'NavigationBar',
     props: {
@@ -37,7 +47,8 @@
     },
     data() {
       return {
-        chainId: Config.chainId
+        chainId: Config.chainId,
+        keywords: ''
       }
     },
     methods: {
@@ -56,6 +67,9 @@
           this.$refs.slide.style.transform = 'translateX(' + navs[index].offsetLeft + 'px)'
           console.log(navs[index].offsetLeft)
         })
+      },
+      onsubmit() {
+        onSearch(this, this.keywords)
       }
     },
     computed: {
@@ -124,25 +138,68 @@
         display: flex;
         align-items: stretch;
       }
-      > .chainid{
+      > .right-menu {
         position: absolute;
         right: 0.89rem;
         top: 0;
         height: 100%;
-        color: white;
-        font-size: 0.8rem;
-        line-height: 1;
-        @include regular;
         display: flex;
+        flex-direction: row;
         align-items: center;
-        .status{
-          width: rem(10);
-          height: rem(10);
-          border-radius: 50%;
-          margin-right: 0.42rem;
-          background-color: #40FF02;
+        > .search-input-con{
+          overflow:hidden;
+          border: 1px solid white;
+          border-radius: 2px;
+          display: flex;
+          height: rem(32);
+          width: rem(420);
+          margin-left: rem(20);
+          align-items: stretch;
+          .search-input {
+            flex: 1;
+            margin-right: rem(32);
+            border: 0;
+            background-color: transparent;
+            outline: none;
+            color: white;
+            @include regular;
+            padding: 0 rem(11);
+            font-size: 12px;
+            &::placeholder{
+              color: rgba(255, 255, 255, 0.8);
+            }
+          }
+          .search-btn {
+            width: rem(32);
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            .search-icon {
+              width: rem(18);
+              height: rem(18);
+            }
+          }
+        }
+        > .chainid{
+          height: 100%;
+          color: white;
+          font-size: 0.8rem;
+          line-height: 1;
+          @include regular;
+          display: flex;
+          align-items: center;
+          .status{
+            width: rem(10);
+            height: rem(10);
+            border-radius: 50%;
+            margin-right: 0.42rem;
+            background-color: #40FF02;
+          }
         }
       }
+
     }
   }
   @media screen and (max-width:rem(1200 + 240 * 2)){

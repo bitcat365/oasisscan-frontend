@@ -395,6 +395,33 @@ export async function fetchValidatorDetail($axios, address) {
     return data
   }
 }
+export async function onSearch(vue, text) {
+  const searchText = text.trim()
+  vue.$Spin.show()
+  const res = await search(vue.$axios, searchText)
+  if (res) {
+    switch (res.type) {
+      case 'validator':
+        vue.$router.push(`/validators/detail/${res.result}`)
+        break
+      case 'transaction':
+        vue.$router.push(`/transactions/${res.result}`)
+        break
+      case 'account':
+        vue.$router.push(`/account/detail/${res.result}`)
+        break
+      case 'block':
+        vue.$router.push(`/blocks/${res.result}`)
+        break
+      default:
+        vue.$router.push(`/not_found/${searchText}`)
+        break
+    }
+  }
+  setTimeout(() => {
+    vue.$Spin.hide()
+  }, 1000)
+}
 
 export async function fetchAddressDetail($axios, address) {
   let { code, data: { list } = { list: [] } } = await $axios.$get('/alief/address/info', {
@@ -409,4 +436,3 @@ export async function fetchAddressDetail($axios, address) {
     balance: data.balance
   }
 }
-
