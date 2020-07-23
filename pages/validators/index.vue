@@ -43,7 +43,7 @@
             <div class="validator-name">
               <img v-if="slotData.data.icon" class="name-icon" :src="slotData.data.icon">
               <img v-else class="name-icon" src="../../assets/oasis-official-logo-s.png">
-              <router-link :to="slotData.data.link">{{ slotData.data.text }}</router-link>
+              <router-link :to="slotData.data.link">{{ slotData.data.type === 'hash-link' ? hashFormat(slotData.data.text) : slotData.data.text }}</router-link>
             </div>
           </template>
           <template v-slot:escrowChange24="slotData">
@@ -68,6 +68,7 @@
   import LS from 'local-storage'
   import Vue from 'vue'
   import { fetchValidatorsList } from '../../fetch/index'
+  import { hashFormat } from '../../utils'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
 
@@ -130,6 +131,9 @@
           return '-' + value
         }
         return value
+      },
+      hashFormat(val) {
+        return hashFormat(val)
       }
     },
     computed: {
