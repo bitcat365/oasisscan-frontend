@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+  import 'vue2-toast/lib/toast.css'
   import Footer from '../components/Footer'
   export default {
     components: {

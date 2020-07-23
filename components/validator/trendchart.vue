@@ -89,7 +89,7 @@
       }
     },
     mounted() {
-      console.log('this.$refs.chart',this.$refs, this.trends)
+      // console.log('this.$refs.chart',this.$refs, this.trends)
     }
   }
 </script>

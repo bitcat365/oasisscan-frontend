@@ -26,7 +26,7 @@
     name: 'piechart',
     props: ['data'],
     data() {
-      console.log(this.data.available, 'data')
+      // console.log(this.data.available, 'data')
       return {
         chartOptions: {
           colors: ['#4CD4A9', '#58D0FF', '#919191'],
@@ -58,7 +58,7 @@
                 events: {
                   mouseOver: (e) => {
                     // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
-                    console.log('this.$refs', e.target)
+                    // console.log('this.$refs', e.target)
                     this.$refs.chart.chart.setTitle({
                       text: e.target.percentage.toFixed(2) + ' %'
                     })
@@ -81,7 +81,7 @@
     },
     methods: {
       initCallback(c) {
-        console.log('aaaa')
+        // console.log('aaaa')
         return
         // 环形图圆心
         const centerY = c.series[0].center[1];

@@ -41,6 +41,7 @@ module.exports = {
     '~/plugins/i18n.js',
     '~/plugins/highchart.js',
     '~/plugins/clipboard.js',
+    '~/plugins/toast.js',
     '~/plugins/filters.js'
   ],
 

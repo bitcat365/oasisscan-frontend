@@ -58,7 +58,7 @@
     },
     methods: {
       first() {
-        console.log('ffff')
+        // console.log('ffff')
         this.$emit('goto', 1)
       },
       last() {

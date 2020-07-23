@@ -200,8 +200,9 @@ export async function search($axios, key) {
   let { code, data} = await $axios.$get('/chain/search', {
     params: {
       key
-    }
-  });
+    },
+    progress: false
+  })
   return data
 }
 
@@ -398,25 +399,31 @@ export async function fetchValidatorDetail($axios, address) {
 export async function onSearch(vue, text) {
   const searchText = text.trim()
   vue.$Spin.show()
-  const res = await search(vue.$axios, searchText)
-  if (res) {
-    switch (res.type) {
-      case 'validator':
-        vue.$router.push(`/validators/detail/${res.result}`)
-        break
-      case 'transaction':
-        vue.$router.push(`/transactions/${res.result}`)
-        break
-      case 'account':
-        vue.$router.push(`/account/detail/${res.result}`)
-        break
-      case 'block':
-        vue.$router.push(`/blocks/${res.result}`)
-        break
-      default:
-        vue.$router.push(`/not_found/${searchText}`)
-        break
+  try {
+    const res = await search(vue.$axios, searchText)
+    if (res) {
+      switch (res.type) {
+        case 'validator':
+          vue.$router.push(`/validators/detail/${res.result}`)
+          break
+        case 'transaction':
+          vue.$router.push(`/transactions/${res.result}`)
+          break
+        case 'account':
+          vue.$router.push(`/account/detail/${res.result}`)
+          break
+        case 'block':
+          vue.$router.push(`/blocks/${res.result}`)
+          break
+        default:
+          vue.$Spin.hide()
+          vue.$toast('no result')
+          break
+      }
     }
+  } catch (e) {
+    vue.$Spin.hide()
+    vue.$toast('no result')
   }
   setTimeout(() => {
     vue.$Spin.hide()

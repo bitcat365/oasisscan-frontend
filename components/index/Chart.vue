@@ -27,7 +27,7 @@
         daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
       }
       daysArray.reverse()
-      console.log('daysArray', daysArray)
+      // console.log('daysArray', daysArray)
       return {
         chartOptions: {
           chart: {
@@ -82,7 +82,7 @@
       }
     },
     mounted() {
-      console.log('this.$refs.chart',this.$refs, this.txHistory)
+      // console.log('this.$refs.chart',this.$refs, this.txHistory)
     }
   }
 </script>

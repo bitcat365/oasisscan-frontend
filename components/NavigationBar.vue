@@ -56,7 +56,7 @@
         return this.active === index ? 'active item' : 'inactive item'
       },
       tapMenu(e, index) {
-        console.log(e)
+        // console.log(e)
         this.active = index
         this.slide(index)
       },
@@ -65,7 +65,7 @@
         Vue.nextTick(() => {
           this.$refs.slide.style.width = navs[index].offsetWidth + 'px'
           this.$refs.slide.style.transform = 'translateX(' + navs[index].offsetLeft + 'px)'
-          console.log(navs[index].offsetLeft)
+          // console.log(navs[index].offsetLeft)
         })
       },
       onsubmit() {

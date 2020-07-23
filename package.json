@@ -38,7 +38,8 @@
     "nuxt": "^2.4.0",
     "v-clipboard": "^2.2.3",
     "vue-i18n": "^8.11.2",
-    "vue-json-pretty": "^1.6.3"
+    "vue-json-pretty": "^1.6.3",
+    "vue2-toast": "^2.1.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
