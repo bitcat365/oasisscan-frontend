@@ -14,7 +14,7 @@
             <img src="../assets/telegram.png">
           </a>
         </div>
-        Need help? FAQ
+        <a  href="/faq" class="faq-link">Need help? FAQ</a>
       </div>
     </div>
   </section>
@@ -101,5 +101,9 @@
         }
       }
     }
+  }
+  .faq-link {
+    color: inherit;
+    text-decoration: none;
   }
 </style>
