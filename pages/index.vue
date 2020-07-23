@@ -249,7 +249,10 @@
           thead {
             tr {
               th:nth-child(2) {
-                width: rem(180);
+                width: rem(220);
+              }
+              th:nth-child(3) {
+                width: rem(80);
               }
               th:last-child {
               }
