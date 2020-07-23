@@ -18,7 +18,7 @@
            <div class="right">
              <div class="name">
                <span v-if="name"> {{name}}</span>
-               <span v-else> {{entityAddress | hashFormat(12)}}</span>
+               <span v-else> {{entityAddress}}</span>
                <div class="rank">{{rank}}</div>
              </div>
              <div class="detail">
