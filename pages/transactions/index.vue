@@ -46,13 +46,22 @@
       return { list, total: totalSize }
     },
     methods: {
-      async goto(pageNumber) {
+      async goto(pageNumber, progress = true) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer, this.method, true, 12)
+        if (pageNumber > 1) {
+          this.timer && clearTimeout(this.timer)
+          this.timer = null
+        }
+        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer, this.method, progress, 12)
         this.page = pageNumber
         this.list = list
         this.total = totalSize
-        document.documentElement.scrollTop = document.body.scrollTop = 0
+        if (progress) {
+          document.documentElement.scrollTop = document.body.scrollTop = 0
+        }
+        if (this.page === 1) {
+          this.repull()
+        }
       },
       change(name) {
         console.log('name', name)
@@ -62,6 +71,15 @@
           this.method = name
         }
         this.goto(1)
+      },
+      repull() {
+        this.timer && clearTimeout(this.timer)
+        this.timer = setTimeout(async () => {
+          if (this.page === 1) {
+            await this.goto(1, false)
+            this.repull()
+          }
+        }, 6000)
       }
     },
     computed: {
@@ -72,6 +90,7 @@
       const $axios = this.$axios
       const { list } = await fetchChainMethods($axios)
       this.methods = list
+      this.repull()
     },
     data() {
       return {

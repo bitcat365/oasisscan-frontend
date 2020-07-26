@@ -36,13 +36,29 @@
       return { list, total: totalSize }
     },
     methods: {
-      async goto(pageNumber) {
+      async goto(pageNumber, progress = true) {
+        if (pageNumber > 1) {
+          this.timer && clearTimeout(this.timer)
+          this.timer = null
+        }
         const $axios = this.$axios
-        const { list, totalSize } = await fetchBlockList($axios, pageNumber, this.sizer)
+        const { list, totalSize } = await fetchBlockList($axios, pageNumber, this.sizer, progress)
         this.page = pageNumber
         this.list = list
         this.total = totalSize
-        document.documentElement.scrollTop = document.body.scrollTop = 0
+        progress && (document.documentElement.scrollTop = document.body.scrollTop = 0)
+        if (this.page === 1) {
+          this.repull()
+        }
+      },
+      repull() {
+        this.timer && clearTimeout(this.timer)
+        this.timer = setTimeout(async () => {
+          if (this.page === 1) {
+            await this.goto(1, false)
+            this.repull()
+          }
+        }, 6000)
       }
     },
     computed: {
@@ -50,7 +66,11 @@
     created() {
     },
     mounted() {
-
+      this.repull()
+    },
+    destroyed() {
+      this.timer && clearTimeout(this.timer)
+      this.timer = null
     },
     data() {
       return {

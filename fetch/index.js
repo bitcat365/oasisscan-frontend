@@ -28,12 +28,13 @@ export async function fetchHomeBlockList($axios, pageSize = 10, page = 1, progre
   });
   return { list }
 }
-export async function fetchBlockList($axios, page = 1, size = 20) {
+export async function fetchBlockList($axios, page = 1, size = 20, progress = true) {
   let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/blocks`, {
     params: {
       page,
       size
-    }
+    },
+    progress
   }).catch(() => ({ code: -1 }))
   list = list.map((item, index) => {
     return {
