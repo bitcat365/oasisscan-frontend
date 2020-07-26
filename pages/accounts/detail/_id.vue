@@ -109,6 +109,7 @@
 <script>
   import Panel from '../../../components/Panel'
   import BlockTable from '../../../components/Table/index'
+  import Page from '../../../components/Page'
   import VTable from '../../../components/VTable/index'
   import NavBar from '../../../components/NavigationBar'
   import PieChart from '../../../components/accounts/piechart'
@@ -116,7 +117,7 @@
 
   export default {
     name: 'accountDetail',
-    components: { PieChart, NavBar, Panel, VTable, BlockTable},
+    components: { PieChart, NavBar, Panel, VTable, BlockTable, Page},
     async asyncData({ $axios, params }) {
       const datas = await Promise.all([
         fetchAccountDetail($axios, params.id),
@@ -338,9 +339,9 @@
     }
   }
   .page-navigation {
-    padding-top: 30px;
+    padding-top: rem(16);
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
   }
   .no-result {
     display: flex;
@@ -374,6 +375,13 @@
     /deep/ {
       .panel-title {
         align-items: flex-end;
+      }
+      .panel-content{
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: rem(272);
       }
     }
   }
