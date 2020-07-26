@@ -30,7 +30,7 @@
                  <div class="oneline">
                    <div class="label">Com. rates</div>
                    <div class="value">
-                     {{rates && rates.length > 0 ? rates[0].rate * 100 + '%' : 'No Schedule' }}
+                     {{commission | percentFormat }}
                      <Poptip v-if="rates && rates.length > 0" trigger="hover" placement="right">
                        <img class="alert" src="../../../assets/alert.svg">
                        <div class="api" slot="content">
@@ -44,12 +44,12 @@
                  <div class="oneline">
                    <div class="label">Com. bounds</div>
                    <div class="value">
-                     {{bounds && bounds.length > 0 ? bounds[0].min * 100 + '%' + '~' + bounds[0].max * 100 + '%' : 'No Schedule'}}
+                     {{bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule'}}
                      <Poptip v-if="bounds && bounds.length > 0" trigger="hover" placement="right">
                        <img class="alert" src="../../../assets/alert.svg">
                        <div class="api" slot="content">
-                         <div class="rate-item" v-for="bound in bounds">
-                           <div>{{bound.min * 100 + '%' + '~' + bound.max * 100 + '%'}}（start at epoch {{bound.start}}）</div>
+                         <div class="rate-item" v-for="boundItem in bounds">
+                           <div>{{boundItem.min * 100 + '%' + '~' + boundItem.max * 100 + '%'}}（start at epoch {{boundItem.start}}）</div>
                          </div>
                        </div>
                      </Poptip>
