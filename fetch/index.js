@@ -314,7 +314,7 @@ export async function getDelegatorsByProposer($axios, address, size = 5, page = 
     list: list.map((item) => {
       return {
         ...item,
-        address: { value: item.address, type: 'hash' },
+        address: { text: item.address, type: 'hash-link', link: `/validators/detail/${item.address}` },
         percent: { value: item.percent, type: 'percent' },
         amountAndShares: `${item.amount}/${item.shares}`
       }

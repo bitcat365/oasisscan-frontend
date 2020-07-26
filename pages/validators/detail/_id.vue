@@ -174,7 +174,12 @@
             :expand="false"
             class="block-totasl-list  delegator-table"
             cell-class="block-total-list-cell"
-          />
+          >
+            <template v-slot:address="{data}">
+              <a :href="data.link">{{data.text | hashFormat }}</a>
+              <span v-if="data.text === entityAddress" class="self-address">(Self)</span>
+            </template>
+          </block-table>
           <div class="page-navigation">
             <page
               v-if="delegatorsList && delegatorsList.length > 0"
@@ -342,7 +347,8 @@
         columns1: [
           {
             title: 'Address',
-            key: 'address'
+            key: 'address',
+            slot: true
           },
           {
             title: 'Amount/Shares',
@@ -753,10 +759,10 @@
   /deep/ .delegator-table {
     thead tr{
       th:nth-child(1){
-        width: rem(180);
+        width: rem(200);
       }
       th:nth-child(3){
-        width: rem(120);
+        width: rem(100);
       }
     }
   }
