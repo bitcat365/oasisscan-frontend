@@ -63,7 +63,9 @@
             :expand="false"
             class="block-total-list  delegator-table"
             cell-class="block-total-list-cell"
-          />
+          >
+
+          </block-table>
           <div class="page-navigation">
             <page
               v-if="debondingsList && debondingsList.length > 0"
@@ -90,7 +92,12 @@
           :columns="columns"
           root-class="block-total-list"
           cell-class="block-total-list-cell"
-        />
+        >
+          <template v-slot:fee="{data}">
+            <span v-if="data">{{data | unit}}</span>
+            <span v-else>0</span>
+          </template>
+        </block-table>
         <div v-if="total > 0" class="page-navigation">
           <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
         </div>
@@ -213,7 +220,8 @@
           },
           {
             title: 'Fee',
-            key: 'fee'
+            key: 'fee',
+            slot: true
           },
           {
             title: 'Time',

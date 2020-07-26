@@ -9,7 +9,12 @@
         <template v-slot:header>
           <span>Overview</span>
         </template>
-        <v-table class="v-table" :headers="listSchema" :data="data"></v-table>
+        <v-table class="v-table" :headers="listSchema" :data="data">
+          <template v-slot:fee="{data}">
+            <span v-if="data">{{data | unit}}</span>
+            <span v-else>0</span>
+          </template>
+        </v-table>
       </panel>
       <panel class="trx-panel">
         <template v-slot:header>
@@ -29,7 +34,6 @@
   import VTable from '../../components/VTable/index'
   import NavBar from '../../components/NavigationBar'
   import { fetchTransactionDetail } from '~/fetch/index'
-
   export default {
     name: 'transactionDetail',
     components: { NavBar, Panel, VTable},
@@ -56,7 +60,8 @@
           },
           {
             label: 'Fee',
-            key: 'fee'
+            key: 'fee',
+            slot: true
           },
           {
             label: 'Nonce',

@@ -17,6 +17,10 @@
       </Dropdown>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+          <template v-slot:fee="{data}">
+            <span v-if="data">{{data | unit}}</span>
+            <span v-else>0</span>
+          </template>
         </block-table>
         <div class="page-navigation">
           <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
@@ -111,7 +115,8 @@
           },
           {
             title: 'Fee',
-            key: 'fee'
+            key: 'fee',
+            slot: true
           },
           {
             title: 'Method',

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { floatFormat, hashFormat, intFormat, percent } from '../utils'
+import Config from '../config'
 moment.updateLocale('en', {
   relativeTime: {
     future: 'in %s',
@@ -22,6 +23,9 @@ moment.updateLocale('en', {
 
 Vue.filter('percentFormat', (val) => {
   return percent(val, 1)
+})
+Vue.filter('unit', (val) => {
+  return val + ' ' + Config.feeUnit
 })
 
 Vue.filter('intFormat', (val) => {
