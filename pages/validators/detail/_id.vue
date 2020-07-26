@@ -753,10 +753,10 @@
   /deep/ .delegator-table {
     thead tr{
       th:nth-child(1){
-        width: rem(200);
+        width: rem(180);
       }
       th:nth-child(3){
-        width: rem(100);
+        width: rem(120);
       }
     }
   }
