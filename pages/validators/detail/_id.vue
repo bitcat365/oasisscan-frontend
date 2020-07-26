@@ -744,11 +744,16 @@
       justify-content: space-between;
       min-height: rem(272);
     }
+    /deep/ .table {
+      td,th {
+        padding: 18px 10px;
+      }
+    }
   }
   /deep/ .delegator-table {
     thead tr{
       th:nth-child(1){
-        width: rem(250);
+        width: rem(200);
       }
       th:nth-child(3){
         width: rem(100);
