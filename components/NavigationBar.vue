@@ -19,7 +19,7 @@
         </div>
         <form v-if="active !== 1" @submit.stop.prevent="onsubmit" class="search-input-con">
           <input v-model="keywords" class="search-input" type="text" placeholder="Search by Entity/Block/Block hash/Tx hash"></input>
-          <div class="search-btn">
+          <div class="search-btn" @click.prevent.stop="onsubmit">
             <img class="search-icon" src="../assets/search.png"/>
           </div>
         </form>
