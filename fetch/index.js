@@ -337,7 +337,7 @@ export async function getBlockByProposer($axios, address, size = 5, page = 1) {
       return {
         ...item,
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-        hash: { value: item.hash, type: 'hash' },
+        hash: { value: item.hash, type: 'hash', sliceLength: 12 },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         type: `${item.method}`
       }
