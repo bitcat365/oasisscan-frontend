@@ -178,8 +178,8 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
   let { code, data } = await $axios.$get(`/chain/block/${hashOrBlockHeight}`, {
     params: {
     }
-  });
-  if (code !== 0) {
+  })
+  if (code !== 0 || !data) {
     data = {}
   }
   return {

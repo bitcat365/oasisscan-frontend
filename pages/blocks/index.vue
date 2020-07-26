@@ -28,11 +28,10 @@
     components: {
       NavBar,
       BlockTable,
-      Page
+      Page,
     },
     async asyncData({ $axios }) {
       const { list, totalSize } = await fetchBlockList($axios, 1, 20)
-      console.log('list', list)
       return { list, total: totalSize }
     },
     methods: {

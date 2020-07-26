@@ -1,5 +1,5 @@
 <template>
-  <router-link class="logo" aria-current="page" :to="$i18n.path('/')">
+  <router-link class="logo" aria-current="page" :to="'/'">
     <img class="logo-oasis" src="../assets/oasis-scan-logo.png"/>
   </router-link>
 </template>

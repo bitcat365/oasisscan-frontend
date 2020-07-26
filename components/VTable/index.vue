@@ -1,7 +1,7 @@
 <template>
   <ul class="info-list">
     <li v-for="item in uiHeaders" :key="item.key">
-      <span class="label">{{$t(item.label)}}</span>
+      <span class="label">{{item.label}}</span>
       <span v-if="item.slot" class="value">
         <slot :name="item.key" :data="data[item.key]"></slot>
       </span>

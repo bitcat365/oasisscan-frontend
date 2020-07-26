@@ -9,7 +9,11 @@
         <template v-slot:header>
           <span>Header</span>
         </template>
-        <v-table class="v-table" :headers="listSchema" :data="data"></v-table>
+        <v-table class="v-table" :headers="listSchema" :data="data">
+          <template v-slot:height="slotData">
+            <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
+          </template>
+        </v-table>
       </panel>
       <panel class="trx-panel" v-if="!isRequesting">
         <template v-slot:header>
@@ -37,18 +41,22 @@
 <script>
   import Panel from '../../components/Panel'
   import BlockTable from '../../components/Table/index'
+  import ArrowNavigate from '../../components/ArrowNavigate'
   import Page from '../../components/Page'
   import VTable from '../../components/VTable/index'
 
   import NavBar from '../../components/NavigationBar'
-  import { fetchBlockDetail, fetchTransactions } from '../../fetch';
+  import { fetchBlockDetail, fetchTransactions, fetchBlockInfo } from '../../fetch';
 
   export default {
     name: 'blockDetail',
-    components: { NavBar, Panel, BlockTable, Page, VTable },
+    components: { NavBar, Panel, BlockTable, Page, VTable, ArrowNavigate },
     async asyncData({ $axios, params }) {
-      const data = await fetchBlockDetail($axios, params.blockNumber)
+      const datas = await Promise.all([ fetchBlockInfo($axios), fetchBlockDetail($axios, params.blockNumber)])
+      const { curHeight: latestHeight } = datas[0]
+      const data = datas[1]
       return {
+        isLast: +params.blockNumber === +latestHeight,
         data
       }
     },
@@ -58,7 +66,8 @@
         listSchema: [
           {
             label: 'Height',
-            key: 'height'
+            key: 'height',
+            slot: true
           },
           {
             label: 'Epoch',
@@ -122,6 +131,12 @@
         this.list = list
         this.total = totalSize
         this.page = page
+      },
+      pre() {
+        this.$router.push(`./${parseInt(this.$route.params.blockNumber) - 1}`)
+      },
+      next() {
+        this.$router.push(`./${parseInt(this.$route.params.blockNumber) + 1}`)
       }
     }
   }
@@ -133,6 +148,10 @@
     background-color: #f7f7f7;
     padding-bottom: rem(50);
     min-height: calc(100vh - #{rem(100)});
+  }
+  .label-content {
+    display: flex;
+    align-items: center;
   }
   .v-table {
     margin-top: rem(16);
