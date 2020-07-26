@@ -39,7 +39,7 @@ export async function fetchBlockList($axios, page = 1, size = 20, progress = tru
   list = list.map((item, index) => {
     return {
       ...item,
-      hash: { value: item.hash, type: 'hash', sliceLength: 12 },
+      hash: { text: item.hash, link: `/blocks/${item.height}`, sliceLength: 12, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       proposer: { text: item.entityAddress, link: `/validators/detail/${item.entityAddress}`, type: 'hash-link' },
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' }
@@ -138,6 +138,7 @@ export async function fetchTransactionsList($axios, page = 1, size = 10, method 
   const res = list.map((item) => {
     return {
       ...item,
+      hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link' },
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
       txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link', sliceLength },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
@@ -337,7 +338,7 @@ export async function getBlockByProposer($axios, address, size = 5, page = 1) {
       return {
         ...item,
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-        hash: { value: item.hash, type: 'hash', sliceLength: 12 },
+        hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link', sliceLength: 12 },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         type: `${item.method}`
       }
