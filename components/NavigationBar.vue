@@ -152,7 +152,7 @@
           border-radius: 2px;
           display: flex;
           height: rem(32);
-          width: rem(420);
+          width: rem(350);
           margin-left: rem(20);
           align-items: stretch;
           .search-input {
