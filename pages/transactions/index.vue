@@ -11,7 +11,7 @@
           <Icon type="ios-arrow-down"></Icon>
         </a>
         <DropdownMenu slot="list">
-          <DropdownItem name="all">All Method</DropdownItem>
+          <DropdownItem name="all">All Type</DropdownItem>
           <DropdownItem v-for="method in methods" :key="method" :name="method">{{method}}</DropdownItem>
         </DropdownMenu>
       </Dropdown>
@@ -119,7 +119,7 @@
             slot: true
           },
           {
-            title: 'Method',
+            title: 'Type',
             key: 'method'
           },
           // {
