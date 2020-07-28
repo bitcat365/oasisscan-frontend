@@ -7,7 +7,7 @@
       </div>
       <Dropdown trigger="click" placement="bottom-start" @on-click="change">
         <a class="show-cur method-dropdown" href="javascript:void(0)">
-          {{method === '' ? 'All Method' : method}}
+          {{method === '' ? 'All Type' : method}}
           <Icon type="ios-arrow-down"></Icon>
         </a>
         <DropdownMenu slot="list">
