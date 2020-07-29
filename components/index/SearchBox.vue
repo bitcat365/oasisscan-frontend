@@ -1,7 +1,7 @@
 <template>
   <form @submit.stop.prevent="onsubmit" class="search-box">
     <div class="form-inner">
-      <input v-model="text" type="text" placeholder="Search by Entity/Block/Block hash/Tx hash"></input>
+      <input v-model="text" type="text" placeholder="Search by Address/Block/Block hash/Tx hash"></input>
       <a class="search-button" @click.stop.prevent="onsubmit">Search</a>
     </div>
   </form>
