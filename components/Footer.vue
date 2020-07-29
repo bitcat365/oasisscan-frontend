@@ -3,7 +3,7 @@
     <div class="page-container">
       <div class="logo">
         <img src="../assets/oasis-logo.png" />
-        Powered by Bit Cat🐱
+        <div>POWERED BY <a href="https://www.bitcat365.com" target="_blank" class="faq-link"> BIT CAT</a></div>
       </div>
       <div class="social-con">
         <div class="social">
