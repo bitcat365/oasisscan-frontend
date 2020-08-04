@@ -80,7 +80,7 @@
         list: [],
         columns: [
           {
-            title: 'Rank',
+            title: '#',
             key: 'rank',
           },
           {
