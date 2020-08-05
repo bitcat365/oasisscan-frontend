@@ -20,7 +20,12 @@
         <template v-slot:header>
           <span>{{data.method}}</span>
         </template>
-        <v-table  v-if="data.method === 'staking.Transfer'" class="v-table" :headers="fromToSchema" :data="data"></v-table>
+        <v-table  v-if="data.method === 'staking.Transfer'" class="v-table" :headers="fromToSchema" :data="data">
+          <template v-slot:amount="{data}">
+            <span v-if="data">{{data | unit}}</span>
+            <span v-else>0</span>
+          </template>
+        </v-table>
         <div class="raw-data" v-else>
           <pre> {{data.raw | pretty}}</pre>
         </div>
@@ -80,7 +85,8 @@
           },
           {
             label: 'Amount',
-            key: 'amount'
+            key: 'amount',
+            slot: true
           }
         ]
       }
