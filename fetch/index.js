@@ -412,7 +412,7 @@ export async function onSearch(vue, text) {
           vue.$router.push(`/transactions/${res.result}`)
           break
         case 'account':
-          vue.$router.push(`/account/detail/${res.result}`)
+          vue.$router.push(`/accounts/detail/${res.result}`)
           break
         case 'block':
           vue.$router.push(`/blocks/${res.result}`)
