@@ -2,22 +2,22 @@
   <div class="container">
     <nav-bar :active="-1" />
     <div class="notfound-con">
-      <img class="notfound" src="../assets/404_page.png">
+      <img class="notfound" src="../../assets/404_page.png">
     </div>
   </div>
 </template>
 
 <script>
-  import NavBar from '../components/NavigationBar'
+  import NavBar from '../../components/NavigationBar'
 
   export default {
-    name: 'error',
+    name: 'not_found',
     components: { NavBar }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/css/common";
+  @import "../../assets/css/common";
   .notfound {
     width: rem(220);
     height: rem(220);

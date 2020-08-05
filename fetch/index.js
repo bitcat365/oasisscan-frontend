@@ -422,13 +422,13 @@ export async function onSearch(vue, text) {
           break
         default:
           vue.$Spin.hide()
-          vue.$toast('no result')
+          vue.$router.push(`/not_found`)
           break
       }
     }
   } catch (e) {
     vue.$Spin.hide()
-    vue.$toast('no result')
+    vue.$router.push(`/not_found`)
   }
   setTimeout(() => {
     vue.$Spin.hide()

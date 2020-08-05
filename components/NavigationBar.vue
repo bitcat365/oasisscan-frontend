@@ -5,7 +5,7 @@
         <logo></logo>
       </div>
       <nav ref="navs" class="navs">
-        <div ref="slide" class="slide"></div>
+        <div v-if="active > 0" ref="slide" class="slide"></div>
         <router-link :to="'/'" class="nav" :class="isActive(1)" @click="tapMenu($event, 1)">DASHBOARD</router-link>
         <router-link :to="'/validators'" class="nav" :class="isActive(2)" @click="tapMenu($event, 2)">VALIDATORS</router-link>
         <router-link :to="'/accounts'" class="nav" :class="isActive(3)" @click="tapMenu($event, 3)">ACCOUNTS</router-link>
@@ -61,6 +61,9 @@
         this.slide(index)
       },
       slide(index) {
+        if (index <= 0) {
+          return
+        }
         const navs = this.$refs.navs.children
         Vue.nextTick(() => {
           this.$refs.slide.style.width = navs[index].offsetWidth + 'px'
