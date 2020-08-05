@@ -19,9 +19,10 @@ export async function fetchHomeBlockList($axios, pageSize = 10, page = 1, progre
     list = []
   }
   list = list.map((item, index) => {
+    const name = item.name ? item.name : item.entityAddress
     return {
       ...item,
-      proposer: { text: item.entityAddress, link: `/validators/detail/${item.entityAddress}`, type: 'hash-link' },
+      proposer: { text: name, link: `/validators/detail/${item.entityAddress}`, type: item.name ? 'link' : 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
     }
@@ -37,11 +38,12 @@ export async function fetchBlockList($axios, page = 1, size = 20, progress = tru
     progress
   }).catch(() => ({ code: -1 }))
   list = list.map((item, index) => {
+    const name = item.name ? item.name : item.entityAddress
     return {
       ...item,
       hash: { text: item.hash, link: `/blocks/${item.height}`, sliceLength: 12, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
-      proposer: { text: item.entityAddress, link: `/validators/detail/${item.entityAddress}`, type: 'hash-link' },
+      proposer: { text: name, link: `/validators/detail/${item.entityAddress}`, type: item.name ? 'link' : 'hash-link' },
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' }
     }
   });
@@ -183,12 +185,13 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
   if (code !== 0 || !data) {
     data = {}
   }
+  const name = data.name ? data.name : item.entityAddress
   return {
     height: data.height,
     epoch: data.epoch,
     hash: data.hash,
     txs: data.txs,
-    proposer: { text: data.entityAddress, link: `/validators/detail/${data.entityAddress}`, type: 'link' },
+    proposer: { text: name, link: `/validators/detail/${data.entityAddress}`, type: 'link' },
     timestamp: { value: data.timestamp * 1000, type: 'time' },
   }
 }
