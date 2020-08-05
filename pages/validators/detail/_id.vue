@@ -25,7 +25,9 @@
                <div class="column column1">
                  <div class="oneline">
                    <div class="label">Node Address</div>
-                   <div class="value">{{nodeAddress? nodeAddress : ''}}</div>
+                   <div class="value">
+                     <a :href="`/accounts/detail/${nodeAddress}`">{{nodeAddress? nodeAddress : ''}}</a>
+                   </div>
                  </div>
                  <div class="oneline">
                    <div class="label">Com. rates</div>
@@ -59,7 +61,9 @@
                <div class="column column2">
                  <div class="oneline">
                    <div class="label">Entity Address</div>
-                   <div class="value">{{entityAddress}}</div>
+                   <div class="value">
+                     <a :href="`/accounts/detail/${entityAddress}`">{{entityAddress? entityAddress : ''}}</a>
+                   </div>
                  </div>
                  <div class="oneline">
                    <div class="label">Delegators</div>
@@ -623,6 +627,12 @@
           line-height: rem(20);
           margin-top: rem(8);
           .value {
+            a {
+              &:hover,&:active {
+                color: #3273DC;
+              }
+              color: #3273DC;
+            }
           }
           &:first-child {
             margin-top: 0;
