@@ -96,6 +96,10 @@
             key: 'escrow'
           },
           {
+            title: 'Debonding',
+            key: 'debonding'
+          },
+          {
             title: 'Amount',
             key: 'total'
           }

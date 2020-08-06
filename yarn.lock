@@ -9246,11 +9246,6 @@ v-click-outside-x@^3.5.0:
   resolved "https://registry.npm.taobao.org/v-click-outside-x/download/v-click-outside-x-3.7.1.tgz#aa03eaa0e41e44cb5207dcf86c2d9f0dd64084c1"
   integrity sha1-qgPqoOQeRMtSB9z4bC2fDdZAhME=
 
-v-clipboard@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.npm.taobao.org/v-clipboard/download/v-clipboard-2.2.3.tgz#f5db3d7004145041b6d7d06ca48236de4cee3a41"
-  integrity sha1-9ds9cAQUUEG219BspII23kzuOkE=
-
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.npm.taobao.org/validate-npm-package-license/download/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"

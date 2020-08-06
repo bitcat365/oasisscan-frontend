@@ -155,12 +155,12 @@
             key: 'validatorName'
           },
           {
-            title: 'Amount',
-            key: 'amount'
+            title: 'Shares',
+            key: 'shares'
           },
           {
-            title: 'Reward',
-            key: 'shares'
+            title: 'Amount',
+            key: 'amount'
           }
         ],
         columns2: [
@@ -169,12 +169,12 @@
             key: 'validatorName'
           },
           {
-            title: 'Amount',
-            key: 'amount'
+            title: 'Shares',
+            key: 'shares'
           },
           {
-            title: 'Reward',
-            key: 'shares'
+            title: 'Due Epoch',
+            key: 'debondEnd'
           }
         ],
         listSchema: [

@@ -80,7 +80,7 @@ export async function fetchAccountDelegations($axios, address, page = 1, size = 
     const name = item.validatorName ? item.validatorName : item.validatorAddress
     return {
       ...item,
-      validatorName: { text: name, link: `validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
+      validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
     }
   })
   return { list: res, totalSize }
@@ -100,7 +100,7 @@ export async function fetchAccountDebonding($axios, address, page = 1, size = 5)
     const name = item.validatorName ? item.validatorName : item.validatorAddress
     return {
       ...item,
-      validatorName: { text: name, link: `validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
+      validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
     }
   })
   return { list: res, totalSize }
