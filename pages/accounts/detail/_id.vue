@@ -13,7 +13,14 @@
           <v-table class="v-table" :headers="listSchema" :data="data">
             <template v-slot:address="slotData">
               <div class="address-item">
-                <span>{{slotData.data}}</span> <span class="copy-con" v-clipboard:copy="slotData.data" v-clipboard:success="onCopy"> <img class="copy-icon" src="../../../assets/copy.png"></span>
+                <span class="address-emoji" v-if="slotData.data.total >= 1000">🦐</span>
+                <span class="address-emoji" v-else-if="slotData.data.total >= 1000">🦞</span>
+                <span class="address-emoji" v-else-if="slotData.data.total >= 10000">🦀️</span>
+                <span class="address-emoji" v-else-if="slotData.data.total >= 100000">🐟</span>
+                <span class="address-emoji" v-else-if="slotData.data.total >= 1000000">🐬</span>
+                <span class="address-emoji" v-else-if="slotData.data.total >= 10000000">🐳</span>
+                <span class="address-emoji" v-else-if="slotData.data.total >= 100000000">🐳</span>
+                <span>{{slotData.data.address}}</span> <span class="copy-con" v-clipboard:copy="slotData.data.address" v-clipboard:success="onCopy"> <img class="copy-icon" src="../../../assets/copy.png"></span>
               </div>
             </template>
             <template v-slot:total="{data}">
@@ -290,6 +297,9 @@
   .address-item {
     display: flex;
     align-items: center;
+    .address-emoji {
+      padding-right: rem(4);
+    }
   }
   .copy-con {
     display: flex;

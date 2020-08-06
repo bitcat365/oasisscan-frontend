@@ -63,6 +63,7 @@ export async function fetchChainMethods($axios) {
 export async function fetchAccountDetail($axios, address) {
   let { code, data = { } } = await $axios.$get(`/chain/account/info/${address}`, {
   }).catch(() => ({ code: -1 }))
+  data.address = { address: data.address, total: data.total }
   return data
 }
 export async function fetchAccountDelegations($axios, address, page = 1, size = 5) {
