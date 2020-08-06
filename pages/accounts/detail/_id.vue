@@ -16,6 +16,9 @@
                 <span>{{slotData.data}}</span> <span class="copy-con" v-clipboard="slotData.data"> <img class="copy-icon" src="../../../assets/copy.png"></span>
               </div>
             </template>
+            <template v-slot:total="{data}">
+              <span>{{data | unit}}</span>
+            </template>
           </v-table>
           <pie-chart :data="data"></pie-chart>
         </div>
@@ -182,7 +185,8 @@
           },
           {
             label: 'Total Balance',
-            key: 'total'
+            key: 'total',
+            slot: true
           },
           {
             label: 'Available',
@@ -239,7 +243,7 @@
     methods: {
       async gotoDelegations(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchAccountDelegations($axios, this.accountAddress, this.delegationsListSizer, pageNumber)
+        const { list, totalSize } = await fetchAccountDelegations($axios, this.accountAddress, pageNumber, this.delegationsListSizer)
         this.delegationsList = list
         console.log('delegatorsList', list)
         this.totalDelegationsSize = totalSize
@@ -247,7 +251,7 @@
       },
       async gotoDeboundings(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchAccountDebonding($axios, this.accountAddress, this.debondingsListSizer, pageNumber)
+        const { list, totalSize } = await fetchAccountDebonding($axios, this.accountAddress, pageNumber, this.debondingsListSizer)
         this.debondingsList = list
         console.log('delegatorsList', list)
         this.totalDebondingsSize = totalSize
