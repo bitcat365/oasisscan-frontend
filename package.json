@@ -37,6 +37,7 @@
     "moment": "^2.26.0",
     "nuxt": "^2.4.0",
     "v-clipboard": "^2.2.3",
+    "vue-clipboard2": "^0.3.1",
     "vue-i18n": "^8.11.2",
     "vue-json-pretty": "^1.6.3",
     "vue2-toast": "^2.1.0"
