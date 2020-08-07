@@ -302,7 +302,8 @@ export async function validatorStats($axios, address) {
   let { code, data: { signs, proposals } = { signs: [], proposals: [] } } = await $axios.$get(`/validator/stats`, {
     params: {
       address
-    }
+    },
+    progress: false
   })
   return {
     signs, proposals

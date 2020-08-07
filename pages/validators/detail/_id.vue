@@ -388,8 +388,22 @@
       this.gotoEvents(1)
       this.gotoDelegators(1)
       this.getStates()
+      this.timer && clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.repool()
+      }, 6000)
+    },
+    destroyed() {
+      this.timer && clearTimeout(this.timer)
+      this.timer = null
     },
     methods: {
+      async repool() {
+        await this.getStates()
+        this.timer = setTimeout(() => {
+          this.repool()
+        }, 5000)
+      },
       async getStates() {
         const { signs, proposals } = await validatorStats(this.$axios, this.entityAddress)
         console.log('signs', signs)
