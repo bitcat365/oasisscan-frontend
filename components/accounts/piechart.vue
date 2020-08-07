@@ -59,9 +59,9 @@
                   mouseOver: (e) => {
                     // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
                     // console.log('this.$refs', e.target)
-                    this.$refs.chart.chart.setTitle({
-                      text: e.target.percentage.toFixed(2) + ' %'
-                    })
+                    // this.$refs.chart.chart.setTitle({
+                    //   text: e.target.percentage.toFixed(2) + ' %'
+                    // })
                   }
                 }
               }

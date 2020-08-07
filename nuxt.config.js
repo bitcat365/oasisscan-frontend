@@ -11,11 +11,24 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'OASIS SCAN provides an easy to use and popular block explorer, powerful data and advanced analytics. allows you to explore and search the OASIS blockchain for Entity, Block, Block hash, Txn hash, validator info. ' }
+      { hid: 'description', name: 'description', content: 'OASIS SCAN provides an easy to use and popular block explorer, powerful data and advanced analytics. allows you to explore and search the OASIS blockchain for Entity, Block, Block hash, Txn hash, validator info. ' },
+    ],
+    script: [
+      { src: 'https://www.googletagmanager.com/gtag/js?id=UA-6150405-8', body: true, async: true },
+      {
+        innerHTML: `console.log(1111);window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-6150405-8');`,
+        type: 'text/javascript',
+        charset: 'utf-8',
+        body: true
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    __dangerouslyDisableSanitizers: ['script']
   },
   router: {
     middleware: 'i18n'
