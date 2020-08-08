@@ -1,8 +1,8 @@
 <template>
   <span class="arrow-nav-con">
-    <img class="arrow pre" src="../assets/arrows-pre.png" @click.prevent.stop="$emit('pre')">
-    <img v-if="!isLast" class="arrow next" src="../assets/arrows-next.png" @click.prevent.stop="$emit('next')">
-    <img v-else class="arrow next" src="../assets/next-disable.png">
+    <img class="arrow pre" src="../assets/arrows-pre.svg" @click.prevent.stop="$emit('pre')">
+    <img v-if="!isLast" class="arrow next" src="../assets/arrows-next.svg" @click.prevent.stop="$emit('next')">
+    <img v-else class="arrow next" src="../assets/next-disable.svg">
   </span>
 </template>
 

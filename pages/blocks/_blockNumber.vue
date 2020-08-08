@@ -20,7 +20,7 @@
           <span>Transactions</span>
         </template>
         <p v-if="total === 0" class="no-result">
-          <img class="empty-icon" src="../../assets/empty.png">
+          <img class="empty-icon" src="../../assets/empty.svg">
           {{$t('noTx')}}
         </p>
         <block-table
