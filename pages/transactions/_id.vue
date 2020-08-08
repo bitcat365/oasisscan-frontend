@@ -12,7 +12,7 @@
         <v-table class="v-table" :headers="listSchema" :data="data">
           <template v-slot:fee="{data}">
             <span v-if="data">{{data | unit}}</span>
-            <span v-else>0</span>
+            <span v-else>{{0 | unit}}</span>
           </template>
 
           <template v-slot:status="{data}">
@@ -28,7 +28,7 @@
         <v-table  v-if="data.method === 'staking.Transfer'" class="v-table" :headers="fromToSchema" :data="data">
           <template v-slot:amount="{data}">
             <span v-if="data">{{data | unit}}</span>
-            <span v-else>0</span>
+            <span v-else>{{0 | unit}}</span>
           </template>
         </v-table>
         <div class="raw-data" v-else>
