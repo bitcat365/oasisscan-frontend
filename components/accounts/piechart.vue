@@ -1,5 +1,5 @@
 <template>
-  <div class="chart-wrapper">
+  <div v-if="!disable" class="chart-wrapper">
     <highcharts
       ref="chart"
       class="chart-con"
@@ -26,8 +26,9 @@
     name: 'piechart',
     props: ['data'],
     data() {
-      // console.log(this.data.available, 'data')
+      // console.log(this.data, 'data')
       return {
+        disable: parseFloat(this.data.available) === 0 && parseFloat(this.data.escrow) === 0 && parseFloat(this.data.debonding) === 0,
         chartOptions: {
           colors: ['#4CD4A9', '#58D0FF', '#919191'],
           chart: {
@@ -80,17 +81,7 @@
       }
     },
     methods: {
-      initCallback(c) {
-        // console.log('aaaa')
-        return
-        // 环形图圆心
-        const centerY = c.series[0].center[1];
-        const titleHeight = parseInt(c.title.styles.fontSize)
-        // 动态设置标题位置
-        c.setTitle({
-          y: centerY + titleHeight / 2
-        })
-      }
+
     }
   }
 </script>

@@ -168,7 +168,7 @@
             <span>Delegators</span>
           </template>
           <p v-if="delegatorsList && delegatorsList.length === 0" class="no-result">
-            <img class="empty-icon_s" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.png" />
             No Delegators
           </p>
           <block-table
