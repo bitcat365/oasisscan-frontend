@@ -258,6 +258,7 @@
   .name-icon {
     margin-right: rem(5);
     width: rem(30);
+    height: rem(30);
   }
   .uptime-item {
     color: white;
