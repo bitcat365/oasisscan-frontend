@@ -127,7 +127,7 @@
 
   export default {
     name: 'accountDetail',
-    components: { PieChart, NavBar, Panel, VTable, BlockTable, Page},
+    components: { PieChart, NavBar, Panel, VTable, BlockTable, Page },
     async asyncData({ $axios, params }) {
       const datas = await Promise.all([
         fetchAccountDetail($axios, params.id),
