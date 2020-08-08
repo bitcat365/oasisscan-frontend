@@ -21,6 +21,10 @@
             <span v-if="data">{{data | unit}}</span>
             <span v-else>0</span>
           </template>
+          <template v-slot:status="{data}">
+            <span v-if="data" class="status-success">Success</span>
+            <span v-else class="status-fail" :data-data="data">Fail</span>
+          </template>
         </block-table>
         <div class="page-navigation">
           <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
@@ -122,10 +126,11 @@
             title: 'Type',
             key: 'method'
           },
-          // {
-          //   title: 'Status',
-          //   key: 'timestamp'
-          // },
+          {
+            title: 'Status',
+            key: 'status',
+            slot: true
+          },
           {
             title: 'Time',
             key: 'timestamp'
@@ -148,6 +153,18 @@
     .show-cur {
       color: #5F5F5F;
     }
+  }
+  .status-fail,.status-success {
+    padding: rem(4) rem(10);
+    color: white;
+    border-radius: rem(4);
+    font-size: rem(12);
+  }
+  .status-fail {
+    background-color: #F7685B;
+  }
+  .status-success {
+    background-color: #2ED47A;
   }
   .page-navigation {
     display: flex;

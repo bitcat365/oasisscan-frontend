@@ -35,7 +35,7 @@
           primary-key="entityId"
           @sort="sort">
           <template v-slot:escrow="{data:{escrow, escrowPercent}}">
-            <span>{{escrow}} ({{(escrowPercent * 100).toFixed(0) + '%'}})</span>
+            <span>{{escrow}} ({{escrowPercent | percentFormat }})</span>
           </template>
           <template v-slot:uptime="slotData">
             <div class="uptime-item green" v-if="+slotData.data.replace('%', '') >=80">{{slotData.data}}</div>
