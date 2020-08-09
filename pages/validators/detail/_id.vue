@@ -6,6 +6,14 @@
       <panel>
         <template v-slot:header>
           <span>Detail</span>
+          <div class="status-con">
+            <div v-if="status" class="success">
+              <img src="../../../assets/status-success.png" /> Registered
+            </div>
+            <div v-else class="fail">
+              <img src="../../../assets/status-fail.png" /> Not Registered
+            </div>
+          </div>
         </template>
         <div class="info-con">
          <div class="base-inco">
@@ -788,6 +796,21 @@
       th:nth-child(3){
         width: rem(100);
       }
+    }
+  }
+  .status-con {
+    position: absolute;
+    right: 0;
+    font-size: rem(12);
+    color: #5D5D5D;
+    .success,.fail {
+      display: flex;
+      align-items: center;
+    }
+    img {
+      width: rem(12);
+      height: rem(12);
+      margin-right: rem(6);
     }
   }
   @media(-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2) {

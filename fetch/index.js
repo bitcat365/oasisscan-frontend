@@ -383,7 +383,7 @@ export async function fetchValidatorDetail($axios, address) {
     }
   })
   if (code !== 0) {
-    console.log('others', others, code)
+    console.log('others', others, data)
     return {
       entityId: '',
       name: '',
