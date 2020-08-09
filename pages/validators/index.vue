@@ -222,7 +222,7 @@
             slot: true
           },
           {
-            title: 'Uptime(1k block)',
+            title: 'Sign(1k block)',
             key: 'uptime',
             slot: true,
             sortable: true
