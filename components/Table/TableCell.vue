@@ -19,7 +19,7 @@
 <script>
   export default {
     props: {
-      data: [Object, String, Number],
+      data: [Object, String, Number, Boolean],
       rootClass: String
     },
     name: 'TableCell',
