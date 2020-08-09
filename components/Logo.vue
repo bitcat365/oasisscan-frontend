@@ -1,6 +1,6 @@
 <template>
   <router-link class="logo" aria-current="page" :to="'/'">
-    <img class="logo-oasis" src="../assets/oasis-scan-logo.png"/>
+    <img class="logo-oasis" src="../assets/oasis-scan-logo.svg"/>
   </router-link>
 </template>
 <script>
@@ -20,7 +20,8 @@
     line-height: 1;
     font-family: 'Gotham Pro Black';
     > .logo-oasis{
-      height: rem(42);
+      height: rem(102);
+      margin: 0 0 0 10px;
     }
   }
 </style>

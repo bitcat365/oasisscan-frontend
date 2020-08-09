@@ -168,7 +168,7 @@
             <span>Delegators</span>
           </template>
           <p v-if="delegatorsList && delegatorsList.length === 0" class="no-result">
-            <img class="empty-icon_s" src="../../../assets/empty.png" />
+            <img class="empty-icon_s" src="../../../assets/empty.svg" />
             No Delegators
           </p>
           <block-table
@@ -200,7 +200,7 @@
             <span>Escrow Event</span>
           </template>
           <p v-if="evensList && evensList.length === 0" class="no-result">
-            <img class="empty-icon_s" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.svg">
             No Escrow Event
           </p>
           <block-table
@@ -459,7 +459,7 @@
   .proposals-states-con {
     /deep/ {
       .kuai.yes {
-        background: url("../../../assets/proposal.png");
+        background: url("../../../assets/proposal.svg");
         background-size:  100% 100%;
         width: rem(18);
         height: rem(18);

@@ -18,9 +18,9 @@
                 <span class="address-emoji" v-else-if="slotData.data.total >= 10000">🦀️</span>
                 <span class="address-emoji" v-else-if="slotData.data.total >= 100000">🐟</span>
                 <span class="address-emoji" v-else-if="slotData.data.total >= 1000000">🐬</span>
-                <span class="address-emoji" v-else-if="slotData.data.total >= 10000000">🐳</span>
+                <span class="address-emoji" v-else-if="slotData.data.total >= 10000000">🐋</span>
                 <span class="address-emoji" v-else-if="slotData.data.total >= 100000000">🐳</span>
-                <span>{{slotData.data.address}}</span> <span class="copy-con" v-clipboard:copy="slotData.data.address" v-clipboard:success="onCopy"> <img class="copy-icon" src="../../../assets/copy.png"></span>
+                <span>{{slotData.data.address}}</span> <span class="copy-con" v-clipboard:copy="slotData.data.address" v-clipboard:success="onCopy"> <img class="copy-icon" src="../../../assets/copy.svg"></span>
               </div>
             </template>
             <template v-slot:total="{data}">
@@ -36,7 +36,7 @@
             <span>Escrow Active</span>
           </template>
           <p v-if="delegationsList && delegationsList.length === 0" class="no-result">
-            <img class="empty-icon_s" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.svg">
             No Escrow
           </p>
           <block-table
@@ -63,7 +63,7 @@
             <span>Escrow Debonding</span>
           </template>
           <p v-if="debondingsList && debondingsList.length === 0" class="no-result">
-            <img class="empty-icon_s" src="../../../assets/empty.png">
+            <img class="empty-icon_s" src="../../../assets/empty.svg">
             No Debonding
           </p>
           <block-table
@@ -93,7 +93,7 @@
           <span>Transactions</span>
         </template>
         <p v-if="total === 0" class="no-result">
-          <img class="empty-icon" src="../../../assets/empty.png">
+          <img class="empty-icon" src="../../../assets/empty.svg">
           {{$t('noTx')}}
         </p>
         <block-table
@@ -176,7 +176,7 @@
             key: 'validatorName'
           },
           {
-            title: 'Shares',
+            title: 'Amount',
             key: 'shares'
           },
           {

@@ -2,16 +2,19 @@
   <section class="footer">
     <div class="page-container">
       <div class="logo">
-        <img src="../assets/oasis-logo.png" />
+        <img src="../assets/oasis-logo.svg" />
         <div>Oasis Network Block Explorer & Powered by <a href="https://www.bitcat365.com" target="_blank" class="faq-link"> Bit Cat 🐱</a></div>
       </div>
       <div class="social-con">
         <div class="social">
           <a href="https://twitter.com/BitCat365" target="_blank" class="social-item twitter">
-            <img src="../assets/twitter.png">
+            <img src="../assets/twitter.svg">
           </a>
           <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" target="_blank" class="social-item telegram">
-            <img src="../assets/telegram.png">
+            <img src="../assets/telegram.svg">
+          </a>
+          <a href="https://www.bitcat365.com/contact" target="_blank" class="social-item telegram">
+            <img src="../assets/wechat.svg">
           </a>
         </div>
         <a  href="/faq" class="faq-link">Need help? FAQ</a>

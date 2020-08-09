@@ -3,7 +3,7 @@
     <div class="textBox">
       <transition name="slide">
         <p class="text" :key="text.id">
-          <img class="laba" src="../assets/laba.png"/>
+          <img class="laba" src="../assets/laba.svg"/>
           <a :href="text.link">
             <span>{{text.val}}</span>
           </a>

@@ -61,8 +61,8 @@
           <template v-slot:rank="slotData">
             <div class="rank">
               {{slotData.data.rank}}
-              <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/start.png">
-              <img @click="star(slotData.data.entityId, true)" v-else class="star unstar" src="../../assets/unstar.png">
+              <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/star.svg">
+              <img @click="star(slotData.data.entityId, true)" v-else class="star unstar" src="../../assets/unstar.svg">
             </div>
           </template>
         </block-table>

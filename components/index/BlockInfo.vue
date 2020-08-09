@@ -3,17 +3,17 @@
     <div>
       <block-status name="Block Height" :value="blockInfo.curHeight">
         <template slot="icon">
-          <img class="icon1" src="../../assets/b1.png" />
+          <img class="icon1" src="../../assets/b1.svg" />
         </template>
       </block-status>
       <block-status name="Current Epoch" :value="blockInfo.curEpoch">
         <template slot="icon">
-          <img class="icon3" src="../../assets/b3.png">
+          <img class="icon3" src="../../assets/b3.svg">
         </template>
       </block-status>
       <block-status name="Total Transactions" :value="blockInfo.totalTxs" :border="false">
         <template slot="icon">
-          <img class="icon5" src="../../assets/b5.png">
+          <img class="icon5" src="../../assets/b5.svg">
         </template>
       </block-status>
     </div>
@@ -21,17 +21,17 @@
     <div>
       <block-status name="Total Escrow" :value="blockInfo.totalEscrow || -1">
         <template slot="icon">
-          <img class="icon2" src="../../assets/b2.png">
+          <img class="icon2" src="../../assets/b2.svg">
         </template>
       </block-status>
       <block-status name="Active Validator" :value="blockInfo.activeValidator">
         <template slot="icon">
-          <img class="icon4" src="../../assets/b4.png">
+          <img class="icon4" src="../../assets/b4.svg">
         </template>
       </block-status>
       <block-status name="Total Delegators" :value="blockInfo.totalDelegate" :border="false">
         <template slot="icon">
-          <img class="icon6" src="../../assets/b6.png">
+          <img class="icon6" src="../../assets/b6.svg">
         </template>
       </block-status>
     </div>
