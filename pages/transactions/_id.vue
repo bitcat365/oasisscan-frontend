@@ -16,8 +16,11 @@
           </template>
 
           <template v-slot:status="{data}">
-            <span v-if="data" class="status-success">Success</span>
-            <span v-else class="status-fail" :data-data="data">Fail</span>
+            <span v-if="data.status" class="status-success">Success</span>
+            <div v-else>
+              <span class="status-fail">Fail</span>
+              <span class="error-message">{{ data.error }}</span>
+            </div>
           </template>
         </v-table>
       </panel>
@@ -188,6 +191,9 @@
   }
   .status-fail {
     background-color: #F7685B;
+  }
+  .error-message {
+    color: #F7685B;
   }
   .status-success {
     background-color: #2ED47A;

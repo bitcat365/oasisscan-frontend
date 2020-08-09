@@ -269,11 +269,11 @@ export async function fetchTransactionDetail($axios, txHash) {
     to: { text: data.to, link: `/accounts/detail/${data.to}`, type: 'link' },
     amount: data.amount,
     raw: data.raw,
-    status: !!data.status,
+    status: { status: !!data.status, error: data.errorMessage ? data.errorMessage : '' },
     timestamp: data.timestamp,
     height: { text: data.height, link: `/blocks/${data.height}`, type: 'link' },
     fee: data.fee,
-    nonce: data.nonce
+    nonce: data.nonce,
   }
 }
 

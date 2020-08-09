@@ -118,13 +118,13 @@
             key: 'height'
           },
           {
+            title: 'Type',
+            key: 'method'
+          },
+          {
             title: 'Fee',
             key: 'fee',
             slot: true
-          },
-          {
-            title: 'Type',
-            key: 'method'
           },
           {
             title: 'Status',
