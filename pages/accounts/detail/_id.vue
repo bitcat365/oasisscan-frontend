@@ -176,7 +176,7 @@
             key: 'validatorName'
           },
           {
-            title: 'Shares',
+            title: 'Amount',
             key: 'shares'
           },
           {
