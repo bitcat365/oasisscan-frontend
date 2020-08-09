@@ -7,6 +7,12 @@
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+          <template v-slot:address="{data}">
+            <div class="account-item">
+              <emoji :amount="data.total"></emoji>
+              <a :href="data.link" target="_self">{{data.text | hashFormat(data.sliceLength ? data.sliceLength : undefined)}}</a>
+            </div>
+          </template>
         </block-table>
         <div class="page-navigation">
           <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
@@ -20,6 +26,7 @@
 <script>
   import LS from 'local-storage'
   import { fetchAccountsList } from '../../fetch/index'
+  import Emoji from '../../components/emoji'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
   import Page from '../../components/Page'
@@ -29,7 +36,8 @@
     components: {
       NavBar,
       BlockTable,
-      Page
+      Page,
+      Emoji
     },
     async asyncData({ $axios }) {
       const { list, totalSize } = await fetchAccountsList($axios, 1, 20)
@@ -85,7 +93,8 @@
           },
           {
             title: 'Accounts',
-            key: 'address'
+            key: 'address',
+            slot: true
           },
           {
             title: 'Available',
@@ -226,5 +235,9 @@
     display: flex;
     justify-content: flex-end;
     padding: 15px 0;
+  }
+  .account-item {
+    display: flex;
+    align-items: center;
   }
 </style>

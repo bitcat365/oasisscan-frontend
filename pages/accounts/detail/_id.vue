@@ -13,13 +13,7 @@
           <v-table class="v-table" :headers="listSchema" :data="data">
             <template v-slot:address="slotData">
               <div class="address-item">
-                <span class="address-emoji" v-if="slotData.data.total <1000">🦐</span>
-                <span class="address-emoji" v-else-if="slotData.data.total < 10000">🦞</span>
-                <span class="address-emoji" v-else-if="slotData.data.total < 100000">🦀️</span>
-                <span class="address-emoji" v-else-if="slotData.data.total < 1000000">🐟</span>
-                <span class="address-emoji" v-else-if="slotData.data.total < 10000000">🐬</span>
-                <span class="address-emoji" v-else-if="slotData.data.total < 100000000">🐋</span>
-                <span class="address-emoji" v-else-if="slotData.data.total < 1000000000">🐳</span>
+                <emoji :amount="slotData.data.total"/>
                 <span>{{slotData.data.address}}</span> <span class="copy-con" v-clipboard:copy="slotData.data.address" v-clipboard:success="onCopy"> <img class="copy-icon" src="../../../assets/copy.svg"></span>
               </div>
             </template>
@@ -122,12 +116,13 @@
   import Page from '../../../components/Page'
   import VTable from '../../../components/VTable/index'
   import NavBar from '../../../components/NavigationBar'
+  import Emoji from '../../../components/emoji'
   import PieChart from '../../../components/accounts/piechart'
   import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions } from '../../../fetch/index'
 
   export default {
     name: 'accountDetail',
-    components: { PieChart, NavBar, Panel, VTable, BlockTable, Page },
+    components: { PieChart, NavBar, Panel, VTable, BlockTable, Page, Emoji },
     async asyncData({ $axios, params }) {
       const datas = await Promise.all([
         fetchAccountDetail($axios, params.id),
@@ -297,9 +292,6 @@
   .address-item {
     display: flex;
     align-items: center;
-    .address-emoji {
-      padding-right: rem(4);
-    }
   }
   .copy-con {
     display: flex;
