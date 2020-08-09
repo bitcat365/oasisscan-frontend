@@ -412,6 +412,12 @@
           width: 60px;
           text-align: center;
         }
+        &:nth-child(7) {
+          text-align: center;
+          .header-title {
+            justify-content: center;
+          }
+        }
         &:last-child {
           padding-left: 0;
           width: 110px;
