@@ -10,7 +10,7 @@
           <template v-slot:address="{data}">
             <div class="account-item">
               <emoji :amount="data.total"></emoji>
-              <a :href="data.link" target="_self">{{data.text | hashFormat(data.sliceLength ? data.sliceLength : undefined)}}</a>
+              <a :href="data.link" target="_self">{{data.text}}</a>
             </div>
           </template>
         </block-table>
