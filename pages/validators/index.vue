@@ -34,6 +34,10 @@
           :data="showList"
           primary-key="entityId"
           @sort="sort">
+          <template v-slot:status="{ data }">
+            <img v-if="data" class="validator-status" src="../../assets/status-success.png" />
+            <img v-else class="validator-status" src="../../assets/status-fail.png" />
+          </template>
           <template v-slot:escrow="{data:{escrow, escrowPercent}}">
             <span>{{escrow}} ({{escrowPercent | percentFormat }})</span>
           </template>
@@ -213,6 +217,11 @@
             sortable: true
           },
           {
+            title: 'Status',
+            key: 'status',
+            slot: true
+          },
+          {
             title: 'Uptime(1k block)',
             key: 'uptime',
             slot: true,
@@ -259,6 +268,10 @@
     margin-right: rem(5);
     width: rem(30);
     height: rem(30);
+  }
+  .validator-status {
+    width: rem(16);
+    height: rem(16);
   }
   .uptime-item {
     color: white;
