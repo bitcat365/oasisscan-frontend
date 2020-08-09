@@ -174,7 +174,7 @@
     created() {
     },
     mounted() {
-      this.staredValidators = [...LS('StaredValidators')] || []
+      this.staredValidators = [...(LS('StaredValidators')) || []]
     },
     data() {
       return {
