@@ -8,10 +8,10 @@
           <span>Detail</span>
           <div class="status-con">
             <div v-if="status" class="success">
-              <img src="../../../assets/status-success.png" /> Registered
+              <img src="../../../assets/status-success.svg" /> Registered
             </div>
             <div v-else class="fail">
-              <img src="../../../assets/status-fail.png" /> Not Registered
+              <img src="../../../assets/status-fail.svg" /> Not Registered
             </div>
           </div>
         </template>

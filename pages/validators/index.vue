@@ -35,8 +35,8 @@
           primary-key="entityId"
           @sort="sort">
           <template v-slot:status="{ data }">
-            <img v-if="data" class="validator-status" src="../../assets/status-success.png" />
-            <img v-else class="validator-status" src="../../assets/status-fail.png" />
+            <img v-if="data" class="validator-status" src="../../assets/status-success.svg" />
+            <img v-else class="validator-status" src="../../assets/status-fail.svg" />
           </template>
           <template v-slot:escrow="{data:{escrow, escrowPercent}}">
             <span>{{escrow}} ({{escrowPercent | percentFormat }})</span>
@@ -222,7 +222,7 @@
             slot: true
           },
           {
-            title: 'Uptime(1k block)',
+            title: 'Sign(1k block)',
             key: 'uptime',
             slot: true,
             sortable: true
