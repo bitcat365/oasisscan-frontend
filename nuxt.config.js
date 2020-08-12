@@ -52,7 +52,7 @@ module.exports = {
     '~/plugins/axios.js',
     '@/plugins/iview',
     '~/plugins/i18n.js',
-    { src: '~plugins/highchart.js', ssr: false },
+    { src: '~plugins/highchart.js' },
     '~/plugins/clipboard.js',
     '~/plugins/toast.js',
     '~/plugins/filters.js'
