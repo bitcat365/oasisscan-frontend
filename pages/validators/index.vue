@@ -412,6 +412,12 @@
           width: 60px;
           text-align: center;
         }
+        &:nth-child(2) {
+          width: 200px;
+        }
+        &:nth-child(3) {
+          width: 200px;
+        }
         &:nth-child(7) {
           text-align: center;
           .header-title {
