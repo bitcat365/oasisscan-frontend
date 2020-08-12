@@ -26,7 +26,7 @@
             <span v-else class="status-fail" :data-data="data">Fail</span>
           </template>
           <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
+            <span>{{data.value | timeFormat}}</span>
           </template>
         </block-table>
         <div class="page-navigation">

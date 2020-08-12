@@ -8,7 +8,7 @@
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
           <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
+            <span>{{data.value | timeFormat}}</span>
           </template>
         </block-table>
         <div class="page-navigation">
