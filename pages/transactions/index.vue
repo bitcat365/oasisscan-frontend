@@ -25,6 +25,9 @@
             <span v-if="data" class="status-success">Success</span>
             <span v-else class="status-fail" :data-data="data">Fail</span>
           </template>
+          <template v-slot:timestamp="{data}">
+            <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
+          </template>
         </block-table>
         <div class="page-navigation">
           <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
@@ -133,7 +136,8 @@
           },
           {
             title: 'Time',
-            key: 'timestamp'
+            key: 'timestamp',
+            slot: true
           }
         ]
       }
@@ -216,7 +220,7 @@
         }
         &:last-child {
           padding-left: 0;
-          width: 110px;
+          width: 250px;
         }
       }
     }

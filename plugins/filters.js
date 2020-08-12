@@ -37,11 +37,16 @@ Vue.filter('floatFormat', (val) => {
 })
 
 Vue.filter('timeFormat', (val) => {
+  // return moment(val).format('YYYY-MM-DD HH:mm:ss')
+  return moment(val).fromNow()
+})
+
+Vue.filter('timeFormat2', (val) => {
   if (typeof window !== 'object' || !window.location) { // 防止服务端的时区和客户端的时区不一样
     return ' '
   }
-  // return moment(val).format('YYYY-MM-DD HH:mm:ss')
-  return moment(val).fromNow()
+  return moment(val).format('YYYY-MM-DD HH:mm:ss')
+  // return moment(val).fromNow()
 })
 
 Vue.filter('hashFormat', (val, length = 8) => {

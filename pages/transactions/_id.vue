@@ -22,6 +22,9 @@
               <span class="error-message">{{ data.error }}</span>
             </div>
           </template>
+          <template v-slot:timestamp="{data}">
+            <span>{{data * 1000 | timeFormat}} ( {{data * 1000 | timeFormat2}} )</span>
+          </template>
         </v-table>
       </panel>
       <panel class="trx-panel">
@@ -70,7 +73,8 @@
           },
           {
             label: 'Time',
-            key: 'timestamp'
+            key: 'timestamp',
+            slot: true
           },
           {
             label: 'Height',
