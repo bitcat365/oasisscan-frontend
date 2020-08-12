@@ -13,6 +13,9 @@
           <template v-slot:height="slotData">
             <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
           </template>
+          <template v-slot:timestamp="{data}">
+            <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
+          </template>
         </v-table>
       </panel>
       <panel class="trx-panel" v-if="!isRequesting">
@@ -84,7 +87,8 @@
           },
           {
             label: 'Time',
-            key: 'timestamp'
+            key: 'timestamp',
+            slot: true
           },
           {
             label: 'Hash',
