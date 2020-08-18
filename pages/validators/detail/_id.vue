@@ -638,7 +638,7 @@
       }
       .column {
         overflow: hidden;
-        padding-right: 2rem;
+        padding-right: 0.5rem;
         flex: 1;
         display: flex;
         justify-content: space-between;
