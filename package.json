@@ -1,7 +1,7 @@
 {
   "name": "OasisExplorer",
   "version": "1.0.0",
-  "description": "Oasis Scan provides an easy to use and popular block explorer for Oasis protocol, powerful data and advanced analytics.",
+  "description": "A block explorer for Oasis protocol.",
   "author": "BitCat",
   "private": true,
   "scripts": {
