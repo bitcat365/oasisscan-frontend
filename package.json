@@ -1,8 +1,8 @@
 {
   "name": "OasisExplorer",
   "version": "1.0.0",
-  "description": "Oasis Scan provides an easy to use and popular block explorer, powerful data and advanced analytics.",
-  "author": "Bit Cat",
+  "description": "Oasis Scan provides an easy to use and popular block explorer for Oasis protocol, powerful data and advanced analytics.",
+  "author": "BitCat",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
