@@ -1,15 +1,15 @@
 {
-  "chainId": "AMBER",
+  "chainId": "mainnet-dryrun",
   "editURL": "https://github.com/oasisprotocol/metadata-registry",
-  "feeUnit": "AMBER",
+  "feeUnit": "ROSE",
   "news": [
     {
-      "url": "https://medium.com/oasis-protocol-project/introducing-the-amber-network-a-release-candidate-for-mainnet-7fe9c8d6a5c5",
-      "content": "Introducing the Amber Network "
+      "url": "https://docs.oasis.dev/general/pre-mainnet/dry-run-overview", 
+      "content": "About Mainnet Dry Run "
     },
     {
-      "url": "https://docs.oasis.dev/operators/amber-network.html",
-      "content": "The Oasis Amber Network Guide"
+      "url": "https://docs.oasis.dev/oasis-network-primer/",
+      "content": "Oasis Network Primer"
     }
   ]
 }
