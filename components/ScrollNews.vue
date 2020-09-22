@@ -4,7 +4,7 @@
       <transition name="slide">
         <p class="text" :key="text.id">
           <img class="laba" src="../assets/laba.svg"/>
-          <a :href="text.link">
+          <a :href="text.link" target="_blank">
             <span>{{text.val}}</span>
           </a>
         </p>
