@@ -1,7 +1,7 @@
 {
   "name": "OasisScan",
   "version": "1.0.0",
-  "description": "Oasis Scan provides an easy to use and popular Oasis block network explorer",
+  "description": "Oasis Scan provides an easy to use and popular Oasis block explorer",
   "author": "BitCat",
   "private": true,
   "scripts": {
