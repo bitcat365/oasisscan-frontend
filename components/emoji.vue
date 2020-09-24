@@ -1,10 +1,10 @@
 <template>
-  <span class="address-emoji" v-if="amount <= 1000">🦐</span>
-  <span class="address-emoji" v-else-if="amount <= 10000">🦞</span>
-  <span class="address-emoji" v-else-if="amount <= 100000">🦀️</span>
-  <span class="address-emoji" v-else-if="amount <= 1000000">🐟</span>
-  <span class="address-emoji" v-else-if="amount <= 10000000">🐬</span>
-  <span class="address-emoji" v-else-if="amount <= 100000000">🐋</span>
+  <span class="address-emoji" v-if="amount <= 10000">🦐</span>
+  <span class="address-emoji" v-else-if="amount <= 100000">🦞</span>
+  <span class="address-emoji" v-else-if="amount <= 1000000">🦀️</span>
+  <span class="address-emoji" v-else-if="amount <= 10000000">🐟</span>
+  <span class="address-emoji" v-else-if="amount <= 100000000">🐬</span>
+  <span class="address-emoji" v-else-if="amount <= 1000000000">🐋</span>
   <span class="address-emoji" v-else-if="amount <= 10000000000">🐳</span>
 </template>
 
