@@ -3,7 +3,7 @@
     <nav-bar :active="3" />
     <div class="page-container container">
       <div class="title">
-        <h1>ACCOUNT DETIALS</h1>
+        <h1>ACCOUNT DETAILS</h1>
       </div>
       <panel>
         <template v-slot:header>
