@@ -187,7 +187,8 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
   if (code !== 0 || !data) {
     data = {}
   }
-  const name = data.name ? data.name : item.entityAddress
+  console.log('data', data)
+  const name = data.name ? data.name : data.entityAddress
   return {
     height: data.height,
     epoch: data.epoch,
