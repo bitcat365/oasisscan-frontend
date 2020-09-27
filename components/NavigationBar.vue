@@ -160,7 +160,7 @@
           align-items: stretch;
           .search-input {
             flex: 1;
-            margin-right: rem(32);
+            margin-right: rem(2);
             border: 0;
             background-color: transparent;
             outline: none;
