@@ -49,7 +49,7 @@
       font-size: rem(14);
     }
     .value {
-      font-size: rem(14);
+      font-size: rem(16);
       color: #F86E49;
     }
   }
