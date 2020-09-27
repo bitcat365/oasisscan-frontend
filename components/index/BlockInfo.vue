@@ -64,8 +64,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-left: rem(22);
-    padding-right: rem(22);
+    padding-left: rem(32);
+    padding-right: rem(32);
     padding-top: rem(18);
     padding-bottom: rem(18);
     .seperate {
