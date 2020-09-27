@@ -3,7 +3,7 @@
     <div class="page-container">
       <div class="logo">
         <img src="../assets/oasis-logo.svg" />
-        <div>Oasis Network Block Explorer & Powered by <a href="https://www.bitcat365.com" target="_blank" class="faq-link"> Bit Cat 🐱</a></div>
+        <div>Oasis Blockchain Explorer & Powered by <a href="https://www.bitcat365.com" target="_blank" class="faq-link"> Bit Cat 🐱</a></div>
       </div>
       <div class="social-con">
         <div class="social">
