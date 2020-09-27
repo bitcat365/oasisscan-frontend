@@ -7,7 +7,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'OASIS SCAN | Oasis Block Explorer',
+    title: 'OASIS SCAN | Oasis Blockchain Explorer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
