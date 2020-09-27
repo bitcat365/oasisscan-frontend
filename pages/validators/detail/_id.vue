@@ -32,9 +32,9 @@
              <div class="detail">
                <div class="column column1">
                  <div class="oneline">
-                   <div class="label">Node Address</div>
+                   <div class="label">Entity Address</div>
                    <div class="value">
-                     <a :href="`/accounts/detail/${nodeAddress}`">{{nodeAddress? nodeAddress : ''}}</a>
+                     <a :href="`/accounts/detail/${entityAddress}`">{{entityAddress? entityAddress : ''}}</a>
                    </div>
                  </div>
                  <div class="oneline">
@@ -68,15 +68,25 @@
                </div>
                <div class="column column2">
                  <div class="oneline">
-                   <div class="label">Entity Address</div>
+                   <div class="label">Entity ID</div>
                    <div class="value">
-                     <a :href="`/accounts/detail/${entityAddress}`">{{entityAddress? entityAddress : ''}}</a>
+                     <div class="value">{{entityId? entityId : ''}}</div>
                    </div>
+                 </div>
+                <div class="oneline">
+                   <div class="label">Node ID</div>
+                   <div class="value">{{nodeId? nodeId : ''}}</div>
                  </div>
                  <div class="oneline">
                    <div class="label">Delegators</div>
                    <div class="value">{{delegators}}</div>
                  </div>
+
+                 <!--<div class="oneline">-->
+                   <!--<div class="label">Nonce</div>-->
+                  <!-- <div class="value">{{nonce}}</div>-->
+                 <!--</div>-->
+
                  <!--<div class="oneline">-->
                    <!--<div class="label">Signatures</div>-->
                    <!--<div class="value">{{signs}}</div>-->
@@ -85,10 +95,7 @@
                    <!--<div class="label">Proposals</div>-->
                    <!--<div class="value">{{proposals}}</div>-->
                  <!--</div>-->
-                 <div class="oneline">
-                   <div class="label">Nonce</div>
-                   <div class="value">{{nonce}}</div>
-                 </div>
+
                </div>
              </div>
            </div>
