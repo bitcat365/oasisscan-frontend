@@ -18,7 +18,7 @@
           <span>{{chainId}}</span>
         </div>
         <form v-if="active !== 1" @submit.stop.prevent="onsubmit" class="search-input-con">
-          <input v-model="keywords" class="search-input" type="text" placeholder="Search by Address/Entity/Block/Block hash/Tx hash"></input>
+          <input v-model="keywords" class="search-input" type="text" placeholder="Search by Address/Entity/Block/Block&Tx hash"></input>
           <div class="search-btn" @click.prevent.stop="onsubmit">
             <img class="search-icon" src="../assets/search.svg"/>
           </div>
