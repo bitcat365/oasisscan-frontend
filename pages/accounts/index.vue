@@ -92,7 +92,7 @@
             key: 'rank',
           },
           {
-            title: 'Accounts',
+            title: 'Account',
             key: 'address',
             slot: true
           },
