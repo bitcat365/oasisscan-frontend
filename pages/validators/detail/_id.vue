@@ -341,7 +341,6 @@
         bounds,
         nonce
       }
-      res.website = res.twitter = res.keybase = '1'
       return res
     },
     data() {
