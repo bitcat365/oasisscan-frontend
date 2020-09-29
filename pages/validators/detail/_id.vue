@@ -112,7 +112,7 @@
           </div>
           -->
           <div v-if="!noExtraInfo" class="desc extra-info-con">
-            <div class="label">Extra Info</div>
+            <div class="label">Socal Media</div>
             <a v-if="website" target="_blank" :href="website" title="website"><img class="extra-icon" src="../../../assets/validator_website.svg" /></a>
             <a v-if="twitter" target="_blank" :href="twitter" title="twitter"><img class="extra-icon" src="../../../assets/validator_twitter.svg" /></a>
             <a v-if="keybase" target="_blank" :href="keybase" title="keybase"><img class="extra-icon" src="../../../assets/validator_keybase.svg" /></a>
@@ -655,7 +655,7 @@
         }
       }
       .extra-icon {
-        width: rem(30);
+        width: rem(20);
       }
     }
     .name {
