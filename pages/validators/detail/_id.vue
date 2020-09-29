@@ -18,8 +18,8 @@
         <div class="info-con">
          <div class="base-inco">
            <div class="left">
-             <img v-if="!icon" class="icon" src="../../../assets/node_icon.png">
-             <img v-else class="icon" :src="icon">
+             <img v-if="!icon" class="icon" src="../../../assets/node_icon.png" />
+             <img v-else class="icon" :src="icon" />
              <span v-if="active" class="status">Active</span>
              <span v-else class="status inactive">Inactive</span>
            </div>
@@ -111,11 +111,11 @@
             <div class="value">{{description}}</div>
           </div>
           -->
-          <div class="desc">
+          <div v-if="noExtraInfo" class="desc extra-info-con">
             <div class="label">Extra Info</div>
-            <img v-if="!icon"  src="../../../assets/validator_website.svg"> 
-            <img v-if="!icon"  src="../../../assets/validator_twitter.svg"> 
-            <img v-if="!icon"  src="../../../assets/validator_keybase.svg"> 
+            <a v-if="website" target="_blank" :href="website" title="website"><img class="extra-icon" src="../../../assets/validator_website.svg" /></a>
+            <a v-if="twitter" target="_blank" :href="twitter" title="twitter"><img class="extra-icon" src="../../../assets/validator_twitter.svg" /></a>
+            <a v-if="keybase" target="_blank" :href="keybase" title="keybase"><img class="extra-icon" src="../../../assets/validator_keybase.svg" /></a>
           </div>
           <a :href="editURL" target="_blank" class="edit">
             UPDATE VALIDATOR INFO?
@@ -299,6 +299,8 @@
         nodes = [''],
         balance,
         website = '',
+        twitter = '',
+        keybase = '',
         icon = '',
         active,
         rank,
@@ -310,6 +312,7 @@
       } = data[0]
       const { list: escrowTrendData } = data[1]
       console.log('escrowTrendData', escrowTrendData)
+      console.log('data 0', data[0])
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
       const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityAddress)
       const res = {
@@ -327,6 +330,8 @@
         nodes,
         balance,
         website,
+        twitter,
+        keybase,
         icon,
         active,
         rank,
@@ -334,8 +339,9 @@
         delegators,
         rates,
         bounds,
-        nonce,
+        nonce
       }
+      res.website = res.twitter = res.keybase = '1'
       return res
     },
     data() {
@@ -405,6 +411,11 @@
             key: 'timestamp'
           }
         ]
+      }
+    },
+    computed: {
+      noExtraInfo() {
+        return !this.website && !this.twitter && !this.keybase || true
       }
     },
     mounted() {
@@ -632,6 +643,20 @@
         a {
           color: #3273DC;
         }
+      }
+    }
+    .extra-info-con {
+      align-items: center;
+      a {
+        line-height: 1;
+        font-size: 0;
+        margin-left: 6px;
+        &:first-of-type {
+          margin-left: 0;
+        }
+      }
+      .extra-icon {
+        width: rem(30);
       }
     }
     .name {
