@@ -414,7 +414,7 @@
     },
     computed: {
       noExtraInfo() {
-        return !this.website && !this.twitter && !this.keybase || true
+        return !this.website && !this.twitter && !this.keybase
       }
     },
     mounted() {
