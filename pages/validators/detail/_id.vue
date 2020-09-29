@@ -586,7 +586,7 @@
   .edit {
     position: absolute;
     right: rem(20);
-    bottom: rem(28);
+    bottom: rem(14);
     font-size: rem(12);
     line-height: rem(17);
     color: #B8B8B8;
