@@ -111,7 +111,7 @@
             <div class="value">{{description}}</div>
           </div>
           -->
-          <div v-if="noExtraInfo" class="desc extra-info-con">
+          <div v-if="!noExtraInfo" class="desc extra-info-con">
             <div class="label">Extra Info</div>
             <a v-if="website" target="_blank" :href="website" title="website"><img class="extra-icon" src="../../../assets/validator_website.svg" /></a>
             <a v-if="twitter" target="_blank" :href="twitter" title="twitter"><img class="extra-icon" src="../../../assets/validator_twitter.svg" /></a>
