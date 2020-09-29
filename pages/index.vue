@@ -3,7 +3,7 @@
     <nav-bar :active="1" />
     <div class="top-content">
       <div class="welcome">
-        WELCOME TO OASIS BLOCK EXPLORER
+        OASIS BLOCKCHAIN EXPLORER
       </div>
       <search-box></search-box>
       <div class="marquee-con">

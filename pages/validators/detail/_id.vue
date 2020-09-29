@@ -101,6 +101,7 @@
            </div>
          </div>
           <div class="sep"></div>
+          <!--
           <div class="desc">
             <div class="label">Website</div>
             <div class="value"> <a v-if="website" :href="website">{{website}}</a></div>
@@ -108,6 +109,13 @@
           <div class="desc">
             <div class="label">Description</div>
             <div class="value">{{description}}</div>
+          </div>
+          -->
+          <div class="desc">
+            <div class="label">Extra Info</div>
+            <img v-if="!icon"  src="../../../assets/validator_website.svg"> 
+            <img v-if="!icon"  src="../../../assets/validator_twitter.svg"> 
+            <img v-if="!icon"  src="../../../assets/validator_keybase.svg"> 
           </div>
           <a :href="editURL" target="_blank" class="edit">
             UPDATE VALIDATOR INFO?
