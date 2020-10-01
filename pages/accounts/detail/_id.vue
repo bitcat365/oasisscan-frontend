@@ -123,11 +123,11 @@
   export default {
     name: 'accountDetail',
     components: { PieChart, NavBar, Panel, VTable, BlockTable, Page, Emoji },
-    async asyncData({ $axios, params }) {
+    async asyncData({ $axios, store: $store, params }) {
       const datas = await Promise.all([
-        fetchAccountDetail($axios, params.id),
-        fetchAccountDelegations($axios, params.id),
-        fetchAccountDebonding($axios, params.id)
+        fetchAccountDetail({ $axios, $store }, params.id),
+        fetchAccountDelegations({ $axios, $store }, params.id),
+        fetchAccountDebonding({ $axios, $store }, params.id)
       ])
       const data = await datas[0]
       const { list: delegationsList, totalSize: totalDelegationsSize } = await datas[1]
@@ -248,7 +248,8 @@
       },
       async gotoDelegations(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchAccountDelegations($axios, this.accountAddress, pageNumber, this.delegationsListSizer)
+        const $store = this.$store
+        const { list, totalSize } = await fetchAccountDelegations({ $axios, $store }, this.accountAddress, pageNumber, this.delegationsListSizer)
         this.delegationsList = list
         console.log('delegatorsList', list)
         this.totalDelegationsSize = totalSize
@@ -256,7 +257,8 @@
       },
       async gotoDeboundings(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchAccountDebonding($axios, this.accountAddress, pageNumber, this.debondingsListSizer)
+        const $store = this.$store
+        const { list, totalSize } = await fetchAccountDebonding({ $axios, $store }, this.accountAddress, pageNumber, this.debondingsListSizer)
         this.debondingsList = list
         console.log('delegatorsList', list)
         this.totalDebondingsSize = totalSize
@@ -266,7 +268,9 @@
         this.fetchList(pageNumber)
       },
       async fetchList(page = 1) {
-        const { list, totalSize } = await fetchTransactions(this.$axios, '', this.accountAddress, page, this.sizer)
+        const $axios = this.$axios
+        const $store = this.$store
+        const { list, totalSize } = await fetchTransactions({ $axios, $store }, '', this.accountAddress, page, this.sizer)
         this.list = list
         this.total = totalSize
         this.page = page

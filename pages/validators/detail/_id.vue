@@ -289,11 +289,11 @@
       TrendChart,
       Kuai
     },
-    async asyncData({ $axios, params }) {
+    async asyncData({ $axios, store: $store, params }) {
       const entityAddress = decodeURIComponent(params.id);
       const data = await Promise.all([
-        fetchValidatorDetail($axios, entityAddress),
-        fetchEscrowTrendByAddress($axios, entityAddress)])
+        fetchValidatorDetail({ $axios, $store }, entityAddress),
+        fetchEscrowTrendByAddress({ $axios, $store }, entityAddress)])
       const {
         name = 'Validator',
         escrow,
@@ -317,7 +317,7 @@
       console.log('escrowTrendData', escrowTrendData)
       console.log('data 0', data[0])
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
-      const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer($axios, entityAddress)
+      const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
       const res = {
         ...others,
         blockList,
@@ -441,29 +441,30 @@
         }, 5000)
       },
       async getStates() {
-        const { signs, proposals } = await validatorStats(this.$axios, this.entityAddress)
+        const { $axios, $store } = this
+        const { signs, proposals } = await validatorStats({ $axios, $store }, this.entityAddress)
         console.log('signs', signs)
         this.signsStates = signs
         this.proposalsStates = proposals
       },
       async goto(pageNumber) {
-        const $axios = this.$axios
-        const { list, totalSize } = await getBlockByProposer($axios, this.entityAddress, this.blockListSizer, pageNumber)
+        const { $axios, $store } = this
+        const { list, totalSize } = await getBlockByProposer({ $axios, $store }, this.entityAddress, this.blockListSizer, pageNumber)
         this.blockList = list
         this.totalBlockListSize = totalSize
         this.blockListPage = pageNumber
       },
       async gotoEvents(pageNumber) {
-        const $axios = this.$axios
-        const { list, totalSize } = await getEventsByProposer($axios, this.entityAddress, this.eventListSizer, pageNumber)
+        const { $axios, $store } = this
+        const { list, totalSize } = await getEventsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
         this.evensList = list
         console.log('evensList', list)
         this.totalEventListSize = totalSize
         this.eventListPage = pageNumber
       },
       async gotoDelegators(pageNumber) {
-        const $axios = this.$axios
-        const { list, totalSize } = await getDelegatorsByProposer($axios, this.entityAddress, this.eventListSizer, pageNumber)
+        const { $axios, $store } = this
+        const { list, totalSize } = await getDelegatorsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
         this.delegatorsList = list
         console.log('delegatorsList', list)
         this.totalDelegatorSize = totalSize

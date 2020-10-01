@@ -31,7 +31,7 @@ module.exports = {
     __dangerouslyDisableSanitizers: ['script']
   },
   router: {
-    middleware: 'i18n'
+    middleware: 'config'
   },
   /*
   ** Customize the progress-bar color
@@ -78,9 +78,8 @@ module.exports = {
     proxy: true
   },
   proxy: [
-    'http://95.216.211.124:8181/chain/',
-    'http://95.216.211.124:8181/validator/',
-    'http://95.216.211.124:8181/dashboard/',
+    'https://api.oasisscan.com/testnet/',
+    'https://api.oasisscan.com/mainnet/'
   ],
   /*
   ** Build configuration

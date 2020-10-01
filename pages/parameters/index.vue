@@ -51,8 +51,8 @@
       BlockInfo,
       Panel
     },
-    async asyncData({ $axios }) {
-      const blockInfo = await fetchBlockInfo($axios)
+    async asyncData({ $axios, store: $store }) {
+      const blockInfo = await fetchBlockInfo({ $axios, $store })
       return { blockInfo }
     },
     methods: {

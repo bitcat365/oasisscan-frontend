@@ -14,8 +14,18 @@
       </nav>
       <div class="right-menu">
         <div class="chainid">
-          <span class="status"></span>
-          <span>{{chainId}}</span>
+          <!--<span class="status"></span>-->
+          <!--<span>{{chainId}}</span>-->
+          <Dropdown @on-click="networkClick">
+            <a class="network-selector" href="javascript:void(0)">
+              {{ net }}
+              <Icon type="ios-arrow-down"></Icon>
+            </a>
+            <DropdownMenu class="network-select-list" slot="list">
+              <DropdownItem :name="chainId" class="network-select-item">Maintnet</DropdownItem>
+              <DropdownItem :name="testnetChainId" class="network-select-item main-net">Testnet</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
         <form v-if="active !== 1" @submit.stop.prevent="onsubmit" class="search-input-con">
           <input v-model="keywords" class="search-input" type="text" placeholder="Search by Address/Entity/Block/Block&Tx hash"></input>
@@ -48,6 +58,7 @@
     data() {
       return {
         chainId: Config.chainId,
+        testnetChainId: Config.testnetChainId,
         keywords: ''
       }
     },
@@ -73,11 +84,20 @@
       },
       onsubmit() {
         onSearch(this, this.keywords)
+      },
+      networkClick(name) {
+        // console.log('name', name)
+        if (name === Config.testnetChainId) {
+          location.href = location.href.replace('www.oasisscan.com', 'testnet.oasisscan.com')
+        } else {
+          location.href = location.href.replace('test.oasisscan.com', 'www.oasisscan.com')
+        }
+        this.$store.commit('SET_NET', name)
       }
     },
     computed: {
       isTest() {
-        return this.$store.state.net === 'testnet'
+        return this.$store.state.net === Config.testnetChainId
       },
       net() {
         return this.$store.state.net
@@ -199,6 +219,23 @@
             border-radius: 50%;
             margin-right: 0.42rem;
             background-color: #40FF02;
+          }
+          a.network-selector {
+            font-size: 14px;
+            border-radius:2px;
+            display: inline-block;
+            padding: 13px 15px;
+            background-color: white;
+            color: #2A2A2A;
+          }
+          .network-select-list {
+            padding:0 5px;
+            min-width: 140px;
+            .network-select-item{
+              font-size: 14px !important;
+              border-radius:15px;
+              padding:8px 15px;
+            }
           }
         }
       }

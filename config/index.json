@@ -1,10 +1,11 @@
 {
   "chainId": "Mainnet-Beta",
+  "testnetChainId": "Testnet",
   "editURL": "https://github.com/oasisprotocol/metadata-registry",
   "feeUnit": "ROSE",
   "news": [
     {
-      "url": "https://docs.oasis.dev/general/pre-mainnet/mainnet-beta-overview", 
+      "url": "https://docs.oasis.dev/general/pre-mainnet/mainnet-beta-overview",
       "content": "Mainnet Beta network document overview"
     },
     {

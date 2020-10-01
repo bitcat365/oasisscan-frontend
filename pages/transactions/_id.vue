@@ -53,8 +53,8 @@
   export default {
     name: 'transactionDetail',
     components: { NavBar, Panel, VTable},
-    async asyncData({ $axios, params }) {
-      const data = await fetchTransactionDetail($axios, params.id)
+    async asyncData({ $axios, store: $store, params }) {
+      const data = await fetchTransactionDetail({ $axios, $store }, params.id)
       return {
         data
       }

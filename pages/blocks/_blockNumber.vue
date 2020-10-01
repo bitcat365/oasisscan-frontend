@@ -63,8 +63,9 @@
   export default {
     name: 'blockDetail',
     components: { NavBar, Panel, BlockTable, Page, VTable, ArrowNavigate },
-    async asyncData({ $axios, params }) {
-      const datas = await Promise.all([ fetchBlockInfo($axios), fetchBlockDetail($axios, params.blockNumber)])
+    async asyncData({ $axios, store: $store, params }) {
+      console.log('$store$store$store$store', $store)
+      const datas = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchBlockDetail({ $axios, $store }, params.blockNumber)])
       const { curHeight: latestHeight } = datas[0]
       const data = datas[1]
       return {
@@ -146,7 +147,9 @@
         this.fetchList(pageNumber)
       },
       async fetchList(page = 1) {
-        const { list, totalSize } = await fetchTransactions(this.$axios, this.$route.params.blockNumber, '', page, this.sizer)
+        const $axios = this.$axios
+        const $store = this.$store
+        const { list, totalSize } = await fetchTransactions({ $axios, $store }, this.$route.params.blockNumber, '', page, this.sizer)
         this.list = list
         this.total = totalSize
         this.page = page

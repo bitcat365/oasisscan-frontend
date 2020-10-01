@@ -33,8 +33,8 @@
       BlockTable,
       Page,
     },
-    async asyncData({ $axios }) {
-      const { list, totalSize } = await fetchBlockList($axios, 1, 20)
+    async asyncData({ $axios, store: $store }) {
+      const { list, totalSize } = await fetchBlockList({ $axios, $store }, 1, 20)
       return { list, total: totalSize }
     },
     methods: {
@@ -43,8 +43,8 @@
           this.timer && clearTimeout(this.timer)
           this.timer = null
         }
-        const $axios = this.$axios
-        const { list, totalSize } = await fetchBlockList($axios, pageNumber, this.sizer, progress)
+        const { $axios, $store } = this
+        const { list, totalSize } = await fetchBlockList({ $axios, $store }, pageNumber, this.sizer, progress)
         this.page = pageNumber
         this.list = list
         this.total = totalSize

@@ -69,8 +69,10 @@
       Panel,
       ScrollNews
     },
-    async asyncData({ $axios }) {
-      const data = await Promise.all([fetchBlockInfo($axios), fetchHomeBlockList($axios), fetchTransactionsList($axios), fetchTxHistory($axios)])
+    async asyncData({ $axios, store: $store, store }) {
+      console.log('   storestorestorestore',store)
+      console.log('   $store$store$store$store',$store)
+      const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }, $store), fetchTransactionsList({ $axios, $store }, $store), fetchTxHistory({ $axios, $store }, $store)])
       const blockInfo = data[0]
       const txHistory = data[3]
       const { list: blocks } = data[1]
@@ -90,7 +92,8 @@
     methods: {
       async repool() {
         const $axios = this.$axios
-        const data = await Promise.all([fetchBlockInfo($axios, false), fetchHomeBlockList($axios, 10, 1, false), fetchTransactionsList($axios, 1, 10, '', false)])
+        const $store = this.$store
+        const data = await Promise.all([fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
         const blockInfo = data[0]
         const { list: blocks } = data[1]
         const { list: transactions } = data[2]

@@ -85,26 +85,26 @@
       NavBar,
       BlockTable,
     },
-    async asyncData({ $axios }) {
-      const { list, active, inactive, delegators } = await fetchValidatorsList($axios)
+    async asyncData({ $axios, store: $store }) {
+      const { list, active, inactive, delegators } = await fetchValidatorsList({ $axios, $store })
       // const blockInfo = await fetchBlockInfo($axios)
       console.log('list', list)
       return { list, active, inactive, delegators }
     },
     methods: {
       async goto(pageNumber) {
-        const $axios = this.$axios
-        const { list } = await fetchValidatorsList($axios)
+        const { $axios, $store } = this
+        const { list } = await fetchValidatorsList({ $axios, $store })
         this.list = list
       },
       async sort({ key, sortType }) {
         console.log(key, sortType)
-        const $axios = this.$axios
+        const { $axios, $store } = this
         if (this.currentSortKey) {
           const currentSortColumn = this.columns.find(c => c.key === this.currentSortKey)
           currentSortColumn.sortType = ''
         }
-        const { list } = await fetchValidatorsList($axios, key, sortType === 'up' ? 'asc' : 'desc')
+        const { list } = await fetchValidatorsList({ $axios, $store }, key, sortType === 'up' ? 'asc' : 'desc')
         this.list = list
         const co = this.columns.find(c => c.key === key)
         co.sortType = sortType

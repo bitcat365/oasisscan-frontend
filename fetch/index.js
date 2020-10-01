@@ -1,20 +1,51 @@
 import { floatFormat, hashFormat, percent } from '../utils/index'
-export async function fetchBlockInfo($axios, progress = true) {
-  const { code, data: blockInfo } = await $axios.$get('/dashboard/network',{ progress }).catch(() => ({ code: -1 }))
+import Config from '../config'
+function request($axios, method, args) {
+  /* eslint-disable no-undef */
+  return $axios[`$${method}`](...args)
+}
+
+function get({ $axios, $store }) {
+  return function (url, ...args) {
+    // console.log('isTestnet', $store.state.net)
+    if ($store.state.net === Config.testnetChainId) {
+      url = '/testnet' + (url[0] === '/' ? '' : '/') + url
+    } else {
+      url = '/mainnet' + (url[0] === '/' ? '' : '/') + url
+    }
+    return request($axios, 'get', [url, ...args]).catch((e) => {
+      return {
+        error: e
+      }
+    })
+  }
+}
+/* eslint-disable no-unused-vars */
+function post(...args) {
+  return request('post', args).catch((e) => {
+    console.log('post error,', e)
+    return {
+      error: e
+    }
+  })
+}
+
+export async function fetchBlockInfo($config, progress = true) {
+  const { code, data: blockInfo } = await get($config)('/dashboard/network',{ progress }).catch(() => ({ code: -1 }))
   if (code === 0) {
     return blockInfo
   }
   return {}
 }
-export async function fetchTxHistory($axios) {
-  const { code, data: { list } = { list: [] } } = await $axios.$get('/chain/transactionhistory').catch(() => ({ code: -1 }))
+export async function fetchTxHistory($config) {
+  const { code, data: { list } = { list: [] } } = await get($config)('/chain/transactionhistory').catch(() => ({ code: -1 }))
   if (code === 0) {
     return list
   }
   return []
 }
-export async function fetchHomeBlockList($axios, pageSize = 10, page = 1, progress = true) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get(`/chain/blocks?size=${pageSize}&page=${page}`, { progress }).catch(() => ({ code: -1 }))
+export async function fetchHomeBlockList($config, pageSize = 10, page = 1, progress = true) {
+  let { code, data: { list } = { list: [] } } = await get($config)(`/chain/blocks?size=${pageSize}&page=${page}`, { progress }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []
   }
@@ -29,8 +60,8 @@ export async function fetchHomeBlockList($axios, pageSize = 10, page = 1, progre
   });
   return { list }
 }
-export async function fetchBlockList($axios, page = 1, size = 20, progress = true) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/blocks`, {
+export async function fetchBlockList($config, page = 1, size = 20, progress = true) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/blocks`, {
     params: {
       page,
       size
@@ -49,8 +80,8 @@ export async function fetchBlockList($axios, page = 1, size = 20, progress = tru
   });
   return { list, totalSize }
 }
-export async function fetchChainMethods($axios) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get('/chain/methods', {
+export async function fetchChainMethods($config) {
+  let { code, data: { list } = { list: [] } } = await get($config)('/chain/methods', {
     progress: false,
     params: {
     }
@@ -60,14 +91,14 @@ export async function fetchChainMethods($axios) {
   }
   return { list }
 }
-export async function fetchAccountDetail($axios, address) {
-  let { code, data = { } } = await $axios.$get(`/chain/account/info/${address}`, {
+export async function fetchAccountDetail($config, address) {
+  let { code, data = { } } = await get($config)(`/chain/account/info/${address}`, {
   }).catch(() => ({ code: -1 }))
   data.address = { address: data.address, total: data.total }
   return data
 }
-export async function fetchAccountDelegations($axios, address, page = 1, size = 5) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/account/delegations`, {
+export async function fetchAccountDelegations($config, address, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/account/delegations`, {
     params: {
       address,
       page,
@@ -86,8 +117,8 @@ export async function fetchAccountDelegations($axios, address, page = 1, size = 
   })
   return { list: res, totalSize }
 }
-export async function fetchAccountDebonding($axios, address, page = 1, size = 5) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/account/debonding`, {
+export async function fetchAccountDebonding($config, address, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/account/debonding`, {
     params: {
       address,
       page,
@@ -106,8 +137,8 @@ export async function fetchAccountDebonding($axios, address, page = 1, size = 5)
   })
   return { list: res, totalSize }
 }
-export async function fetchAccountsList($axios, page = 1, size = 10) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/account/list', {
+export async function fetchAccountsList($config, page = 1, size = 10) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/account/list', {
     params: {
       page,
       size
@@ -126,8 +157,8 @@ export async function fetchAccountsList($axios, page = 1, size = 10) {
   return { list: res, totalSize }
 }
 
-export async function fetchTransactionsList($axios, page = 1, size = 10, method = '', progress = true, sliceLength = 8) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('/chain/transactions', {
+export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 8) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/transactions', {
     params: {
       page,
       size,
@@ -151,13 +182,13 @@ export async function fetchTransactionsList($axios, page = 1, size = 10, method 
   return { list: res, totalSize }
 }
 
-export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
+export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') {
   let orderParams = {}
   if (orderBy) {
     orderParams.orderBy = orderBy;
     orderParams.sort = sort;
   }
-  let { code, data: { list, active, inactive, delegators } = {} } = await $axios.$get('/validator/list', {
+  let { code, data: { list, active, inactive, delegators } = {} } = await get($config)('/validator/list', {
     params: {
       ...orderParams
     }
@@ -179,8 +210,8 @@ export async function fetchValidatorsList($axios, orderBy = '', sort = 'desc') {
   return { list: res, active, inactive, delegators }
 }
 
-export async function fetchBlockDetail($axios, hashOrBlockHeight) {
-  let { code, data } = await $axios.$get(`/chain/block/${hashOrBlockHeight}`, {
+export async function fetchBlockDetail($config, hashOrBlockHeight) {
+  let { code, data } = await get($config)(`/chain/block/${hashOrBlockHeight}`, {
     params: {
     }
   })
@@ -203,8 +234,8 @@ export async function fetchBlockDetail($axios, hashOrBlockHeight) {
  * @param key
  * @returns {Promise<void>}
  */
-export async function search($axios, key) {
-  let { code, data} = await $axios.$get('/chain/search', {
+export async function search($config, key) {
+  let { code, data} = await get($config)('/chain/search', {
     params: {
       key
     },
@@ -215,7 +246,7 @@ export async function search($axios, key) {
 
 /**
  * 获取某一个块下的交易记录
- * @param $axios
+ * @param $config
  * @param blockHeight
  * @param page
  * @param pageSize
@@ -223,8 +254,8 @@ export async function search($axios, key) {
  * @param query_type
  * @returns {Promise<{total, list: *, totalRecordsCount}>}
  */
-export async function fetchTransactions($axios, blockHeight = '', address = '', page = 1, pageSize = 10) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get('chain/transactions', {
+export async function fetchTransactions($config, blockHeight = '', address = '', page = 1, pageSize = 10) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/transactions', {
     params: {
       page,
       size: pageSize,
@@ -249,12 +280,12 @@ export async function fetchTransactions($axios, blockHeight = '', address = '', 
 
 /**
  * 请求交易详情
- * @param $axios
+ * @param $config
  * @param txHash
  * @returns {Promise<void>}
  */
-export async function fetchTransactionDetail($axios, txHash) {
-  let { code, data } = await $axios.$get(`/chain/transaction/${txHash}`, {
+export async function fetchTransactionDetail($config, txHash) {
+  let { code, data } = await get($config)(`/chain/transaction/${txHash}`, {
     params: {
     }
   })
@@ -277,8 +308,8 @@ export async function fetchTransactionDetail($axios, txHash) {
   }
 }
 
-export async function getEventsByProposer($axios, address, size = 5, page = 1) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/powerevent`, {
+export async function getEventsByProposer($config, address, size = 5, page = 1) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/powerevent`, {
     params: {
       address: address,
       page,
@@ -299,8 +330,8 @@ export async function getEventsByProposer($axios, address, size = 5, page = 1) {
   }
 }
 
-export async function validatorStats($axios, address) {
-  let { code, data: { signs, proposals } = { signs: [], proposals: [] } } = await $axios.$get(`/validator/stats`, {
+export async function validatorStats($config, address) {
+  let { code, data: { signs, proposals } = { signs: [], proposals: [] } } = await get($config)(`/validator/stats`, {
     params: {
       address
     },
@@ -310,8 +341,8 @@ export async function validatorStats($axios, address) {
     signs, proposals
   }
 }
-export async function getDelegatorsByProposer($axios, address, size = 5, page = 1) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/validator/delegators`, {
+export async function getDelegatorsByProposer($config, address, size = 5, page = 1) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/validator/delegators`, {
     params: {
       address,
       page,
@@ -331,8 +362,8 @@ export async function getDelegatorsByProposer($axios, address, size = 5, page = 
   }
 }
 
-export async function getBlockByProposer($axios, address, size = 5, page = 1) {
-  let { code, data: { list, totalSize } = { list: [] } } = await $axios.$get(`/chain/getBlockByProposer`, {
+export async function getBlockByProposer($config, address, size = 5, page = 1) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/getBlockByProposer`, {
     params: {
       address,
       page,
@@ -356,12 +387,12 @@ export async function getBlockByProposer($axios, address, size = 5, page = 1) {
 
 /**
  * 验证人trend统计
- * @param $axios
+ * @param $config
  * @param address
  * @returns {Promise<void>}
  */
-export async function fetchEscrowTrendByAddress($axios, address) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get(`/validator/escrowstats`, {
+export async function fetchEscrowTrendByAddress($config, address) {
+  let { code, data: { list } = { list: [] } } = await get($config)(`/validator/escrowstats`, {
     params: {
       address
     }
@@ -376,8 +407,8 @@ export async function fetchEscrowTrendByAddress($axios, address) {
     }
   }
 }
-export async function fetchValidatorDetail($axios, address) {
-  let { code, data, ...others } = await $axios.$get(`/validator/info`, {
+export async function fetchValidatorDetail($config, address) {
+  let { code, data, ...others } = await get($config)(`/validator/info`, {
     params: {
       address
     }
@@ -409,7 +440,7 @@ export async function onSearch(vue, text) {
   const searchText = text.trim()
   vue.$Spin.show()
   try {
-    const res = await search(vue.$axios, searchText)
+    const res = await search(vue.$config, searchText)
     if (res) {
       switch (res.type) {
         case 'validator':
@@ -439,8 +470,8 @@ export async function onSearch(vue, text) {
   }, 1000)
 }
 
-export async function fetchAddressDetail($axios, address) {
-  let { code, data: { list } = { list: [] } } = await $axios.$get('/alief/address/info', {
+export async function fetchAddressDetail($config, address) {
+  let { code, data: { list } = { list: [] } } = await get($config)('/alief/address/info', {
     params: {
       address: address
     }

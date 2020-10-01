@@ -51,19 +51,19 @@
       BlockTable,
       Page
     },
-    async asyncData({ $axios }) {
-      const { list, totalSize } = await fetchTransactionsList($axios, 1, 20, '', true, 12)
+    async asyncData({ $axios, store: $store }) {
+      const { list, totalSize } = await fetchTransactionsList({ $axios, $store }, 1, 20, '', true, 12)
       console.log('list', list)
       return { list, total: totalSize }
     },
     methods: {
       async goto(pageNumber, progress = true) {
-        const $axios = this.$axios
+        const { $axios, $store } = this
         if (pageNumber > 1) {
           this.timer && clearTimeout(this.timer)
           this.timer = null
         }
-        const { list, totalSize } = await fetchTransactionsList($axios, pageNumber, this.sizer, this.method, progress, 12)
+        const { list, totalSize } = await fetchTransactionsList({ $axios, $store }, pageNumber, this.sizer, this.method, progress, 12)
         this.page = pageNumber
         this.list = list
         this.total = totalSize
@@ -98,8 +98,8 @@
     created() {
     },
     async mounted() {
-      const $axios = this.$axios
-      const { list } = await fetchChainMethods($axios)
+      const { $axios, $store } = this
+      const { list } = await fetchChainMethods({ $axios, $store })
       this.methods = list
       this.repull()
     },

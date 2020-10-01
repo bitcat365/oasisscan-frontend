@@ -39,15 +39,16 @@
       Page,
       Emoji
     },
-    async asyncData({ $axios }) {
-      const { list, totalSize } = await fetchAccountsList($axios, 1, 20)
+    async asyncData({ $axios, store: $store }) {
+      const { list, totalSize } = await fetchAccountsList({ $axios, $store }, 1, 20)
       console.log('list', list)
       return { list, total: totalSize }
     },
     methods: {
       async goto(pageNumber) {
         const $axios = this.$axios
-        const { list, totalSize } = await fetchAccountsList($axios, pageNumber, this.sizer)
+        const $store = this.$store
+        const { list, totalSize } = await fetchAccountsList({ $axios, $store }, pageNumber, this.sizer)
         this.page = pageNumber
         this.list = list
         this.total = totalSize
