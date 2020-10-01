@@ -90,7 +90,7 @@
         if (name === Config.testnetChainId) {
           location.href = location.href.replace('www.oasisscan.com', 'testnet.oasisscan.com')
         } else {
-          location.href = location.href.replace('test.oasisscan.com', 'www.oasisscan.com')
+          location.href = location.href.replace('testnet.oasisscan.com', 'www.oasisscan.com')
         }
         this.$store.commit('SET_NET', name)
       }
