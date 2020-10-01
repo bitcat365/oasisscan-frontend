@@ -1,15 +1,15 @@
 {
-  "chainId": "mainnet-dryrun",
+  "chainId": "Mainnet-Beta",
   "editURL": "https://github.com/oasisprotocol/metadata-registry",
   "feeUnit": "ROSE",
   "news": [
     {
-      "url": "https://docs.oasis.dev/general/pre-mainnet/dry-run-overview", 
-      "content": "About Mainnet Dry Run "
+      "url": "https://docs.oasis.dev/general/pre-mainnet/mainnet-beta-overview", 
+      "content": "This document provides an overview of the Mainnet Beta networ"
     },
     {
-      "url": "https://docs.oasis.dev/oasis-network-primer/",
-      "content": "Oasis Network Primer"
+      "url": "https://medium.com/oasis-protocol-project/final-countdown-to-mainnet-8806185e5f72",
+      "content": "Final Countdown to Mainnet"
     }
   ]
 }

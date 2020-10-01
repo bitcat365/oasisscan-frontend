@@ -117,10 +117,13 @@
             <a v-if="twitter" target="_blank" :href="`https://twitter.com/${twitter}`" title="twitter"><img class="extra-icon" src="../../../assets/validator_twitter.svg" /></a>
             <a v-if="keybase" target="_blank" :href="`https://keybase.io/${keybase}`" title="keybase"><img class="extra-icon" src="../../../assets/validator_keybase.svg" /></a>
           </div>
-          <a :href="editURL" target="_blank" class="edit">
+
+           <a :href="editURL" target="_blank" class="edit">
             UPDATE VALIDATOR INFO?
           </a>
+
         </div>
+
       </panel>
       <div class="list-panels">
         <panel class="voters-panel">
