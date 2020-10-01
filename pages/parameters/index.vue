@@ -9,7 +9,7 @@
       </div>
       <panel root-class="parameters-panel">
         <template v-slot:header>
-          <span>{{chainId}}</span>
+          <span>{{net}}</span>
         </template>
         <div class="parameters-content">
 
@@ -58,16 +58,14 @@
     methods: {
     },
     computed: {
+      net() {
+        return this.$store.state.net
+      }
     },
     created() {
     },
     mounted() {
 
-    },
-    data() {
-      return {
-        chainId: Cofig.chainId
-      }
     }
   }
 </script>
