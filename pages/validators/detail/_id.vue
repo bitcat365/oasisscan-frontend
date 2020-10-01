@@ -117,7 +117,9 @@
             <a v-if="twitter" target="_blank" :href="`https://twitter.com/${twitter}`" title="twitter"><img class="extra-icon" src="../../../assets/validator_twitter.svg" /></a>
             <a v-if="keybase" target="_blank" :href="`https://keybase.io/${keybase}`" title="keybase"><img class="extra-icon" src="../../../assets/validator_keybase.svg" /></a>
           </div>
-
+          <div v-else class="desc extra-info-con">
+            No Socal Media
+          </div>
            <a :href="editURL" target="_blank" class="edit">
             UPDATE VALIDATOR INFO?
           </a>
@@ -590,7 +592,7 @@
   .edit {
     position: absolute;
     right: rem(20);
-    bottom: rem(14);
+    bottom: rem(0);
     font-size: rem(12);
     line-height: rem(17);
     color: #B8B8B8;
