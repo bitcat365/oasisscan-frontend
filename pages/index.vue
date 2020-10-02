@@ -70,8 +70,6 @@
       ScrollNews
     },
     async asyncData({ $axios, store: $store, store }) {
-      console.log('   storestorestorestore',store)
-      console.log('   $store$store$store$store',$store)
       const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }, $store), fetchTransactionsList({ $axios, $store }, $store), fetchTxHistory({ $axios, $store }, $store)])
       const blockInfo = data[0]
       const txHistory = data[3]
