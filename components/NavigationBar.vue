@@ -247,7 +247,7 @@
             min-width: 156px;
             .network-select-item {
               font-size: 14px !important;
-              padding:8px 15px;
+              padding:8px 10px;
               &:hover {
                 background: transparent;
                 font-weight: bold;
