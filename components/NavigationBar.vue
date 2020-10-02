@@ -27,7 +27,7 @@
             <DropdownMenu class="network-select-list" slot="list">
               <DropdownItem :name="chainId" class="network-select-item">
                 <div class="green-dot"></div>
-                Mainnet
+                Mainnet Beta
               </DropdownItem>
               <DropdownItem :name="testnetChainId" class="network-select-item main-net">
                 <div class="green-dot"></div>
