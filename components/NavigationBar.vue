@@ -18,12 +18,19 @@
           <!--<span>{{chainId}}</span>-->
           <Dropdown @on-click="networkClick">
             <a class="network-selector" href="javascript:void(0)">
+              <div class="green-dot"></div>
               {{ net }}
               <Icon type="ios-arrow-down"></Icon>
             </a>
             <DropdownMenu class="network-select-list" slot="list">
-              <DropdownItem :name="chainId" class="network-select-item">Maintnet</DropdownItem>
-              <DropdownItem :name="testnetChainId" class="network-select-item main-net">Testnet</DropdownItem>
+              <DropdownItem :name="chainId" class="network-select-item">
+                <div class="green-dot"></div>
+                Maintnet
+              </DropdownItem>
+              <DropdownItem :name="testnetChainId" class="network-select-item main-net">
+                <div class="green-dot"></div>
+                Testnet
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -220,21 +227,31 @@
             margin-right: 0.42rem;
             background-color: #40FF02;
           }
+          .green-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #40FF02;
+            border-radius: 100%;
+          }
           a.network-selector {
             font-size: 14px;
             border-radius:2px;
             display: inline-block;
-            padding: 13px 15px;
+            padding: 8px 15px;
             background-color: white;
             color: #2A2A2A;
           }
           .network-select-list {
             padding:0 5px;
-            min-width: 140px;
-            .network-select-item{
+            min-width: 156px;
+            .network-select-item {
               font-size: 14px !important;
-              border-radius:15px;
               padding:8px 15px;
+              &:hover {
+                background: transparent;
+                font-weight: bold;
+              }
             }
           }
         }
