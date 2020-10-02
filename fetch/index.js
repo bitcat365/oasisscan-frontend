@@ -440,7 +440,7 @@ export async function onSearch(vue, text) {
   const searchText = text.trim()
   vue.$Spin.show()
   try {
-    const res = await search(vue.$config, searchText)
+    const res = await search({ $store: vue.$store, $axios: vue.$axios }, searchText)
     if (res) {
       switch (res.type) {
         case 'validator':

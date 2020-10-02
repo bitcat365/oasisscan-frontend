@@ -31,7 +31,7 @@ module.exports = {
     __dangerouslyDisableSanitizers: ['script']
   },
   router: {
-    middleware: 'config'
+    middleware: ['config', 'i18n']
   },
   /*
   ** Customize the progress-bar color
