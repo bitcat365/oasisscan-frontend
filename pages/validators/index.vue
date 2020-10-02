@@ -413,7 +413,7 @@
           text-align: center;
         }
         &:nth-child(2) {
-          width: 200px;
+          width: 280px;
         }
         &:nth-child(3) {
           width: 200px;
