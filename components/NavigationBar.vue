@@ -18,8 +18,10 @@
           <!--<span>{{chainId}}</span>-->
           <Dropdown @on-click="networkClick">
             <a class="network-selector" href="javascript:void(0)">
-              <div class="green-dot"></div>
-              {{ net }}
+              <div class="left-content">
+                <div class="green-dot"></div>
+                {{ net }}
+              </div>
               <Icon type="ios-arrow-down"></Icon>
             </a>
             <DropdownMenu class="network-select-list" slot="list">
@@ -237,10 +239,13 @@
           a.network-selector {
             font-size: 14px;
             border-radius:2px;
-            display: inline-block;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 8px 15px;
             background-color: white;
             color: #2A2A2A;
+            width: 156px;
           }
           .network-select-list {
             padding:0 5px;
