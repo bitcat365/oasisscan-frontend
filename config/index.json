@@ -1,5 +1,5 @@
 {
-  "chainId": "Mainnet-Beta",
+  "chainId": "Mainnet Beta",
   "testnetChainId": "Testnet",
   "editURL": "https://github.com/oasisprotocol/metadata-registry",
   "feeUnit": "ROSE",

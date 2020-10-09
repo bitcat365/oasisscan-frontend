@@ -135,7 +135,8 @@
         if (value > 0) {
           return '+' + value
         } else if (value < 0) {
-          return '-' + value
+  //        return '-' + value
+          return value
         }
         return value
       },
