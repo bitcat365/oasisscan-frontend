@@ -3,6 +3,7 @@
   "testnetChainId": "Testnet",
   "editURL": "https://github.com/oasisprotocol/metadata-registry",
   "feeUnit": "ROSE",
+  "testFeeUnit": "TEST",
   "news": [
     {
       "url": "https://docs.oasis.dev/general/pre-mainnet/mainnet-beta-overview",

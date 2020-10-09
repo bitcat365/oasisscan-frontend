@@ -52,6 +52,7 @@ module.exports = {
     '~/plugins/axios.js',
     '@/plugins/iview',
     '~/plugins/i18n.js',
+    '~/plugins/my-mixin.js',
     { src: '~plugins/highchart.js' },
     '~/plugins/clipboard.js',
     '~/plugins/toast.js',

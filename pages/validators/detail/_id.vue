@@ -138,7 +138,7 @@
               <div class="total-con">
                 Total
                 <div class="total-value">
-                  <div class="value"> {{escrowAmountStatus.total | unit}} </div>
+                  <div class="value"> {{escrowAmountStatus.total | unit(isTest)}} </div>
                   <div class="share"> ({{escrowSharesStatus.total}} shares)</div>
                 </div>
               </div>

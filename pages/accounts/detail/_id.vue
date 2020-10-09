@@ -18,7 +18,7 @@
               </div>
             </template>
             <template v-slot:total="{data}">
-              <span>{{data | unit}}</span>
+              <span>{{data | unit(isTest)}}</span>
             </template>
           </v-table>
           <pie-chart :data="data"></pie-chart>
@@ -98,7 +98,7 @@
           cell-class="block-total-list-cell"
         >
           <template v-slot:fee="{data}">
-            <span v-if="data">{{data | unit}}</span>
+            <span v-if="data">{{data | unit(isTest)}}</span>
             <span v-else>0</span>
           </template>
         </block-table>

@@ -33,8 +33,7 @@
           root-class="block-total-list"
           cell-class="block-total-list-cell"
         >
-          <template v-slot:fee="{data}">
-            <span v-if="data">{{data | unit}}</span>
+          <template v-slot:fee="{data}"><span v-if="data">{{data | unit(isTest)}}</span>
             <span v-else>0</span>
           </template>
           <template v-slot:status="{data}">
@@ -64,7 +63,6 @@
     name: 'blockDetail',
     components: { NavBar, Panel, BlockTable, Page, VTable, ArrowNavigate },
     async asyncData({ $axios, store: $store, params }) {
-      console.log('$store$store$store$store', $store)
       const datas = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchBlockDetail({ $axios, $store }, params.blockNumber)])
       const { curHeight: latestHeight } = datas[0]
       const data = datas[1]

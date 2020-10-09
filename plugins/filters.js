@@ -24,8 +24,8 @@ moment.updateLocale('en', {
 Vue.filter('percentFormat', (val) => {
   return percent(val, 1)
 })
-Vue.filter('unit', (val) => {
-  return val + ' ' + Config.feeUnit
+Vue.filter('unit', (val, isTest) => {
+  return val + ' ' + (isTest ? Config.testFeeUnit : Config.feeUnit)
 })
 
 Vue.filter('intFormat', (val) => {

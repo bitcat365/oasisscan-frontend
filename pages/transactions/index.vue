@@ -18,7 +18,7 @@
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
           <template v-slot:fee="{data}">
-            <span v-if="data">{{data | unit}}</span>
+            <span v-if="data">{{data | unit(isTest)}}</span>
             <span v-else>0</span>
           </template>
           <template v-slot:status="{data}">
