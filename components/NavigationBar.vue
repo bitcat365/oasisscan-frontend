@@ -237,22 +237,25 @@
             border-radius: 100%;
           }
           a.network-selector {
-            font-size: 14px;
-            border-radius:2px;
+            font-size: rem(14);
+            border-radius:rem(2);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 15px;
+            padding: rem(8);
             background-color: white;
             color: #2A2A2A;
-            width: 156px;
+            width: rem(156);
+            height: rem(32);
+
           }
           .network-select-list {
-            padding:0 5px;
-            min-width: 156px;
+            padding:0 rem(5);
+            min-width: rem(156);
             .network-select-item {
-              font-size: 14px !important;
-              padding:8px 10px;
+              font-size: rem(14) !important;
+              padding: rem(8);
+              height: rem(32);
               &:hover {
                 background: transparent;
                 font-weight: bold;
