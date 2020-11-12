@@ -181,7 +181,7 @@
         ],
         listSchema: [
           {
-            label: 'address',
+            label: 'Address',
             key: 'address',
             slot: true
           },
