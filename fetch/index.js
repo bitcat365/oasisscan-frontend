@@ -109,9 +109,6 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
   if (code !== 0) {
     list = []
   }
-  console.log('==================')
-  console.log('list', list)
-  console.log('==================')
   const res = list.map((item) => {
     const name = item.validatorName ? item.validatorName : (item.validatorAddress ? item.validatorAddress : item.entityAddress)
     let link
