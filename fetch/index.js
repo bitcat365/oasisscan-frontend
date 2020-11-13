@@ -8,7 +8,7 @@ function request($axios, method, args) {
 function get({ $axios, $store }) {
   return function (url, ...args) {
     // console.log('isTestnet', $store.state.net)
-    if ($store.state.net === Config.testnetChainId) {
+    if ($store.state.net === Config.testnetChainId || true) {
       url = '/testnet' + (url[0] === '/' ? '' : '/') + url
     } else {
       url = '/mainnet' + (url[0] === '/' ? '' : '/') + url
@@ -109,8 +109,11 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
   if (code !== 0) {
     list = []
   }
+  console.log('==================')
+  console.log('list', list)
+  console.log('==================')
   const res = list.map((item) => {
-    const name = item.validatorName ? item.validatorName : item.validatorAddress
+    const name = item.validatorName ? item.validatorName : (item.validatorAddress ? item.validatorAddress : item.entityAddress)
     let link
     if (item.validatorAddress) {
       link = `/validators/detail/${item.validatorAddress}`
