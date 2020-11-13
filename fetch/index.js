@@ -8,7 +8,7 @@ function request($axios, method, args) {
 function get({ $axios, $store }) {
   return function (url, ...args) {
     // console.log('isTestnet', $store.state.net)
-    if ($store.state.net === Config.testnetChainId || true) {
+    if ($store.state.net === Config.testnetChainId) {
       url = '/testnet' + (url[0] === '/' ? '' : '/') + url
     } else {
       url = '/mainnet' + (url[0] === '/' ? '' : '/') + url
