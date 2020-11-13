@@ -153,7 +153,7 @@
         debondingsListPage: 1,
         columns1: [
           {
-            title: 'Validator',
+            title: 'Validator/Account',
             key: 'validatorName'
           },
           {
