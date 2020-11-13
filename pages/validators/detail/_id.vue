@@ -316,8 +316,8 @@
         ...others
       } = data[0]
       const { list: escrowTrendData } = data[1]
-      console.log('escrowTrendData', escrowTrendData)
-      console.log('data 0', data[0])
+      // console.log('escrowTrendData', escrowTrendData)
+      // console.log('data 0', data[0])
       // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
       const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
       const res = {
@@ -445,7 +445,7 @@
       async getStates() {
         const { $axios, $store } = this
         const { signs, proposals } = await validatorStats({ $axios, $store }, this.entityAddress)
-        console.log('signs', signs)
+        // console.log('signs', signs)
         this.signsStates = signs
         this.proposalsStates = proposals
       },
@@ -460,7 +460,7 @@
         const { $axios, $store } = this
         const { list, totalSize } = await getEventsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
         this.evensList = list
-        console.log('evensList', list)
+        // console.log('evensList', list)
         this.totalEventListSize = totalSize
         this.eventListPage = pageNumber
       },
@@ -468,7 +468,7 @@
         const { $axios, $store } = this
         const { list, totalSize } = await getDelegatorsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
         this.delegatorsList = list
-        console.log('delegatorsList', list)
+        // console.log('delegatorsList', list)
         this.totalDelegatorSize = totalSize
         this.delegatorListPage = pageNumber
       },

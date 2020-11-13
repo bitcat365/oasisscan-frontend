@@ -102,7 +102,8 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
     params: {
       address,
       page,
-      size
+      size,
+      all: true
     }
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
@@ -110,9 +111,15 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
   }
   const res = list.map((item) => {
     const name = item.validatorName ? item.validatorName : item.validatorAddress
+    let link
+    if (item.validatorAddress) {
+      link = `/validators/detail/${item.validatorAddress}`
+    } else if (item.entityAddress) {
+      link = `/accounts/detail/${item.entityAddress}`
+    }
     return {
       ...item,
-      validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
+      validatorName: link ? { text: name, link, type: item.validatorName ? 'link' : 'hash-link' } : name,
     }
   })
   return { list: res, totalSize }
