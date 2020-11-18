@@ -1,5 +1,5 @@
 {
-  "chainId": "Mainnet Beta",
+  "chainId": "Mainnet",
   "testnetChainId": "Testnet",
   "editURL": "https://github.com/oasisprotocol/metadata-registry",
   "feeUnit": "ROSE",
@@ -10,8 +10,8 @@
       "content": "Mainnet Beta network document overview"
     },
     {
-      "url": "https://medium.com/oasis-protocol-project/final-countdown-to-mainnet-8806185e5f72",
-      "content": "Final Countdown to Mainnet"
+      "url": "https://www.oasisscan.com",
+      "content": "Oasis Mainnet Network Live Now"
     }
   ]
 }
