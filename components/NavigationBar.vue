@@ -27,7 +27,7 @@
             <DropdownMenu class="network-select-list" slot="list">
               <DropdownItem :name="chainId" class="network-select-item">
                 <div class="green-dot"></div>
-                Mainnet Beta
+                Mainnet
               </DropdownItem>
               <DropdownItem :name="testnetChainId" class="network-select-item main-net">
                 <div class="green-dot"></div>
@@ -245,13 +245,13 @@
             padding: rem(8);
             background-color: white;
             color: #2A2A2A;
-            width: rem(156);
+            width: rem(110);
             height: rem(32);
 
           }
           .network-select-list {
             padding:0 rem(5);
-            min-width: rem(156);
+            min-width: rem(110);
             .network-select-item {
               font-size: rem(14) !important;
               padding: rem(8);
