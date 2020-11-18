@@ -6,8 +6,8 @@
   "testFeeUnit": "TEST",
   "news": [
     {
-      "url": "https://docs.oasis.dev/general/pre-mainnet/mainnet-beta-overview",
-      "content": "Mainnet Beta network document overview"
+      "url": "https://docs.oasis.dev/general/oasis-network/overview",
+      "content": "Overview of the Oasis Network"
     },
     {
       "url": "https://www.oasisscan.com",
