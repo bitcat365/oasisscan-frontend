@@ -134,7 +134,7 @@
             key: 'height'
           },
           {
-            title: 'Method',
+            title: 'Type',
             key: 'type'
           },
           {
