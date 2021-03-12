@@ -3,7 +3,7 @@
     <nav-bar :active="5"/>
     <div class="page-container container">
       <div class="title">
-        <h1>TRANSACTIONS<span class="total-count"> ({{total}})</span></h1>
+        <h1>TRANSACTIONS<span class="total-count"> ({{totalTxs}})</span></h1>
       </div>
       <Dropdown trigger="click" placement="bottom-start" @on-click="change">
         <a class="show-cur method-dropdown" href="javascript:void(0)">
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import { fetchTransactionsList, fetchChainMethods } from '../../fetch/index'
+  import {fetchTransactionsList, fetchChainMethods, fetchBlockInfo} from '../../fetch/index'
   import BlockTable from '../../components/Table/index'
   import NavBar from '../../components/NavigationBar'
   import Page from '../../components/Page'
@@ -52,9 +52,13 @@
       Page
     },
     async asyncData({ $axios, store: $store }) {
-      const { list, totalSize } = await fetchTransactionsList({ $axios, $store }, 1, 20, '', true, 12)
-      console.log('list', list)
-      return { list, total: totalSize }
+      const res = await Promise.all([
+        fetchBlockInfo({ $axios, $store }),
+        fetchTransactionsList({ $axios, $store }, 1, 20, '', true, 12)
+      ])
+      const { totalTxs = 0 } = res[0];
+      const { list, totalSize } = res[1];
+      return { list, total: totalSize, totalTxs }
     },
     methods: {
       async goto(pageNumber, progress = true) {
