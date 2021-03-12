@@ -3,7 +3,7 @@
     <nav-bar :active="4"/>
     <div class="page-container container">
       <div class="title">
-        <h1>BLOCKS<span class="total-count"> ({{total}})</span></h1>
+        <h1>BLOCKS<span v-if="latestBlock > 0" class="total-count"> ({{latestBlock}})</span></h1>
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
@@ -35,7 +35,7 @@
     },
     async asyncData({ $axios, store: $store }) {
       const { list, totalSize } = await fetchBlockList({ $axios, $store }, 1, 20)
-      return { list, total: totalSize }
+      return { list, total: totalSize, latestBlock: list && list.length > 0 ? list[0].height : 0 }
     },
     methods: {
       async goto(pageNumber, progress = true) {
