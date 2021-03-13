@@ -35,7 +35,7 @@
     },
     async asyncData({ $axios, store: $store }) {
       const { list, totalSize } = await fetchBlockList({ $axios, $store }, 1, 20)
-      return { list, total: totalSize, latestBlock: list && list.length > 0 ? list[0].height : 0 }
+      return { list, total: totalSize, latestBlock: list && list.length > 0 ? list[0].height.text : 0 }
     },
     methods: {
       async goto(pageNumber, progress = true) {
