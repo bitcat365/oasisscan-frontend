@@ -27,6 +27,10 @@
         daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
       }
       daysArray.reverse()
+
+      const lastDayFinished = new Date(latest).setHours(23, 59, 59, 999) < Date.now()
+      const finishedDaysLength = lastDayFinished ? days : days - 1
+
       // console.log('daysArray', daysArray)
       return {
         chartOptions: {
@@ -76,7 +80,9 @@
           },
           series: [ {
             name: '',
-            data: this.txHistory.map(h => h.value)
+            data: this.txHistory.map(h => h.value),
+            zoneAxis: 'x',
+            zones: [{ value: finishedDaysLength - 1 }, { dashStyle: 'shortdot', fillColor: 'transparent' }]
           }]
         }
       }
