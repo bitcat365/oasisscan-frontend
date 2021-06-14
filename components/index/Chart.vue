@@ -33,8 +33,9 @@
       let finishedDaysLength = days
       if (!lastDayFinished && days > 0) {
         const unfinishedDayFraction = (latest - new Date(latest).setHours(0, 0, 0, 0)) / (24 * 60 * 60 * 1000)
+        const lastFinishedDayData = data[data.length - 2]
         const unfinishedDayData = data.pop()
-        const extrapolated = unfinishedDayData / unfinishedDayFraction
+        const extrapolated = unfinishedDayData + lastFinishedDayData * (1 - unfinishedDayFraction)
         finishedDaysLength = days - 1
         data.push({
           y: extrapolated,
