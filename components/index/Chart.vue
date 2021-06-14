@@ -36,10 +36,18 @@
         const lastFinishedDayData = data[data.length - 2]
         const unfinishedDayData = data.pop()
         const extrapolated = unfinishedDayData + lastFinishedDayData * (1 - unfinishedDayFraction)
+
         finishedDaysLength = days - 1
         data.push({
+          x: finishedDaysLength,
           y: extrapolated,
-          tooltip: `Extrapolated to ${extrapolated.toFixed(0)} from ${unfinishedDayData}`
+          tooltip: `Extrapolated to ~${extrapolated.toFixed(0)} from ${unfinishedDayData}`
+        })
+        data.push(null) // Break line and draw unextrapolated marker too
+        data.push({
+          x: finishedDaysLength,
+          y: unfinishedDayData,
+          marker: { enabled: true }
         })
       }
 
