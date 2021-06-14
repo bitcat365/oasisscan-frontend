@@ -29,7 +29,18 @@
       daysArray.reverse()
 
       const lastDayFinished = new Date(latest).setHours(23, 59, 59, 999) < Date.now()
-      const finishedDaysLength = lastDayFinished ? days : days - 1
+      let data = this.txHistory.map(h => h.value)
+      let finishedDaysLength = days
+      if (!lastDayFinished && days > 0) {
+        const unfinishedDayFraction = (latest - new Date(latest).setHours(0, 0, 0, 0)) / (24 * 60 * 60 * 1000)
+        const unfinishedDayData = data.pop()
+        const extrapolated = unfinishedDayData / unfinishedDayFraction
+        finishedDaysLength = days - 1
+        data.push({
+          y: extrapolated,
+          tooltip: `Extrapolated to ${extrapolated.toFixed(0)} from ${unfinishedDayData}`
+        })
+      }
 
       // console.log('daysArray', daysArray)
       return {
@@ -63,7 +74,7 @@
             shared: false,
             valueSuffix: '',
             formatter: function () {
-              return this.y
+              return this.point.tooltip || this.y
             }
           },
           credits: {
@@ -80,7 +91,7 @@
           },
           series: [ {
             name: '',
-            data: this.txHistory.map(h => h.value),
+            data: data,
             zoneAxis: 'x',
             zones: [{ value: finishedDaysLength - 1 }, { dashStyle: 'shortdot', fillColor: 'transparent' }]
           }]
