@@ -83,8 +83,8 @@ module.exports = {
  //    'https://api.oasisscan.com/mainnet/'
  //  ],
   proxy: {
-    '/testnet/': { target: 'http://95.216.211.124:9181', pathRewrite: { '^/testnet/': '' } },
-    '/mainnet/': { target: 'http://95.216.211.124:8181', pathRewrite: { '^/mainnet/': '' } }
+    '/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/testnet/': '' } },
+    '/mainnet/': { target: 'http://127.0.0.1:8181', pathRewrite: { '^/mainnet/': '' } }
   },
   /*
   ** Build configuration
