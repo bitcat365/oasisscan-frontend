@@ -27,6 +27,30 @@
         daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
       }
       daysArray.reverse()
+
+      const lastDayFinished = new Date(latest).setHours(23, 59, 59, 999) < Date.now()
+      let data = this.txHistory.map(h => h.value)
+      let finishedDaysLength = days
+      if (!lastDayFinished && days > 0) {
+        const unfinishedDayFraction = (latest - new Date(latest).setHours(0, 0, 0, 0)) / (24 * 60 * 60 * 1000)
+        const lastFinishedDayData = data[data.length - 2]
+        const unfinishedDayData = data.pop()
+        const extrapolated = unfinishedDayData + lastFinishedDayData * (1 - unfinishedDayFraction)
+
+        finishedDaysLength = days - 1
+        data.push({
+          x: finishedDaysLength,
+          y: extrapolated,
+          tooltip: `Extrapolated to ~${extrapolated.toFixed(0)} from ${unfinishedDayData}`
+        })
+        data.push(null) // Break line and draw unextrapolated marker too
+        data.push({
+          x: finishedDaysLength,
+          y: unfinishedDayData,
+          marker: { enabled: true }
+        })
+      }
+
       // console.log('daysArray', daysArray)
       return {
         chartOptions: {
@@ -59,7 +83,7 @@
             shared: false,
             valueSuffix: '',
             formatter: function () {
-              return this.y
+              return this.point.tooltip || this.y
             }
           },
           credits: {
@@ -76,7 +100,9 @@
           },
           series: [ {
             name: '',
-            data: this.txHistory.map(h => h.value)
+            data: data,
+            zoneAxis: 'x',
+            zones: [{ value: finishedDaysLength - 1 }, { dashStyle: 'shortdot', fillColor: 'transparent' }]
           }]
         }
       }
