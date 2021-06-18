@@ -7,9 +7,24 @@
       </div>
       <div class="faq-panel">
         <Collapse value="0">
-          <Panel key="1">
+            <Panel key="1">
+            API
+            <p slot="content">
+             Testnet <a href="https://api.oasisscan.com/testnet/swagger-ui/" target="_blank" > https://api.oasisscan.com/testnet/swagger-ui/ </a></br>
+             Mainnet <a href="https://api.oasisscan.com/mainnet/swagger-ui/" target="_blank" > https://api.oasisscan.com/mainnet/swagger-ui/ </a>
+            </p>
+          </Panel>
+          <Panel key="2">
             About account emoji
             <p slot="content">
+             <a href="https://github.com/bitcat365/oasisscan-frontend" target="_blank" > https://github.com/bitcat365/oasisscan-frontend </a></br>
+             <a href="https://github.com/bitcat365/oasisscan-backend" target="_blank" > https://github.com/bitcat365/oasisscan-backend </a></br>
+             <a href="https://github.com/bitcat365/oasis_api_server" target="_blank" > https://github.com/bitcat365/oasis_api_server </a>
+            </p>
+          </Panel>
+          <Panel key="3">
+            Open Source
+             <p slot="content">
               🦐 < 10000 </br>
               🦞 < 100000 </br>
               🦀️ < 1000000 </br>
@@ -19,13 +34,7 @@
               🐳 < 10000000000 </br>
             </p>
           </Panel>
-          <Panel key="2">
-            Backend API
-            <p slot="content">
-             <a href="https://github.com/SimplyVC/oasis_api_server" target="_blank" > https://github.com/SimplyVC/oasis_api_server </a>
-            </p>
-          </Panel>
-          <Panel key="3">
+          <Panel key="4">
             Copyright and tools 
             <p slot="content">
             Icons made by  <a href="https://www.flaticon.com/"  target="_blank">www.flaticon.com</a> and  <a href="https://www.iconfont.cn"  target="_blank" >www.iconfont.cn</a> 
