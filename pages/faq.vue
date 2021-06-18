@@ -15,7 +15,7 @@
             </p>
           </Panel>
           <Panel key="2">
-            About account emoji
+            Open Source
             <p slot="content">
              <a href="https://github.com/bitcat365/oasisscan-frontend" target="_blank" > https://github.com/bitcat365/oasisscan-frontend </a></br>
              <a href="https://github.com/bitcat365/oasisscan-backend" target="_blank" > https://github.com/bitcat365/oasisscan-backend </a></br>
@@ -23,7 +23,7 @@
             </p>
           </Panel>
           <Panel key="3">
-            Open Source
+            Account emoji
              <p slot="content">
               🦐 < 10000 </br>
               🦞 < 100000 </br>
