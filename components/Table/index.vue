@@ -5,7 +5,11 @@
       <th v-if="expand" class="table-expand-icon-th"></th>
       <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
         <div class="header-title">
-          {{item.title}}
+          <div>
+            <div v-for="ti in item.title.split('\n')" :key="ti">
+              {{ ti }}
+            </div>
+          </div>
           <div v-if="item.sortable" class="sorts" @click="sort(item.key, item.sortType)">
             <img v-if="item.sortType === 'up'" class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow-light.svg">
             <img v-else class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow.svg">

@@ -9,8 +9,9 @@
         <router-link :to="'/'" class="nav" :class="isActive(1)" @click="tapMenu($event, 1)">DASHBOARD</router-link>
         <router-link :to="'/validators'" class="nav" :class="isActive(2)" @click="tapMenu($event, 2)">VALIDATORS</router-link>
         <router-link :to="'/accounts'" class="nav" :class="isActive(3)" @click="tapMenu($event, 3)">ACCOUNTS</router-link>
-        <router-link :to="'/blocks'" class="nav" :class="isActive(4)" @click="tapMenu($event, 3)">BLOCKS</router-link>
-        <router-link :to="'/transactions'" class="nav" :class="isActive(5)" @click="tapMenu($event, 4)">TRANSACTIONS</router-link>
+        <router-link :to="'/blocks'" class="nav" :class="isActive(4)" @click="tapMenu($event, 4)">BLOCKS</router-link>
+        <router-link :to="'/transactions'" class="nav" :class="isActive(5)" @click="tapMenu($event, 5)">TRANSACTIONS</router-link>
+        <router-link v-if="isTest" :to="'/paratimes'" class="nav" :class="isActive(6)" @click="tapMenu($event, 6)">PARATIMES</router-link>
       </nav>
       <div class="right-menu">
         <div class="chainid">

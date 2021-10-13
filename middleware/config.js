@@ -8,6 +8,7 @@ export default function ({ isHMR, app, req, store, route, isServer, params, erro
     } else {
       store.commit('SET_NET', Config.chainId)
     }
+    // store.commit('SET_NET', Config.testnetChainId)
   }
   // Set locale
   // store.commit('SET_LANG', locale)

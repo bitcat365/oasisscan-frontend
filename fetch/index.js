@@ -477,16 +477,68 @@ export async function onSearch(vue, text) {
   }, 1000)
 }
 
-export async function fetchAddressDetail($config, address) {
-  let { code, data: { list } = { list: [] } } = await get($config)('/alief/address/info', {
+export async function fetchRuntimeList($config) {
+  const { code, data: { list } = { list: [] } } = await get($config)('/runtime/list', {
+    params: {},
+    progress: false
+  }).catch(() => ({ code: -1 }))
+  return list
+}
+
+export async function fetchRoundList($config, runtimeId, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/round/list', {
     params: {
-      address: address
+      id: runtimeId,
+      size,
+      page
+    },
+    progress: false
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map((item, index) => {
+    return {
+      ...item,
+      state_root: { value: item.state_root, type: 'hash' },
+      io_root: { value: item.io_root, type: 'hash' },
+      round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },
+      timestamp: { value: item.timestamp * 1000, type: 'time' },
     }
   })
+  return { list: res, totalSize }
+}
+
+export async function fetchRoundDetail($config, runtimeId, roundId) {
+  let { code, data = {} } = await get($config)('/runtime/round/info', {
+    params: {
+      id: runtimeId,
+      round: roundId,
+    }
+  }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     data = {}
   }
-  return {
-    balance: data.balance
+  return data
+}
+
+export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/stats', {
+    params: {
+      id: runtimeId,
+      size,
+      page
+    },
+    progress: false
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
   }
+  const res = list.map((item, index) => {
+    return {
+      entityId: { value: item.entityId, type: 'hash' },
+      ...item.stats,
+    }
+  })
+  return { list: res, totalSize }
 }

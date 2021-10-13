@@ -348,6 +348,32 @@
     .tag-con {
       display: flex;
       flex-direction: row;
+      .type {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        height: rem(24);
+        font-size: rem(12);
+        padding: 0 0.75rem;
+        border: 1px solid #979797;
+        border-radius: rem(4);
+        color: #333333;
+        margin-left: rem(12);
+        margin-bottom: rem(12);
+        margin-top: rem(12);
+        cursor: pointer;
+        background-color: white;
+        &.sel {
+          color: white;
+          background-color: #808080;
+        }
+        .inactive{
+          margin-left: 1.06rem;
+        }
+        &:first-child {
+          margin-left: 0;
+        }
+      }
     }
     input[type=text] {
       width: rem(206);
@@ -357,32 +383,6 @@
       border-radius: rem(4);
       padding:0 rem(16);
       outline: none;
-    }
-    .type {
-      display: flex;
-      align-items: center;
-      text-align: center;
-      height: rem(24);
-      font-size: rem(12);
-      padding: 0 0.75rem;
-      border: 1px solid #979797;
-      border-radius: rem(4);
-      color: #333333;
-      margin-left: rem(12);
-      margin-bottom: rem(12);
-      margin-top: rem(12);
-      cursor: pointer;
-      background-color: white;
-      &.sel {
-        color: white;
-        background-color: #808080;
-      }
-      .inactive{
-        margin-left: 1.06rem;
-      }
-      &:first-child {
-        margin-left: 0;
-      }
     }
   }
   .block-list-wrapper {
