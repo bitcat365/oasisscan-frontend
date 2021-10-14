@@ -3,7 +3,7 @@
     <nav-bar :active="6" />
     <div class="page-container container">
       <div class="title">
-        <h1>Round DETAILS</h1>
+        <h1>ROUND DETAILS</h1>
       </div>
       <panel>
         <template v-slot:header>

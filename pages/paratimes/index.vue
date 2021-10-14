@@ -3,7 +3,7 @@
     <nav-bar :active="6"/>
     <div class="page-container container">
       <div class="title">
-        <h1>Paratime<span class="total-count"> ({{ runtimeListSize }})</span></h1>
+        <h1>PARATIMES<span class="total-count"> ({{ runtimeListSize }})</span></h1>
       </div>
       <div class="operate">
         <Dropdown trigger="click" placement="bottom-start" @on-click="change">
