@@ -42,7 +42,8 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    'iview/dist/styles/iview.css'
+    'iview/dist/styles/iview.css',
+    '~/assets/css/main.css',
   ],
 
   /*

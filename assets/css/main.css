@@ -1,0 +1,22 @@
+
+@font-face {
+  font-family: 'Gotham Pro Black';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Gotham Black'), url('/fonts/GothaProBla.woff') format('woff');
+}
+@font-face {
+  font-family: "PingFangSC-Medium";
+  src: url('/fonts/medium/PingFangSCMedium.woff2') format('woff2'),
+  url('/fonts/medium/PingFangSCMedium.woff') format('woff');
+}
+@font-face {
+  font-family: "PingFangSC-Regular";
+  src: url('/fonts/regular/PingFangSCRegular.woff2') format('woff2'),
+  url('/fonts/regular/PingFangSCRegular.woff') format('woff');
+}
+@font-face {
+  font-family: "PingFangSC-Semibold";
+  src: url('/fonts/semibold/PingFangSCSemibold.woff2') format('woff2'),
+  url('/fonts/semibold/PingFangSCSemibold.woff') format('woff');
+}
