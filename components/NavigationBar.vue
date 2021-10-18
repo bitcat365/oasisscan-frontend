@@ -38,7 +38,7 @@
           </Dropdown>
         </div>
         <form v-if="active !== 1" @submit.stop.prevent="onsubmit" class="search-input-con">
-          <input v-model="keywords" class="search-input" type="text" placeholder="Search by Address/Entity/Block/Block&Tx hash"></input>
+          <input v-model="keywords" class="search-input" type="text" placeholder="Search by Address,Entity,Block..."></input>
           <div class="search-btn" @click.prevent.stop="onsubmit">
             <img class="search-icon" src="../assets/search.svg"/>
           </div>
@@ -268,13 +268,39 @@
 
     }
   }
-  @media screen and (max-width:rem(1200 + 240 * 2)){
+  @media screen and (max-width: 1200px + 240 * 2px){
     .nav-bar{
       > .container {
         > .navs{
           margin-left: rem(240);
           margin-right: rem(240);
           width: auto;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1400px){
+    .nav-bar{
+      > .container {
+        > .right-menu {
+          > .search-input-con{
+            width: rem(250);
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1300px){
+    .nav-bar{
+      > .container {
+        > .navs{
+          margin-left: rem(200);
+          margin-right: rem(200);
+        }
+        > .right-menu {
+          > .search-input-con{
+            width: rem(220);
+          }
         }
       }
     }
