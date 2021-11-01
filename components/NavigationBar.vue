@@ -11,7 +11,7 @@
         <router-link :to="'/accounts'" class="nav" :class="isActive(3)" @click="tapMenu($event, 3)">ACCOUNTS</router-link>
         <router-link :to="'/blocks'" class="nav" :class="isActive(4)" @click="tapMenu($event, 4)">BLOCKS</router-link>
         <router-link :to="'/transactions'" class="nav" :class="isActive(5)" @click="tapMenu($event, 5)">TRANSACTIONS</router-link>
-        <router-link v-if="isTest" :to="'/paratimes'" class="nav" :class="isActive(6)" @click="tapMenu($event, 6)">PARATIMES</router-link>
+        <router-link :to="'/paratimes'" class="nav" :class="isActive(6)" @click="tapMenu($event, 6)">PARATIMES</router-link>
       </nav>
       <div class="right-menu">
         <div class="chainid">
@@ -106,9 +106,9 @@
       }
     },
     computed: {
-      isTest() {
-        return this.$store.state.net === Config.testnetChainId
-      },
+      // isTest() {
+      //   return this.$store.state.net === Config.testnetChainId
+      // },
       net() {
         return this.$store.state.net
       }
