@@ -68,10 +68,10 @@ import Config from '../../config'
       Page,
     },
     async asyncData({ $axios, store: $store, redirect }) {
-      if ($store.state.net !== Config.testnetChainId) {
-        redirect(`/`)
-        return
-      }
+      // if ($store.state.net !== Config.testnetChainId) {
+      //   redirect(`/`)
+      //   return
+      // }
       const runtimeList = await fetchRuntimeList({ $axios, $store })
       console.log('runtimeList', runtimeList)
       if (runtimeList.length > 0) {
