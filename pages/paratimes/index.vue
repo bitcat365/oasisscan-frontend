@@ -8,12 +8,14 @@
       <div class="operate">
         <Dropdown trigger="click" placement="bottom-start" @on-click="change">
           <a class="show-cur runtime-dropdown" href="javascript:void(0)">
-            {{ currentRuntime ? currentRuntime.runtimeId : ''}}
+            {{currentRuntime && currentRuntime.name ? currentRuntime.name : 'Unknown'}}
+            ({{ currentRuntime ? currentRuntime.runtimeId : '' | hashFormat(10)}})
             <Icon type="ios-arrow-down"></Icon>
           </a>
           <DropdownMenu slot="list">
             <DropdownItem v-for="runtime in runtimeList" :key="runtime.runtimeId" :name="runtime.runtimeId">
-              {{ runtime.runtimeId }}
+              {{ runtime.name ? runtime.name : 'Unknown'}}
+              {{ runtime.runtimeId | hashFormat(10)}}
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -37,7 +39,14 @@
           <img class="empty-icon" src="../../assets/empty.svg">
           No Node List
         </p>
-        <block-table v-if="nodeList && nodeList.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="nodeListColumns" :data="nodeList">
+        <block-table
+          v-if="nodeList && nodeList.length > 0"
+          root-class="block-total-list"
+          cell-class="block-total-list-cell"
+          :columns="nodeListColumns"
+          :data="nodeList"
+          @sort="sortNodeList"
+          >
         </block-table>
       </div>
       <div class="loader-con">
@@ -77,13 +86,25 @@ import Config from '../../config'
       if (runtimeList.length > 0) {
         const currentRuntime = runtimeList[0]
         const { list, totalSize } = await fetchRuntimeNodeList({ $axios, $store }, currentRuntime.runtimeId)
-        console.log('list', list)
+        // console.log('list', list)
         return { nodeList: list, nodeListTotal: totalSize, runtimeList, runtimeListSize: runtimeList.length, currentRuntime }
       } else {
         return { nodeList: [], nodeListTotal: 0, runtimeList: [], runtimeListSize: 0, currentRuntime: null }
       }
     },
     methods: {
+      async sortNodeList({ key, sortType }) {
+        console.log(key, sortType)
+        if (this.currentNodeListSortKey) {
+          const currentSortColumn = this.nodeListColumns.find(c => c.sortKey === this.currentNodeListSortKey)
+          currentSortColumn.sortType = ''
+        }
+        await this.getNodeList(0, key)
+        this.currentNodeListSortKey = key
+        const co = this.nodeListColumns.find(c => c.sortKey === key)
+        co.sortType = 'down'
+        this.nodeListColumns = [...this.nodeListColumns]
+      },
       async goto(pageNumber, progress = true) {
         if (pageNumber > 1) {
           this.timer && clearTimeout(this.timer)
@@ -103,9 +124,9 @@ import Config from '../../config'
         this.roundList = list
         this.roundListTotal = totalSize
       },
-      async getNodeList(pageNumber) {
+      async getNodeList(pageNumber, sortKey = 0) {
         const { $axios, $store } = this
-        const { list, totalSize } = await fetchRuntimeNodeList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer)
+        const { list, totalSize } = await fetchRuntimeNodeList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer, sortKey)
         this.nodeListPage = pageNumber
         this.nodeList = list
         this.nodeListTotal = totalSize
@@ -150,6 +171,7 @@ import Config from '../../config'
         ListTypes,
         currentListType: ListTypes.nodeList,
         isLoading: false,
+        currentNodeListSortKey: '',
         nodeListColumns: [
           {
             title: 'Entity ID',
@@ -157,27 +179,45 @@ import Config from '../../config'
           },
           {
             title: 'Elected',
-            key: 'elected'
+            key: 'elected',
+            sortKey: 0,
+            sortable: true,
+            singleSortDirection: true
           },
           {
             title: 'Primary',
-            key: 'primary'
+            key: 'primary',
+            sortKey: 1,
+            sortable: true,
+            singleSortDirection: true
           },
           {
             title: 'Backup',
-            key: 'backup'
+            key: 'backup',
+            sortKey: 2,
+            sortable: true,
+            singleSortDirection: true
           },
           {
             title: 'Proposer',
-            key: 'proposer'
+            key: 'proposer',
+            sortKey: 3,
+            sortable: true,
+            singleSortDirection: true
           },
           {
             title: 'Primary\nInvoked',
-            key: 'primary_invoked'
+            key: 'primary_invoked',
+            sortKey: 4,
+            sortable: true,
+            singleSortDirection: true
           },
           {
             title: 'Backup\nInvoked',
-            key: 'bckp_invoked'
+            key: 'bckp_invoked',
+            sortKey: 7,
+            sortable: true,
+            singleSortDirection: true
           }
         ],
         roundListColumns: [
@@ -240,6 +280,7 @@ import Config from '../../config'
       }
     }
   }
+
   .block-list-wrapper {
     margin-top: rem(12);
     background-color: white;
@@ -256,6 +297,9 @@ import Config from '../../config'
       }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
+          .hash-link {
+            color: #5f5f5f;
+          }
           //width: 200px
         }
         &:last-child {
@@ -294,16 +338,20 @@ import Config from '../../config'
     .block-total-list{
       /deep/ tr th, /deep/ tr td{
         &:nth-child(3),&:nth-child(4) {
-          width: 200px;
+          width: 250px;
         }
       }
     }
   }
   .node-list-wrapper {
     .block-total-list{
+      table-layout: auto;
+      /deep/ tr th:not(:last-child):not(:first-child) {
+        padding-right: 90px;
+      }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
-          width: 200px;
+          width: 100%;
         }
         &:last-child {
           padding-left: 0;
@@ -327,7 +375,7 @@ import Config from '../../config'
     display: inline-block;
     border-radius: rem(4);
     background-color: #ffffff;
-    min-width: rem(390);
+    min-width: rem(230);
     &.show-cur {
       color: #5F5F5F;
       display: flex;

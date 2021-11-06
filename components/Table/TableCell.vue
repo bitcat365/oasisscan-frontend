@@ -4,7 +4,7 @@
     <span v-else-if="isLocale">{{data.value}}</span>
     <span v-else-if="isHash">{{data.value | hashFormat(data.sliceLength ? data.sliceLength : undefined) }}</span>
     <span v-else-if="isPercent">{{data.value | percentFormat }}</span>
-    <a v-else-if="isHashLink" :href="data.link">
+    <a v-else-if="isHashLink" :href="data.link" class="hash-link">
       {{data.text | hashFormat(data.sliceLength ? data.sliceLength : undefined) }}
     </a>
     <span v-else-if="isTime">{{data.value | timeFormat }}</span>

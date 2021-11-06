@@ -490,7 +490,7 @@ export async function fetchRoundList($config, runtimeId, page = 1, size = 5) {
     params: {
       id: runtimeId,
       size,
-      page
+      page,
     },
     progress: false
   }).catch(() => ({ code: -1 }))
@@ -522,12 +522,13 @@ export async function fetchRoundDetail($config, runtimeId, roundId) {
   return data
 }
 
-export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 5) {
+export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 5, sortKey = 0) {
   let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/stats', {
     params: {
       id: runtimeId,
       size,
-      page
+      page,
+      sort: sortKey
     },
     progress: false
   }).catch(() => ({ code: -1 }))
@@ -535,8 +536,9 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
     list = []
   }
   const res = list.map((item, index) => {
+    const name = item.name ? item.name : item.entityId
     return {
-      entityId: { value: item.entityId, type: 'hash' },
+      entityId: { text: name, link: `/validators/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
       ...item.stats,
     }
   })

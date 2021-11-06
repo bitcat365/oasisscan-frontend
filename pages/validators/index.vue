@@ -50,7 +50,7 @@
             <div class="validator-name">
               <img v-if="slotData.data.icon" class="name-icon" :src="slotData.data.icon">
               <img v-else class="name-icon" src="../../assets/oasis-official-logo-s.png">
-              <router-link :to="slotData.data.link">{{ slotData.data.type === 'hash-link' ? hashFormat(slotData.data.text) : slotData.data.text }}</router-link>
+              <router-link :to="slotData.data.link" :class="slotData.data.type === 'hash-link' ? 'hash-link' : ''">{{ slotData.data.type === 'hash-link' ? hashFormat(slotData.data.text) : slotData.data.text }}</router-link>
             </div>
           </template>
           <template v-slot:escrowChange24="slotData">
@@ -415,6 +415,9 @@
         }
         &:nth-child(2) {
           width: 280px;
+          .hash-link {
+            color: #5f5f5f;
+          }
         }
         &:nth-child(3) {
           width: 200px;

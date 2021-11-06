@@ -10,9 +10,9 @@
               {{ ti }}
             </div>
           </div>
-          <div v-if="item.sortable" class="sorts" @click="sort(item.key, item.sortType)">
-            <img v-if="item.sortType === 'up'" class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow-light.svg">
-            <img v-else class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow.svg">
+          <div v-if="item.sortable" class="sorts" @click="sort(typeof item.sortKey !== 'undefined' ? item.sortKey: item.key, item.sortType)">
+            <img v-if="item.sortType === 'up' && !item.singleSortDirection" class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow-light.svg">
+            <img v-else-if="!item.singleSortDirection" class="up" :data-type="item.sortType=== 'up'" src="../../assets/arrow.svg">
             <div class="sep"></div>
             <img v-if="item.sortType === 'down'" :data-type="item.sortType=== 'down'" class="down" src="../../assets/arrow-light.svg">
             <img v-else class="down" :data-type="item.sortType=== 'down'" src="../../assets/arrow.svg">
