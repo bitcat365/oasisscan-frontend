@@ -15,7 +15,7 @@
           <DropdownMenu slot="list">
             <DropdownItem v-for="runtime in runtimeList" :key="runtime.runtimeId" :name="runtime.runtimeId">
               {{ runtime.name ? runtime.name : 'Unknown'}}
-              {{ runtime.runtimeId | hashFormat(10)}}
+              ({{ runtime.runtimeId | hashFormat(10)}})
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
