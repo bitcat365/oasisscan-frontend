@@ -174,7 +174,7 @@ import Config from '../../config'
         currentNodeListSortKey: '',
         nodeListColumns: [
           {
-            title: 'Entity ID',
+            title: 'Node',
             key: 'entityId'
           },
           {
