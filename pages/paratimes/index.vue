@@ -285,6 +285,7 @@ import Config from '../../config'
     margin-top: rem(12);
     background-color: white;
     padding:0 rem(30);
+    padding-bottom: rem(24);
     border-radius: rem(8);
     .block-total-list{
       padding: 0;
