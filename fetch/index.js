@@ -462,6 +462,10 @@ export async function onSearch(vue, text) {
         case 'block':
           vue.$router.push(`/blocks/${res.result}`)
           break
+        case 'runtime-transaction':
+          const [runtimeId, txHash] = res.result.split('_')
+          vue.$router.push(`/paratimes/transactions/${txHash}?runtime=${runtimeId}`)
+          break
         default:
           vue.$Spin.hide()
           vue.$router.push(`/not_found`)
@@ -522,6 +526,20 @@ export async function fetchRoundDetail($config, runtimeId, roundId) {
   return data
 }
 
+export async function fetchRuntimeTxDetail($config, runtimeId, txHash) {
+  let { code, data = {} } = await get($config)('/runtime/transaction/info', {
+    params: {
+      id: runtimeId,
+      hash: txHash,
+    }
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    data = {}
+  }
+  data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
+  return data
+}
+
 export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 5, sortKey = 0) {
   let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/stats', {
     params: {
@@ -540,6 +558,28 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
     return {
       entityId: { text: name, link: `/validators/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
       ...item.stats,
+    }
+  })
+  return { list: res, totalSize }
+}
+
+export async function fetchRuntimeTxList($config, runtimeId, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/transaction/list', {
+    params: {
+      id: runtimeId,
+      size,
+      page,
+    },
+    progress: false
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map((item, index) => {
+    return {
+      ...item,
+      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${runtimeId}`, type: 'hash-link' },
+      timestamp: { value: item.timestamp * 1000, type: 'time' },
     }
   })
   return { list: res, totalSize }

@@ -3,7 +3,7 @@
     <li v-for="item in uiHeaders" :key="item.key">
       <span class="label">{{item.label}}</span>
       <span v-if="item.slot" class="value">
-        <slot :name="item.key" :data="data[item.key]"></slot>
+        <slot :name="item.key" :data="data[item.key]" :detail="data"></slot>
       </span>
       <span v-else-if="data[item.key] && typeof data[item.key] === 'object' && data[item.key].type ==='time'" class="value">{{data[item.key].value|timeFormat}}</span>
       <span v-else-if="data[item.key] && typeof data[item.key] === 'object' && data[item.key].type ==='link'" class="value"><router-link :to="data[item.key].link">{{data[item.key].text}}</router-link></span>

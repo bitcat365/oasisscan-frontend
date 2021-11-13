@@ -22,6 +22,7 @@
         <div class="tag-con">
           <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Node List</div>
           <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Round</div>
+          <div v-if="isTest" :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
         </div>
       </div>
       <div v-if="currentListType=== ListTypes.roundList && !isLoading" class="block-list-wrapper round-list-wrapper">
@@ -49,6 +50,24 @@
           >
         </block-table>
       </div>
+      <div v-else-if="currentListType=== ListTypes.txList && !isLoading" class="block-list-wrapper tx-list-wrapper">
+        <p v-if="txList && txList.length === 0" class="no-result">
+          <img class="empty-icon" src="../../assets/empty.svg">
+          No Transaction History
+        </p>
+        <block-table
+          v-if="txList && txList.length > 0"
+          root-class="block-total-list"
+          cell-class="block-total-list-cell"
+          :columns="txListColumns"
+          :data="txList"
+          >
+          <template v-slot:result="slotData">
+            <div class="status-item green" v-if="slotData.data">Success</div>
+            <div class="status-item red" v-else>Fail</div>
+          </template>
+        </block-table>
+      </div>
       <div class="loader-con">
         <loader v-if="isLoading"/>
       </div>
@@ -58,7 +77,13 @@
 </template>
 
 <script>
-import {fetchBlockList, fetchRoundList, fetchRuntimeList, fetchRuntimeNodeList} from '../../fetch/index'
+import {
+  fetchBlockList,
+  fetchRoundList,
+  fetchRuntimeList,
+  fetchRuntimeNodeList,
+  fetchRuntimeTxList
+} from '../../fetch/index'
 import BlockTable from '../../components/Table/index'
 import NavBar from '../../components/NavigationBar'
 import Page from '../../components/Page'
@@ -66,7 +91,8 @@ import Loader from '../../components/Loader';
 import Config from '../../config'
   const ListTypes = {
     roundList: 'roundList',
-    nodeList: 'nodeList'
+    nodeList: 'nodeList',
+    txList: 'txList'
   }
   export default {
     name: 'index',
@@ -112,8 +138,10 @@ import Config from '../../config'
         }
         if (this.currentListType === ListTypes.roundList) {
           await this.getRoundList(pageNumber)
-        } else {
+        } else if (this.currentListType === ListTypes.nodeList) {
           await this.getNodeList(pageNumber)
+        } else if (this.currentListType === ListTypes.txList) {
+          await this.getRuntimeTxList(pageNumber)
         }
         progress && (document.documentElement.scrollTop = document.body.scrollTop = 0)
       },
@@ -131,6 +159,13 @@ import Config from '../../config'
         this.nodeList = list
         this.nodeListTotal = totalSize
       },
+      async getRuntimeTxList(pageNumber) {
+        const { $axios, $store } = this
+        const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer)
+        this.txListPage = pageNumber
+        this.txList = list
+        this.txListTotal = totalSize
+      },
       async change(runtime) {
         this.currentRuntime = this.runtimeList.find(({ runtimeId }) => runtimeId === runtime)
         this.isLoading = true
@@ -139,18 +174,15 @@ import Config from '../../config'
       },
       async changeListType(listType) {
         this.currentListType = listType
-        if (listType === ListTypes.nodeList && this.nodeList.length === 0) {
-          this.isLoading = true
-          await this.goto(1)
-          this.isLoading = false
-        } else if (listType === ListTypes.roundList && this.roundList.length === 0) {
-          this.isLoading = true
-          await this.goto(1)
-          this.isLoading = false
-        }
+        this.isLoading = true
+        await this.goto(1)
+        this.isLoading = false
       }
     },
     computed: {
+      isTest() {
+        return this.$store.state.net === Config.testnetChainId
+      },
     },
     created() {
     },
@@ -163,10 +195,13 @@ import Config from '../../config'
         sizer: 20,
         roundListPage: 1,
         nodeListPage: 1,
+        txListPage: 1,
         nodeListTotal: 0,
         roundListTotal: 0,
+        txListTotal: 0,
         roundList: [],
         nodeList: [],
+        txList: [],
         currentRuntime: null,
         ListTypes,
         currentListType: ListTypes.nodeList,
@@ -241,6 +276,29 @@ import Config from '../../config'
             title: 'Times',
             key: 'timestamp',
             slot: true
+          }
+        ],
+        txListColumns: [
+          {
+            title: 'Tx Hash',
+            key: 'txHash'
+          },
+          {
+            title: 'Round',
+            key: 'round'
+          },
+          {
+            title: 'Type',
+            key: 'type'
+          },
+          {
+            title: 'Status',
+            key: 'result',
+            slot: true
+          },
+          {
+            title: 'Times',
+            key: 'timestamp'
           }
         ]
       }
@@ -357,6 +415,37 @@ import Config from '../../config'
         &:last-child {
           padding-left: 0;
           width: auto;
+        }
+      }
+    }
+  }
+  .tx-list-wrapper {
+    .block-total-list{
+      table-layout: auto;
+      /deep/ tr th, /deep/ tr td{
+        &:nth-child(1) {
+          .hash-link {
+            color: #4472DE;
+          }
+        }
+        &:last-child {
+          padding-left: 0;
+          width: auto;
+        }
+      }
+      .status-item {
+        color: white;
+        text-align: center;
+        border-radius: rem(4);
+        padding: rem(4) rem(12);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        &.green {
+          background-color: #2ED47A ;
+        }
+        &.red {
+          background-color: #F7685B;
         }
       }
     }

@@ -3,7 +3,7 @@
     <nav-bar :active="6" />
     <div class="page-container container">
       <div class="title">
-        <h1>ROUND DETAILS</h1>
+        <h1>TRANSACTION DETAILS</h1>
         <div class="paratime-tag">Paratime</div>
       </div>
       <panel>
@@ -11,13 +11,25 @@
           <span>Header</span>
         </template>
         <v-table class="v-table" :headers="listSchema" :data="data">
-          <template v-slot:round="slotData">
-            <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
-          </template>
           <template v-slot:timestamp="{data}">
             <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
           </template>
+          <template v-slot:result="{data, detail}">
+            <span v-if="data" class="status-success" :data-a="JSON.stringify(all)">Success</span>
+            <div v-else>
+              <span class="status-fail" >Fail</span>
+              <span class="error-message">{{ detail.message }}</span>
+            </div>
+          </template>
         </v-table>
+      </panel>
+      <panel class="panel">
+        <template v-slot:header>
+          <span>Contents</span>
+        </template>
+        <div class="raw-data">
+          <pre>{{(data.etx || data.ctx || {}) | pretty }}</pre>
+        </div>
       </panel>
     </div>
   </div>
@@ -25,36 +37,35 @@
 
 <script>
   import Panel from '../../../components/Panel'
-  import BlockTable from '../../../components/Table/index'
-  import ArrowNavigate from '../../../components/ArrowNavigate'
-  import Page from '../../../components/Page'
   import VTable from '../../../components/VTable/index'
 
   import NavBar from '../../../components/NavigationBar'
-  import {fetchRoundDetail} from '../../../fetch'
+  import { fetchRuntimeTxDetail } from '../../../fetch'
 
   export default {
-    name: 'blockDetail',
-    components: { NavBar, Panel, VTable, ArrowNavigate },
+    name: 'runtimeTxDetail',
+    components: { NavBar, Panel, VTable },
     async asyncData({ $axios, store: $store, params, route }) {
-      const data = await fetchRoundDetail({ $axios, $store }, route.query.runtime, params.roundId)
-      console.log('data', data)
+      const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId)
       return {
         data,
-        isLast: !data.next
       }
     },
     data() {
       return {
         listSchema: [
           {
-            label: 'Round',
-            key: 'round',
-            slot: true
+            label: 'Tx Hash',
+            key: 'txHash'
           },
           {
-            label: 'Header Type',
-            key: 'header_type'
+            label: 'Runtime ID',
+            key: 'runtimeId'
+          },
+          {
+            label: 'Status',
+            key: 'result',
+            slot: true
           },
           {
             label: 'Time',
@@ -62,20 +73,12 @@
             slot: true
           },
           {
-            label: 'Previous Hash',
-            key: 'previous_hash'
+            label: 'Round',
+            key: 'round'
           },
           {
-            label: 'IO Toot',
-            key: 'io_root'
-          },
-          {
-            label: 'State Toot',
-            key: 'state_root'
-          },
-          {
-            label: 'Messages Hash',
-            key: 'messages_hash'
+            label: 'Type',
+            key: 'type'
           },
         ],
       }
@@ -83,12 +86,6 @@
     async mounted() {
     },
     methods: {
-      pre() {
-        this.$router.push(`./${parseInt(this.$route.params.roundId) - 1}?runtime=${this.$route.query.runtime}`)
-      },
-      next() {
-        this.$router.push(`./${parseInt(this.$route.params.roundId) + 1}?runtime=${this.$route.query.runtime}`)
-      }
     }
   }
 </script>
@@ -136,24 +133,41 @@
       margin-left: rem(8);
     }
   }
-  .trx-panel {
-    margin-top: rem(12);
-    .block-total-list {
-      width: 100%;
-      margin-left: 0;
+  .panel {
+    margin-top: rem(36);
+  }
+  .raw-data {
+    background: #F8F9FA;
+    border: 1px solid #B2B2B2;
+    border-radius: rem(4);
+    max-height: rem(400);
+    overflow-y: scroll;
+    padding: rem(15) rem(20);
+    margin-top: rem(30);
+    margin-left: rem(20);
+    margin-right: rem(20);
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
   }
-  .no-result {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    font-size: 14px;
-    color: rgba(55, 65, 107, 1);
-    padding: rem(80) 0;
-    .empty-icon {
-      width: rem(80);
-      margin-bottom: rem(11);
-    }
+  .status-fail,.status-success {
+    padding: rem(4) rem(10);
+    color: white;
+    border-radius: rem(4);
+    font-size: rem(12);
+  }
+  .status-fail {
+    background-color: #F7685B;
+  }
+  .error-message {
+    color: #F7685B;
+  }
+  .status-success {
+    background-color: #2ED47A;
+  }
+  /deep/ .info-list > li > .label {
+    width: rem(120);
+    min-width: rem(120);
   }
 </style>

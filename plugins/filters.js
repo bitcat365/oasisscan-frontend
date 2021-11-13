@@ -54,5 +54,5 @@ Vue.filter('hashFormat', (val, length = 8) => {
 })
 
 Vue.filter('pretty', (value) => {
-  return JSON.stringify(JSON.parse(value), null, 2);
+  return JSON.stringify(typeof value === 'string' ? JSON.parse(value) : value, null, 2);
 })

@@ -29,7 +29,7 @@
       </panel>
       <panel class="trx-panel">
         <template v-slot:header>
-          <span>{{data.method}}</span>
+          <span>Contents</span>
         </template>
         <v-table  v-if="data.method === 'staking.Transfer'" class="v-table" :headers="fromToSchema" :data="data">
           <template v-slot:amount="{data}">
@@ -88,7 +88,11 @@
           {
             label: 'Nonce',
             key: 'nonce'
-          }
+          },
+          {
+            label: 'Type',
+            key: 'method'
+          },
         ],
         list: [],
         fromToSchema: [
