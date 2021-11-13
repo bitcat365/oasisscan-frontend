@@ -67,6 +67,9 @@
             <div class="status-item red" v-else>Fail</div>
           </template>
         </block-table>
+        <div class="page-navigation">
+          <page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></page>
+        </div>
       </div>
       <div class="loader-con">
         <loader v-if="isLoading"/>
