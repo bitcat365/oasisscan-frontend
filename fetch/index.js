@@ -537,6 +537,7 @@ export async function fetchRuntimeTxDetail($config, runtimeId, txHash) {
     data = {}
   }
   data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
+  data.timestamp = data.timestamp * 1000
   return data
 }
 

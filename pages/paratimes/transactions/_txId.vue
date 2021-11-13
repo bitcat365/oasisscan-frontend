@@ -12,10 +12,10 @@
         </template>
         <v-table class="v-table" :headers="listSchema" :data="data">
           <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
+            <span :data-t="JSON.stringify(data)">{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
           </template>
           <template v-slot:result="{data, detail}">
-            <span v-if="data" class="status-success" :data-a="JSON.stringify(all)">Success</span>
+            <span v-if="data" class="status-success">Success</span>
             <div v-else>
               <span class="status-fail" >Fail</span>
               <span class="error-message">{{ detail.message }}</span>
@@ -47,6 +47,7 @@
     components: { NavBar, Panel, VTable },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId)
+     console.log('data', data)
       return {
         data,
       }
