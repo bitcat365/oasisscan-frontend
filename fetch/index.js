@@ -578,6 +578,7 @@ export async function fetchRuntimeTxList($config, runtimeId, page = 1, size = 5)
   const res = list.map((item, index) => {
     return {
       ...item,
+      round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },
       txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${runtimeId}`, type: 'hash-link', sliceLength: 12 },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
     }
