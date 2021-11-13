@@ -556,8 +556,12 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
   const res = list.map((item, index) => {
     const name = item.name ? item.name : item.address
     return {
-      entityId: { text: name, link: `/validators/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
       ...item.stats,
+      entityId: {
+        text: name,
+        link: item.validator ? `/validators/detail/${item.address}` : `/accounts/detail/${item.address}`,
+        type: item.name ? 'link' : 'hash-link'
+      },
     }
   })
   return { list: res, totalSize }
