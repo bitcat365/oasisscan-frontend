@@ -15,7 +15,7 @@
             <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
           </template>
           <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
+            <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
           </template>
         </v-table>
       </panel>

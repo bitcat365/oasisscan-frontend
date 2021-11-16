@@ -522,6 +522,8 @@ export async function fetchRoundDetail($config, runtimeId, roundId) {
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     data = {}
+  } else {
+    data.timestamp = data.timestamp * 1000
   }
   return data
 }
@@ -535,9 +537,10 @@ export async function fetchRuntimeTxDetail($config, runtimeId, txHash) {
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     data = {}
+  } else {
+    data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
+    data.timestamp = data.timestamp * 1000
   }
-  data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
-  data.timestamp = data.timestamp * 1000
   return data
 }
 

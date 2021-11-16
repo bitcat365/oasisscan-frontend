@@ -12,7 +12,7 @@
         </template>
         <v-table class="v-table" :headers="listSchema" :data="data">
           <template v-slot:timestamp="{data}">
-            <span :data-t="JSON.stringify(data)">{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
+            <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
           </template>
           <template v-slot:result="{data, detail}">
             <span v-if="data" class="status-success">Success</span>
