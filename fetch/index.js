@@ -489,7 +489,7 @@ export async function fetchRuntimeList($config) {
   return list
 }
 
-export async function fetchRoundList($config, runtimeId, page = 1, size = 5) {
+export async function fetchRoundList($config, runtimeId, page = 1, size = 20) {
   let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/round/list', {
     params: {
       id: runtimeId,
@@ -571,7 +571,7 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
   return { list: res, totalSize }
 }
 
-export async function fetchRuntimeTxList($config, runtimeId, page = 1, size = 5) {
+export async function fetchRuntimeTxList($config, runtimeId, page = 1, size = 20) {
   let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/transaction/list', {
     params: {
       id: runtimeId,

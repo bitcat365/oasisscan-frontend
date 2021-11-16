@@ -20,8 +20,8 @@
           </DropdownMenu>
         </Dropdown>
         <div class="tag-con">
-          <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Node List</div>
-          <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Round</div>
+          <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
+          <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
           <div v-if="isTest" :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
         </div>
       </div>
@@ -105,20 +105,44 @@ import Config from '../../config'
       BlockTable,
       Page,
     },
-    async asyncData({ $axios, store: $store, redirect }) {
+    async asyncData({ $axios, store: $store, redirect, params }) {
       // if ($store.state.net !== Config.testnetChainId) {
       //   redirect(`/`)
       //   return
       // }
-      const runtimeList = await fetchRuntimeList({ $axios, $store })
-      console.log('runtimeList', runtimeList)
-      if (runtimeList.length > 0) {
-        const currentRuntime = runtimeList[0]
-        const { list, totalSize } = await fetchRuntimeNodeList({ $axios, $store }, currentRuntime.runtimeId)
-        // console.log('list', list)
-        return { nodeList: list, nodeListTotal: totalSize, runtimeList, runtimeListSize: runtimeList.length, currentRuntime }
+      let currentListType, currentRuntime
+      if (params.listType) {
+        currentListType = params.listType
       } else {
-        return { nodeList: [], nodeListTotal: 0, runtimeList: [], runtimeListSize: 0, currentRuntime: null }
+        currentListType = ListTypes.nodeList
+      }
+
+      const runtimeList = await fetchRuntimeList({ $axios, $store })
+      if (runtimeList.length > 0) {
+        if (params.runtimeid) {
+          currentRuntime = runtimeList.find(({ runtimeId }) => runtimeId === params.runtimeid)
+        }
+        if (!currentRuntime) {
+          currentRuntime = runtimeList[0]
+        }
+        let roundList = [], nodeList = [], txList = []
+        let roundListTotal = 0, nodeListTotal = 0, txListTotal = 0
+        if (currentListType === ListTypes.roundList) {
+          const { list, totalSize } = await fetchRoundList({ $axios, $store }, currentRuntime.runtimeId)
+          roundList = list
+          roundListTotal = totalSize
+        } else if (currentListType === ListTypes.txList) {
+          const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, currentRuntime.runtimeId)
+          txList = list
+          txListTotal = totalSize
+        } else {
+          const { list, totalSize } = await fetchRuntimeNodeList({ $axios, $store }, currentRuntime.runtimeId)
+          nodeList = list
+          nodeListTotal = totalSize
+        }
+        return { nodeList, roundList, txList, nodeListTotal, roundListTotal, txListTotal, runtimeList, runtimeListSize: runtimeList.length, currentRuntime, currentListType }
+      } else {
+        return {runtimeList: [], runtimeListSize: 0, currentRuntime: null, currentListType }
       }
     },
     methods: {
@@ -171,12 +195,22 @@ import Config from '../../config'
       },
       async change(runtime) {
         this.currentRuntime = this.runtimeList.find(({ runtimeId }) => runtimeId === runtime)
+        history.replaceState(
+          {},
+          null,
+          `/paratimes/${this.currentRuntime.runtimeId}${this.currentListType ? '/' + this.currentListType : ''}`
+        )
         this.isLoading = true
         await this.goto(1)
         this.isLoading = false
       },
       async changeListType(listType) {
         this.currentListType = listType
+        history.replaceState(
+          {},
+          null,
+          `/paratimes/${this.currentRuntime.runtimeId}/${listType}`
+        )
         this.isLoading = true
         await this.goto(1)
         this.isLoading = false
@@ -199,12 +233,12 @@ import Config from '../../config'
         roundListPage: 1,
         nodeListPage: 1,
         txListPage: 1,
-        nodeListTotal: 0,
-        roundListTotal: 0,
-        txListTotal: 0,
         roundList: [],
+        roundListTotal: 0,
         nodeList: [],
+        nodeListTotal: 0,
         txList: [],
+        txListTotal: 0,
         currentRuntime: null,
         ListTypes,
         currentListType: ListTypes.nodeList,
