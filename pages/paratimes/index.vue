@@ -22,7 +22,7 @@
         <div class="tag-con">
           <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
           <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
-          <div v-if="isTest" :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
+          <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
         </div>
       </div>
       <div v-if="currentListType=== ListTypes.roundList && !isLoading" class="block-list-wrapper round-list-wrapper">
@@ -132,7 +132,7 @@ import Config from '../../config'
           roundList = list
           roundListTotal = totalSize
         } else if (currentListType === ListTypes.txList) {
-          const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, currentRuntime.runtimeId)
+          const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, currentRuntime.runtimeId, null)
           txList = list
           txListTotal = totalSize
         } else {
@@ -188,7 +188,7 @@ import Config from '../../config'
       },
       async getRuntimeTxList(pageNumber) {
         const { $axios, $store } = this
-        const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer)
+        const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, this.currentRuntime.runtimeId, null, pageNumber, this.sizer)
         this.txListPage = pageNumber
         this.txList = list
         this.txListTotal = totalSize

@@ -523,6 +523,7 @@ export async function fetchRoundDetail($config, runtimeId, roundId) {
   if (code !== 0) {
     data = {}
   } else {
+    data.runtimeIdAndName = (data.runtimeName ? data.runtimeName : 'Unknown') + ` (${data.runtimeId})`
     data.timestamp = data.timestamp * 1000
   }
   return data
@@ -538,6 +539,8 @@ export async function fetchRuntimeTxDetail($config, runtimeId, txHash) {
   if (code !== 0) {
     data = {}
   } else {
+    console.log('d11111ata', data)
+    data.runtimeIdAndName = (data.runtimeName ? data.runtimeName : 'Unknown') + ` (${data.runtimeId})`
     data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
     data.timestamp = data.timestamp * 1000
   }
@@ -571,13 +574,17 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
   return { list: res, totalSize }
 }
 
-export async function fetchRuntimeTxList($config, runtimeId, page = 1, size = 20) {
+export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, size = 20) {
+  let params = {
+    id: runtimeId,
+    size,
+    page,
+  }
+  if (round) {
+    params.round = round
+  }
   let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/transaction/list', {
-    params: {
-      id: runtimeId,
-      size,
-      page,
-    },
+    params: params,
     progress: false
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {

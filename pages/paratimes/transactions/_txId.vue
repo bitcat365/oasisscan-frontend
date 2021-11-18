@@ -61,7 +61,7 @@
           },
           {
             label: 'Runtime ID',
-            key: 'runtimeId'
+            key: 'runtimeIdAndName'
           },
           {
             label: 'Status',
