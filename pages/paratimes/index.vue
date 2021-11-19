@@ -48,6 +48,10 @@
           :data="nodeList"
           @sort="sortNodeList"
           >
+          <template v-slot:status="{ data }">
+            <img v-if="data" class="node-status" src="../../assets/status-success.svg" />
+            <img :data-v="JSON.stringify(data)" v-else class="node-status" src="../../assets/status-fail.svg" />
+          </template>
         </block-table>
       </div>
       <div v-else-if="currentListType=== ListTypes.txList && !isLoading" class="block-list-wrapper tx-list-wrapper">
@@ -278,18 +282,9 @@ import Config from '../../config'
             singleSortDirection: true
           },
           {
-            title: 'Primary\nInvoked',
-            key: 'primary_invoked',
-            sortKey: 4,
-            sortable: true,
-            singleSortDirection: true
-          },
-          {
-            title: 'Backup\nInvoked',
-            key: 'bckp_invoked',
-            sortKey: 7,
-            sortable: true,
-            singleSortDirection: true
+            title: 'Status',
+            key: 'status',
+            slot: true
           }
         ],
         roundListColumns: [
@@ -298,7 +293,7 @@ import Config from '../../config'
             key: 'round'
           },
           {
-            title: 'header Type',
+            title: 'Header Type',
             key: 'header_type'
           },
           {
@@ -450,7 +445,9 @@ import Config from '../../config'
           width: 100%;
         }
         &:last-child {
-          padding-left: 0;
+          //padding-left: 0;
+          padding-right: rem(19);
+          text-align: center;
           width: auto;
         }
       }
@@ -559,5 +556,8 @@ import Config from '../../config'
       margin-bottom: rem(11);
     }
   }
-
+  .node-status {
+    width: rem(16);
+    height: rem(16);
+  }
 </style>

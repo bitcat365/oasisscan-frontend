@@ -564,6 +564,7 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
     const name = item.name ? item.name : item.address
     return {
       ...item.stats,
+      status: item.status,
       entityId: {
         text: name,
         link: item.validator ? `/validators/detail/${item.address}` : `/accounts/detail/${item.address}`,

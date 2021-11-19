@@ -153,13 +153,14 @@
       width: 100%;
       margin-left: 0;
       border-radius: 1px;
+      table-layout: auto;
       /deep/ td, /deep/ th {
         vertical-align: middle;
         padding: 18px 10px;
       }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
-          width: 100px
+          width: 180px
         }
         &:last-child {
           padding-left: 0;
