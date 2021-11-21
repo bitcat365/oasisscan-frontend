@@ -4,26 +4,39 @@
     <div class="page-container container">
       <div class="title">
         <h1>PARATIMES<span class="total-count"> ({{ runtimeListSize }})</span></h1>
+        <div v-if="currentListType === ListTypes.nodeList && !isLoading" class="node-info">
+          <div class="info-item">
+            <div class="active-count">{{onlineNodes}}</div>
+            <div class="info-name">active nodes</div>
+          </div>
+          <div class="info-item">
+            <div class="active-count">{{offlineNodes}}</div>
+            <div class="info-name">inactive nodes</div>
+          </div>
+        </div>
       </div>
       <div class="operate">
-        <Dropdown trigger="click" placement="bottom-start" @on-click="change">
-          <a class="show-cur runtime-dropdown" href="javascript:void(0)">
-            {{currentRuntime && currentRuntime.name ? currentRuntime.name : 'Unknown'}}
-            ({{ currentRuntime ? currentRuntime.runtimeId : '' | hashFormat(10)}})
-            <Icon type="ios-arrow-down"></Icon>
-          </a>
-          <DropdownMenu slot="list">
-            <DropdownItem v-for="runtime in runtimeList" :key="runtime.runtimeId" :name="runtime.runtimeId">
-              {{ runtime.name ? runtime.name : 'Unknown'}}
-              ({{ runtime.runtimeId | hashFormat(10)}})
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <div class="tag-con">
-          <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
-          <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
-          <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
+        <div class="tags">
+          <Dropdown trigger="click" placement="bottom-start" @on-click="change">
+            <a class="show-cur runtime-dropdown" href="javascript:void(0)">
+              {{currentRuntime && currentRuntime.name ? currentRuntime.name : 'Unknown'}}
+              ({{ currentRuntime ? currentRuntime.runtimeId : '' | hashFormat(10)}})
+              <Icon type="ios-arrow-down"></Icon>
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem v-for="runtime in runtimeList" :key="runtime.runtimeId" :name="runtime.runtimeId">
+                {{ runtime.name ? runtime.name : 'Unknown'}}
+                ({{ runtime.runtimeId | hashFormat(10)}})
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <div class="tag-con">
+            <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
+            <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
+            <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
+          </div>
         </div>
+        <input v-if="currentListType === ListTypes.nodeList" v-model="nodeName" placeholder="Node Filter" type="text"></input>
       </div>
       <div v-if="currentListType=== ListTypes.roundList && !isLoading" class="block-list-wrapper round-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
@@ -45,7 +58,7 @@
           root-class="block-total-list"
           cell-class="block-total-list-cell"
           :columns="nodeListColumns"
-          :data="nodeList"
+          :data="filterNodes"
           @sort="sortNodeList"
           >
           <template v-slot:status="{ data }">
@@ -130,7 +143,7 @@ import Config from '../../config'
           currentRuntime = runtimeList[0]
         }
         let roundList = [], nodeList = [], txList = []
-        let roundListTotal = 0, nodeListTotal = 0, txListTotal = 0
+        let roundListTotal = 0, nodeListTotal = 0, txListTotal = 0, onlineNodes = 0, offlineNodes = 0
         if (currentListType === ListTypes.roundList) {
           const { list, totalSize } = await fetchRoundList({ $axios, $store }, currentRuntime.runtimeId)
           roundList = list
@@ -140,11 +153,26 @@ import Config from '../../config'
           txList = list
           txListTotal = totalSize
         } else {
-          const { list, totalSize } = await fetchRuntimeNodeList({ $axios, $store }, currentRuntime.runtimeId)
+          const { list, totalSize, online, offline } = await fetchRuntimeNodeList({ $axios, $store }, currentRuntime.runtimeId)
           nodeList = list
           nodeListTotal = totalSize
+          onlineNodes = online
+          offlineNodes = offline
         }
-        return { nodeList, roundList, txList, nodeListTotal, roundListTotal, txListTotal, runtimeList, runtimeListSize: runtimeList.length, currentRuntime, currentListType }
+        return {
+          onlineNodes,
+          offlineNodes,
+          nodeList,
+          roundList,
+          txList,
+          nodeListTotal,
+          roundListTotal,
+          txListTotal,
+          runtimeList,
+          runtimeListSize: runtimeList.length,
+          currentRuntime,
+          currentListType
+        }
       } else {
         return {runtimeList: [], runtimeListSize: 0, currentRuntime: null, currentListType }
       }
@@ -185,10 +213,12 @@ import Config from '../../config'
       },
       async getNodeList(pageNumber, sortKey = 0) {
         const { $axios, $store } = this
-        const { list, totalSize } = await fetchRuntimeNodeList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer, sortKey)
+        const { list, totalSize, offline, online } = await fetchRuntimeNodeList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer, sortKey)
         this.nodeListPage = pageNumber
         this.nodeList = list
         this.nodeListTotal = totalSize
+        this.onlineNodes = online
+        this.offlineNodes = offline
       },
       async getRuntimeTxList(pageNumber) {
         const { $axios, $store } = this
@@ -224,6 +254,15 @@ import Config from '../../config'
       isTest() {
         return this.$store.state.net === Config.testnetChainId
       },
+      filterNodes() {
+        return this.nodeList.filter((item) => {
+          let filter = true
+          if (this.nodeName) {
+            filter = !!item.entityId && !!item.entityId.text && item.entityId.text.toLowerCase().indexOf(this.nodeName.toLowerCase()) >= 0
+          }
+          return filter
+        })
+      }
     },
     created() {
     },
@@ -248,6 +287,9 @@ import Config from '../../config'
         currentListType: ListTypes.nodeList,
         isLoading: false,
         currentNodeListSortKey: '',
+        onlineNodes: 0,
+        offlineNodes: 0,
+        nodeName: '',
         nodeListColumns: [
           {
             title: 'Node',
@@ -354,6 +396,7 @@ import Config from '../../config'
   }
   .title {
     padding-top: rem(20);
+    line-height: rem(40);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -492,6 +535,21 @@ import Config from '../../config'
   .operate {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    .tags {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+    }
+    input[type=text] {
+      width: rem(206);
+      height: rem(30);
+      border: 0;
+      box-shadow: 0 0 1px 0 rgba(0,0,0,0.50);
+      border-radius: rem(4);
+      padding:0 rem(16);
+      outline: none;
+    }
   }
   .runtime-dropdown {
     padding: rem(2) rem(10);
@@ -559,5 +617,29 @@ import Config from '../../config'
   .node-status {
     width: rem(16);
     height: rem(16);
+  }
+  .node-info {
+    background-color: white;
+    border-radius: rem(8);
+    height: rem(40);
+    width: rem(368);
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 rem(20);
+    > .info-item{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .active-count {
+        color: #FF7A59;
+        font-size: rem(14);
+      }
+      .info-name {
+        padding-left: rem(4);
+        font-size: rem(12);
+      }
+    }
   }
 </style>

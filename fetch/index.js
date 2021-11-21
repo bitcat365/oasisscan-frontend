@@ -548,7 +548,7 @@ export async function fetchRuntimeTxDetail($config, runtimeId, txHash) {
 }
 
 export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 5, sortKey = 0) {
-  let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/stats', {
+  let { code, data: { list, totalSize, online, offline } = {} } = await get($config)('/runtime/stats', {
     params: {
       id: runtimeId,
       size,
@@ -572,7 +572,7 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
       },
     }
   })
-  return { list: res, totalSize }
+  return { list: res, totalSize, online, offline }
 }
 
 export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, size = 20) {
