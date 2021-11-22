@@ -224,7 +224,7 @@
         }
         &:last-child {
           padding-left: 0;
-          width: 250px;
+          width: 100px;
         }
       }
     }
