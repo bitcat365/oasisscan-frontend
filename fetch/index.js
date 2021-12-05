@@ -1,4 +1,4 @@
-import { floatFormat, hashFormat, percent } from '../utils/index'
+import {decimalsFormat, floatFormat, hashFormat, percent} from '../utils/index'
 import Config from '../config'
 function request($axios, method, args) {
   /* eslint-disable no-undef */
@@ -94,7 +94,14 @@ export async function fetchChainMethods($config) {
 export async function fetchAccountDetail($config, address) {
   let { code, data = { } } = await get($config)(`/chain/account/info/${address}`, {
   }).catch(() => ({ code: -1 }))
-  data.address = { address: data.address, total: data.total }
+  console.log('data', code)
+  if (code !== -1) {
+    data.debonding = decimalsFormat(data.debonding)
+    data.available = decimalsFormat(data.available)
+    data.escrow = decimalsFormat(data.escrow)
+    data.total = decimalsFormat(data.total)
+    data.address = { address: data.address, total: decimalsFormat(data.total) }
+  }
   return data
 }
 export async function fetchAccountDelegations($config, address, page = 1, size = 5) {
@@ -117,6 +124,8 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
     } else if (item.entityAddress) {
       link = `/accounts/detail/${item.entityAddress}`
     }
+    item.shares = decimalsFormat(item.shares, 2)
+    item.amount = decimalsFormat(item.amount, 2)
     return {
       ...item,
       validatorName: link ? { text: name, link, type: item.validatorName ? 'link' : 'hash-link' } : name,
@@ -299,7 +308,6 @@ export async function fetchTransactionDetail($config, txHash) {
   if (code !== 0) {
     data = {}
   }
-  console.log('data', data)
   return {
     txHash: data.txHash,
     method: data.method,

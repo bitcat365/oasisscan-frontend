@@ -39,6 +39,17 @@ export function floatFormat(val) {
   }
 }
 
+export function decimalsFormat(val, length = 4) {
+  if (!val) {
+    return '0.00'
+  }
+  const with2Decimals = val.toString().match(new RegExp('^-?\\d+(?:\\.\\d{0,' + length + '})?'))[0]
+  if (with2Decimals.match(/\.\d{2}0+$/)) {
+    return with2Decimals.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
+  }
+  return with2Decimals
+}
+
 export function getMonth(month) {
   const map = [
     `Jan`,
