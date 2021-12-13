@@ -27,7 +27,7 @@
         daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
       }
       daysArray.reverse()
-      const values = this.trends.map(h => +h.escrow).sort()
+      const values = this.trends.map(h => +h.escrow).sort((a, b) => (a - b))
       const min = values[0]
       const max = values[values.length - 1]
       return {
