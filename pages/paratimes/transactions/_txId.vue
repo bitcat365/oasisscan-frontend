@@ -31,6 +31,14 @@
           <pre>{{(data.etx || data.ctx || {}) | pretty }}</pre>
         </div>
       </panel>
+      <panel v-if="data.events" class="panel">
+        <template v-slot:header>
+          <span>Events</span>
+        </template>
+        <div class="raw-data">
+          <pre>{{(data.events) | pretty }}</pre>
+        </div>
+      </panel>
     </div>
   </div>
 </template>
