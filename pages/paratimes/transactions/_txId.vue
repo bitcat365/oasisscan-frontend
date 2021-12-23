@@ -31,7 +31,7 @@
           <pre>{{(data.etx || data.ctx || {}) | pretty }}</pre>
         </div>
       </panel>
-      <panel v-if="data.events" class="panel">
+      <panel v-if="data.events" class="panel event-panel">
         <template v-slot:header>
           <span>Events</span>
         </template>
@@ -144,6 +144,9 @@
   }
   .panel {
     margin-top: rem(36);
+    &.event-panel {
+      margin-top: rem(18);
+    }
   }
   .raw-data {
     background: #F8F9FA;
