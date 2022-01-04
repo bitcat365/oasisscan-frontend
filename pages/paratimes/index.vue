@@ -396,7 +396,6 @@ import Config from '../../config'
   }
   .title {
     padding-top: rem(20);
-    line-height: rem(40);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -420,6 +419,13 @@ import Config from '../../config'
     padding:0 rem(30);
     padding-bottom: rem(24);
     border-radius: rem(8);
+    &.tx-list-wrapper {
+      .block-total-list{
+        /deep/ td {
+          padding: 14px 10px;
+        }
+      }
+    }
     .block-total-list{
       padding: 0;
       width: 100%;
@@ -514,7 +520,8 @@ import Config from '../../config'
         color: white;
         text-align: center;
         border-radius: rem(4);
-        padding: rem(4) rem(12);
+        padding: rem(4) rem(10);
+        font-size: rem(12);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -540,6 +547,8 @@ import Config from '../../config'
       display: flex;
       align-items: center;
       flex-direction: row;
+      margin-bottom: rem(0);
+      margin-top: rem(20);
     }
     input[type=text] {
       width: rem(206);
@@ -580,8 +589,6 @@ import Config from '../../config'
       border-radius: rem(4);
       color: #333333;
       margin-left: rem(12);
-      margin-bottom: rem(12);
-      margin-top: rem(12);
       cursor: pointer;
       background-color: white;
       &.sel {
