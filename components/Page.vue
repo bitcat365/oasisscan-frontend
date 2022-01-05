@@ -15,7 +15,7 @@
     </div>
   </div>
   <div v-else>
-    <ipage :total="100" show-elevator @on-change="pageNumberClick"/>
+    <ipage :total="recordsCount" :page-size="sizer" show-elevator @on-change="pageNumberClick"/>
   </div>
 <!--  <div v-else :class="rootClasses">-->
 <!--    <span class="sizer">{{ $t('pageSize', {sizer: sizer}) }}</span>-->
@@ -140,10 +140,26 @@ export default {
 };
 </script>
 <style lang="scss">
-.ivu-page-item-active {
-  border-color: #ff3f0f
+.ivu-page-item-active,.ivu-page-item:hover {
+  border-color: #ff3f0f;
 }
-.ivu-page-item-active a, .ivu-page-item-active:hover a {
+.ivu-page-item-active a, .ivu-page-item-active:hover a,.ivu-page-item:hover a {
+  color: #ff3f0f;
+}
+.ivu-page-options-elevator input:focus {
+  border-color: #ff3f0f;
+  box-shadow: 0 0 0 2px rgba(255, 63, 15, 0.4);
+}
+.ivu-page-options-elevator input:hover {
+  border-color: #ff3f0f;
+}
+.ivu-page-next:hover, .ivu-page-prev:hover {
+  border-color: #ff3f0f;
+}
+.ivu-page-next:hover a, .ivu-page-prev:hover a {
+  color: #ff3f0f;
+}
+a:hover {
   color: #ff3f0f;
 }
 </style>
