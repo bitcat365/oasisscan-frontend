@@ -261,6 +261,36 @@ export async function search($config, key) {
 }
 
 /**
+ * fetch runtime transactions of an address
+ * @param $config
+ * @param address
+ * @param page
+ * @param size
+ * @returns {Promise<{totalSize, list: (*&{txHash: {link: string, text: *, type: string}, timestamp: {type: string, value}, status: *})[]}>}
+ */
+export async function fetchRuntimeTransactions($config, address = '', page = 1, size = 10) {
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/account/runtime/transactions', {
+    params: {
+      page,
+      size,
+      address,
+    }
+  });
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map((item) => {
+    return {
+      ...item,
+      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
+      timestamp: { value: item.timestamp * 1000, type: 'time' },
+      status: item.result
+    }
+  });
+  return { list: res, totalSize }
+}
+
+/**
  * 获取某一个块下的交易记录
  * @param $config
  * @param blockHeight
@@ -276,7 +306,7 @@ export async function fetchTransactions($config, blockHeight = '', address = '',
       page,
       size: pageSize,
       height: blockHeight,
-      address
+      address,
     }
   });
   if (code !== 0) {
@@ -544,10 +574,9 @@ export async function fetchRuntimeTxDetail($config, runtimeId, txHash) {
       hash: txHash,
     }
   }).catch(() => ({ code: -1 }))
-  if (code !== 0) {
+  if (code !== 0 || !data) {
     data = {}
   } else {
-    console.log('d11111ata', data)
     data.runtimeIdAndName = (data.runtimeName ? data.runtimeName : 'Unknown') + ` (${data.runtimeId})`
     data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
     data.timestamp = data.timestamp * 1000
@@ -600,6 +629,7 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
     list = []
   }
   const res = list.map((item, index) => {
+    console.log('item.timestamp * 1000', (item.timestamp * 1000 - new Date()) / 1000)
     return {
       ...item,
       round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },

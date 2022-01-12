@@ -107,7 +107,7 @@ import {
 import BlockTable from '../../components/Table/index'
 import NavBar from '../../components/NavigationBar'
 import Page from '../../components/Page'
-import Loader from '../../components/Loader';
+import Loader from '../../components/Loader'
 import Config from '../../config'
   const ListTypes = {
     roundList: 'roundList',

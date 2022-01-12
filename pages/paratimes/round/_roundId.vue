@@ -42,7 +42,7 @@
             <span v-else class="status-fail" :data-data="data">Fail</span>
           </template>
           <template v-slot:timestamp="{data}">
-            <span>{{data | timeFormat}}</span>
+            <span>{{data.value | timeFormat}}</span>
           </template>
         </block-table>
         <div v-if="total > 0 && !isRequesting" class="page-navigation">

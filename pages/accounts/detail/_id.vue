@@ -82,28 +82,62 @@
           </div>
         </panel>
       </div>
-      <panel class="trx-panel" v-if="!isRequesting">
+      <panel class="trx-panel">
         <template v-slot:header>
           <span>Transactions</span>
+          <div class="tag-con">
+            <div :class="['type', currentTxListType === ListTypes.consensus ? 'sel' : '']" @click="changeTxListType(ListTypes.consensus)">Consensus</div>
+            <div :class="['type', currentTxListType === ListTypes.paratime ? 'sel' : '']" @click="changeTxListType(ListTypes.paratime)">Paratime</div>
+          </div>
         </template>
-        <p v-if="total === 0" class="no-result">
-          <img class="empty-icon" src="../../../assets/empty.svg">
-          {{$t('noTx')}}
-        </p>
-        <block-table
-          v-if="total > 0"
-          :data="list"
-          :columns="columns"
-          root-class="block-total-list"
-          cell-class="block-total-list-cell"
-        >
-          <template v-slot:fee="{data}">
-            <span v-if="data">{{data | unit(isTest)}}</span>
-            <span v-else>0</span>
-          </template>
-        </block-table>
-        <div v-if="total > 0" class="page-navigation">
-          <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
+        <div v-if="currentTxListType === ListTypes.consensus && !isRequesting">
+          <p v-if="total === 0" class="no-result">
+            <img class="empty-icon" src="../../../assets/empty.svg">
+            {{$t('noTx')}}
+          </p>
+          <block-table
+            v-if="total > 0"
+            :data="list"
+            :columns="columns"
+            root-class="block-total-list"
+            cell-class="block-total-list-cell"
+          >
+            <template v-slot:fee="{data}">
+              <span v-if="data">{{data | unit(isTest)}}</span>
+              <span v-else>0</span>
+            </template>
+            <template v-slot:status="{data}">
+              <div class="status-item green" v-if="data">Success</div>
+              <div class="status-item red" v-else>Fail</div>
+            </template>
+          </block-table>
+          <div v-if="total > 0" class="page-navigation">
+            <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
+          </div>
+        </div>
+        <div v-else-if="currentTxListType === ListTypes.paratime && !isRequesting">
+          <p v-if="runtimeTotal === 0 && !isRequesting" class="no-result">
+            <img class="empty-icon" src="../../../assets/empty.svg">
+            {{$t('noTx')}}
+          </p>
+          <block-table
+            v-if="runtimeTotal > 0"
+            :data="runtimeList"
+            :columns="runtimeColumns"
+            root-class="block-total-list"
+            cell-class="block-total-list-cell"
+          >
+            <template v-slot:status="slotData">
+              <div class="status-item green" v-if="slotData">Success</div>
+              <div class="status-item red" v-else>Fail</div>
+            </template>
+          </block-table>
+          <div v-if="runtimeTotal > 0" class="page-navigation">
+            <page :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" root-class="block-page" @goto="runTimeGoto"></page>
+          </div>
+        </div>
+        <div class="loader-con">
+          <loader v-if="isRequesting"/>
         </div>
       </panel>
     </div>
@@ -118,11 +152,21 @@
   import NavBar from '../../../components/NavigationBar'
   import Emoji from '../../../components/emoji'
   import PieChart from '../../../components/accounts/piechart'
-  import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions } from '../../../fetch/index'
-
+  import Loader from '../../../components/Loader'
+  import {
+    fetchAccountDetail,
+    fetchAccountDebonding,
+    fetchAccountDelegations,
+    fetchTransactions,
+    fetchRuntimeTransactions,
+  } from '../../../fetch/index';
+  const ListTypes = {
+    consensus: 'consensus',
+    paratime: 'paratime',
+  }
   export default {
     name: 'accountDetail',
-    components: { PieChart, NavBar, Panel, VTable, BlockTable, Page, Emoji },
+    components: { PieChart, NavBar, Panel, VTable, BlockTable, Page, Emoji, Loader },
     async asyncData({ $axios, store: $store, params }) {
       const datas = await Promise.all([
         fetchAccountDetail({ $axios, $store }, params.id),
@@ -147,6 +191,8 @@
     },
     data() {
       return {
+        ListTypes,
+        currentTxListType: ListTypes.consensus,
         delegationsListSizer: 5,
         delegationsListPage: 1,
         debondingsListSizer: 5,
@@ -211,6 +257,10 @@
         total: 0,
         sizer: 10,
         page: 1,
+        runtimeList: [],
+        runtimeTotal: 0,
+        runtimeSizer: 10,
+        runtimePage: 1,
         isRequesting: true,
         columns: [
           {
@@ -226,8 +276,40 @@
             key: 'type'
           },
           {
+            title: 'Status',
+            key: 'status',
+            slot: true
+          },
+          {
             title: 'Fee',
             key: 'fee',
+            slot: true
+          },
+          {
+            title: 'Time',
+            key: 'timestamp'
+          }
+        ],
+        runtimeColumns: [
+          {
+            title: 'Tx Hash',
+            key: 'txHash'
+          },
+          {
+            title: 'Round',
+            key: 'round'
+          },
+          {
+            title: 'Runtime Name',
+            key: 'runtimeName'
+          },
+          {
+            title: 'Type',
+            key: 'type'
+          },
+          {
+            title: 'Status',
+            key: 'status',
             slot: true
           },
           {
@@ -243,6 +325,22 @@
       console.log('data', this.data)
     },
     methods: {
+      async changeTxListType(type) {
+        this.currentTxListType = type
+        if (type === ListTypes.consensus) {
+          if (this.list.length === 0) {
+            this.isRequesting = true
+            this.goto(1)
+            this.isRequesting = false
+          }
+        } else {
+          if (this.runtimeList.length === 0) {
+            this.isRequesting = true
+            await this.runTimeGoto(1)
+            this.isRequesting = false
+          }
+        }
+      },
       onCopy() {
         this.$toast.top('Copied')
       },
@@ -267,13 +365,23 @@
       goto(pageNumber) {
         this.fetchList(pageNumber)
       },
-      async fetchList(page = 1) {
+      runTimeGoto(pageNumber) {
+        return this.fetchList(pageNumber, true)
+      },
+      async fetchList(page = 1, runtime = false) {
         const $axios = this.$axios
         const $store = this.$store
-        const { list, totalSize } = await fetchTransactions({ $axios, $store }, '', this.accountAddress, page, this.sizer)
-        this.list = list
-        this.total = totalSize
-        this.page = page
+        if (!runtime) {
+          const { list, totalSize } = await fetchTransactions({ $axios, $store }, '', this.accountAddress, page, this.sizer, runtime)
+          this.list = list
+          this.total = totalSize
+          this.page = page
+        } else {
+          const { list, totalSize } = await fetchRuntimeTransactions({ $axios, $store }, this.accountAddress, page, this.runtimeSizer)
+          this.runtimeList = list
+          this.runtimeTotal = totalSize
+          this.runtimePage = page
+        }
       }
     }
   }
@@ -286,6 +394,22 @@
     .block-total-list {
       width: 100%;
       margin-left: 0;
+    }
+    .status-item {
+      color: white;
+      text-align: center;
+      border-radius: rem(4);
+      padding: rem(4) rem(10);
+      font-size: rem(12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      &.green {
+        background-color: #2ED47A ;
+      }
+      &.red {
+        background-color: #F7685B;
+      }
     }
   }
   .overview-content{
@@ -397,5 +521,39 @@
         min-height: rem(272);
       }
     }
+  }
+  .tag-con {
+    display: flex;
+    flex-direction: row;
+    margin-left: rem(20);
+    .type {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      height: rem(24);
+      font-size: rem(12);
+      padding: 0 0.75rem;
+      border: 1px solid #979797;
+      border-radius: rem(4);
+      color: #333333;
+      margin-left: rem(12);
+      cursor: pointer;
+      background-color: white;
+      &.sel {
+        color: white;
+        background-color: #808080;
+      }
+      .inactive{
+        margin-left: 1.06rem;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+  .loader-con {
+    padding: rem(80) 0;
+    display: flex;
+    justify-content: center;
   }
 </style>
