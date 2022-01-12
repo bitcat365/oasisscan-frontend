@@ -384,7 +384,7 @@ import Config from '../../config'
   @import "../../assets/css/common";
   .page-navigation {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 30px;
   }
   .blocks-root {
