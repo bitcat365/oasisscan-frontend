@@ -54,6 +54,7 @@
     name: 'transactionDetail',
     components: { NavBar, Panel, VTable},
     async asyncData({ $axios, store: $store, params }) {
+      console.log('params', params)
       const data = await fetchTransactionDetail({ $axios, $store }, params.id)
       return {
         data
