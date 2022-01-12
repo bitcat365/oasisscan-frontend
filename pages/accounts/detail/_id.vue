@@ -276,13 +276,13 @@
             key: 'type'
           },
           {
-            title: 'Status',
-            key: 'status',
+            title: 'Fee',
+            key: 'fee',
             slot: true
           },
           {
-            title: 'Fee',
-            key: 'fee',
+            title: 'Status',
+            key: 'status',
             slot: true
           },
           {
