@@ -42,7 +42,7 @@
           </template>
         </block-table>
         <div v-if="total > 0" class="page-navigation">
-          <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
+          <page type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
         </div>
       </panel>
     </div>
@@ -207,7 +207,7 @@
   .page-navigation {
     padding-top: 30px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
   }
   .no-result {
     display: flex;

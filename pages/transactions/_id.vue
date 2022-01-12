@@ -173,11 +173,6 @@
       margin-left: 0;
     }
   }
-  .page-navigation {
-    padding-top: 30px;
-    display: flex;
-    justify-content: flex-end;
-  }
   .no-result {
     display: flex;
     flex-direction: column;
