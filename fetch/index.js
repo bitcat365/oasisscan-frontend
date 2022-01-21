@@ -567,11 +567,12 @@ export async function fetchRoundDetail($config, runtimeId, roundId) {
   return data
 }
 
-export async function fetchRuntimeTxDetail($config, runtimeId, txHash) {
+export async function fetchRuntimeTxDetail($config, runtimeId, txHash, roundHeight) {
   let { code, data = {} } = await get($config)('/runtime/transaction/info', {
     params: {
       id: runtimeId,
       hash: txHash,
+      round: roundHeight || null
     }
   }).catch(() => ({ code: -1 }))
   if (code !== 0 || !data) {
@@ -633,7 +634,7 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
     return {
       ...item,
       round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },
-      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${runtimeId}`, type: 'hash-link', sliceLength: 12 },
+      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${runtimeId}&round=${item.round}`, type: 'hash-link', sliceLength: 12 },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
     }
   })
