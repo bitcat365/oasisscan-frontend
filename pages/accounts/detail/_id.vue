@@ -127,8 +127,8 @@
             root-class="block-total-list"
             cell-class="block-total-list-cell"
           >
-            <template v-slot:status="slotData">
-              <div class="status-item green" v-if="slotData">Success</div>
+            <template v-slot:status="{data}">
+              <div class="status-item green" v-if="data">Success</div>
               <div class="status-item red" v-else>Fail</div>
             </template>
           </block-table>

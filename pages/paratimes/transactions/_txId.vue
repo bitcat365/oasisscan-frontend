@@ -54,7 +54,7 @@
     name: 'runtimeTxDetail',
     components: { NavBar, Panel, VTable },
     async asyncData({ $axios, store: $store, params, route }) {
-      const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId)
+      const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId, route.query.round)
      console.log('data', data)
       return {
         data,
