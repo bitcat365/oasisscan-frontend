@@ -460,9 +460,4 @@
       line-height: 1;
     }
   }
-  .page-navigation {
-    display: flex;
-    justify-content: flex-end;
-    padding: 30px;
-  }
 </style>

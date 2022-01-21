@@ -282,7 +282,7 @@ export async function fetchRuntimeTransactions($config, address = '', page = 1, 
   const res = list.map((item) => {
     return {
       ...item,
-      txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
+      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${item.runtimeId}`, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       status: item.result
     }

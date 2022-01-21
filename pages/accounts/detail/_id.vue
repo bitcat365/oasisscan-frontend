@@ -112,7 +112,7 @@
             </template>
           </block-table>
           <div v-if="total > 0" class="page-navigation">
-            <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
+            <page type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
           </div>
         </div>
         <div v-else-if="currentTxListType === ListTypes.paratime && !isRequesting">
@@ -133,11 +133,11 @@
             </template>
           </block-table>
           <div v-if="runtimeTotal > 0" class="page-navigation">
-            <page :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" root-class="block-page" @goto="runTimeGoto"></page>
+            <page type="simple" :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" root-class="block-page" @goto="runTimeGoto"></page>
           </div>
         </div>
-        <div class="loader-con">
-          <loader v-if="isRequesting"/>
+        <div v-if="isRequesting" class="loader-con">
+          <loader/>
         </div>
       </panel>
     </div>
@@ -276,13 +276,13 @@
             key: 'type'
           },
           {
-            title: 'Status',
-            key: 'status',
+            title: 'Fee',
+            key: 'fee',
             slot: true
           },
           {
-            title: 'Fee',
-            key: 'fee',
+            title: 'Status',
+            key: 'status',
             slot: true
           },
           {

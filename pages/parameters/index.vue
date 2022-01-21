@@ -104,9 +104,4 @@
     @include medium;
     color: #626262;
   }
-  .page-navigation {
-    display: flex;
-    justify-content: flex-end;
-    padding: 30px;
-  }
 </style>

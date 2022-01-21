@@ -138,11 +138,6 @@
       opacity: 0;
     }
   }
-  .page-navigation {
-    display: flex;
-    justify-content: flex-end;
-    padding: 30px;
-  }
   .blocks-root {
     background-color: #f7f7f7;
     min-height: calc(100vh - #{rem(100)});
@@ -234,7 +229,7 @@
   }
   .page-navigation {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     padding: 15px 0;
   }
   .account-item {
