@@ -290,6 +290,30 @@ export async function fetchRuntimeTransactions($config, address = '', page = 1, 
   return { list: res, totalSize }
 }
 
+export async function fetchEventsTransactions($config, address = '', page = 1, pageSize = 5) {
+  // /chain/staking/events
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/staking/events', {
+    params: {
+      page,
+      size: pageSize,
+      address,
+    }
+  });
+  if (code !== 0) {
+    list = []
+  }
+  // console.log('event transactions', list)
+  const res = list.map((item) => {
+    return {
+      ...item,
+      height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
+      txHash: { text: item.tx_hash, link: `/transactions/${item.tx_hash}`, type: 'hash-link' },
+      type: 'transfer'
+    }
+  })
+  return { list: res, totalSize }
+}
+
 /**
  * 获取某一个块下的交易记录
  * @param $config
