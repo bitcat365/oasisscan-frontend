@@ -253,7 +253,7 @@
         ],
         columns2: [
           {
-            title: 'Validator',
+            title: 'Validator/Account',
             key: 'validatorName'
           },
           {
@@ -616,7 +616,7 @@
   .tag-con {
     display: flex;
     flex-direction: row;
-    margin-left: rem(20);
+    margin-left: rem(8);
     .type {
       display: flex;
       align-items: center;
@@ -627,7 +627,7 @@
       border: 1px solid #979797;
       border-radius: rem(4);
       color: #333333;
-      margin-left: rem(12);
+      margin-left: rem(8);
       cursor: pointer;
       background-color: white;
       &.sel {
