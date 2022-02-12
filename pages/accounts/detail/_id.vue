@@ -601,7 +601,8 @@
     }
     /deep/ {
       .panel-title {
-        align-items: flex-end;
+        //align-items: flex-end;
+        height: rem(24);
       }
       .panel-content{
         display: flex;
