@@ -27,58 +27,91 @@
       <div class="list-panels">
         <panel class="voters-panel">
           <template v-slot:header>
-            <span>Escrow Active</span>
+            <span>Escrow</span>
+            <div class="tag-con">
+              <div :class="['type', currentEscrowType === EscrowTypes.active ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.active)">Active</div>
+              <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Debonding</div>
+            </div>
           </template>
-          <p v-if="delegationsList && delegationsList.length === 0" class="no-result">
+          <div class="panel-content" v-if="currentEscrowType === EscrowTypes.active && !isEscrowRequesting">
+            <p v-if="delegationsList && delegationsList.length === 0" class="no-result">
+              <img class="empty-icon_s" src="../../../assets/empty.svg">
+              No Escrow
+            </p>
+            <block-table
+              v-if="delegationsList && delegationsList.length > 0"
+              :data="delegationsList"
+              :columns="columns1"
+              :expand="false"
+              class="block-total-list  delegator-table"
+              cell-class="block-total-list-cell"
+            />
+            <div class="page-navigation">
+              <page
+                v-if="delegationsList && delegationsList.length > 0"
+                type="simple"
+                :sizer="delegationsListSizer"
+                :records-count="totalDelegationsSize"
+                :page="delegationsListPage"
+                root-class="block-page"
+                @goto="gotoDelegations"></page>
+            </div>
+          </div>
+          <div class="panel-content" v-else-if="!isEscrowRequesting">
+            <p v-if="debondingsList && debondingsList.length === 0" class="no-result">
+              <img class="empty-icon_s" src="../../../assets/empty.svg">
+              No Debonding
+            </p>
+            <block-table
+              v-if="debondingsList && debondingsList.length > 0"
+              :data="debondingsList"
+              :columns="columns2"
+              :expand="false"
+              class="block-total-list  delegator-table"
+              cell-class="block-total-list-cell"
+            >
+
+            </block-table>
+            <div class="page-navigation">
+              <page
+                v-if="debondingsList && debondingsList.length > 0"
+                type="simple"
+                :sizer="debondingsListSizer"
+                :records-count="totalDebondingsSize"
+                :page="debondingsListPage"
+                root-class="block-page"
+                @goto="gotoDeboundings"></page>
+            </div>
+          </div>
+          <div v-if="isEscrowRequesting" class="escrow-loader-con">
+            <loader/>
+          </div>
+        </panel>
+        <panel class="voters-panel">
+          <template v-slot:header>
+            <span>Event</span>
+          </template>
+          <p v-if="eventList && eventList.length === 0" class="no-result">
             <img class="empty-icon_s" src="../../../assets/empty.svg">
-            No Escrow
+            No Event
           </p>
           <block-table
-            v-if="delegationsList && delegationsList.length > 0"
-            :data="delegationsList"
-            :columns="columns1"
+            v-if="eventList && eventList.length > 0"
+            :data="eventList"
+            :columns="eventListSchema"
             :expand="false"
             class="block-total-list  delegator-table"
             cell-class="block-total-list-cell"
           />
           <div class="page-navigation">
             <page
-              v-if="delegationsList && delegationsList.length > 0"
+              v-if="eventList && eventList.length > 0"
               type="simple"
-              :sizer="delegationsListSizer"
-              :records-count="totalDelegationsSize"
-              :page="delegationsListPage"
+              :sizer="eventSizer"
+              :records-count="eventTotal"
+              :page="eventPage"
               root-class="block-page"
-              @goto="gotoDelegations"></page>
-          </div>
-        </panel>
-        <panel class="voters-panel">
-          <template v-slot:header>
-            <span>Escrow Debonding</span>
-          </template>
-          <p v-if="debondingsList && debondingsList.length === 0" class="no-result">
-            <img class="empty-icon_s" src="../../../assets/empty.svg">
-            No Debonding
-          </p>
-          <block-table
-            v-if="debondingsList && debondingsList.length > 0"
-            :data="debondingsList"
-            :columns="columns2"
-            :expand="false"
-            class="block-total-list  delegator-table"
-            cell-class="block-total-list-cell"
-          >
-
-          </block-table>
-          <div class="page-navigation">
-            <page
-              v-if="debondingsList && debondingsList.length > 0"
-              type="simple"
-              :sizer="debondingsListSizer"
-              :records-count="totalDebondingsSize"
-              :page="debondingsListPage"
-              root-class="block-page"
-              @goto="gotoDeboundings"></page>
+              @goto="gotoEvents"></page>
           </div>
         </panel>
       </div>
@@ -158,11 +191,16 @@
     fetchAccountDebonding,
     fetchAccountDelegations,
     fetchTransactions,
-    fetchRuntimeTransactions,
-  } from '../../../fetch/index';
+    fetchRuntimeTransactions, fetchEventsTransactions,
+  } from '../../../fetch/index'
   const ListTypes = {
     consensus: 'consensus',
     paratime: 'paratime',
+  }
+
+  const EscrowTypes = {
+    active: 'active',
+    debonding: 'debonding',
   }
   export default {
     name: 'accountDetail',
@@ -171,28 +209,30 @@
       const datas = await Promise.all([
         fetchAccountDetail({ $axios, $store }, params.id),
         fetchAccountDelegations({ $axios, $store }, params.id),
-        fetchAccountDebonding({ $axios, $store }, params.id)
+        fetchEventsTransactions({ $axios, $store }, params.id)
       ])
       const data = await datas[0]
       const { list: delegationsList, totalSize: totalDelegationsSize } = await datas[1]
-      const { list: debondingsList, totalSize: totalDebondingsSize } = await datas[2]
+      const { list: eventList, totalSize: eventTotal } = await datas[2]
       console.log(delegationsList,'delegationsList')
-      console.log(debondingsList,'debondingsList')
-      console.log(totalDebondingsSize,'totalDebondingsSize')
+      console.log(eventList,'eventList')
+      console.log(eventTotal,'eventTotal')
       console.log(totalDelegationsSize,'totalDelegationsSize')
       return {
-        totalDebondingsSize,
+        eventList,
+        eventTotal,
         totalDelegationsSize,
         accountAddress: params.id,
         data,
         delegationsList,
-        debondingsList
       }
     },
     data() {
       return {
         ListTypes,
+        EscrowTypes,
         currentTxListType: ListTypes.consensus,
+        currentEscrowType: EscrowTypes.active,
         delegationsListSizer: 5,
         delegationsListPage: 1,
         debondingsListSizer: 5,
@@ -253,6 +293,25 @@
             key: 'nonce'
           }
         ],
+        eventListSchema: [
+          {
+            title: 'Tx Hash',
+            key: 'txHash'
+          },
+          {
+            title: 'Height',
+            key: 'height'
+          },
+          {
+            title: 'Type',
+            key: 'type'
+          }
+        ],
+        eventList: null,
+        eventTotal: 0,
+        eventSizer: 5,
+        eventPage: 1,
+        debondingsList: [],
         list: [],
         total: 0,
         sizer: 10,
@@ -262,6 +321,7 @@
         runtimeSizer: 10,
         runtimePage: 1,
         isRequesting: true,
+        isEscrowRequesting: false,
         columns: [
           {
             title: 'Tx Hash',
@@ -325,16 +385,32 @@
       console.log('data', this.data)
     },
     methods: {
+      async changeEscrowListType(type) {
+        this.currentEscrowType = type
+        if (type === EscrowTypes.active) {
+          if (this.list.length === 0) {
+            this.isEscrowRequesting = true
+            await this.gotoDelegations(1)
+            this.isEscrowRequesting = false
+          }
+        } else {
+          if (this.debondingsList.length === 0) {
+            this.isEscrowRequesting = true
+            await this.gotoDeboundings(1)
+            this.isEscrowRequesting = false
+          }
+        }
+      },
       async changeTxListType(type) {
         this.currentTxListType = type
         if (type === ListTypes.consensus) {
-          if (this.list.length === 0) {
+          if (this.delegationsList.length === 0) {
             this.isRequesting = true
-            this.goto(1)
+            await this.goto(1)
             this.isRequesting = false
           }
         } else {
-          if (this.runtimeList.length === 0) {
+          if (this.debondingsList.length === 0) {
             this.isRequesting = true
             await this.runTimeGoto(1)
             this.isRequesting = false
@@ -343,6 +419,15 @@
       },
       onCopy() {
         this.$toast.top('Copied')
+      },
+      async gotoEvents(pageNumber) {
+        const $axios = this.$axios
+        const $store = this.$store
+        const { list, totalSize } = await fetchEventsTransactions({ $axios, $store }, this.accountAddress, pageNumber, this.eventSizer)
+        this.eventList = list
+        console.log('eventList', list)
+        this.eventTotal = totalSize
+        this.eventPage = pageNumber
       },
       async gotoDelegations(pageNumber) {
         const $axios = this.$axios
@@ -362,8 +447,8 @@
         this.totalDebondingsSize = totalSize
         this.debondingsListPage = pageNumber
       },
-      goto(pageNumber) {
-        this.fetchList(pageNumber)
+      async goto(pageNumber) {
+        await this.fetchList(pageNumber)
       },
       runTimeGoto(pageNumber) {
         return this.fetchList(pageNumber, true)
@@ -504,7 +589,12 @@
     margin-top: rem(12);
   }
   .voters-panel {
+    display: flex;
+    flex-direction: column;
     width: rem(594);
+    .panel-content {
+      height: 100%;
+    }
     .block-total-list {
       width: 100%;
       margin-left: 0;
@@ -551,7 +641,7 @@
       }
     }
   }
-  .loader-con {
+  .loader-con,.escrow-loader-con {
     padding: rem(80) 0;
     display: flex;
     justify-content: center;

@@ -290,6 +290,46 @@ export async function fetchRuntimeTransactions($config, address = '', page = 1, 
   return { list: res, totalSize }
 }
 
+export async function fetchEventDetail($config,id) {
+  let { code, data } = await get($config)(`/chain/staking/events/info`, {
+    params: {
+      id
+    }
+  })
+  if (code !== 0) {
+    data = {}
+  }
+  return {
+    txHash: data.tx_hash,
+    type: data.type,
+    raw: JSON.stringify(data[data.type]),
+    height: { text: data.height, link: `/blocks/${data.height}`, type: 'link' },
+  }
+}
+
+export async function fetchEventsTransactions($config, address = '', page = 1, pageSize = 5) {
+  // /chain/staking/events
+  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/staking/events', {
+    params: {
+      page,
+      size: pageSize,
+      address,
+    }
+  });
+  if (code !== 0) {
+    list = []
+  }
+  // console.log('event transactions', list)
+  const res = list.map((item) => {
+    return {
+      ...item,
+      height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
+      txHash: { text: item.tx_hash, link: `/events/${item.id}`, type: 'hash-link' },
+    }
+  })
+  return { list: res, totalSize }
+}
+
 /**
  * 获取某一个块下的交易记录
  * @param $config
