@@ -358,7 +358,7 @@
         border: 1px solid #979797;
         border-radius: rem(4);
         color: #333333;
-        margin-left: rem(12);
+        margin-left: rem(8);
         margin-bottom: rem(12);
         margin-top: rem(12);
         cursor: pointer;

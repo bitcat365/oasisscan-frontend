@@ -253,7 +253,7 @@
         ],
         columns2: [
           {
-            title: 'Validator',
+            title: 'Validator/Account',
             key: 'validatorName'
           },
           {
@@ -311,6 +311,7 @@
         eventTotal: 0,
         eventSizer: 5,
         eventPage: 1,
+        debondingsList: [],
         list: [],
         total: 0,
         sizer: 10,
@@ -393,7 +394,7 @@
             this.isEscrowRequesting = false
           }
         } else {
-          if (this.runtimeList.length === 0) {
+          if (this.debondingsList.length === 0) {
             this.isEscrowRequesting = true
             await this.gotoDeboundings(1)
             this.isEscrowRequesting = false
@@ -425,7 +426,7 @@
         const { list, totalSize } = await fetchEventsTransactions({ $axios, $store }, this.accountAddress, pageNumber, this.eventSizer)
         this.eventList = list
         console.log('eventList', list)
-        this.eventSizer = totalSize
+        this.eventTotal = totalSize
         this.eventPage = pageNumber
       },
       async gotoDelegations(pageNumber) {
@@ -588,6 +589,8 @@
     margin-top: rem(12);
   }
   .voters-panel {
+    display: flex;
+    flex-direction: column;
     width: rem(594);
     .panel-content {
       height: 100%;
@@ -598,7 +601,8 @@
     }
     /deep/ {
       .panel-title {
-        align-items: flex-end;
+        //align-items: flex-end;
+        height: rem(24);
       }
       .panel-content{
         display: flex;
@@ -612,7 +616,7 @@
   .tag-con {
     display: flex;
     flex-direction: row;
-    margin-left: rem(20);
+    margin-left: rem(8);
     .type {
       display: flex;
       align-items: center;
@@ -623,7 +627,7 @@
       border: 1px solid #979797;
       border-radius: rem(4);
       color: #333333;
-      margin-left: rem(12);
+      margin-left: rem(8);
       cursor: pointer;
       background-color: white;
       &.sel {

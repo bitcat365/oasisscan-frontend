@@ -3,41 +3,20 @@
     <nav-bar :active="5" />
     <div class="page-container container">
       <div class="title">
-        <h1>TRANSACTION DETAILS</h1>
+        <h1>EVENT DETAILS</h1>
       </div>
       <panel>
         <template v-slot:header>
           <span>Overview</span>
         </template>
         <v-table class="v-table" :headers="listSchema" :data="data">
-          <template v-slot:fee="{data}">
-            <span v-if="data">{{data | unit(isTest)}}</span>
-            <span v-else>{{0 | unit(isTest)}}</span>
-          </template>
-
-          <template v-slot:status="{data}">
-            <span v-if="data.status" class="status-success">Success</span>
-            <div v-else>
-              <span class="status-fail">Fail</span>
-              <span class="error-message">{{ data.error }}</span>
-            </div>
-          </template>
-          <template v-slot:timestamp="{data}">
-            <span>{{data * 1000 | timeFormat}} ( {{data * 1000 | timeFormat2}} )</span>
-          </template>
         </v-table>
       </panel>
       <panel class="trx-panel">
         <template v-slot:header>
           <span>Contents</span>
         </template>
-        <v-table  v-if="data.method === 'staking.Transfer'" class="v-table" :headers="fromToSchema" :data="data">
-          <template v-slot:amount="{data}">
-            <span v-if="data">{{data | unit(isTest)}}</span>
-            <span v-else>{{0 | unit(isTest)}}</span>
-          </template>
-        </v-table>
-        <div class="raw-data" v-else>
+        <div class="raw-data">
           <pre> {{data.raw | pretty}}</pre>
         </div>
       </panel>
@@ -49,13 +28,13 @@
   import Panel from '../../components/Panel'
   import VTable from '../../components/VTable/index'
   import NavBar from '../../components/NavigationBar'
-  import { fetchTransactionDetail } from '~/fetch/index'
+  import { fetchEventDetail } from '~/fetch/index'
   export default {
-    name: 'transactionDetail',
+    name: 'eventDetail',
     components: { NavBar, Panel, VTable},
     async asyncData({ $axios, store: $store, params }) {
       console.log('params', params)
-      const data = await fetchTransactionDetail({ $axios, $store }, params.id)
+      const data = await fetchEventDetail({ $axios, $store }, params.id)
       return {
         data
       }
@@ -68,49 +47,14 @@
             key: 'txHash'
           },
           {
-            label: 'Status',
-            key: 'status',
-            slot: true
-          },
-          {
-            label: 'Time',
-            key: 'timestamp',
-            slot: true
-          },
-          {
             label: 'Height',
             key: 'height'
           },
           {
-            label: 'Fee',
-            key: 'fee',
-            slot: true
-          },
-          {
-            label: 'Nonce',
-            key: 'nonce'
-          },
-          {
             label: 'Type',
-            key: 'method'
+            key: 'type'
           },
         ],
-        list: [],
-        fromToSchema: [
-          {
-            label: 'From',
-            key: 'from'
-          },
-          {
-            label: 'To',
-            key: 'to'
-          },
-          {
-            label: 'Amount',
-            key: 'amount',
-            slot: true
-          }
-        ]
       }
     },
     async mounted() {
@@ -172,29 +116,6 @@
       width: 100%;
       margin-left: 0;
     }
-  }
-  .no-result {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    font-size: 14px;
-    color: rgba(55, 65, 107, 1);
-    padding: rem(80) 0;
-    .empty-icon {
-      width: rem(80);
-      margin-bottom: rem(11);
-    }
-  }
-
-  .status-fail,.status-success {
-    padding: rem(4) rem(10);
-    color: white;
-    border-radius: rem(4);
-    font-size: rem(12);
-  }
-  .status-fail {
-    background-color: #F7685B;
   }
   .error-message {
     color: #F7685B;
