@@ -376,7 +376,7 @@ export async function fetchVotes($config, id) {
       id
     }
   });
-  console.log('list', list, code)
+  // console.log('list', list, code)
   if (code !== 0) {
     list = []
   }

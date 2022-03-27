@@ -67,7 +67,7 @@
             key: 'submitter'
           },
           {
-            label: 'State',
+            label: 'Status',
             key: 'state'
           },
           {
@@ -157,6 +157,13 @@
     .block-total-list {
       width: 100%;
       margin-left: 0;
+      /deep/ tr td{
+        &:nth-child(1) {
+          .hash-link {
+            color: #5f5f5f;
+          }
+        }
+      }
     }
   }
   .page-navigation {

@@ -3,7 +3,7 @@
     <nav-bar :active="7"/>
     <div class="page-container container">
       <div class="title">
-        <h1>Proposals<span class="total-count"> ({{list.length}})</span></h1>
+        <h1>PROPOSALS<span class="total-count"> ({{list.length}})</span></h1>
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
@@ -127,18 +127,21 @@
       width: 100%;
       margin-left: 0;
       border-radius: 1px;
-      table-layout: auto;
+      table-layout: fixed;
       /deep/ td, /deep/ th {
         vertical-align: middle;
         padding: 18px 10px;
       }
       /deep/ tr th, /deep/ tr td{
         &:nth-child(1) {
-          width: 180px
+          width: 80px
+        }
+        &:nth-child(2) {
+          width: 360px
         }
         &:last-child {
           padding-left: 0;
-          width: 260px;
+          //width: 260px;
         }
       }
     }
