@@ -1,4 +1,4 @@
-import {decimalsFormat, floatFormat, hashFormat, percent} from '../utils/index'
+import {capitalize, decimalConvert, decimalsFormat, floatFormat, hashFormat, percent} from '../utils/index'
 import Config from '../config'
 function request($axios, method, args) {
   /* eslint-disable no-undef */
@@ -60,6 +60,27 @@ export async function fetchHomeBlockList($config, pageSize = 10, page = 1, progr
   });
   return { list }
 }
+
+export async function fetchProposals($config, page = 1, size = 20, progress = true) {
+  let { code, data: { list, totalSize,...others } = { list: [] } } = await get($config)(`/governance/proposals`, {
+    params: {
+      page,
+      size
+    },
+    progress
+  }).catch(() => ({ code: -1 }))
+  // console.log('list', list, totalSize, others)
+  list = list.map((item, index) => {
+    const handler = item.content[Object.keys(item.content)[0]].handler
+    return {
+      ...item,
+      deposit: decimalConvert(item.deposit),
+      handler: { text: handler, link: `/proposals/${item.id}`, type: 'link' },
+    }
+  })
+  return { list, totalSize }
+}
+
 export async function fetchBlockList($config, page = 1, size = 20, progress = true) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/blocks`, {
     params: {
@@ -94,7 +115,7 @@ export async function fetchChainMethods($config) {
 export async function fetchAccountDetail($config, address) {
   let { code, data = { } } = await get($config)(`/chain/account/info/${address}`, {
   }).catch(() => ({ code: -1 }))
-  console.log('data', code)
+  // console.log('data', code)
   if (code !== -1) {
     data.debonding = decimalsFormat(data.debonding)
     data.available = decimalsFormat(data.available)
@@ -226,6 +247,26 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
   return { list: res, active, inactive, delegators }
 }
 
+export async function fetchProposalDetail($config, id) {
+  let { code, data } = await get($config)(`/governance/proposal`, {
+    params: {
+      id
+    }
+  })
+  if (code !== 0 || !data) {
+    data = {}
+  }
+  const type = Object.keys(data.content)[0]
+  const handler = data.content[type].handler
+  return {
+    ...data,
+    type,
+    handler,
+    deposit: decimalConvert(data.deposit),
+    submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' },
+  }
+}
+
 export async function fetchBlockDetail($config, hashOrBlockHeight) {
   let { code, data } = await get($config)(`/chain/block/${hashOrBlockHeight}`, {
     params: {
@@ -312,6 +353,26 @@ export async function fetchEventsTransactions($config, address = '', page = 1, p
     }
   })
   return { list: res, totalSize }
+}
+export async function fetchVotes($config, id) {
+  let { code, data: { list } = { list: [] } } = await get($config)('/governance/votes', {
+    params: {
+      id
+    }
+  });
+  console.log('list', list, code)
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map((item) => {
+    const name = item.name ? item.name : item.address
+    return {
+      ...item,
+      voter: { text: name, link: `/accounts/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
+      vote: capitalize(item.vote)
+    }
+  });
+  return { list: res }
 }
 
 /**
@@ -439,7 +500,7 @@ export async function getBlockByProposer($config, address, size = 5, page = 1) {
       size
     }
   });
-  console.log('totalSize', totalSize)
+  // console.log('totalSize', totalSize)
   return {
     list: list.map((item) => {
       return {
@@ -483,7 +544,7 @@ export async function fetchValidatorDetail($config, address) {
     }
   })
   if (code !== 0) {
-    console.log('others', others, data)
+    // console.log('others', others, data)
     return {
       entityId: '',
       name: '',
@@ -501,7 +562,7 @@ export async function fetchValidatorDetail($config, address) {
       active: false
     }
   } else {
-    console.log('data', data)
+    // console.log('data', data)
     return data
   }
 }
@@ -654,7 +715,7 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
     list = []
   }
   const res = list.map((item, index) => {
-    console.log('item.timestamp * 1000', (item.timestamp * 1000 - new Date()) / 1000)
+    // console.log('item.timestamp * 1000', (item.timestamp * 1000 - new Date()) / 1000)
     return {
       ...item,
       round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },

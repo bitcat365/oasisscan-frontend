@@ -73,5 +73,6 @@
   "percent": "占比",
   "searchString": "搜索\"{query}\"",
   "confirmQuery": "请确认您输入的地址/哈希/块高 是否正确",
+  "noVotes": "没有投票",
   "voterList": "投票账户列表"
 }

@@ -1,4 +1,5 @@
 import moment from 'moment'
+import BN from 'bignumber.js'
 export function percent(a, b) {
   if (b === 0) {
     return '0.00%'
@@ -50,6 +51,10 @@ export function decimalsFormat(val, length = 4) {
   return with2Decimals
 }
 
+export function decimalConvert(val) {
+  return decimalsFormat(new BN(val).dividedBy(1e9).toString())
+}
+
 export function getMonth(month) {
   const map = [
     `Jan`,
@@ -66,4 +71,7 @@ export function getMonth(month) {
     `Dec`
   ]
   return map[month]
+}
+export function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }

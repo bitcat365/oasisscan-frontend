@@ -73,5 +73,6 @@
 	"percent": "Percentage",
 	"searchString": "Search \\\"{query}\\\"",
 	"confirmQuery": "Please make sure that you input a valid address/hash/height",
+  "noVotes": "No Votes",
 	"voterList": "Voter List"
 }

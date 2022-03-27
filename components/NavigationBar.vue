@@ -12,6 +12,7 @@
         <router-link :to="'/blocks'" class="nav" :class="isActive(4)" @click="tapMenu($event, 4)">BLOCKS</router-link>
         <router-link :to="'/transactions'" class="nav" :class="isActive(5)" @click="tapMenu($event, 5)">TRANSACTIONS</router-link>
         <router-link :to="'/paratimes'" class="nav" :class="isActive(6)" @click="tapMenu($event, 6)">PARATIMES</router-link>
+        <router-link :to="'/proposals'" class="nav" :class="isActive(7)" @click="tapMenu($event, 7)">PROPOSALS</router-link>
       </nav>
       <div class="right-menu">
         <div class="chainid">
@@ -279,12 +280,12 @@
       }
     }
   }
-  @media screen and (max-width: 1400px){
+  @media screen and (max-width: 1450px){
     .nav-bar{
       > .container {
         > .right-menu {
           > .search-input-con{
-            width: rem(250);
+            width: rem(220);
           }
         }
       }
@@ -299,7 +300,7 @@
         }
         > .right-menu {
           > .search-input-con{
-            width: rem(220);
+            width: rem(180);
           }
         }
       }
