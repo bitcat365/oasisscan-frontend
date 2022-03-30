@@ -71,7 +71,8 @@ export async function fetchProposals($config, page = 1, size = 20, progress = tr
   }).catch(() => ({ code: -1 }))
   // console.log('list', list, totalSize, others)
   list = list.map((item, index) => {
-    const handler = item.content[Object.keys(item.content)[0]].handler
+    const upgrade = item.content[Object.keys(item.content)[0]]
+    const handler = upgrade ? upgrade.handler : 'unknown'
     return {
       ...item,
       deposit: decimalConvert(item.deposit),
@@ -257,7 +258,8 @@ export async function fetchProposalDetail($config, id) {
     data = {}
   }
   const type = Object.keys(data.content)[0]
-  const handler = data.content[type].handler
+  const upgrade = data.content[type]
+  const handler = upgrade ? upgrade.handler : 'unknown'
   return {
     ...data,
     type,
