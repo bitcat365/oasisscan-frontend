@@ -269,6 +269,7 @@
     margin-right: rem(5);
     width: rem(30);
     height: rem(30);
+    border-radius: rem(4);
   }
   .validator-status {
     width: rem(16);
