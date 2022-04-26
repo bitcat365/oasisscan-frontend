@@ -49,7 +49,7 @@
           <template v-slot:name="slotData">
             <div class="validator-name">
               <img v-if="slotData.data.icon" class="name-icon" :src="slotData.data.icon">
-              <img v-else class="name-icon" src="../../assets/validator_dafult_icon.png">
+              <img v-else class="name-icon" src="../../assets/validator_dafult_icon.svg">
               <router-link :to="slotData.data.link" :class="slotData.data.type === 'hash-link' ? 'hash-link' : ''">{{ slotData.data.type === 'hash-link' ? hashFormat(slotData.data.text) : slotData.data.text }}</router-link>
             </div>
           </template>

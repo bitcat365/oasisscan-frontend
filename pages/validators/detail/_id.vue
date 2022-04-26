@@ -18,7 +18,7 @@
         <div class="info-con">
          <div class="base-inco">
            <div class="left">
-             <img v-if="!icon" class="icon" src="../../../assets/node_icon.png" />
+             <img v-if="!icon" class="icon" src="../../../assets/validator_dafult_icon.svg" />
              <img v-else class="icon" :src="icon" />
              <span v-if="active" class="status">Active</span>
              <span v-else class="status inactive">Inactive</span>
@@ -740,6 +740,7 @@
       width: rem(80);
       height: rem(80);
       border: 0;
+      border-radius: rem(6);
     }
     .status{
       display: block;
