@@ -9,20 +9,23 @@
         <template v-slot:header>
           <span>Header</span>
         </template>
-        <v-table class="v-table" :headers="listSchema" :data="data">
-        </v-table>
+        <div class="overview-content">
+          <v-table class="v-table" :headers="listSchema" :data="data">
+          </v-table>
+          <pie-chart :options="data.options"></pie-chart>
+        </div>
       </panel>
   <panel class="trx-panel" v-if="!isRequesting">
         <template v-slot:header>
           <span>Votes</span>
         </template>
-        <p v-if="list.length === 0" class="no-result">
+        <p v-if="data.votes.length === 0" class="no-result">
           <img class="empty-icon" src="../../assets/empty.svg">
           {{$t('noVotes')}}
         </p>
         <block-table
-          v-if="list.length > 0"
-          :data="list"
+          v-if="data.votes.length > 0"
+          :data="data.votes"
           :columns="columns"
           root-class="block-total-list"
           cell-class="block-total-list-cell"
@@ -41,13 +44,13 @@
   import BlockTable from '../../components/Table/index'
   import Page from '../../components/Page'
   import VTable from '../../components/VTable/index'
-
+  import PieChart from '../../components/proposals/piechart'
   import NavBar from '../../components/NavigationBar'
-  import {fetchTransactions, fetchProposalDetail, fetchVotes} from '../../fetch';
+  import { fetchProposalDetail, fetchVotes} from '../../fetch';
 
   export default {
     name: 'proposalDetail',
-    components: { NavBar, Panel, BlockTable, Page, VTable },
+    components: { NavBar, Panel, BlockTable, Page, VTable, PieChart },
     async asyncData({ $axios, store: $store, params }) {
       const data = await fetchProposalDetail({ $axios, $store }, params.id)
       return {
@@ -56,7 +59,7 @@
     },
     data() {
       return {
-        isRequesting: true,
+        isRequesting: false,
         listSchema: [
           {
             label: 'ID',
@@ -100,12 +103,12 @@
       }
     },
     async mounted() {
-      await this.fetchList()
-      this.isRequesting = false
+      // await this.fetchList()
+      // this.isRequesting = false
     },
     methods: {
       goto() {
-        this.fetchList()
+        // this.fetchList()
       },
       async fetchList() {
         const $axios = this.$axios
@@ -195,5 +198,10 @@
   }
   .status-success {
     background-color: #2ED47A;
+  }
+  .overview-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 </style>

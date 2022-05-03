@@ -249,7 +249,7 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
 }
 
 export async function fetchProposalDetail($config, id) {
-  let { code, data } = await get($config)(`/governance/proposal`, {
+  let { code, data } = await get($config)(`/governance/proposalwithvotes`, {
     params: {
       id
     }
@@ -257,13 +257,9 @@ export async function fetchProposalDetail($config, id) {
   if (code !== 0 || !data) {
     data = {}
   }
-  const type = Object.keys(data.content)[0]
-  const upgrade = data.content[type]
-  const handler = upgrade ? upgrade.handler : 'unknown'
   return {
     ...data,
-    type,
-    handler,
+    votes: parseVotes(data.votes ? data.votes : []),
     deposit: decimalConvert(data.deposit),
     submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' },
   }
@@ -382,6 +378,11 @@ export async function fetchVotes($config, id) {
   if (code !== 0) {
     list = []
   }
+  const res = parseVotes(list)
+  return { list: res }
+}
+
+function parseVotes(list) {
   const res = list.map((item) => {
     const name = item.name ? item.name : item.address
     return {
@@ -389,8 +390,8 @@ export async function fetchVotes($config, id) {
       voter: { text: name, link: `/accounts/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
       vote: capitalize(item.vote)
     }
-  });
-  return { list: res }
+  })
+  return res
 }
 
 /**
