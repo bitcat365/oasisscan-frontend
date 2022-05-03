@@ -7,7 +7,7 @@
     <div class="labels-con">
       <div class="label-item">
         <div class="circle" style="border-color: #4CD4A9;"></div>
-        <div>Available</div>
+        <div>Yes</div>
       </div>
       <div class="label-item">
         <div class="circle" style="border-color: #58D0FF;"></div>
