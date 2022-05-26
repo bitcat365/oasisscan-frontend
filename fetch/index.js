@@ -341,6 +341,7 @@ export async function fetchEventDetail($config,id) {
   return {
     txHash: data.tx_hash,
     type: data.type,
+    timestamp: { value: data.timestamp * 1000, type: 'time' },
     raw: JSON.stringify(data[data.type]),
     height: { text: data.height, link: `/blocks/${data.height}`, type: 'link' },
   }

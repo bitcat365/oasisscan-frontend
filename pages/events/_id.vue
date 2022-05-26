@@ -10,6 +10,9 @@
           <span>Overview</span>
         </template>
         <v-table class="v-table" :headers="listSchema" :data="data">
+          <template v-slot:timestamp="{data}">
+            <span>{{data.value | timeFormat}} ( {{data.value | timeFormat2}} )</span>
+          </template>
         </v-table>
       </panel>
       <panel class="trx-panel">
@@ -33,7 +36,6 @@
     name: 'eventDetail',
     components: { NavBar, Panel, VTable},
     async asyncData({ $axios, store: $store, params }) {
-      console.log('params', params)
       const data = await fetchEventDetail({ $axios, $store }, params.id)
       return {
         data
@@ -49,6 +51,11 @@
           {
             label: 'Height',
             key: 'height'
+          },
+          {
+            label: 'Time',
+            key: 'timestamp',
+            slot: true
           },
           {
             label: 'Type',
