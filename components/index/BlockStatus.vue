@@ -5,7 +5,7 @@
     </div>
     <div>
       <div class="name">{{name}}</div>
-      <div class="value">{{value}}</div>
+      <div class="value">{{value | readable}}</div>
     </div>
   </div>
 </template>

@@ -3,7 +3,7 @@
     <nav-bar :active="3"/>
     <div class="page-container container">
       <div class="title">
-        <h1>ACCOUNTS<span class="total-count"> ({{total}})</span></h1>
+        <h1>ACCOUNTS<span class="total-count"> ({{total | readable}})</span></h1>
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">

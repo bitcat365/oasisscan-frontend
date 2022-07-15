@@ -6,15 +6,15 @@
         <h1>VALIDATORS<span class="total-count"> ({{this.list.length}})</span></h1>
         <div class="validator-info">
           <div class="info-item">
-            <div class="active-count">{{active}}</div>
+            <div class="active-count">{{active | readable}}</div>
             <div class="info-name">active validators</div>
           </div>
           <div class="info-item">
-            <div class="active-count">{{inactive}}</div>
+            <div class="active-count">{{inactive | readable}}</div>
             <div class="info-name">inactive validators</div>
           </div>
           <div class="info-item">
-            <div class="active-count">{{delegators}}</div>
+            <div class="active-count">{{delegators | readable}}</div>
             <div class="info-name">delegators</div>
           </div>
         </div>
@@ -39,7 +39,7 @@
             <img v-else class="validator-status" src="../../assets/status-fail.svg" />
           </template>
           <template v-slot:escrow="{data:{escrow, escrowPercent}}">
-            <span>{{escrow}} ({{escrowPercent | percentFormat }})</span>
+            <span>{{escrow | readable}} ({{escrowPercent | percentFormat }})</span>
           </template>
           <template v-slot:uptime="slotData">
             <div class="uptime-item green" v-if="+slotData.data.replace('%', '') >=80">{{slotData.data}}</div>
@@ -55,7 +55,7 @@
           </template>
           <template v-slot:escrowChange24="slotData">
             <div class="escrow-change24" :class="slotData.data > 0 ? 'positive' : (slotData.data < 0 ? 'negative' : '')">
-              {{showChange(slotData.data)}}
+              {{showChangeSign(slotData.data)}} {{slotData.data | readable}}
             </div>
           </template>
           <template v-slot:rank="slotData">
@@ -131,14 +131,14 @@
         LS('StaredValidators', validators)
         this.staredValidators = validators
       },
-      showChange(value) {
+      showChangeSign(value) {
         if (value > 0) {
-          return '+' + value
+          return '+'
         } else if (value < 0) {
   //        return '-' + value
-          return value
+          return ''
         }
-        return value
+        return ''
       },
       hashFormat(val) {
         return hashFormat(val)

@@ -6,11 +6,11 @@
         <h1>PARATIMES<span class="total-count"> ({{ runtimeListSize }})</span></h1>
         <div v-if="currentListType === ListTypes.nodeList && !isLoading" class="node-info">
           <div class="info-item">
-            <div class="active-count">{{onlineNodes}}</div>
+            <div class="active-count">{{onlineNodes | readable}}</div>
             <div class="info-name">active nodes</div>
           </div>
           <div class="info-item">
-            <div class="active-count">{{offlineNodes}}</div>
+            <div class="active-count">{{offlineNodes | readable}}</div>
             <div class="info-name">inactive nodes</div>
           </div>
         </div>

@@ -18,7 +18,7 @@
               </div>
             </template>
             <template v-slot:total="{data}">
-              <span>{{data | unit(isTest)}}</span>
+              <span>{{data | readable | unit(isTest)}}</span>
             </template>
           </v-table>
           <pie-chart :data="data"></pie-chart>
@@ -257,7 +257,7 @@
             key: 'validatorName'
           },
           {
-            title: 'Amount',
+            title: 'Shares',
             key: 'shares'
           },
           {

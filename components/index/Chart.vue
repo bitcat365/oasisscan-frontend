@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { getMonth } from '../../utils';
+import {getMonth, readable} from '../../utils';
 
   export default {
     name: 'Chart',
@@ -83,7 +83,7 @@
             shared: false,
             valueSuffix: '',
             formatter: function () {
-              return this.point.tooltip || this.y
+              return this.point.tooltip || readable(this.y)
             }
           },
           credits: {
