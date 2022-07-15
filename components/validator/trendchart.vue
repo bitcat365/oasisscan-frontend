@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { getMonth } from '../../utils';
+import {getMonth, readable} from '../../utils';
 
   export default {
     name: 'TrendChart',
@@ -66,7 +66,7 @@
             shared: false,
             valueSuffix: '',
             formatter: function () {
-              return this.y
+              return readable(this.y)
             }
           },
           credits: {

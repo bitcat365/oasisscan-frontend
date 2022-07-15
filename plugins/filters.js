@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import moment from 'moment'
-import { floatFormat, hashFormat, intFormat, percent } from '../utils'
+import {floatFormat, hashFormat, intFormat, percent, readable} from '../utils'
 import Config from '../config'
 moment.updateLocale('en', {
   relativeTime: {
@@ -30,6 +30,10 @@ Vue.filter('unit', (val, isTest) => {
 
 Vue.filter('intFormat', (val) => {
   return intFormat(val)
+})
+
+Vue.filter('readable', (val) => {
+  return readable(val);
 })
 
 Vue.filter('floatFormat', (val) => {

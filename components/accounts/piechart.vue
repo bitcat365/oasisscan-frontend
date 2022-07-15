@@ -3,18 +3,19 @@
     <highcharts
       ref="chart"
       class="chart-con"
-      :options="chartOptions"></highcharts>
+      :options="chartOptions"
+    />
     <div class="labels-con">
       <div class="label-item">
-        <div class="circle" style="border-color: #4CD4A9;"></div>
+        <div class="circle" style="border-color: #4CD4A9;" />
         <div>Available</div>
       </div>
       <div class="label-item">
-        <div class="circle" style="border-color: #58D0FF;"></div>
+        <div class="circle" style="border-color: #58D0FF;" />
         <div>Escrow</div>
       </div>
       <div class="label-item">
-        <div class="circle" style="border-color: #919191;"></div>
+        <div class="circle" style="border-color: #919191;" />
         <div>Debonding</div>
       </div>
     </div>
@@ -23,12 +24,17 @@
 
 <script>
   export default {
-    name: 'piechart',
+    name: 'Piechart',
     props: ['data'],
     data() {
-      // console.log(this.data, 'data')
+      console.log(this.data, 'data')
+      const parsedData = {
+        available: this.data.available.replace(/,/g, ''),
+        escrow: this.data.escrow.replace(/,/g, ''),
+        debonding: this.data.debonding.replace(/,/g, '')
+      }
       return {
-        disable: parseFloat(this.data.available) === 0 && parseFloat(this.data.escrow) === 0 && parseFloat(this.data.debonding) === 0,
+        disable: parseFloat(parsedData.available) === 0 && parseFloat(parsedData.escrow) === 0 && parseFloat(parsedData.debonding) === 0,
         chartOptions: {
           colors: ['#4CD4A9', '#58D0FF', '#919191'],
           chart: {
@@ -72,9 +78,9 @@
             type: 'pie',
             innerSize: '80%',
             data: [
-              { name: 'Available', y: parseFloat(this.data.available) },
-              { name: 'Escrow', y: parseFloat(this.data.escrow) },
-              { name: 'Debonding', y: parseFloat(this.data.debonding) }
+              { name: 'Available', y: parseFloat(parsedData.available) },
+              { name: 'Escrow', y: parseFloat(parsedData.escrow) },
+              { name: 'Debonding', y: parseFloat(parsedData.debonding) }
             ]
           }]
         }

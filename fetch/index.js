@@ -1,4 +1,4 @@
-import {capitalize, decimalConvert, decimalsFormat, floatFormat, hashFormat, percent} from '../utils/index'
+import {capitalize, decimalConvert, decimalsFormat, floatFormat, hashFormat, percent, readable} from '../utils/index'
 import Config from '../config'
 function request($axios, method, args) {
   /* eslint-disable no-undef */
@@ -75,7 +75,7 @@ export async function fetchProposals($config, page = 1, size = 20, progress = tr
     const handler = upgrade ? upgrade.handler : 'unknown'
     return {
       ...item,
-      deposit: decimalConvert(item.deposit),
+      deposit: readable(decimalConvert(item.deposit)),
       handler: { text: handler, link: `/proposals/${item.id}`, type: 'link' },
     }
   })
@@ -118,10 +118,10 @@ export async function fetchAccountDetail($config, address) {
   }).catch(() => ({ code: -1 }))
   // console.log('data', code)
   if (code !== -1) {
-    data.debonding = decimalsFormat(data.debonding)
-    data.available = decimalsFormat(data.available)
-    data.escrow = decimalsFormat(data.escrow)
-    data.total = decimalsFormat(data.total)
+    data.debonding = readable(decimalsFormat(data.debonding))
+    data.available = readable(decimalsFormat(data.available))
+    data.escrow = readable(decimalsFormat(data.escrow))
+    data.total = readable(decimalsFormat(data.total))
     data.address = { address: data.address, total: decimalsFormat(data.total) }
   }
   return data
@@ -146,8 +146,8 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
     } else if (item.entityAddress) {
       link = `/accounts/detail/${item.entityAddress}`
     }
-    item.shares = decimalsFormat(item.shares, 2)
-    item.amount = decimalsFormat(item.amount, 2)
+    item.shares = readable(decimalsFormat(item.shares, 2))
+    item.amount = readable(decimalsFormat(item.amount, 2))
     return {
       ...item,
       validatorName: link ? { text: name, link, type: item.validatorName ? 'link' : 'hash-link' } : name,
@@ -168,6 +168,7 @@ export async function fetchAccountDebonding($config, address, page = 1, size = 5
   }
   const res = list.map((item) => {
     const name = item.validatorName ? item.validatorName : item.validatorAddress
+    item.shares = readable(decimalsFormat(item.shares, 2))
     return {
       ...item,
       validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
@@ -188,6 +189,10 @@ export async function fetchAccountsList($config, page = 1, size = 10) {
   const res = list.map((item) => {
     return {
       ...item,
+      available: readable(item.available),
+      escrow: readable(item.escrow),
+      debonding: readable(item.debonding),
+      total: readable(item.total),
       address: { text: item.address, link: `/accounts/detail/${item.address}`, type: 'link', total: item.total },
       id: item.address
     }
@@ -237,6 +242,7 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
   const res = list.map((item, index) => {
     return {
       ...item,
+      delegators: readable(item.delegators),
       escrow: { escrow: item.escrow, escrowPercent: item.escrowPercent },
       commission: { value: item.commission, type: 'percent' },
     }
@@ -473,7 +479,7 @@ export async function getEventsByProposer($config, address, size = 5, page = 1) 
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
         txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
-        amountAndShares: { value: `${item.amount}/${item.shares}`, add: item.add }
+        amountAndShares: { value: `${readable(item.amount)}/${readable(item.shares)}`, add: item.add }
       }
     }),
     totalSize
@@ -505,7 +511,7 @@ export async function getDelegatorsByProposer($config, address, size = 5, page =
         ...item,
         address: { text: item.address, type: 'hash-link', link: `/accounts/detail/${item.address}` },
         percent: { value: item.percent, type: 'percent' },
-        amountAndShares: `${item.amount}/${item.shares}`
+        amountAndShares: `${readable(item.amount)}/${readable(item.shares)}`
       }
     }),
     totalSize

@@ -6,6 +6,9 @@ export function percent(a, b) {
   }
   return (100 * a / b).toFixed(2) + '%'
 }
+export function readable(val) {
+  return parseFloat(val).toLocaleString()
+}
 export function convertTime(list) {
   list.forEach((item) => {
     item.time = moment(item.time).format('YYYY-MM-DD HH:mm:ss')

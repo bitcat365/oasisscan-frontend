@@ -79,7 +79,7 @@
                  </div>
                  <div class="oneline">
                    <div class="label">Delegators</div>
-                   <div class="value">{{delegators}}</div>
+                   <div class="value">{{delegators | readable}}</div>
                  </div>
 
                  <!--<div class="oneline">-->
@@ -138,16 +138,16 @@
               <div class="total-con">
                 Total
                 <div class="total-value">
-                  <div class="value"> {{escrowAmountStatus.total | unit(isTest)}} </div>
-                  <div class="share"> ({{escrowSharesStatus.total}} shares)</div>
+                  <div class="value"> {{escrowAmountStatus.total | readable | unit(isTest)}} </div>
+                  <div class="share"> ({{escrowSharesStatus.total | readable}} shares)</div>
                 </div>
               </div>
               <div class="compare">
                 <div class="self-con">
                   <div class="title"><span class="label">Self</span> <span class="per">({{escrowAmountStatus.self/escrowAmountStatus.total | percentFormat}})</span></div>
                   <div class="values">
-                    <div class="value">{{escrowAmountStatus.self}}</div>
-                    <div class="share">({{escrowSharesStatus.self}} shares)</div>
+                    <div class="value">{{escrowAmountStatus.self | readable}}</div>
+                    <div class="share">({{escrowSharesStatus.self | readable}} shares)</div>
                   </div>
                 </div>
                 <div class="other-con">
@@ -155,8 +155,8 @@
                     <div class="title"><span class="label">Other</span> <span class="per">({{escrowAmountStatus.other/escrowAmountStatus.total | percentFormat}})</span></div>
                   </div>
                   <div class="values">
-                    <div class="value">{{escrowAmountStatus.other}}</div>
-                    <div class="share">({{escrowSharesStatus.other}} shares)</div>
+                    <div class="value">{{escrowAmountStatus.other | readable}}</div>
+                    <div class="share">({{escrowSharesStatus.other | readable}} shares)</div>
                   </div>
                 </div>
               </div>
