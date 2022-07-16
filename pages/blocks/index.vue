@@ -3,7 +3,7 @@
     <nav-bar :active="4"/>
     <div class="page-container container">
       <div class="title">
-        <h1>BLOCKS<span v-if="latestBlock > 0" class="total-count"> ({{latestBlock}})</span></h1>
+        <h1>BLOCKS<span v-if="latestBlock > 0" class="total-count"> ({{latestBlock | readable}})</span></h1>
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">

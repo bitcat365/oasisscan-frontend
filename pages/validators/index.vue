@@ -3,7 +3,7 @@
     <nav-bar :active="2"/>
     <div class="page-container container">
       <div class="title">
-        <h1>VALIDATORS<span class="total-count"> ({{this.list.length}})</span></h1>
+        <h1>VALIDATORS<span class="total-count"> ({{this.list.length | readable}})</span></h1>
         <div class="validator-info">
           <div class="info-item">
             <div class="active-count">{{active | readable}}</div>

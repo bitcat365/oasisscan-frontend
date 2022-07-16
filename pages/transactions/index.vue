@@ -3,7 +3,7 @@
     <nav-bar :active="5"/>
     <div class="page-container container">
       <div class="title">
-        <h1>TRANSACTIONS<span class="total-count"> ({{totalTxs}})</span></h1>
+        <h1>TRANSACTIONS<span class="total-count"> ({{totalTxs | readable}})</span></h1>
       </div>
       <Dropdown trigger="click" placement="bottom-start" @on-click="change">
         <a class="show-cur method-dropdown" href="javascript:void(0)">

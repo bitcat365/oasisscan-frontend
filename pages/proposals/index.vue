@@ -3,7 +3,7 @@
     <nav-bar :active="7"/>
     <div class="page-container container">
       <div class="title">
-        <h1>PROPOSALS<span class="total-count"> ({{list.length}})</span></h1>
+        <h1>PROPOSALS<span class="total-count"> ({{list.length | readable}})</span></h1>
       </div>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">

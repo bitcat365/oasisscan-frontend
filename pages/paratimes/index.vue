@@ -3,7 +3,7 @@
     <nav-bar :active="6"/>
     <div class="page-container container">
       <div class="title">
-        <h1>PARATIMES<span class="total-count"> ({{ runtimeListSize }})</span></h1>
+        <h1>PARATIMES<span class="total-count"> ({{ runtimeListSize | readable }})</span></h1>
         <div v-if="currentListType === ListTypes.nodeList && !isLoading" class="node-info">
           <div class="info-item">
             <div class="active-count">{{onlineNodes | readable}}</div>
