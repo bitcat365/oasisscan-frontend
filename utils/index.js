@@ -7,7 +7,11 @@ export function percent(a, b) {
   return (100 * a / b).toFixed(2) + '%'
 }
 export function readable(val) {
-  return parseFloat(val).toLocaleString()
+  let numStr = parseFloat(val).toLocaleString()
+  if (numStr.match(/[,.]\d$/)) {
+    numStr += '0'
+  }
+  return numStr
 }
 export function convertTime(list) {
   list.forEach((item) => {
