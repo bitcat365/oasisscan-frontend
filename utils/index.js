@@ -8,7 +8,9 @@ export function percent(a, b) {
 }
 export function readable(val) {
   let numStr = parseFloat(val).toLocaleString()
-  if (numStr.match(/[,.]\d$/)) {
+  if (!numStr.match(/[,.]/)) {
+    numStr += '.00'
+  } else if (numStr.match(/[,.]\d$/)) {
     numStr += '0'
   }
   return numStr

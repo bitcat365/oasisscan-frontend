@@ -116,13 +116,12 @@ export async function fetchChainMethods($config) {
 export async function fetchAccountDetail($config, address) {
   let { code, data = { } } = await get($config)(`/chain/account/info/${address}`, {
   }).catch(() => ({ code: -1 }))
-  // console.log('data', code)
   if (code !== -1) {
     data.debonding = readable(decimalsFormat(data.debonding))
     data.available = readable(decimalsFormat(data.available))
     data.escrow = readable(decimalsFormat(data.escrow))
-    data.total = readable(decimalsFormat(data.total))
     data.address = { address: data.address, total: decimalsFormat(data.total) }
+    data.total = readable(decimalsFormat(data.total))
   }
   return data
 }
