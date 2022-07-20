@@ -7,12 +7,20 @@ export function percent(a, b) {
   return (100 * a / b).toFixed(2) + '%'
 }
 export function readable(val) {
-  let numStr = parseFloat(val).toLocaleString()
-  if (!numStr.match(/[,.]/)) {
-    numStr += '.00'
-  } else if (numStr.match(/[,.]\d$/)) {
-    numStr += '0'
+  if (parseFloat(val) === 0) {
+    return val
   }
+  let valStr = String(val)
+  const nums = valStr.split(/[,.]/)
+  if (nums.length > 2) {
+    return val
+  }
+  if (valStr.match(/[,.]\d$/)) {
+    valStr += '0'
+  }
+  const leftNumber = nums[0]
+  const rightNumber = nums[1] ? valStr.match(/[,.]/)[0] + nums[1] : ''
+  const numStr = parseFloat(leftNumber).toLocaleString() + rightNumber
   return numStr
 }
 export function convertTime(list) {
@@ -50,14 +58,15 @@ export function floatFormat(val) {
 }
 
 export function decimalsFormat(val, length = 4) {
-  if (!val) {
+  // console.log('val', val, typeof val);
+  if (!val || val === '0') {
     return '0.00'
   }
   const with2Decimals = val.toString().match(new RegExp('^-?\\d+(?:\\.\\d{0,' + length + '})?'))[0]
-  if (with2Decimals.match(/\.\d{2}0+$/)) {
-    return with2Decimals.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
-  }
-  return with2Decimals
+  // if (with2Decimals.match(/\.\d{2}0+$/)) {
+  //   return with2Decimals.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]
+  // }
+  return parseFloat(with2Decimals).toFixed(length)
 }
 
 export function decimalConvert(val) {
