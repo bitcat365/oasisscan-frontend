@@ -9,7 +9,7 @@
       <span v-show="open">FAQ</span>
     </div>
     <div class="menu-bot">
-      <div class="botIcon">
+      <div :class="open ? 'botIcon1' : 'botIcon2'">
         <Icon type="ios-home icon"></Icon><br v-if="!open" />
         <Icon type="ios-home icon"></Icon>
       </div>
@@ -34,8 +34,8 @@ export default {
     // border: 1px solid #000;
     height: 50px;
     line-height: 50px;
-    margin: 0 15px;
-    padding: 0 16px;
+    margin: 0 14px;
+    padding: 0 14px;
     text-align: left;
     font-size: 14px;
     color: #1849a9;
@@ -44,20 +44,28 @@ export default {
     font-size: 30px;
   }
   .menu-item1 {
-    border-bottom: 1px solid #E0DFF0;
+    border-bottom: 1px solid #e0dff0;
   }
   .menu-item2 {
   }
   .menu-bot {
     height: 100px;
     margin: 30px 0;
-    text-align: center;
     font-size: 14px;
     color: #1849a9;
     display: flex;
     flex-direction: column;
     justify-content: end;
-    .botText{
+    .botIcon1 {
+      text-align: center;
+    }
+    .botIcon2 {
+      margin: 0 14px;
+      padding: 0 14px;
+      text-align: left;
+    }
+    .botText {
+      text-align: center;
       font-size: 12px;
     }
   }
