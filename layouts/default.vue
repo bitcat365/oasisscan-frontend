@@ -3,7 +3,7 @@
     <section class="main-content">
       <nuxt />
     </section>
-    <Footer />
+    <!-- <Footer /> -->
   </div>
 </template>
 <script>
@@ -50,8 +50,8 @@ body{
 #__layout {
   position: relative;
   min-height: 100vh;
-  padding-bottom: rem(100);
-  min-width: rem(1280);
+  // padding-bottom: rem(100);
+  // min-width: rem(1280);
 }
 *,
 *:before,
