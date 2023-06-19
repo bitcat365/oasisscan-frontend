@@ -1,9 +1,12 @@
 <template>
   <article id="home">
     <section :style="{ width: widthLeft + 'px' }" class="menu">
+      <!-- <SvgIcon className="icon1" iconClass="menulogo1" /> -->
+      <!-- <SvgIcon :svgStyle="{ width: '30px', height: '30px' }" iconClass="menulogo1" /> -->
       <div class="menu-logo">
         <img class="logo-oasis" src="../assets/menulogo.svg" v-show="open" />
-        <img class="logo-oasis" src="../assets/menulogo1.svg" v-show="!open" />
+        <!-- <img class="logo-oasis" src="../assets/menulogo1.svg" v-show="!open" /> -->
+        <SvgIcon class="logo-oasis" :svgStyle="{ width: '50px', height: '50px' }" iconClass="menulogo1" v-show="!open" />
         <img class="menu-right" src="../assets/menutoleft.svg" v-show="open" @click="open = false" />
         <img class="menu-right" src="../assets/menutoright.svg" v-show="!open" @click="open = true" />
       </div>
@@ -34,6 +37,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.icon1 {
+  // width: 30px;
+  // height: 30px;
+  // color: #175cd3;
+}
 #home {
   min-height: 100vh;
   background-color: #f1f1f1;

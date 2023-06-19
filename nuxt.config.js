@@ -1,4 +1,7 @@
 const pkg = require('./package')
+// resolve定义一个绝对路径获取函数
+const path = require('path')
+function resolve(dir) { return path.join(__dirname, dir) }
 
 module.exports = {
   mode: 'universal',
@@ -43,7 +46,7 @@ module.exports = {
   */
   css: [
     'iview/dist/styles/iview.css',
-    '~/assets/css/main.css',
+    '~/assets/css/main.css'
   ],
 
   /*
@@ -57,7 +60,8 @@ module.exports = {
     { src: '~plugins/highchart.js' },
     '~/plugins/clipboard.js',
     '~/plugins/toast.js',
-    '~/plugins/filters.js'
+    '~/plugins/filters.js',
+    '~/plugins/svg-icon.js'
   ],
 
   /*
@@ -79,14 +83,14 @@ module.exports = {
     credentials: false,
     proxy: true
   },
-  // proxy: [
-  //   'https://api.oasisscan.com/testnet/',
-  //   'https://api.oasisscan.com/mainnet/'
-  // ],
-  proxy: {
-    '/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/testnet/': '' } },
-    '/mainnet/': { target: 'http://127.0.0.1:8181', pathRewrite: { '^/mainnet/': '' } }
-  },
+  proxy: [
+    'https://api.oasisscan.com/testnet/',
+    'https://api.oasisscan.com/mainnet/'
+  ],
+  // proxy: {
+  //   '/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/testnet/': '' } },
+  //   '/mainnet/': { target: 'http://127.0.0.1:8181', pathRewrite: { '^/mainnet/': '' } }
+  // },
   /*
   ** Build configuration
   */
@@ -123,6 +127,16 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
+      // 排除 nuxt 原配置的影响,Nuxt 默认有vue-loader,会处理svg,img等
+      // 找到匹配.svg的规则,然后将存放svg文件的目录排除
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'))
+      svgRule.exclude = [resolve('./assets/svg')]
+      // 添加loader规则
+      config.module.rules.push({
+        test: /\.svg$/, // 匹配.svg
+        include: [resolve('./assets/svg')], // 将存放svg的目录加入到loader处理目录
+        use: [{ loader: 'svg-sprite-loader', options: { symbolId: 'icon-[name]' } }]
+      })
     }
   }
 }

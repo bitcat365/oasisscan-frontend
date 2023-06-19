@@ -16,8 +16,8 @@
   },
   "config": {
     "nuxt": {
-      "host": "0.0.0.0",
-      "port": "8081"
+      "host": "localhost",
+      "port": "3000"
     }
   },
   "dependencies": {
@@ -59,6 +59,7 @@
     "nodemon": "^1.18.9",
     "postcss-px-to-viewport": "^1.1.0",
     "sass-loader": "^7.1.0",
+    "svg-sprite-loader": "^6.0.11",
     "xmlreader": "^0.2.3"
   }
 }
