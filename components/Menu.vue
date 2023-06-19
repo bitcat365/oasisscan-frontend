@@ -55,7 +55,7 @@ export default {
     color: #1849a9;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: flex-end;
     .botIcon1 {
       text-align: center;
     }
