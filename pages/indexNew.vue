@@ -1,14 +1,13 @@
 <template>
   <article id="home">
     <section :style="{ width: widthLeft + 'px' }" class="menu">
-      <!-- <SvgIcon className="icon1" iconClass="menulogo1" /> -->
-      <!-- <SvgIcon :svgStyle="{ width: '30px', height: '30px' }" iconClass="menulogo1" /> -->
+      <!-- <SvgIcon className="icon1" iconName="menulogo1" />
+      <SvgIcon :iconStyle="{ width: '30px', height: '30px' }" iconName="menulogo1" /> -->
       <div class="menu-logo">
         <img class="logo-oasis" src="../assets/menulogo.svg" v-show="open" />
-        <!-- <img class="logo-oasis" src="../assets/menulogo1.svg" v-show="!open" /> -->
-        <SvgIcon class="logo-oasis" :svgStyle="{ width: '50px', height: '50px' }" iconClass="menulogo1" v-show="!open" />
-        <img class="menu-right" src="../assets/menutoleft.svg" v-show="open" @click="open = false" />
-        <img class="menu-right" src="../assets/menutoright.svg" v-show="!open" @click="open = true" />
+        <SvgIcon class="logo-oasis" :iconStyle="{ width: '50px', height: '50px' }" iconName="menulogo1" v-show="!open" />
+        <SvgIcon class="menu-right" :iconStyle="{ width: '30px', height: '30px' }" iconName="menutoleft" v-show="open" @click="open = false" />
+        <SvgIcon class="menu-right" :iconStyle="{ width: '30px', height: '30px' }" iconName="menutoright" v-show="!open" @click="open = true" />
       </div>
       <Menu :open="open">菜单</Menu>
     </section>
@@ -38,8 +37,8 @@ export default {
 
 <style lang="scss" scoped>
 .icon1 {
-  // width: 30px;
-  // height: 30px;
+  width: 30px;
+  height: 30px;
   // color: #175cd3;
 }
 #home {
