@@ -1,55 +1,51 @@
 <template>
-  <svg :class="svgClass" :style="style" v-on="$listeners">
-    <use :xlink:href="iconName" />
+  <svg :class="svgClass" :style="svgStyle" v-on="$listeners">
+    <use :xlink:href="svgName" />
   </svg>
 </template>
 
 <script>
 export default {
-  name: 'SvgIcon',
+  name: "SvgIcon",
   props: {
-    iconClass: {
+    iconName: {
       type: String,
       required: true
     },
     className: {
       type: String,
-      default: ''
+      default: ""
     },
-    svgStyle: {
+    iconStyle: {
       type: Object,
       default: () => {}
     }
   },
   computed: {
-    iconName() {
-      return `#icon-${this.iconClass}`
+    svgName() {
+      return `#icon-${this.iconName}`;
     },
-    // TODO
     svgClass() {
       if (this.className) {
-        return `'svg-icon ' + ${this.className}`
+        return `svg-icon ${this.className}`;
       } else {
-        return 'svg-icon'
+        return "svg-icon";
       }
     },
-    style() {
+    svgStyle() {
       const style = {
-        width: '1em',
-        height: '1em',
-        color: '#175cd3',
-        'vertical-align': '-0.15em',
-        fill: 'currentColor',
-        overflow: 'hidden'
-      }
-      if (this.svgStyle) {
-        return Object.assign({}, style, this.svgStyle)
-      } else {
-        return {}
+        width: "1em",
+        height: "1em",
+        color: "#175cd3",
+        fill: "currentColor",
+        overflow: "hidden"
+      };
+      if (this.iconStyle) {
+        return Object.assign({}, style, this.iconStyle);
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -57,7 +53,6 @@ export default {
   width: 1em;
   height: 1em;
   color: #175cd3;
-  vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
 }
