@@ -1,7 +1,7 @@
-<svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="38" height="38" viewBox="0 0 38 38" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d_1008_4969)">
 <circle cx="19" cy="15" r="15" fill="#F3F4F8"/>
-<circle cx="19" cy="15" r="9.75" fill="#1849A9"/>
+<circle cx="19" cy="15" r="9.75" fill="currentColor"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M20.4225 10.5L15.7856 15L20.4225 19.5L21.5714 18.3851L18.0834 15L21.5714 11.6149L20.4225 10.5Z" fill="white"/>
 </g>
 <defs>
