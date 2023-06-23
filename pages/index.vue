@@ -1,285 +1,90 @@
 <template>
-  <div class="home-root">
-    <nav-bar :active="1" />
-    <div class="top-content">
-      <div class="welcome">
-        OASIS BLOCKCHAIN EXPLORER
+  <article id="home">
+    <section :style="{ width: widthLeft + 'px' }" class="menu">
+      <div class="menu-logo">
+        <router-link to="/">
+          <SvgIcon class="logo-oasis" className="svgIcon" iconName="menulogo" v-show="open" />
+        </router-link>
+        <router-link to="/">
+          <SvgIcon class="logo-oasis" className="svgIcon1" iconName="menulogo1" v-show="!open" />
+        </router-link>
+        <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoleft" v-show="open" @click="open = false" />
+        <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoright" v-show="!open" @click="open = true" />
       </div>
-      <search-box></search-box>
-      <div class="marquee-con">
-        <scroll-news></scroll-news>
-      </div>
-    </div>
-    <div class="bottom-content">
-      <div class="page-container">
-        <div class="dashboard-con">
-          <panel title="Network Status" class="panel">
-            <block-info :blockInfo="blockInfo"></block-info>
-          </panel>
-          <panel title="Transaction History" class="panel">
-            <chart :tx-history="txHistory"/>
-          </panel>
-        </div>
-        <div class="block-chain-list">
-          <div class="list-card block-list">
-            <p class="title">
-            <span class="title-text">
-              Latest Blocks
-            </span>
-              <a href="./blocks">More</a>
-            </p>
-            <p class="table-wrapper">
-              <block-table root-class="blocks-table" :columns="blockListColumns" :data="blocks" />
-            </p>
-          </div>
-          <div class="list-card transaction-list">
-            <p class="title">
-            <span class="title-text">
-            Latest Transactions
-            </span>
-              <a href="./transactions">More</a>
-            </p>
-            <p class="table-wrapper">
-              <block-table class="txs-table" :columns="transactionColumns" :data="transactions" />
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+      <Menu :open="open" />
+    </section>
+    <main class="main-right"></main>
+  </article>
 </template>
 
 <script>
-  import { fetchBlockInfo, fetchHomeBlockList, fetchTransactionsList, fetchTxHistory } from '../fetch/index'
-  import BlockTable from '../components/Table/index'
-  import NavBar from '../components/NavigationBar'
-  import SearchBox from '../components/index/SearchBox'
-  import BlockInfo from '../components/index/BlockInfo'
-  import Chart from '../components/index/Chart'
-  import ScrollNews from '../components/ScrollNews'
-  import Panel from '../components/Panel'
-  import Config from '../config/index'
-  export default {
-    components: {
-      NavBar,
-      BlockInfo,
-      Chart,
-      SearchBox,
-      BlockTable,
-      Panel,
-      ScrollNews
-    },
-    async asyncData({ $axios, store: $store }) {
-      const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchTxHistory({ $axios, $store })])
-      const blockInfo = data[0]
-      const txHistory = data[3]
-      const { list: blocks } = data[1]
-      const { list: transactions } = data[2]
-      return { blockInfo, blocks, transactions, newsList: Config.news, txHistory }
-    },
-    mounted() {
-      this.timer && clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.repool()
-      }, 6000)
-    },
-    destroyed() {
-      this.timer && clearTimeout(this.timer)
-      this.timer = null
-    },
-    methods: {
-      async repool() {
-        const $axios = this.$axios
-        const $store = this.$store
-        const data = await Promise.all([fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
-        const blockInfo = data[0]
-        const { list: blocks } = data[1]
-        const { list: transactions } = data[2]
-        this.blocks = blocks
-        this.blockInfo = blockInfo
-        this.transactions = transactions
-        this.timer = setTimeout(() => {
-          this.repool()
-        }, 6000)
-      }
-    },
-    data() {
-      return {
-        timer: -1,
-        blockListColumns: [
-          {
-            title: 'Height',
-            key: 'height'
-          },
-          {
-            title: 'Proposer',
-            key: 'proposer'
-          },
-          {
-            title: 'Txs',
-            key: 'txs'
-          },
-          {
-            title: 'Time',
-            key: 'timestamp'
-          }
-        ],
-        transactionColumns: [
-          {
-            title: 'Tx Hash',
-            key: 'txHash'
-          },
-          {
-            title: 'Height',
-            key: 'height'
-          },
-          {
-            title: 'Type',
-            key: 'type'
-          },
-          {
-            title: 'Time',
-            key: 'timestamp'
-          }
-        ]
-      }
+import Menu from '../components/Menu.vue'
+export default {
+  components: {
+    Menu
+  },
+  data() {
+    return {
+      open: true
     }
-  }
+  },
+  computed: {
+    widthLeft() {
+      return this.open ? 256 : 100
+    }
+  },
+  methods: {}
+}
 </script>
 
-<style scoped lang="scss">
-  @import "../assets/css/common";
-  .main-content{
-    min-height: calc(100vh - 60px - 80px);
-    padding: 1.5rem;
-  }
-  .home-root {
-    background-color: white;
-    position: relative;
-    overflow-x: hidden;
-  }
-  .top-content{
-    background-color: #F3F3F3;
-    background-image: url("../assets/backggrund.png");
-    background-size: rem(1428) rem(332);
-    background-position: right top;
-    background-repeat: no-repeat;
-    padding-bottom: rem(12);
-  }
-  .bottom-content{
-    background-color: rgb(247,247,247);
-    padding-top: rem(12);
-  }
-  .page-container {
-    position: relative;
-    z-index: 1;
-  }
-  .welcome {
-    line-height: 1;
-    color: $theme-color;
-    font-size: rem(40);
+<style lang="scss" scoped>
+@import '../assets/css/common';
+@import '../assets/css/utils';
+#home {
+  min-height: 100vh;
+  background-color: $page-background;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.menu {
+  // border: 1px solid #000;
+  height: 100%;
+  background-color: $theme-background;
+  border-radius: 0 15px 15px 0;
+  .menu-logo {
+    // border: 1px solid #000;
+    height: rem(120);
+    padding: rem(30) 0;
     text-align: center;
-    @include regular;
-    padding-top: rem(76);
-  }
-  hr {
-    width:100%;
-    height:1px;
-    border: 0;
-    margin: 0;
-    background:rgba(55,65,107,0.1);
-    margin-block-start: 0;
-    margin-block-end: 0;
-  }
-  .dashboard-con {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    > .panel{
-      box-sizing: border-box;
-      width: rem(594);
-      padding-bottom: 0;
-    }
-  }
-  .block-chain-list{
     position: relative;
-    width: 100%;
-    margin:1.56rem auto 0px;
-    padding-bottom: rem(50);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    .block-list {
-      width: rem(594);
+    .logo-oasis {
+      margin: auto;
     }
-    .transaction-list{
-      width: rem(594);
+    .menu-right {
+      position: absolute;
+      right: rem(-15);
+      bottom: 0;
     }
-    .list-card {
-      background-color: white;
-      padding-bottom: rem(28);
-      border-radius: rem(8);
-      .title {
-        position: relative;
-        box-sizing: content-box;
-        font-size: rem(16);
-        padding: rem(20);
-        padding-bottom: rem(10);
-        @include regular;
-        font-weight:400;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .title-text {
-          display: flex;
-          align-items: center;
-          color: #3C3C3C;
-        }
-        a {
-          position: absolute;
-          right: rem(26);
-          top: rem(20);
-          font-size: rem(12);
-          color: white;
-          padding:rem(5) rem(15);
-          background-color: #979797;
-          border-radius: rem(4);
-        }
-      }
-      .table-wrapper {
-        background-color: white;
-        /deep/ .blocks-table {
-          thead {
-            tr {
-              th:nth-child(2) {
-                width: rem(220);
-              }
-              th:nth-child(3) {
-                width: rem(80);
-              }
-              th:last-child {
-              }
-            }
-          }
-        }
-        /deep/ .txs-table {
-          thead {
-            tr {
-              th:nth-child(1) {
-                width: rem(180);
-              }
-              th:nth-child(3) {
-                width: rem(180);
-              }
-              th:last-child {
-                .header-title {
-                  justify-content: flex-end;
-                }
-              }
-            }
-          }
-        }
-      }
+    .svgIcon {
+      width: rem(200);
+      height: rem(60);
+    }
+    .svgIcon1 {
+      width: rem(50);
+      height: rem(50);
+      margin: rem(5) 0;
+    }
+    .svgIcon2 {
+      width: rem(30);
+      height: rem(30);
     }
   }
+}
+.main-right {
+  border: 1px solid #000;
+  height: 80vh;
+  width: 100%;
+  margin: 0 rem(24);
+}
 </style>

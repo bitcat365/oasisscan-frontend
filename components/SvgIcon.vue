@@ -1,12 +1,12 @@
 <template>
-  <svg :class="svgClass" :style="svgStyle" v-on="$listeners">
+  <svg :class="svgClass" v-on="$listeners">
     <use :xlink:href="svgName" />
   </svg>
 </template>
 
 <script>
 export default {
-  name: "SvgIcon",
+  name: 'SvgIcon',
   props: {
     iconName: {
       type: String,
@@ -14,45 +14,30 @@ export default {
     },
     className: {
       type: String,
-      default: ""
-    },
-    iconStyle: {
-      type: Object,
-      default: () => {}
+      default: ''
     }
   },
   computed: {
     svgName() {
-      return `#icon-${this.iconName}`;
+      return `#icon-${this.iconName}`
     },
     svgClass() {
       if (this.className) {
-        return `svg-icon ${this.className}`;
+        return `svg-icon ${this.className}`
       } else {
-        return "svg-icon";
-      }
-    },
-    svgStyle() {
-      const style = {
-        width: "1em",
-        height: "1em",
-        color: "#175cd3",
-        fill: "currentColor",
-        overflow: "hidden"
-      };
-      if (this.iconStyle) {
-        return Object.assign({}, style, this.iconStyle);
+        return 'svg-icon'
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/common';
 .svg-icon {
-  width: 1em;
-  height: 1em;
-  color: #175cd3;
+  // width: 1em;
+  // height: 1em;
+  color: $theme-color;
   fill: currentColor;
   overflow: hidden;
 }

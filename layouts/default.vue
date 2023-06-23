@@ -46,6 +46,7 @@ html {
     }
   }
 body{
+  @include fontFamily;
 }
 #__layout {
   position: relative;

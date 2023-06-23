@@ -1,18 +1,29 @@
 $max-width: 1080px;
 $max-width-1280: 1280px;
 $n-color: #000;
-$theme-color: #FF7A59;
+// $theme-color: #ff7a59;
+$theme-color: #1849a9;
+$theme-background: #ffffff;
+$page-background: #f1f1f1;
+
+@mixin fontFamily {
+  font-family: Inter;
+}
 
 @mixin medium {
-  font-family: PingFangSC-Medium;
+  // font-family: PingFangSC-Regular;
 }
+
 @mixin regular {
-  font-family: PingFangSC-Regular;
+  // font-family: PingFangSC-Regular;
 }
+
 @mixin bold {
-  font-family: PingFangSC-Semibold;
+  // font-family: PingFangSC-Semibold;
 }
+
 $rem-base: 16;
+
 @function rem($px) {
-  @return $px/$rem-base + rem;
+  @return $px/$rem-base +rem;
 }
