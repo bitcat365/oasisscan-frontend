@@ -15,7 +15,7 @@
     </section>
     <main :style="{ width: `calc(100% - ${widthLeft})` }">
       <div class="home-right">
-        <div class="page-top"></div>
+        <Header class="page-header"></Header>
         <div class="page-content"></div>
       </div>
     </main>
@@ -24,13 +24,16 @@
 
 <script>
 import Menu from '../components/Menu.vue'
+import Header from '../components/Header.vue'
 export default {
   components: {
-    Menu
+    Menu,
+    Header
   },
   data() {
     return {
-      open: true
+      open: true,
+      keywords: ''
     }
   },
   computed: {
@@ -87,8 +90,12 @@ export default {
   }
 }
 .home-right {
-  border: 1px solid #000;
-  height: 80vh;
   margin: 0 rem(24);
+  .page-header {
+    margin-top: rem(30);
+  }
+  .page-content{
+    margin-top: rem(20);
+  }
 }
 </style>
