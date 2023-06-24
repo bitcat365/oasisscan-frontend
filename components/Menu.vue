@@ -93,7 +93,7 @@ export default {
     display: block;
     height: rem(50);
     line-height: rem(50);
-    margin: 0 rem(20);
+    margin: 0 rem(25);
     font-size: rem(14);
     color: $theme-color;
     border-radius: 5px;
@@ -161,7 +161,6 @@ export default {
     margin: rem(4) 0;
   }
   .botIcon2 {
-    // text-align: center;
     margin: rem(4) 0;
     height: rem(68);
     display: flex;

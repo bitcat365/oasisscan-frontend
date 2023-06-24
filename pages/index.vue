@@ -1,6 +1,6 @@
 <template>
   <article id="home">
-    <section :style="{ width: widthLeft + 'px' }" class="menu">
+    <section :style="{ width: widthLeft }" class="menu">
       <div class="menu-logo">
         <router-link to="/">
           <SvgIcon class="logo-oasis" className="svgIcon" iconName="menulogo" v-show="open" />
@@ -13,7 +13,12 @@
       </div>
       <Menu :open="open" />
     </section>
-    <main class="main-right"></main>
+    <main :style="{ width: `calc(100% - ${widthLeft})` }">
+      <div class="home-right">
+        <div class="page-top"></div>
+        <div class="page-content"></div>
+      </div>
+    </main>
   </article>
 </template>
 
@@ -30,7 +35,7 @@ export default {
   },
   computed: {
     widthLeft() {
-      return this.open ? 256 : 100
+      return this.open ? '16rem' : '6.25rem'
     }
   },
   methods: {}
@@ -48,12 +53,10 @@ export default {
   justify-content: space-between;
 }
 .menu {
-  // border: 1px solid #000;
   height: 100%;
   background-color: $theme-background;
   border-radius: 0 15px 15px 0;
   .menu-logo {
-    // border: 1px solid #000;
     height: rem(120);
     padding: rem(30) 0;
     text-align: center;
@@ -69,11 +72,13 @@ export default {
     .svgIcon {
       width: rem(200);
       height: rem(60);
+      position: relative;
+      left: rem(-6);
     }
     .svgIcon1 {
       width: rem(50);
       height: rem(50);
-      margin: rem(5) 0;
+      margin: rem(5) auto;
     }
     .svgIcon2 {
       width: rem(30);
@@ -81,10 +86,9 @@ export default {
     }
   }
 }
-.main-right {
+.home-right {
   border: 1px solid #000;
   height: 80vh;
-  width: 100%;
   margin: 0 rem(24);
 }
 </style>
