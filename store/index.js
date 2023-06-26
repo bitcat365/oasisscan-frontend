@@ -2,7 +2,8 @@ export const state = () => ({
   locales: ['en', 'zh'],
   locale: 'zh',
   net: '',
-  headerConfig: {}
+  headerConfig: {},
+  menuOpen: true
 })
 
 export const mutations = {
@@ -17,5 +18,8 @@ export const mutations = {
   },
   SET_HEADER_CONFIG(state, config) {
     state.headerConfig = config
+  },
+  SET_MENU_OPEN(state, menuOpen) {
+    state.menuOpen = menuOpen
   }
 }
