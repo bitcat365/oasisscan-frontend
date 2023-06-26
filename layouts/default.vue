@@ -1,33 +1,60 @@
 <template>
-  <div>
-    <section class="main-content">
-      <nuxt />
-    </section>
-    <!-- <Footer /> -->
+  <div id="page-container">
+    <Menu />
+    <main :style="{ width: `calc(100% - ${menuWidth})` }">
+      <div class="page-right">
+        <Header class="page-header"></Header>
+        <nuxt />
+      </div>
+    </main>
   </div>
 </template>
 <script>
-  import 'vue2-toast/lib/toast.css'
-  import Footer from '../components/Footer'
-  export default {
-    components: {
-      Footer
+import Menu from '../components/Menu.vue'
+import Header from '../components/Header.vue'
+export default {
+  components: {
+    Menu,
+    Header
+  },
+  data() {
+    return {}
+  },
+  computed: {
+    menuWidth() {
+      return this.$store.state.menuOpen ? '16rem' : '6.25rem'
     }
-  }
+  },
+  methods: {}
+}
 </script>
 <style lang="scss">
-  @import "../assets/css/common";
-  .page-container {
-    position: relative;
-    margin: 0 auto;
-    width: rem(1200);
+@import '../assets/css/common';
+#page-container {
+  min-height: 100vh;
+  background-color: $page-background;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.page-right {
+  margin: 0 rem(24);
+  .page-header {
+    margin: rem(20) 0;
   }
-  body, button, input, select, textarea, a {
-    color: $n-color;
-  }
-  a:visited,a:active{
-    color: $n-color;
-  }
+}
+body,
+button,
+input,
+select,
+textarea,
+a {
+  color: $n-color;
+}
+a:visited,
+a:active {
+  color: $n-color;
+}
 html {
   font-size: $rem-base + px;
   word-spacing: 1px;
@@ -37,15 +64,13 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
-  @media
-  (-webkit-min-device-pixel-ratio: 2),
-  (min-resolution: 192dpi) {
-    /* Retina-specific stuff here */
-    html {
-      font-size: $rem-base/1 + px;
-    }
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Retina-specific stuff here */
+  html {
+    font-size: $rem-base/1 + px;
   }
-body{
+}
+body {
   @include fontFamily;
 }
 #__layout {
@@ -89,7 +114,7 @@ body{
   color: #fff;
   background-color: #35495e;
 }
-  .ivu-spin-dot {
-    background-color: #ff3f0f;
-  }
+.ivu-spin-dot {
+  background-color: #ff3f0f;
+}
 </style>

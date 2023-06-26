@@ -1,5 +1,15 @@
 <template>
-  <div class="menu-list">
+  <div :style="{ width: menuWidth }" class="menu">
+    <div class="menu-logo">
+      <router-link to="/">
+        <SvgIcon class="logo-oasis" className="svgIcon" iconName="menulogo" v-show="menuOpen" />
+      </router-link>
+      <router-link to="/">
+        <SvgIcon class="logo-oasis" className="svgIcon1" iconName="menulogo1" v-show="!menuOpen" />
+      </router-link>
+      <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoleft" v-show="menuOpen" @click="close()" />
+      <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoright" v-show="!menuOpen" @click="open()" />
+    </div>
     <nav class="menu-list1">
       <router-link
         v-for="item in menuList1"
@@ -12,16 +22,16 @@
         "
       >
         <SvgIcon :className="active === item.index ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
-        <span v-show="open">{{ item.name }}</span>
-        <span v-show="!open" class="hoverText">{{ item.name }}</span>
-        <SvgIcon v-show="open && item.children" :className="active === item.index ? 'svgClass-active' : 'svgClass'" :iconName="item.open ? 'down' : 'right'" />
+        <span v-show="menuOpen">{{ item.name }}</span>
+        <span v-show="!menuOpen" class="hoverText">{{ item.name }}</span>
+        <SvgIcon v-show="menuOpen && item.children" :className="active === item.index ? 'svgClass-active' : 'svgClass'" :iconName="item.open ? 'down' : 'right'" />
       </router-link>
     </nav>
     <div class="menu-list2">
       <router-link :to="'/FAQ'" :class="className(8) + ' top-border'" @click.native="active = 8">
         <SvgIcon :className="active === 8 ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
-        <span v-show="open">FAQ</span>
-        <span v-show="!open" class="hoverText">FAQ</span>
+        <span v-show="menuOpen">FAQ</span>
+        <span v-show="!menuOpen" class="hoverText">FAQ</span>
       </router-link>
       <div
         :class="className(9) + ' pointer'"
@@ -31,17 +41,17 @@
         "
       >
         <SvgIcon :className="active === 9 ? 'svgClass-active' : 'svgClass'" :iconName="theme" />
-        <span v-show="open">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
-        <span v-show="!open" class="hoverText">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
+        <span v-show="menuOpen">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
+        <span v-show="!menuOpen" class="hoverText">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
       </div>
     </div>
     <div class="menu-bot">
-      <div :class="open ? 'botIcon1' : 'botIcon2'">
+      <div :class="menuOpen ? 'botIcon1' : 'botIcon2'">
         <SvgIcon className="svgClass pointer" iconName="Twitter" />
         <SvgIcon className="svgClass pointer" iconName="Telegram" />
       </div>
       <div class="botText">
-        <span>Powered By</span><br v-if="!open" />
+        <span>Powered By</span><br v-if="!menuOpen" />
         <span>Bit Cat</span>
       </div>
     </div>
@@ -61,19 +71,29 @@ export default {
         { index: 4, name: 'BLOCKS', path: '/blocks', iconName: 'blocks' },
         { index: 5, name: 'TRANSACTIONS', path: '/transactions', iconName: 'transactions' },
         { index: 6, name: 'PROPOSALS', path: '/proposals', iconName: 'proposals' },
-        { index: 7, name: 'PARATIMES', path: '/paratimes', iconName: 'paratimes', children: [{ name: 'Emerald', path: '/emerald' }, { name: 'Cipher', path: '/cipher' }, { name: 'Sapphire', path: '/sapphire' }], open: false }
+        { index: 7, name: 'PARATIMES', path: '', iconName: 'paratimes', children: [{ name: 'Emerald', path: '/emerald' }, { name: 'Cipher', path: '/cipher' }, { name: 'Sapphire', path: '/sapphire' }], open: false }
       ]
     }
   },
   props: {
-    open: {
-      type: Boolean,
-      default: true
+  },
+  computed: {
+    menuOpen() {
+      return this.$store.state.menuOpen
+    },
+    menuWidth() {
+      return this.$store.state.menuOpen ? '16rem' : '6.25rem'
     }
   },
   methods: {
+    open() {
+      this.$store.commit('SET_MENU_OPEN', true)
+    },
+    close() {
+      this.$store.commit('SET_MENU_OPEN', false)
+    },
     className(index) {
-      if (this.open) {
+      if (this.$store.state.menuOpen) {
         return this.active === index ? 'menu-item menu-item-open menu-item-active' : 'menu-item menu-item-open'
       } else {
         return this.active === index ? 'menu-item menu-item-close menu-item-active' : 'menu-item menu-item-close'
@@ -86,8 +106,41 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/css/common';
 @import '../assets/css/utils';
-.menu-list {
-  border-radius: 8px;
+.menu {
+  height: 100%;
+  background-color: $theme-background;
+  border-radius: 0 15px 15px 0;
+}
+.menu-logo {
+  height: rem(120);
+  padding: rem(30) 0;
+  text-align: center;
+  position: relative;
+  .logo-oasis {
+    margin: auto;
+  }
+  .menu-right {
+    position: absolute;
+    right: rem(-15);
+    bottom: 0;
+  }
+  .svgIcon {
+    width: rem(200);
+    height: rem(60);
+    position: relative;
+    left: rem(-6);
+  }
+  .svgIcon1 {
+    width: rem(50);
+    height: rem(50);
+    margin: rem(5) auto;
+  }
+  .svgIcon2 {
+    width: rem(30);
+    height: rem(30);
+  }
+}
+[class^='menu-list'] {
   .menu-item {
     position: relative;
     display: block;
@@ -135,7 +188,7 @@ export default {
     height: rem(30);
   }
   .svgClass-active {
-    vertical-align: -0.6em;
+    vertical-align: -0.7em;
     width: rem(30);
     height: rem(30);
     color: $theme-background;
@@ -156,6 +209,11 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  .svgClass {
+    vertical-align: -0.7em;
+    width: rem(30);
+    height: rem(30);
+  }
   .botIcon1 {
     text-align: center;
     margin: rem(4) 0;
