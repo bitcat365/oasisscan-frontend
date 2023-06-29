@@ -1,20 +1,22 @@
 const pkg = require('./package')
 // resolve定义一个绝对路径获取函数
 const path = require('path')
-function resolve(dir) { return path.join(__dirname, dir) }
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
 
 module.exports = {
   mode: 'universal',
 
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
     title: 'OASIS SCAN | Oasis Blockchain Explorer',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'OASIS SCAN provides an easy to use and popular block explorer, powerful data and advanced analytics. allows you to explore and search the OASIS blockchain for Entity, Block, Block hash, Txn hash, validator info. ' },
+      { hid: 'description', name: 'description', content: 'OASIS SCAN provides an easy to use and popular block explorer, powerful data and advanced analytics. allows you to explore and search the OASIS blockchain for Entity, Block, Block hash, Txn hash, validator info. ' }
     ],
     script: [
       { src: 'https://www.googletagmanager.com/gtag/js?id=UA-6150405-8', body: true, async: true },
@@ -28,53 +30,48 @@ module.exports = {
         body: true
       }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     __dangerouslyDisableSanitizers: ['script']
   },
   router: {
     middleware: ['config', 'i18n']
   },
   /*
-  ** Customize the progress-bar color
-  */
+   ** Customize the progress-bar color
+   */
   loading: { color: '#fff' },
 
   /*
-  ** Global CSS
-  */
+   ** Global CSS
+   */
   css: [
     'iview/dist/styles/iview.css',
     '~/assets/css/main.css'
   ],
+  /*
+   ** Global SCSS
+   */
+  styleResources: {
+    scss: '~assets/css/common.scss'
+  },
 
   /*
-  ** Plugins to load before mounting the App
-  */
-  plugins: [
-    '~/plugins/axios.js',
-    '@/plugins/iview',
-    '~/plugins/i18n.js',
-    '~/plugins/my-mixin.js',
-    { src: '~plugins/highchart.js' },
-    '~/plugins/clipboard.js',
-    '~/plugins/toast.js',
-    '~/plugins/filters.js',
-    '~/plugins/svg-icon.js'
-  ],
+   ** Plugins to load before mounting the App
+   */
+  plugins: ['~/plugins/axios.js', '@/plugins/iview', '~/plugins/i18n.js', '~/plugins/my-mixin.js', { src: '~plugins/highchart.js' }, '~/plugins/clipboard.js', '~/plugins/toast.js', '~/plugins/filters.js', '~/plugins/svg-icon.js'],
 
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/style-resources'
   ],
   /*
-  ** Axios module configuration
-  */
+   ** Axios module configuration
+   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     // baseURL: 'http://172.18.11.63:3000',
@@ -83,17 +80,14 @@ module.exports = {
     credentials: false,
     proxy: true
   },
-  proxy: [
-    'https://api.oasisscan.com/testnet/',
-    'https://api.oasisscan.com/mainnet/'
-  ],
+  proxy: ['https://api.oasisscan.com/testnet/', 'https://api.oasisscan.com/mainnet/'],
   // proxy: {
   //   '/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/testnet/': '' } },
   //   '/mainnet/': { target: 'http://127.0.0.1:8181', pathRewrite: { '^/mainnet/': '' } }
   // },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     postcss: {
       plugins: {
@@ -115,8 +109,8 @@ module.exports = {
       }
     },
     /*
-    ** You can extend webpack config here
-    */
+     ** You can extend webpack config here
+     */
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
