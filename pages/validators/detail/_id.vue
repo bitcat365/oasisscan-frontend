@@ -491,7 +491,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../../assets/css/common";
   .sign-states-con,.proposals-states-con {
     margin-top: rem(20);
   }

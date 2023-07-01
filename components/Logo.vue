@@ -10,7 +10,6 @@
   }
 </script>
 <style lang="scss" scoped>
-  @import "../assets/css/common";
   .logo {
     color: #37416B;
     display: flex;

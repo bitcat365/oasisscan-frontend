@@ -235,7 +235,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .escrow-change24 {
     &.positive {
       color: #00B538;

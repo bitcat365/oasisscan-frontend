@@ -121,7 +121,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/css/common";
   .nav-bar{
     position: relative;
     z-index: 100;

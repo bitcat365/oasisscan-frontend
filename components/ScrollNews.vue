@@ -56,7 +56,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/css/common";
   .laba{
     width: rem(20);
     height: rem(20);

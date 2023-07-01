@@ -151,7 +151,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   table {
     border-collapse: collapse;
     border-spacing: 0;

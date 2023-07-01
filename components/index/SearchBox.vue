@@ -25,7 +25,6 @@
   }
 </script>
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .search-box {
     margin: 0 auto;
     padding: rem(60) 0 rem(60);

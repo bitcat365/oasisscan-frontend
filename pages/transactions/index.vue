@@ -150,7 +150,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .method-dropdown {
     margin-top: rem(20);
     padding: rem(2) rem(10);

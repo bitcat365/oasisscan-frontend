@@ -56,7 +56,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .block-chain-info {
     position: relative;
     width: 100%;

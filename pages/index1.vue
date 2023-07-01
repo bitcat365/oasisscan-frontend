@@ -148,7 +148,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/css/common";
   .main-content{
     min-height: calc(100vh - 60px - 80px);
     padding: 1.5rem;

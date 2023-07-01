@@ -71,7 +71,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
 
   .container {
     padding-top: 30px;

@@ -113,7 +113,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .blocks-root {
     background-color: #f7f7f7;
   }

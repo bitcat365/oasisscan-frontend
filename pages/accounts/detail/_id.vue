@@ -473,7 +473,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../../assets/css/common";
   .trx-panel {
     margin-top: rem(12);
     .block-total-list {

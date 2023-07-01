@@ -31,7 +31,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/common";
   .kuai {
     width: rem(18);
     height: rem(18);

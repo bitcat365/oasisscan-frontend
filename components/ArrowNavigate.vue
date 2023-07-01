@@ -19,7 +19,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/css/common";
   .arrow-nav-con {
     display: flex;
     .arrow {

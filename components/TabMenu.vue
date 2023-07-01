@@ -21,7 +21,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/css/common";
   .menus {
     display: flex;
     flex-direction: row;

@@ -120,7 +120,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .rank {
     display: flex;
     flex-direction: column;

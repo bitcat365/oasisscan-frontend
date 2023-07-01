@@ -164,7 +164,6 @@ a:hover {
 }
 </style>
 <style scoped lang="scss">
-@import "../assets/css/common";
 
 .sim-btn {
   width: rem(40);

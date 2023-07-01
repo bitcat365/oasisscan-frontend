@@ -121,7 +121,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .root {
     background-color: #f7f7f7;
     padding-bottom: rem(50);

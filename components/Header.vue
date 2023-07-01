@@ -48,7 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/css/common';
 header {
   height: rem(50);
   display: flex;

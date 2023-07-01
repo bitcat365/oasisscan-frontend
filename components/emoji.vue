@@ -16,7 +16,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/css/common";
   .address-emoji {
     padding-right: rem(8);
   }

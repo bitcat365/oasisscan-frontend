@@ -17,7 +17,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/common";
   .notfound {
     width: rem(220);
     height: rem(220);

@@ -58,7 +58,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/css/common";
   .footer {
     position: absolute;
     bottom: 0;

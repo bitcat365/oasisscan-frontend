@@ -95,7 +95,6 @@ import {getMonth, readable} from '../../utils';
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/common";
   .chart-wrapper {
     margin-top: rem(12);
   }

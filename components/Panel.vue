@@ -31,7 +31,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/css/common";
   .panel-wrapper{
     background-color: white;
     padding: rem(20);

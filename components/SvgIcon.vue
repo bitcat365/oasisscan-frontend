@@ -33,7 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/css/common';
 .svg-icon {
   // width: 1em;
   // height: 1em;

@@ -90,7 +90,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/common";
   .chart-con {
     margin-top: rem(0);
     width: rem(210);

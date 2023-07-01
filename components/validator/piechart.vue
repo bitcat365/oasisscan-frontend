@@ -55,7 +55,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/common";
   .chart-con {
     margin-top: rem(15);
     width: rem(135);

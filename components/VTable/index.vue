@@ -36,7 +36,6 @@
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
   .info-list {
     list-style: none;
     > li {

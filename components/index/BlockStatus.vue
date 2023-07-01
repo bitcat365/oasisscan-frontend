@@ -31,7 +31,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/common";
   .root {
     display: flex;
     flex-direction: row;
