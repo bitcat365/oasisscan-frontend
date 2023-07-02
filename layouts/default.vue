@@ -30,8 +30,9 @@ export default {
 </script>
 <style lang="scss">
 #page-container {
-  @include fontFamily;
+  min-width: 1512px;
   min-height: 100vh;
+  @include fontFamily;
   background-color: $page-background;
   display: flex;
   flex-direction: row;
