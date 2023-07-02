@@ -1,19 +1,146 @@
 <template>
   <div id="home">
-    首页
+    <Row :gutter="20" class="top">
+      <Col span="8">
+        <PanelSmall title="Price">
+          <span slot="headerRight" class="headerRight">
+            Online
+          </span>
+        </PanelSmall>
+      </Col>
+      <Col span="8">
+        <PanelSmall title="Market Cap Rank">
+          <span slot="headerRight" class="headerRight">
+            Online
+          </span>
+        </PanelSmall>
+      </Col>
+      <Col span="8">
+        <PanelSmall title="Trading Volume">
+          <span slot="headerRight" class="headerRight">
+            Online
+          </span>
+        </PanelSmall>
+      </Col>
+    </Row>
+    <Row :gutter="20" class="center">
+      <Col span="12">
+        <Panel title="Network Status">
+          <span slot="headerRight" class="headerRight">
+            <div class="circle" style="background-color:#12B76A"></div>
+            Online
+          </span>
+          <BlockInfo :blockInfo="blockInfo"></BlockInfo>
+        </Panel>
+      </Col>
+      <Col span="12">
+        <Panel title="Transaction History">
+          <span slot="headerRight" class="headerRight">
+            <div class="circle" style="background-color:#7A5AF8"></div>
+            Total Transaction
+          </span>
+          <span slot="headerRight" class="headerRight">
+            <div class="circle" style="background-color:#53B1FD"></div>
+            Total Escrow
+          </span>
+        </Panel>
+      </Col>
+    </Row>
+    <Row :gutter="20" class="bottom">
+      <Col span="12">
+        <Panel title="Latest Blocks">
+          <router-link slot="headerRight" to="/blocks" class="headerRight">View</router-link>
+        </Panel>
+      </Col>
+      <Col span="12">
+        <Panel title="Latest Transactions">
+          <router-link slot="headerRight" to="/transactions" class="headerRight">View</router-link>
+        </Panel>
+      </Col>
+    </Row>
   </div>
 </template>
 
 <script>
+import { fetchBlockInfo, fetchHomeBlockList, fetchTransactionsList, fetchTxHistory } from '../fetch/index'
+import Config from '../config/index'
+import Panel from '../components/panel/Panel'
+import PanelSmall from '../components/panel/PanelSmall'
+import BlockInfo from '../components/index/BlockInfo'
 export default {
-  components: {},
+  components: { Panel, PanelSmall, BlockInfo },
   data() {
     return {}
   },
-  methods: {}
+  async asyncData({ $axios, store: $store }) {
+    const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchTxHistory({ $axios, $store })])
+    const blockInfo = data[0]
+    const txHistory = data[3]
+    const { list: blocks } = data[1]
+    const { list: transactions } = data[2]
+    return { blockInfo, blocks, transactions, newsList: Config.news, txHistory }
+  },
+  mounted() {
+    this.timer && clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.repool()
+    }, 6000)
+  },
+  methods: {
+    async repool() {
+      const $axios = this.$axios
+      const $store = this.$store
+      const data = await Promise.all([fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
+      const blockInfo = data[0]
+      const { list: blocks } = data[1]
+      const { list: transactions } = data[2]
+      this.blocks = blocks
+      this.blockInfo = blockInfo
+      this.transactions = transactions
+      this.timer = setTimeout(() => {
+        this.repool()
+      }, 6000)
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/css/common';
+.top {
+  margin-bottom: rem(20);
+  .ivu-col {
+    > * {
+      height: rem(210);
+    }
+  }
+}
+.center {
+  margin-bottom: rem(20);
+  .ivu-col {
+    > * {
+      height: rem(360);
+    }
+    .headerRight {
+      color: $gray400;
+      .circle {
+        display: inline-block;
+        width: rem(10);
+        height: rem(10);
+        border-radius: rem(5);
+        margin-left: rem(8);
+      }
+    }
+  }
+}
+.bottom {
+  margin-bottom: rem(20);
+  .ivu-col {
+    > * {
+      height: rem(730);
+    }
+    .headerRight {
+      color: $blue500;
+    }
+  }
+}
 </style>
