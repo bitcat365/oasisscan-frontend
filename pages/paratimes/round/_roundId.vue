@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import Panel from '../../../components/Panel'
+  import Panel from '../../../components/panel/Panel'
   import BlockTable from '../../../components/Table/index'
   import ArrowNavigate from '../../../components/ArrowNavigate'
   import Page from '../../../components/Page'

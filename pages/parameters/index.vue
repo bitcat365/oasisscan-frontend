@@ -41,7 +41,7 @@
   import NavBar from '../../components/NavigationBar'
   import TabMenu from '../../components/TabMenu'
   import BlockInfo from '../../components/index/BlockInfo'
-  import Panel from '../../components/Panel'
+  import Panel from '../../components/panel/Panel'
   import Cofig from '../../config/index'
   export default {
     name: 'index',

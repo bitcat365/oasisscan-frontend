@@ -57,7 +57,7 @@
   import BlockInfo from '../components/index/BlockInfo'
   import Chart from '../components/index/Chart'
   import ScrollNews from '../components/ScrollNews'
-  import Panel from '../components/Panel'
+  import Panel from '../components/panel/Panel'
   import Config from '../config/index'
   export default {
     components: {

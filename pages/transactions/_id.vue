@@ -46,7 +46,7 @@
 </template>
 
 <script>
-  import Panel from '../../components/Panel'
+  import Panel from '../../components/panel/Panel'
   import VTable from '../../components/VTable/index'
   import NavBar from '../../components/NavigationBar'
   import { fetchTransactionDetail } from '~/fetch/index'

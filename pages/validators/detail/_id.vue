@@ -271,7 +271,7 @@
 </template>
 
 <script>
-  import Panel from '../../../components/Panel'
+  import Panel from '../../../components/panel/Panel'
   import BlockTable from '../../../components/Table/index'
   import Page from '../../../components/Page'
   import NavBar from '../../../components/NavigationBar'
