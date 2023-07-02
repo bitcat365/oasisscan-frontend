@@ -15,7 +15,7 @@
     props: {
       border: {
         type: Boolean,
-        default: true
+        default: false
       },
       name: {
         type: String,
@@ -41,8 +41,11 @@
       border-bottom: 1px solid #D4D4D4;
     }
     .icon-con{
-      width: rem(80);
-      text-align: center;
+      background-color: $blueLight25;
+      width: rem(60);
+      height: rem(60);
+      padding: rem(15);
+      border-radius: rem(30);
     }
     .name {
       font-size: rem(14);
