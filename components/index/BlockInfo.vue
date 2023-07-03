@@ -66,8 +66,5 @@ export default {
     height: rem(30);
     color: $blue700;
   }
-  .icon4 {
-    width: rem(33);
-  }
 }
 </style>

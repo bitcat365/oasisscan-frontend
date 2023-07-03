@@ -3,7 +3,7 @@
     <div class="icon-con">
       <slot name="icon"></slot>
     </div>
-    <div>
+    <div class="right">
       <div class="name">{{ name }}</div>
       <div class="value">{{ value | readable }}</div>
     </div>
@@ -19,23 +19,23 @@ export default {
     },
     name: {
       type: String,
-      default: ""
+      default: ''
     },
     value: {
       type: [String, Number],
-      default: ""
+      default: ''
     }
   },
-  name: "BlockStatus"
-};
+  name: 'BlockStatus'
+}
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/utils";
+@import '../../assets/css/utils';
 .root {
   display: flex;
   flex-direction: row;
-  padding: rem(15) rem(30);
+  padding: rem(15) rem(10);
   &.border {
     border-bottom: 1px solid #d4d4d4;
   }
@@ -47,12 +47,16 @@ export default {
     padding: rem(15);
     border-radius: rem(30);
   }
-  .name {
-    font-size: rem(14);
-    color: $gray400;
-  }
-  .value {
-    font-size: rem(20);
+  .right {
+    height: rem(60);
+    @extend .flexColumn;
+    .name {
+      font-size: rem(14);
+      color: $gray400;
+    }
+    .value {
+      font-size: rem(20);
+    }
   }
 }
 </style>
