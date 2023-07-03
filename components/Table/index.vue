@@ -182,6 +182,12 @@ table {
     th {
       text-align: left;
       white-space: nowrap;
+      &:nth-child(3) {
+        text-align: center;
+        .header-title {
+          justify-content: center;
+        }
+      }
       &:last-child {
         text-align: right;
         .header-title {
@@ -194,6 +200,9 @@ table {
     td {
       word-break: break-all;
       box-sizing: border-box;
+      &:nth-child(3) {
+        text-align: center;
+      }
       &:last-child {
         text-align: right;
       }
@@ -231,6 +240,7 @@ table {
     }
   }
   .header-title {
+    color: $gray500;
     display: flex;
     align-items: center;
     flex-direction: row;
