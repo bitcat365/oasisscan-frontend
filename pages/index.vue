@@ -49,12 +49,14 @@
     <Row :gutter="20" class="bottom">
       <Col span="12">
         <Panel title="Latest Blocks">
-          <router-link slot="headerRight" to="/blocks" class="headerRight">View</router-link>
+          <router-link slot="headerRight" to="/blocks" class="headerRight">View All</router-link>
+          <BlockTable :columns="blockListColumns" :data="blocks" />
         </Panel>
       </Col>
       <Col span="12">
         <Panel title="Latest Transactions">
-          <router-link slot="headerRight" to="/transactions" class="headerRight">View</router-link>
+          <router-link slot="headerRight" to="/transactions" class="headerRight">View All</router-link>
+          <BlockTable :columns="transactionColumns" :data="transactions" />
         </Panel>
       </Col>
     </Row>
@@ -67,10 +69,49 @@ import Config from '../config/index'
 import Panel from '../components/panel/Panel'
 import PanelSmall from '../components/panel/PanelSmall'
 import BlockInfo from '../components/index/BlockInfo'
+import BlockTable from '../components/Table/index'
 export default {
-  components: { Panel, PanelSmall, BlockInfo },
+  components: { Panel, PanelSmall, BlockInfo, BlockTable },
   data() {
-    return {}
+    return {
+      timer: -1,
+      blockListColumns: [
+        {
+          title: 'Height',
+          key: 'height'
+        },
+        {
+          title: 'Proposer',
+          key: 'proposer'
+        },
+        {
+          title: 'Txs',
+          key: 'txs'
+        },
+        {
+          title: 'Time',
+          key: 'timestamp'
+        }
+      ],
+      transactionColumns: [
+        {
+          title: 'Tx Hash',
+          key: 'txHash'
+        },
+        {
+          title: 'Height',
+          key: 'height'
+        },
+        {
+          title: 'Type',
+          key: 'type'
+        },
+        {
+          title: 'Time',
+          key: 'timestamp'
+        }
+      ]
+    }
   },
   async asyncData({ $axios, store: $store }) {
     const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchTxHistory({ $axios, $store })])
