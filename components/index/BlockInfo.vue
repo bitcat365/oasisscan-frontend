@@ -7,7 +7,11 @@
       <block-status name="Current Epoch" :value="blockInfo.curEpoch">
         <SvgIcon slot="icon" className="icon3" iconName="b3" />
       </block-status>
-      <block-status name="Total Transactions" :value="blockInfo.totalTxs" :border="false">
+      <block-status
+        name="Total Transactions"
+        :value="blockInfo.totalTxs"
+        :border="false"
+      >
         <SvgIcon slot="icon" className="icon5" iconName="b5" />
       </block-status>
     </div>
@@ -18,7 +22,11 @@
       <block-status name="Active Validator" :value="blockInfo.activeValidator">
         <SvgIcon slot="icon" className="icon4" iconName="b4" />
       </block-status>
-      <block-status name="Total Delegators" :value="blockInfo.totalDelegate" :border="false">
+      <block-status
+        name="Total Delegators"
+        :value="blockInfo.totalDelegate"
+        :border="false"
+      >
         <SvgIcon slot="icon" className="icon6" iconName="b6" />
       </block-status>
     </div>
@@ -26,32 +34,28 @@
 </template>
 
 <script>
-import BlockStatus from './BlockStatus'
+import BlockStatus from "./BlockStatus";
 export default {
-  name: 'BlockInfo',
+  name: "BlockInfo",
   components: {
     BlockStatus
   },
-  props: ['blockInfo'],
+  props: ["blockInfo"],
   data() {
-    return {}
+    return {};
   },
   mounted() {}
-}
+};
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/css/utils";
 .block-chain-info {
-  position: relative;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  // padding-left: rem(32);
-  // padding-right: rem(32);
-  // padding-top: rem(18);
-  // padding-bottom: rem(18);
+  @extend .flexRow;
+  > div {
+    flex: 1;
+  }
   .icon1,
   .icon2,
   .icon3,
