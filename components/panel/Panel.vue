@@ -44,7 +44,7 @@ export default {
   margin-bottom: rem(25);
 }
 .panel-title-left {
-  font-size: 1rem;
+  font-size: rem(18);
 }
 .panel-title-right {
   font-size: rem(14);
