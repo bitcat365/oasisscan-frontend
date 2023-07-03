@@ -109,6 +109,8 @@ export default {
   height: 100%;
   background-color: $theme-background;
   border-radius: 0 15px 15px 0;
+  display: flex;
+  flex-direction: column;
 }
 .menu-logo {
   height: rem(120);
@@ -202,7 +204,8 @@ export default {
   }
 }
 .menu-bot {
-  margin: rem(30) 0;
+  height: 100%;
+  padding-bottom: rem(30);
   font-size: rem(14);
   color: $theme-color;
   display: flex;

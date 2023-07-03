@@ -1,6 +1,8 @@
 <template>
   <div id="page-container">
-    <Menu />
+    <div :style="{ width: menuWidth }">
+      <Menu class="page-menu" />
+    </div>
     <main :style="{ width: `calc(100% - ${menuWidth})` }">
       <div class="page-right">
         <Header class="page-header"></Header>
@@ -37,6 +39,11 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.page-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
 }
 .page-right {
   margin: 0 rem(24);
