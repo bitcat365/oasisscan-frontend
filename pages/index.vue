@@ -3,22 +3,25 @@
     <Row :gutter="20" class="top">
       <Col span="8">
         <PanelSmall title="Price">
+          <img slot="icon" src="../assets/price.svg" class="icon">
           <span slot="headerRight" class="headerRight">
-            Online
+            $1.2345678
           </span>
         </PanelSmall>
       </Col>
       <Col span="8">
         <PanelSmall title="Market Cap Rank">
+          <img slot="icon" src="../assets/market.svg" class="icon">
           <span slot="headerRight" class="headerRight">
-            Online
+            123
           </span>
         </PanelSmall>
       </Col>
       <Col span="8">
         <PanelSmall title="Trading Volume">
+          <img slot="icon" src="../assets/trade.svg" class="icon">
           <span slot="headerRight" class="headerRight">
-            Online
+            $123,456.78
           </span>
         </PanelSmall>
       </Col>
