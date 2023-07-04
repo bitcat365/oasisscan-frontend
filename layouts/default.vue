@@ -44,6 +44,7 @@ export default {
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 100;
 }
 .page-right {
   margin: 0 rem(24);
