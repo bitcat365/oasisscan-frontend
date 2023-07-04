@@ -3,7 +3,7 @@
     <Row :gutter="20" class="top">
       <Col span="8">
         <PanelSmall title="Price">
-          <img slot="icon" src="../assets/price.svg" class="icon">
+          <img slot="icon" src="../assets/price.svg" class="icon" />
           <span slot="headerRight" class="headerRight">
             $1.2345678
           </span>
@@ -11,7 +11,7 @@
       </Col>
       <Col span="8">
         <PanelSmall title="Market Cap Rank">
-          <img slot="icon" src="../assets/market.svg" class="icon">
+          <img slot="icon" src="../assets/market.svg" class="icon" />
           <span slot="headerRight" class="headerRight">
             123
           </span>
@@ -19,7 +19,7 @@
       </Col>
       <Col span="8">
         <PanelSmall title="Trading Volume">
-          <img slot="icon" src="../assets/trade.svg" class="icon">
+          <img slot="icon" src="../assets/trade.svg" class="icon" />
           <span slot="headerRight" class="headerRight">
             $123,456.78
           </span>
@@ -152,40 +152,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.top {
-  margin-bottom: rem(20);
-  .ivu-col {
-    > * {
-      height: rem(210);
-    }
-  }
-}
-.center {
-  margin-bottom: rem(20);
-  .ivu-col {
-    > * {
-      height: rem(360);
-    }
-    .headerRight {
-      color: $gray400;
-      .circle {
-        display: inline-block;
-        width: rem(10);
-        height: rem(10);
-        border-radius: rem(5);
-        margin-left: rem(8);
+#home {
+  .top {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(210);
       }
     }
   }
-}
-.bottom {
-  margin-bottom: rem(20);
-  .ivu-col {
-    > * {
-      height: rem(760);
+  .center {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(360);
+      }
+      .headerRight {
+        color: $gray400;
+        .circle {
+          display: inline-block;
+          width: rem(10);
+          height: rem(10);
+          border-radius: rem(5);
+          margin-left: rem(8);
+        }
+      }
     }
-    .headerRight {
-      color: $blue500;
+  }
+  .bottom {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(760);
+      }
+      .headerRight {
+        color: $blue500;
+      }
     }
   }
 }
