@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="notfound-con">
-      <img class="notfound" src="../assets/404_page.svg">
+      <img src="../assets/404_page.svg">
     </div>
   </div>
 </template>
@@ -13,10 +13,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .notfound {
-    // width: rem(400);
-    // height: rem(400);
-  }
   .container {
     min-height: calc(100vh - #{rem(100)});
     flex-direction: column;
