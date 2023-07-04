@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <nav-bar :active="-1" />
     <div class="notfound-con">
       <img class="notfound" src="../assets/404_page.png">
     </div>
@@ -8,11 +7,8 @@
 </template>
 
 <script>
-  import NavBar from '../components/NavigationBar'
-
   export default {
     name: 'error',
-    components: { NavBar }
   }
 </script>
 
