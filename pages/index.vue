@@ -115,7 +115,8 @@ export default {
   },
   async asyncData({ $axios, store: $store }) {
     const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchTxHistory({ $axios, $store })])
-    const blockInfo = data[0]
+    let blockInfo = data[0]
+    blockInfo.totalEscrow = Number(blockInfo.totalEscrow).toFixed()
     const txHistory = data[3]
     const { list: blocks } = data[1]
     const { list: transactions } = data[2]
@@ -132,7 +133,8 @@ export default {
       const $axios = this.$axios
       const $store = this.$store
       const data = await Promise.all([fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
-      const blockInfo = data[0]
+      let blockInfo = data[0]
+      blockInfo.totalEscrow = Number(blockInfo.totalEscrow).toFixed()
       const { list: blocks } = data[1]
       const { list: transactions } = data[2]
       this.blocks = blocks
