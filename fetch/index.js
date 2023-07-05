@@ -33,6 +33,7 @@ function post(...args) {
 export async function fetchBlockInfo($config, progress = true) {
   const { code, data: blockInfo } = await get($config)('/dashboard/network',{ progress }).catch(() => ({ code: -1 }))
   if (code === 0) {
+    blockInfo.totalEscrow = Number(blockInfo.totalEscrow).toFixed()
     return blockInfo
   }
   return {}

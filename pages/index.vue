@@ -10,7 +10,7 @@
         </PanelSmall>
       </Col>
       <Col span="8">
-        <PanelSmall title="Market Cap Rank">
+        <PanelSmall title="Market Cap">
           <img slot="icon" src="../assets/market.svg" class="icon" />
           <span slot="headerRight" class="headerRight">
             123
@@ -46,6 +46,7 @@
             <div class="circle" style="background-color:#53B1FD"></div>
             Total Escrow
           </span>
+          <Chart :tx-history="txHistory"/>
         </Panel>
       </Col>
     </Row>
@@ -73,8 +74,9 @@ import Panel from '../components/panel/Panel'
 import PanelSmall from '../components/panel/PanelSmall'
 import BlockInfo from '../components/index/BlockInfo'
 import BlockTable from '../components/Table/index'
+import Chart from '../components/index/Chart'
 export default {
-  components: { Panel, PanelSmall, BlockInfo, BlockTable },
+  components: { Panel, PanelSmall, BlockInfo, BlockTable, Chart },
   data() {
     return {
       timer: -1,
@@ -118,8 +120,7 @@ export default {
   },
   async asyncData({ $axios, store: $store }) {
     const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchTxHistory({ $axios, $store })])
-    let blockInfo = data[0]
-    blockInfo.totalEscrow = Number(blockInfo.totalEscrow).toFixed()
+    const blockInfo = data[0]
     const txHistory = data[3]
     const { list: blocks } = data[1]
     const { list: transactions } = data[2]
@@ -136,8 +137,7 @@ export default {
       const $axios = this.$axios
       const $store = this.$store
       const data = await Promise.all([fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
-      let blockInfo = data[0]
-      blockInfo.totalEscrow = Number(blockInfo.totalEscrow).toFixed()
+      const blockInfo = data[0]
       const { list: blocks } = data[1]
       const { list: transactions } = data[2]
       this.blocks = blocks
