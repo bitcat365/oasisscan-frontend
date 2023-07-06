@@ -30,6 +30,20 @@ function post(...args) {
   })
 }
 
+export async function fetchMarketChart($config) {
+  const { code, data: marketChart } = await get($config)('/market/chart').catch(() => ({ code: -1 }))
+  if (code === 0) {
+    return marketChart
+  }
+  return []
+}
+export async function fetchMarketInfo($config) {
+  const { code, data: marketInfo } = await get($config)('/market/info').catch(() => ({ code: -1 }))
+  if (code === 0) {
+    return marketInfo
+  }
+  return []
+}
 export async function fetchBlockInfo($config, progress = true) {
   const { code, data: blockInfo } = await get($config)('/dashboard/network',{ progress }).catch(() => ({ code: -1 }))
   if (code === 0) {
@@ -40,6 +54,13 @@ export async function fetchBlockInfo($config, progress = true) {
 }
 export async function fetchTxHistory($config) {
   const { code, data: { list } = { list: [] } } = await get($config)('/chain/transactionhistory').catch(() => ({ code: -1 }))
+  if (code === 0) {
+    return list
+  }
+  return []
+}
+export async function fetchEscrow($config) {
+  const { code, data: { list } = { list: [] } } = await get($config)('/validator/escrowtotalchart').catch(() => ({ code: -1 }))
   if (code === 0) {
     return list
   }
