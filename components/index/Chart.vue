@@ -58,53 +58,55 @@ export default {
       })
     }
 
-    // console.log('daysArray', daysArray)
-    return {
-      chartOptions: {
-        chart: {
-          type: 'areaspline'
-        },
-        title: {
-          text: ''
-        },
-        legend: {
-          enabled: false
-        },
-        xAxis: {
+      // console.log('daysArray', daysArray)
+      return {
+        chartOptions: {
+          chart: {
+            type: 'areaspline',
+          },
           title: {
             text: ''
           },
-          categories: [...daysArray],
-          labels: {
-            step: 3
-          }
-        },
-        yAxis: {
-          title: {
-            text: ''
-          }
-        },
-        tooltip: {
-          shared: false,
-          valueSuffix: '',
-          formatter: function() {
-            return this.point.tooltip || readable(this.y)
-          }
-        },
-        credits: {
-          enabled: false
-        },
-        plotOptions: {
-          areaspline: {
-            fillOpacity: 0.2,
-            color: '#F86E49',
-            marker: {
-              enabled: false
+          legend: {
+            enabled: false
+          },
+          xAxis: {
+            title: {
+              text: ''
+            },
+            categories: [
+              ...daysArray
+            ],
+            labels: {
+              step: 3
             }
-          }
-        },
-        series: [
-          {
+          },
+          yAxis: {
+            title: {
+              text: ''
+            }
+          },
+          tooltip: {
+            shared: false,
+            valueSuffix: '',
+            formatter: function () {
+              return this.point.tooltip || readable(this.y)
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          plotOptions: {
+            areaspline: {
+              fillOpacity: 0.2,
+              color: '#7A5AF8',
+              marker: {
+                enabled: false
+              }
+            }
+            // TODO #53B1FD
+          },
+          series: [ {
             name: '',
             data: data,
             zoneAxis: 'x',
@@ -125,7 +127,7 @@ export default {
   padding-top: rem(40);
 }
 .chart-con {
-  width: rem(554);
-  height: rem(220);
+  width: 100%;
+  height: rem(240);
 }
 </style>
