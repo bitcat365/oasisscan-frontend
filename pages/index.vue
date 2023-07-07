@@ -7,6 +7,10 @@
           <span slot="headerRight" class="headerRight">
             $1.2345678
           </span>
+          <div class="panelSmallContent">
+            <div class="left">左</div>
+            <div class="right">右</div>
+          </div>
         </PanelSmall>
       </Col>
       <Col span="8">
@@ -152,12 +156,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/utils";
 #home {
   .top {
     margin-bottom: rem(20);
     .ivu-col {
       > * {
         height: rem(210);
+      }
+    }
+    .panelSmallContent {
+      @extend .flexRow;
+      align-items: center;
+      .left {
+        background-color: red;
+      }
+      .right {
+        background-color: yellow;
       }
     }
   }
