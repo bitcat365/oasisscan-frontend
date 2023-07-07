@@ -92,11 +92,12 @@ import {getMonth, readable} from '../../utils';
           plotOptions: {
             areaspline: {
               fillOpacity: 0.2,
-              color: '#F86E49',
+              color: '#7A5AF8',
               marker: {
                 enabled: false
               }
             }
+            // TODO #53B1FD
           },
           series: [ {
             name: '',
@@ -118,7 +119,7 @@ import {getMonth, readable} from '../../utils';
     padding-top: rem(40);
   }
   .chart-con{
-    width: rem(554);
-    height: rem(220);
+    width: 100%;
+    height: rem(240);
   }
 </style>
