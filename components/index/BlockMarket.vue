@@ -55,14 +55,15 @@ export default {
           gridLineWidth: 0
         },
         tooltip: {
-          backgroundColor: '#344054',
+          backgroundColor: 'rgba(52, 64, 84, 0.7)',
           borderWidth: 0,
           shadow: false,
           borderRadius: 10,
           formatter: function() {
-            return `<span style="font-size:10px;font-weight:600;color:#fff">${this.x}</span>
+            return `
+            <span style="font-size:12px;font-weight:600;color:#fff">$${this.y}</span>
             <br/>
-            <span style="font-size:10px;color:#98A2B3">$${this.y}</span>`
+            <span style="font-size:12px;color:#E4E7EC">${this.x}</span>`
           }
         },
         credits: {
