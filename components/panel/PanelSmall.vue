@@ -38,25 +38,30 @@ export default {
   background-color: #fff;
   border-radius: rem(15);
   padding: rem(15) rem(20);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .panel-title {
   @extend .flexRow;
+  height: rem(30);
   margin-bottom: rem(25);
-}
-.panel-title-left {
-  font-size: 1rem;
-  color: $gray500;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  .icon{
-    margin-right: rem(8);
+  .panel-title-left {
+    font-size: 1rem;
+    color: $gray500;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .icon {
+      margin-right: rem(8);
+    }
   }
-}
-.panel-title-right {
-  font-size: rem(20);
+  .panel-title-right {
+    font-size: rem(20);
+  }
 }
 .panel-content {
   border-top: 1px solid $gray100;
+  height: calc(100% - #{rem(30)});
 }
 </style>
