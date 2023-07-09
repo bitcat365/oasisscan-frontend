@@ -138,14 +138,10 @@ export default {
     async repool() {
       const $axios = this.$axios
       const $store = this.$store
-      const data = await Promise.all([fetchMarketChart({ $axios, $store }), fetchMarketInfo({ $axios, $store }), fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
-      const marketChart = data[0]
-      const marketInfo = data[1]
-      const blockInfo = data[2]
-      const { list: blocks } = data[3]
-      const { list: transactions } = data[4]
-      this.marketChart = marketChart
-      this.marketInfo = marketInfo
+      const data = await Promise.all([fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
+      const blockInfo = data[0]
+      const { list: blocks } = data[1]
+      const { list: transactions } = data[2]
       this.blocks = blocks
       this.blockInfo = blockInfo
       this.transactions = transactions
