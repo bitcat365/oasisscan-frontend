@@ -5,28 +5,22 @@
       <Col span="8">
         <PanelSmall title="Price">
           <img slot="icon" src="../assets/price.svg" class="icon" />
-          <span slot="headerRight" class="headerRight">
-            $1.2345678
-          </span>
-          <!-- {{ marketInfo.priceChangePct24h }} -->
-          <div class="panelSmallContent">
-            <div class="left">左</div>
-            <div class="right">右</div>
-          </div>
+          <span slot="headerRight" class="headerRight"> ${{ marketInfo.price }} </span>
+          <BlockMarket :marketChange="marketInfo.priceChangePct24h" :marketChart="marketChart.price" />
         </PanelSmall>
       </Col>
       <Col span="8">
         <PanelSmall title="Market Cap">
           <img slot="icon" src="../assets/market.svg" class="icon" />
           <span slot="headerRight" class="headerRight"> ${{ marketInfo.marketCap }} </span>
-          {{ marketInfo.marketCapChangePct24h }}
+          <BlockMarket :marketChange="marketInfo.marketCapChangePct24h" :marketChart="marketChart.marketCap" />
         </PanelSmall>
       </Col>
       <Col span="8">
         <PanelSmall title="Trading Volume">
           <img slot="icon" src="../assets/trade.svg" class="icon" />
           <span slot="headerRight" class="headerRight"> ${{ marketInfo.volume }} </span>
-          {{ marketInfo.volumeChangePct24h }}
+          <BlockMarket :marketChange="marketInfo.volumeChangePct24h" :marketChart="marketChart.volume" />
         </PanelSmall>
       </Col>
     </Row>
@@ -77,10 +71,11 @@ import Config from '../config/index'
 import Panel from '../components/panel/Panel'
 import PanelSmall from '../components/panel/PanelSmall'
 import BlockInfo from '../components/index/BlockInfo'
+import BlockMarket from '../components/index/BlockMarket'
 import BlockTable from '../components/Table/index'
 import Chart from '../components/index/Chart'
 export default {
-  components: { Panel, PanelSmall, BlockInfo, BlockTable, Chart },
+  components: { Panel, PanelSmall, BlockInfo, BlockTable, Chart, BlockMarket },
   data() {
     return {
       timer: -1,
@@ -163,23 +158,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/css/utils";
 #home {
   .top {
     margin-bottom: rem(20);
     .ivu-col {
       > * {
         height: rem(210);
-      }
-    }
-    .panelSmallContent {
-      @extend .flexRow;
-      align-items: center;
-      .left {
-        background-color: red;
-      }
-      .right {
-        background-color: yellow;
       }
     }
   }
