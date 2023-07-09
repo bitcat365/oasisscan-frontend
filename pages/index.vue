@@ -5,21 +5,21 @@
       <Col span="8">
         <PanelSmall title="Price">
           <img slot="icon" src="../assets/price.svg" class="icon" />
-          <span slot="headerRight" class="headerRight"> ${{ marketInfo.price }} </span>
+          <span slot="headerRight" class="headerRight"> ${{ marketInfo.price | readable }} </span>
           <BlockMarket :marketChange="marketInfo.priceChangePct24h" :marketChart="marketChart.price" />
         </PanelSmall>
       </Col>
       <Col span="8">
         <PanelSmall title="Market Cap">
           <img slot="icon" src="../assets/market.svg" class="icon" />
-          <span slot="headerRight" class="headerRight"> ${{ marketInfo.marketCap }} </span>
+          <span slot="headerRight" class="headerRight"> ${{ marketInfo.marketCap | readable }} </span>
           <BlockMarket :marketChange="marketInfo.marketCapChangePct24h" :marketChart="marketChart.marketCap" />
         </PanelSmall>
       </Col>
       <Col span="8">
         <PanelSmall title="Trading Volume">
           <img slot="icon" src="../assets/trade.svg" class="icon" />
-          <span slot="headerRight" class="headerRight"> ${{ marketInfo.volume }} </span>
+          <span slot="headerRight" class="headerRight"> ${{ marketInfo.volume | readable }} </span>
           <BlockMarket :marketChange="marketInfo.volumeChangePct24h" :marketChart="marketChart.volume" />
         </PanelSmall>
       </Col>
