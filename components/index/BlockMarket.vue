@@ -15,14 +15,9 @@
 </template>
 
 <script>
+import { readable } from '../../utils'
 export default {
   data() {
-    let xData = []
-    let yData = []
-    for (let i = 0; i < this.marketChart.length; i++) {
-      xData.push(this.marketChart[i].key)
-      yData.push(this.marketChart[i].value)
-    }
     return {
       chartOptions: {
         chart: {
@@ -39,7 +34,7 @@ export default {
           title: {
             text: ''
           },
-          categories: [...xData],
+          categories: [...this.marketChart.xData],
           labels: {
             enabled: false
           },
@@ -61,7 +56,7 @@ export default {
           borderRadius: 10,
           formatter: function() {
             return `
-            <span style="font-size:12px;font-weight:600;color:#fff">$${this.y}</span>
+            <span style="font-size:12px;font-weight:600;color:#fff">$${readable(this.y)}</span>
             <br/>
             <span style="font-size:12px;color:#E4E7EC">${this.x}</span>`
           }
@@ -75,7 +70,7 @@ export default {
             marker: {
               enabled: false
             },
-            data: yData,
+            data: this.marketChart.yData,
             shadow: {
               color: '#7A5AF8',
               width: 10,
@@ -89,8 +84,10 @@ export default {
   },
   props: {
     marketChart: {
-      type: Array,
-      default: [{ key: '', value: 0 }]
+      type: Object,
+      default: () => {
+        return { xData: [], yData: [] }
+      }
     },
     marketChange: {
       type: Number,
