@@ -1,6 +1,5 @@
 <template>
   <div id="home">
-    <!-- {{marketChart}} -->
     <Row :gutter="20" class="top">
       <Col span="8">
         <PanelSmall title="Price">
