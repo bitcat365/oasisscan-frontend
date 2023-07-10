@@ -1,7 +1,8 @@
 <template>
   <div class="market_content">
-    <div class="market_left">
+    <div class="market_left" ref="marketleft">
       <highcharts class="chart-con" refs="chart" :options="chartOptions"></highcharts>
+      <!-- <highcharts class="chart-con" refs="chart" :options="chartOptions" :style="{width: chartWidth+'px'}"></highcharts> -->
     </div>
     <div class="market_right">
       <p :class="class_p1">
@@ -19,6 +20,7 @@ import { readable } from '../../utils'
 export default {
   data() {
     return {
+      chartWidth:'',
       chartOptions: {
         chart: {
           type: 'spline'
@@ -106,6 +108,9 @@ export default {
       }
       return className
     }
+  },
+  mounted(){
+    this.chartWidth = this.$refs.marketleft.offsetWidth
   }
 }
 </script>
