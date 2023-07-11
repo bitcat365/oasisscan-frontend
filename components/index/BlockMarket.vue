@@ -19,6 +19,7 @@ import { readable } from '../../utils'
 export default {
   data() {
     return {
+      chartWidth:'',
       chartOptions: {
         chart: {
           type: 'spline'
@@ -106,6 +107,9 @@ export default {
       }
       return className
     }
+  },
+  mounted(){
+    this.chartWidth = this.$refs.marketleft.offsetWidth
   }
 }
 </script>
