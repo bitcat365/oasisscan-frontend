@@ -117,7 +117,7 @@ export default {
   align-items: center;
   .market_left {
     flex: 1;
-    min-width: 16rem;
+    min-width: 11rem;
     .chart-con {
       height: 6.25rem;
       width: 100%;
