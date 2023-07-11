@@ -1,7 +1,7 @@
 <template>
   <div class="market_content">
     <div class="market_left">
-      <highcharts class="chart-con" refs="chart" :options="chartOptions"></highcharts>
+      <highcharts class="chart-con" ref="chart" :options="chartOptions"></highcharts>
     </div>
     <div class="market_right">
       <p :class="class_p1">
@@ -115,15 +115,16 @@ export default {
 .market_content {
   @extend .flexRow;
   align-items: center;
-  height: 100%;
-  // TODO
   .market_left {
+    flex: 1;
+    min-width: 16rem;
     .chart-con {
-      width: 260px;
-      height: 100px;
+      height: 6.25rem;
+      width: 100%;
     }
   }
   .market_right {
+    flex: 1;
     text-align: right;
     .p1 {
       font-weight: 600;
