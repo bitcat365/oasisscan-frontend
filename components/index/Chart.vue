@@ -1,7 +1,7 @@
 <template>
   <div class="chart-wrapper">
     <!-- {{ escrow }} -->
-    <highcharts class="chart-con" refs="chart" :options="chartOptions"></highcharts>
+    <highcharts class="chart-con" ref="chart" :options="chartOptions"></highcharts>
   </div>
 </template>
 
