@@ -43,7 +43,7 @@
             <div class="circle" style="background-color:#53B1FD"></div>
             Total Escrow
           </span>
-          <Chart :tx-history="txHistory" :escrow="escrowChart" />
+          <Chart :tx="tx" :escrow="escrow" />
         </Panel>
       </Col>
     </Row>
@@ -123,9 +123,9 @@ export default {
     const blockInfo = data[2]
     const { list: blocks } = data[3]
     const { list: transactions } = data[4]
-    const txHistory = data[5].tx
-    const escrowChart = data[5].escrow
-    return { marketChart, marketInfo, blockInfo, blocks, transactions, newsList: Config.news, txHistory, escrowChart }
+    const tx = data[5].tx
+    const escrow = data[5].escrow
+    return { marketChart, marketInfo, blockInfo, blocks, transactions, newsList: Config.news, tx, escrow }
   },
   mounted() {
     this.timer && clearTimeout(this.timer)
