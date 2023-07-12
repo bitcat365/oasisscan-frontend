@@ -50,7 +50,7 @@
 </template>
 
 <script>
-  import { fetchBlockInfo, fetchHomeBlockList, fetchTransactionsList, fetchTxHistory } from '../fetch/index'
+  import { fetchBlockInfo, fetchHomeBlockList, fetchTransactionsList } from '../fetch/index'
   import BlockTable from '../components/Table/index'
   import NavBar from '../components/NavigationBar'
   import SearchBox from '../components/index/SearchBox'
@@ -70,7 +70,7 @@
       ScrollNews
     },
     async asyncData({ $axios, store: $store }) {
-      const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchTxHistory({ $axios, $store })])
+      const data = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store })])
       const blockInfo = data[0]
       const txHistory = data[3]
       const { list: blocks } = data[1]
