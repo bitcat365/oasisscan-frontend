@@ -67,17 +67,10 @@ export async function fetchBlockInfo($config, progress = true) {
   }
   return {}
 }
-export async function fetchTxHistory($config) {
-  const { code, data: { list } = { list: [] } } = await get($config)('/chain/transactionhistory').catch(() => ({ code: -1 }))
+export async function fetchNetworkTrend($config) {
+  const { code, data: { tx, escrow } } = await get($config)('/dashboard/trend').catch(() => ({ code: -1 }))
   if (code === 0) {
-    return list
-  }
-  return []
-}
-export async function fetchEscrow($config) {
-  const { code, data: { list } = { list: [] } } = await get($config)('/validator/escrowtotalchart').catch(() => ({ code: -1 }))
-  if (code === 0) {
-    return list
+    return { tx, escrow }
   }
   return []
 }

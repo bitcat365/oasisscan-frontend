@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { fetchMarketChart, fetchMarketInfo, fetchBlockInfo, fetchHomeBlockList, fetchTransactionsList, fetchTxHistory, fetchEscrow } from '../fetch/index'
+import { fetchMarketChart, fetchMarketInfo, fetchBlockInfo, fetchHomeBlockList, fetchTransactionsList, fetchNetworkTrend} from '../fetch/index'
 import Config from '../config/index'
 import Panel from '../components/panel/Panel'
 import PanelSmall from '../components/panel/PanelSmall'
@@ -117,14 +117,14 @@ export default {
     }
   },
   async asyncData({ $axios, store: $store }) {
-    const data = await Promise.all([fetchMarketChart({ $axios, $store }), fetchMarketInfo({ $axios, $store }), fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchTxHistory({ $axios, $store }), fetchEscrow({ $axios, $store })])
+    const data = await Promise.all([fetchMarketChart({ $axios, $store }), fetchMarketInfo({ $axios, $store }), fetchBlockInfo({ $axios, $store }), fetchHomeBlockList({ $axios, $store }), fetchTransactionsList({ $axios, $store }), fetchNetworkTrend({ $axios, $store })])
     const marketChart = data[0]
     const marketInfo = data[1]
     const blockInfo = data[2]
     const { list: blocks } = data[3]
     const { list: transactions } = data[4]
-    const txHistory = data[5]
-    const escrowChart = data[6]
+    const txHistory = data[5].tx
+    const escrowChart = data[5].escrow
     return { marketChart, marketInfo, blockInfo, blocks, transactions, newsList: Config.news, txHistory, escrowChart }
   },
   mounted() {
