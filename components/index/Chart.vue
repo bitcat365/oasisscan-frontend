@@ -57,6 +57,7 @@ export default {
         marker: { enabled: true }
       })
     }
+    let data1 = this.escrow.map(h => h.value)
 
     // console.log('daysArray', daysArray)
     return {
@@ -79,11 +80,14 @@ export default {
             step: 3
           }
         },
-        yAxis: {
-          title: {
-            text: ''
+        yAxis: [
+          {title:  ''},
+          {
+            title:  '',
+            linkedTo: 0 ,
+            // tickPositioner
           }
-        },
+        ],
         tooltip: {
           backgroundColor: 'rgba(52, 64, 84, 0.7)',
           borderWidth: 0,
@@ -129,7 +133,8 @@ export default {
           },
           {
             name: '',
-            data: [10000, 80000, 100000, 60000, 200000, 160000, 180000, 120000],
+            // data: [10000, 80000, 100000, 60000, 200000, 160000, 180000, 120000],
+            data:data1,
             marker: {
               enabled: false
             },
