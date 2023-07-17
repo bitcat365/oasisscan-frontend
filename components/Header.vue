@@ -1,6 +1,6 @@
 <template>
   <header>
-    <Input v-model="keywords" icon="ios-search" type="text" placeholder="Search by Address/Entity/Block/Tx hash"></Input>
+    <Input v-model="keywords" @on-enter="onsubmit" icon="ios-search" type="text" placeholder="Search by Address/Entity/Block/Tx hash"></Input>
     <Dropdown @on-click="networkClick">
       <a class="network-selector" href="javascript:void(0)">
         {{ net }}
@@ -20,6 +20,7 @@
 
 <script>
 import Config from '../config/index.json'
+import { onSearch } from '../fetch'
 export default {
   data() {
     return {
@@ -42,6 +43,9 @@ export default {
         location.href = '//' + location.host.replace('testnet.oasisscan.com', 'www.oasisscan.com')
       }
       this.$store.commit('SET_NET', name)
+    },
+    async onsubmit() {
+      onSearch(this, this.keywords)
     }
   }
 }
