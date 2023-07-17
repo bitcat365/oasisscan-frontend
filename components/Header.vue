@@ -91,6 +91,10 @@ header {
   align-items: center;
   background-color: white;
 }
+/deep/.ivu-select-dropdown {
+  border-radius: rem(10);
+  padding: 0;
+}
 .network-select-list {
   min-width: rem(100);
   .network-select-item {
