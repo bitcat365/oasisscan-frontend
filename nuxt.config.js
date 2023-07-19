@@ -44,15 +44,12 @@ module.exports = {
   /*
    ** Global CSS
    */
-  css: [
-    'iview/dist/styles/iview.css',
-    '~/assets/css/main.css'
-  ],
+  css: ['iview/dist/styles/iview.css', '~/assets/css/main.css'],
   /*
    ** Global SCSS
    */
   styleResources: {
-    scss: '~assets/css/common.scss'
+    scss: ['~assets/css/common.scss', '~assets/css/color.scss']
   },
 
   /*
