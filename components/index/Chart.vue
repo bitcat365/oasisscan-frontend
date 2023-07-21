@@ -128,6 +128,7 @@ export default {
           {
             name: '',
             data:data1,
+            yAxis: 1,
             marker: {
               enabled: false
             },
