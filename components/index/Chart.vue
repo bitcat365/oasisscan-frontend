@@ -43,7 +43,7 @@ export default {
     let yMax1 = Math.ceil(Math.max(...data1))
     // let yStep = Math.round((yMax - yMin)/4)
     // let yStep1 = Math.round((yMax1 - yMin1)/4)
-    console.log(yMax,yMin,yStep, yStep1)
+    // console.log(yMax,yMin,yStep, yStep1)
 
     return {
       chartOptions: {
