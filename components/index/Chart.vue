@@ -35,31 +35,16 @@ export default {
     }
     daysArray.reverse()
 
-    const lastDayFinished = new Date(latest).setHours(23, 59, 59, 999) < Date.now()
     let data = this.tx.map(h => h.value)
-    let finishedDaysLength = days
-    if (!lastDayFinished && days > 0) {
-      const unfinishedDayFraction = (latest - new Date(latest).setHours(0, 0, 0, 0)) / (24 * 60 * 60 * 1000)
-      const lastFinishedDayData = data[data.length - 2]
-      const unfinishedDayData = data.pop()
-      const extrapolated = unfinishedDayData + lastFinishedDayData * (1 - unfinishedDayFraction)
-
-      finishedDaysLength = days - 1
-      data.push({
-        x: finishedDaysLength,
-        y: extrapolated,
-        tooltip: `Extrapolated to ~${extrapolated.toFixed(0)} from ${unfinishedDayData}`
-      })
-      data.push(null) // Break line and draw unextrapolated marker too
-      data.push({
-        x: finishedDaysLength,
-        y: unfinishedDayData,
-        marker: { enabled: true }
-      })
-    }
     let data1 = this.escrow.map(h => h.value)
+    let yMin = Math.floor(Math.min(...data))
+    let yMax = Math.ceil(Math.max(...data))
+    let yMin1 = Math.floor(Math.min(...data1))
+    let yMax1 = Math.ceil(Math.max(...data1))
+    // let yStep = Math.round((yMax - yMin)/4)
+    // let yStep1 = Math.round((yMax1 - yMin1)/4)
+    console.log(yMax,yMin,yStep, yStep1)
 
-    // console.log('daysArray', daysArray)
     return {
       chartOptions: {
         chart: {
@@ -81,10 +66,21 @@ export default {
           }
         },
         yAxis: [
-          {title:  ''},
           {
-            title:  '',
-            linkedTo: 0 ,
+            title: "",
+            min: yMin,
+            max: yMax,       
+            // labels: {
+            //   step: 300
+            // }
+          },
+          {
+            title: "",
+            min: yMin1,
+            max: yMax1,
+            // x: 0,
+            // y: 0
+            // linkedTo: 0
             // tickPositioner
           }
         ],
@@ -120,8 +116,6 @@ export default {
             marker: {
               enabled: false
             },
-            // zoneAxis: 'x',
-            // zones: [{ value: finishedDaysLength - 1 }, { dashStyle: 'shortdot', fillColor: 'transparent' }],
             fillColor: {
               linearGradient: [0, 0, 0, 300],
               stops: [
@@ -133,7 +127,6 @@ export default {
           },
           {
             name: '',
-            // data: [10000, 80000, 100000, 60000, 200000, 160000, 180000, 120000],
             data:data1,
             marker: {
               enabled: false
