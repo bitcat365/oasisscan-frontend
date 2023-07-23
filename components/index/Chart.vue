@@ -1,6 +1,5 @@
 <template>
   <div class="chart-wrapper">
-    <!-- {{ escrow }} -->
     <highcharts class="chart-con" ref="chart" :options="chartOptions"></highcharts>
   </div>
 </template>
@@ -25,13 +24,14 @@ export default {
     }
   },
   data() {
+    let daysArray = []
     const days = this.tx.length
-    const daysArray = []
     const latest = days > 0 ? this.tx[days - 1].key * 1000 : +new Date()
     for (let day = 0; day < days; day++) {
       const thatDay = new Date(latest)
       thatDay.setDate(new Date(latest).getDate() - day)
-      daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
+      // daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
+      daysArray.push(thatDay)
     }
     daysArray.reverse()
 
@@ -41,9 +41,6 @@ export default {
     let yMax = Math.ceil(Math.max(...data))
     let yMin1 = Math.floor(Math.min(...data1))
     let yMax1 = Math.ceil(Math.max(...data1))
-    // let yStep = Math.round((yMax - yMin)/4)
-    // let yStep1 = Math.round((yMax1 - yMin1)/4)
-    // console.log(yMax,yMin,yStep, yStep1)
 
     return {
       chartOptions: {
@@ -62,59 +59,72 @@ export default {
           },
           categories: [...daysArray],
           labels: {
-            step: 3
+            step: 3,
+            formatter: function() {
+              let day = this.value.getDate()
+              let month = getMonth(this.value.getMonth())
+              return day + `<br/>` + month
+            }
+          },
+          crosshair: {
+            width: 1,
+            dashStyle: 'LongDash'
           }
         },
         yAxis: [
           {
-            title: "",
+            title: '',
             min: yMin,
-            max: yMax,       
-            // labels: {
-            //   step: 300
-            // }
+            max: yMax,
+            labels: {
+              y: 13,
+              style: {
+                color: '#7A5AF8'
+              }
+            }
           },
           {
-            title: "",
+            title: '',
             min: yMin1,
             max: yMax1,
-            // x: 0,
-            // y: 0
-            // linkedTo: 0
-            // tickPositioner
+            offset: 0,
+            labels: {
+              y: 0,
+              style: {
+                color: '#53B1FD'
+              }
+            }
           }
         ],
         tooltip: {
+          shared: true,
           backgroundColor: 'rgba(52, 64, 84, 0.7)',
           borderWidth: 0,
-          shared: false,
+          shadow: false,
           borderRadius: 10,
           formatter: function() {
-            return this.point.tooltip || readable(this.y)
-            // return `<span style="font-size:12px;font-weight:600;color:#fff">${this.x}</span>
-            // <br/>
-            // <span style="font-size:12px;color:#E4E7EC">$${readable(this.y)}</span>`
+            let date = getMonth(this.x.getMonth()) + ' ' + this.x.getDate() + ' ' + this.x.getFullYear()
+            return `<span style="font-size:12px;color:#E4E7EC">${date}</span>
+            <br/>
+            <span style="font-size:12px;color:#7A5AF8">|</span>
+            <span style="font-size:12px;font-weight:600;color:#fff">${readable(this.points[0].y)}</span>
+            <br/>
+            <span style="font-size:12px;color:#53B1FD">|</span>
+            <span style="font-size:12px;font-weight:600;color:#fff">${readable(this.points[1].y)}</span>`
           }
         },
         credits: {
           enabled: false
         },
         colors: ['#7A5AF8', '#53B1FD'],
-        // plotOptions: {
-        //   areaspline: {
-        //     color: '#7A5AF8',
-        //     marker: {
-        //       enabled: false
-        //     }
-        //     // TODO #53B1FD
-        //   }
-        // },
         series: [
           {
             name: '',
             data: data,
             marker: {
-              enabled: false
+              enabled: false,
+              symbol: 'circle',
+              radius: 2
             },
             fillColor: {
               linearGradient: [0, 0, 0, 300],
@@ -127,10 +137,13 @@ export default {
           },
           {
             name: '',
-            data:data1,
+            data: data1,
             yAxis: 1,
+            shadow: false,
             marker: {
-              enabled: false
+              enabled: false,
+              symbol: 'circle',
+              radius: 2
             },
             fillColor: {
               linearGradient: [0, 0, 0, 300],
