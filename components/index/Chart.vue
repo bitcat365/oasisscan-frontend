@@ -25,16 +25,11 @@ export default {
   },
   data() {
     let daysArray = []
-    const days = this.tx.length
-    const latest = days > 0 ? this.tx[days - 1].key * 1000 : +new Date()
-    for (let day = 0; day < days; day++) {
-      const thatDay = new Date(latest)
-      thatDay.setDate(new Date(latest).getDate() - day)
-      // daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
+    for (let i = 0; i < this.tx.length; i++) {
+      let thatDay = new Date(this.tx[i].key * 1000)
+      console.log(thatDay);
       daysArray.push(thatDay)
     }
-    daysArray.reverse()
-
     let data = this.tx.map(h => h.value)
     let data1 = this.escrow.map(h => h.value)
     let yMin = Math.floor(Math.min(...data))
