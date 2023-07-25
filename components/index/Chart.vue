@@ -27,7 +27,6 @@ export default {
     let daysArray = []
     for (let i = 0; i < this.tx.length; i++) {
       let thatDay = new Date(this.tx[i].key * 1000)
-      console.log(thatDay);
       daysArray.push(thatDay)
     }
     let data = this.tx.map(h => h.value)
@@ -115,7 +114,7 @@ export default {
         series: [
           {
             name: '',
-            data: data,
+            data: [...data],
             marker: {
               enabled: false,
               symbol: 'circle',
@@ -132,7 +131,7 @@ export default {
           },
           {
             name: '',
-            data: data1,
+            data: [...data1],
             yAxis: 1,
             shadow: false,
             marker: {
