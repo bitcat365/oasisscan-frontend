@@ -1,189 +1,152 @@
 <template>
   <div id="validators">
-    <header>VALIDATORS</header>
-    <div class="block-list-wrapper">
-      <block-table
-        root-class="block-total-list"
-        cell-class="block-total-list-cell"
-        :columns="columns"
-        :data="showList"
-        primary-key="entityId"
-        @sort="sort"
-      >
-        <template v-slot:status="{ data }">
-          <img
-            v-if="data"
-            class="validator-status"
-            src="../../assets/status-success.svg"
-          />
-          <img
-            v-else
-            class="validator-status"
-            src="../../assets/status-fail.svg"
-          />
-        </template>
-        <template v-slot:escrow="{ data: { escrow, escrowPercent } }">
-          <span
-            >{{ escrow | readable }} ({{ escrowPercent | percentFormat }})</span
-          >
-        </template>
-        <template v-slot:uptime="slotData">
-          <div
-            class="uptime-item green"
-            v-if="+slotData.data.replace('%', '') >= 80"
-          >
-            {{ slotData.data }}
+    <Head title="VALIDATORS">
+      <template #HeadLeft>
+        <span class="HeadLeft">({{ list.length | readable }})</span>
+      </template>
+      <template #HeadRight>
+        <div class="validator-info">
+          <div class="info-item">
+            <div class="info-name">active validators</div>
+            <div class="active-count">{{ active | readable }}</div>
           </div>
-          <div
-            class="uptime-item yellow"
-            v-else-if="+slotData.data.replace('%', '') >= 50"
-          >
-            {{ slotData.data }}
+          <div class="info-item">
+            <div class="info-name">delegators</div>
+            <div class="active-count">{{ delegators | readable }}</div>
           </div>
-          <div class="uptime-item red" v-else>{{ slotData.data }}</div>
-        </template>
-        <template v-slot:name="slotData">
-          <div class="validator-name">
-            <img
-              v-if="slotData.data.icon"
-              class="name-icon"
-              :src="slotData.data.icon"
-            />
-            <img
-              v-else
-              class="name-icon"
-              src="../../assets/validator_dafult_icon.svg"
-            />
-            <router-link
-              :to="slotData.data.link"
-              :class="slotData.data.type === 'hash-link' ? 'hash-link' : ''"
-              >{{
-                slotData.data.type === "hash-link"
-                  ? hashFormat(slotData.data.text)
-                  : slotData.data.text
-              }}</router-link
-            >
-          </div>
-        </template>
-        <template v-slot:escrowChange24="slotData">
-          <div
-            class="escrow-change24"
-            :class="
-              slotData.data > 0
-                ? 'positive'
-                : slotData.data < 0
-                ? 'negative'
-                : ''
-            "
-          >
-            {{ showChangeSign(slotData.data) }} {{ slotData.data | readable }}
-          </div>
-        </template>
-        <template v-slot:rank="slotData">
-          <div class="rank">
-            {{ slotData.data.rank }}
-            <img
-              @click="star(slotData.data.entityId, false)"
-              v-if="slotData.data.stared"
-              class="star"
-              src="../../assets/star.svg"
-            />
-            <img
-              @click="star(slotData.data.entityId, true)"
-              v-else
-              class="star unstar"
-              src="../../assets/unstar.svg"
-            />
-          </div>
-        </template>
-      </block-table>
-    </div>
+        </div>
+      </template>
+    </Head>
+    <Panel>
+      <template slot="headerLeft">
+        左侧自定义
+      </template>
+      <template slot="headerRight">
+        右侧tab切换
+      </template>
+      <div class="block-list-wrapper">
+        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
+          <template v-slot:status="{ data }">
+            <div :class="data ? 'validator-status-success' : 'validator-status-error'"></div>
+          </template>
+          <template v-slot:escrow="{ data: { escrow, escrowPercent } }">
+            <span>{{ escrow | readable }} ({{ escrowPercent | percentFormat }})</span>
+          </template>
+          <template v-slot:uptime="slotData">
+            <div class="uptime-item green" v-if="+slotData.data.replace('%', '') >= 80">
+              {{ slotData.data }}
+            </div>
+            <div class="uptime-item yellow" v-else-if="+slotData.data.replace('%', '') >= 50">
+              {{ slotData.data }}
+            </div>
+            <div class="uptime-item red" v-else>{{ slotData.data }}</div>
+          </template>
+          <template v-slot:name="slotData">
+            <div class="validator-name">
+              <img v-if="slotData.data.icon" class="name-icon" :src="slotData.data.icon" />
+              <img v-else class="name-icon" src="../../assets/validator_dafult_icon.svg" />
+              <router-link :to="slotData.data.link" :class="slotData.data.type === 'hash-link' ? 'hash-link' : ''">{{ slotData.data.type === 'hash-link' ? hashFormat(slotData.data.text) : slotData.data.text }}</router-link>
+            </div>
+          </template>
+          <template v-slot:escrowChange24="slotData">
+            <div class="escrow-change24" :class="slotData.data > 0 ? 'positive' : slotData.data < 0 ? 'negative' : ''">{{ showChangeSign(slotData.data) }} {{ slotData.data | readable }}</div>
+          </template>
+          <template v-slot:rank="slotData">
+            <div class="rank">
+              {{ slotData.data.rank }}
+              <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/star.svg" />
+              <img @click="star(slotData.data.entityId, true)" v-else class="star unstar" src="../../assets/unstar.svg" />
+            </div>
+          </template>
+        </block-table>
+      </div>
+    </Panel>
   </div>
 </template>
 
 <script>
-import LS from "local-storage";
-import { fetchValidatorsList } from "../../fetch/index";
-import { hashFormat } from "../../utils";
-import BlockTable from "~/components/Table/index";
+import LS from 'local-storage'
+import { fetchValidatorsList } from '../../fetch/index'
+import { hashFormat } from '../../utils'
+import BlockTable from '~/components/Table/index'
+import Head from '~/components/Head'
+import Panel from '~/components/panel/Panel'
 export default {
-  components: { BlockTable },
+  components: { BlockTable, Head, Panel },
   data() {
     return {
       staredValidators: [],
       list: [],
-      name: "",
-      type: "active",
-      currentSortKey: "",
+      name: '',
+      type: 'active',
+      currentSortKey: '',
       columns: [
         {
-          title: "Rank",
-          key: "rank",
+          title: 'Rank',
+          key: 'rank',
           slot: true
         },
         {
-          title: "Validator",
-          key: "name",
+          title: 'Validator',
+          key: 'name',
           slot: true
         },
         {
-          title: "Escrow",
-          key: "escrow",
+          title: 'Escrow',
+          key: 'escrow',
           sortable: true,
           slot: true
         },
         {
-          title: "Change(24h)",
-          key: "escrowChange24",
+          title: 'Change(24h)',
+          key: 'escrowChange24',
           slot: true,
           sortable: true
         },
         {
-          title: "Delegators",
-          key: "delegators",
+          title: 'Delegators',
+          key: 'delegators',
           sortable: true
         },
         {
-          title: "Commission",
-          key: "commission",
+          title: 'Commission',
+          key: 'commission',
           sortable: true
         },
         {
-          title: "Status",
-          key: "status",
+          title: 'Status',
+          key: 'status',
           slot: true
         },
         {
-          title: "Sign(1k block)",
-          key: "uptime",
+          title: 'Sign(1k block)',
+          key: 'uptime',
           slot: true,
           sortable: true
         }
       ]
-    };
+    }
   },
   async asyncData({ $axios, store: $store }) {
     const { list, active, inactive, delegators } = await fetchValidatorsList({
       $axios,
       $store
-    });
+    })
     // const blockInfo = await fetchBlockInfo($axios)
-    console.log("list", list);
-    return { list, active, inactive, delegators };
+    console.log('list', list)
+    return { list, active, inactive, delegators }
   },
   computed: {
     showList() {
-      const validators = this.staredValidators;
+      const validators = this.staredValidators
       const staredArray = [...this.list]
         .filter(a => validators.findIndex(v => v === a.entityId) >= 0)
         .sort((a, b) => {
-          const aIndex = validators.findIndex(v => v === a.entityId);
-          const bIndex = validators.findIndex(v => v === b.entityId);
-          return bIndex - aIndex;
-        });
-      const unStaredArray = [...this.list].filter(
-        a => validators.findIndex(v => v === a.entityId) === -1
-      );
+          const aIndex = validators.findIndex(v => v === a.entityId)
+          const bIndex = validators.findIndex(v => v === b.entityId)
+          return bIndex - aIndex
+        })
+      const unStaredArray = [...this.list].filter(a => validators.findIndex(v => v === a.entityId) === -1)
       const res = [...staredArray, ...unStaredArray]
         .map(item => {
           return {
@@ -193,102 +156,119 @@ export default {
               stared: !!validators.find(v => v === item.entityId),
               entityId: item.entityId
             }
-          };
+          }
         })
         .filter(item => {
-          let filter1 = true;
-          let filter2 = true;
+          let filter1 = true
+          let filter2 = true
           if (this.name) {
-            filter1 =
-              !!item.name &&
-              !!item.name.text &&
-              item.name.text.toLowerCase().indexOf(this.name.toLowerCase()) >=
-                0;
+            filter1 = !!item.name && !!item.name.text && item.name.text.toLowerCase().indexOf(this.name.toLowerCase()) >= 0
           }
           if (this.type) {
-            filter2 = item.active === (this.type === "active");
+            filter2 = item.active === (this.type === 'active')
           }
-          return filter1 && filter2;
-        });
-      return res;
+          return filter1 && filter2
+        })
+      return res
     }
   },
   mounted() {
-    this.timer && clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.repool();
-    }, 6000);
+    // this.timer && clearTimeout(this.timer);
+    // this.timer = setTimeout(() => {
+    //   this.repool();
+    // }, 6000);
   },
   methods: {
     async goto(pageNumber) {
-      const { $axios, $store } = this;
-      const { list } = await fetchValidatorsList({ $axios, $store });
-      this.list = list;
+      const { $axios, $store } = this
+      const { list } = await fetchValidatorsList({ $axios, $store })
+      this.list = list
     },
     async sort({ key, sortType }) {
-      console.log(key, sortType);
-      const { $axios, $store } = this;
+      console.log(key, sortType)
+      const { $axios, $store } = this
       if (this.currentSortKey) {
-        const currentSortColumn = this.columns.find(
-          c => c.key === this.currentSortKey
-        );
-        currentSortColumn.sortType = "";
+        const currentSortColumn = this.columns.find(c => c.key === this.currentSortKey)
+        currentSortColumn.sortType = ''
       }
-      const { list } = await fetchValidatorsList(
-        { $axios, $store },
-        key,
-        sortType === "up" ? "asc" : "desc"
-      );
-      this.list = list;
-      const co = this.columns.find(c => c.key === key);
-      co.sortType = sortType;
-      this.columns = [...this.columns];
-      this.currentSortKey = key;
+      const { list } = await fetchValidatorsList({ $axios, $store }, key, sortType === 'up' ? 'asc' : 'desc')
+      this.list = list
+      const co = this.columns.find(c => c.key === key)
+      co.sortType = sortType
+      this.columns = [...this.columns]
+      this.currentSortKey = key
     },
     star(id, star) {
-      let validators = LS("StaredValidators");
+      let validators = LS('StaredValidators')
       if (!validators) {
-        validators = [];
+        validators = []
       }
-      const index = validators.findIndex(v => v === id);
+      const index = validators.findIndex(v => v === id)
       if (star) {
         if (index >= 0) {
-          validators.splice(index, 1);
+          validators.splice(index, 1)
         }
         if (validators.length >= 20) {
-          validators.shift();
+          validators.shift()
         }
-        validators.push(id);
+        validators.push(id)
       } else {
-        validators.splice(index, 1);
+        validators.splice(index, 1)
       }
-      LS("StaredValidators", validators);
-      this.staredValidators = validators;
+      LS('StaredValidators', validators)
+      this.staredValidators = validators
     },
     showChangeSign(value) {
       if (value > 0) {
-        return "+";
+        return '+'
       } else if (value < 0) {
         //        return '-' + value
-        return "";
+        return ''
       }
-      return "";
+      return ''
     },
     hashFormat(val) {
-      return hashFormat(val);
+      return hashFormat(val)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
 #validators {
+  .HeadLeft {
+    color: $gray500;
+    font-size: rem(18);
+  }
+  .validator-info {
+    background-color: $theme-background;
+    border-radius: rem(8);
+    height: rem(40);
+    width: rem(386);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 0 rem(20);
+    > .info-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .info-name {
+        color: $gray500;
+      }
+      .active-count {
+        color: $blue600;
+        margin-left: rem(12);
+      }
+    }
+  }
   .escrow-change24 {
     &.positive {
-      color: #00b538;
+      color: #12b76a;
     }
     &.negative {
-      color: #b60000;
+      color: #f04438;
     }
   }
   .rank {
@@ -318,9 +298,18 @@ export default {
     height: rem(30);
     border-radius: rem(4);
   }
-  .validator-status {
-    width: rem(16);
-    height: rem(16);
+  .validator-status-success {
+    width: rem(10);
+    height: rem(10);
+    border-radius: rem(5);
+    background-color: #12b76a;
+    margin: auto;
+  }
+  .validator-status-error {
+    width: rem(10);
+    height: rem(10);
+    border-radius: rem(5);
+    background-color: #f04438;
   }
   .uptime-item {
     color: white;
@@ -331,22 +320,21 @@ export default {
     align-items: center;
     justify-content: center;
     &.green {
-      color: #37C681;
-      background-color: #A6F4C5;
+      color: #12b76a;
+      background-color: #a6f4c5;
     }
     &.yellow {
-      color: #F79718;
-      background-color: #FEF0C7;
+      color: #f79718;
+      background-color: #fef0c7;
     }
     &.red {
-      color: #F15045;
-      background-color: #FEE4E2;
+      color: #f15045;
+      background-color: #fee4e2;
     }
   }
   .block-list-wrapper {
     background-color: white;
-    padding: 0 rem(30);
-    padding-bottom: rem(24);
+    padding-bottom: rem(20);
     border-radius: rem(8);
     .block-total-list {
       padding: 0;
