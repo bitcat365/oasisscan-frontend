@@ -325,19 +325,22 @@ export default {
   .uptime-item {
     color: white;
     text-align: center;
-    height: rem(22);
+    height: rem(30);
     border-radius: rem(4);
     display: flex;
     align-items: center;
     justify-content: center;
     &.green {
-      background-color: #2ed47a;
+      color: #37C681;
+      background-color: #A6F4C5;
     }
     &.yellow {
-      background-color: #ffb946;
+      color: #F79718;
+      background-color: #FEF0C7;
     }
     &.red {
-      background-color: #f7685b;
+      color: #F15045;
+      background-color: #FEE4E2;
     }
   }
   .block-list-wrapper {
