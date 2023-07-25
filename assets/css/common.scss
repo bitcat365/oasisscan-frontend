@@ -10,6 +10,9 @@ $theme-color: #1849a9;
 @mixin fontFamily {
   font-family: 'Inter';
 }
+@mixin fontFamily-Poppins {
+  font-family: 'Poppins';
+}
 
 $rem-base: 16;
 
