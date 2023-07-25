@@ -24,7 +24,7 @@
           <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">Active</div>
           <div :class="['type inactive', type === 'inactive'? 'sel' : '']" @click="type='inactive'">Inactive</div>
         </div>
-        <input v-model="name" placeholder="Validator Filter" type="text"></input>
+        <input v-model="name" placeholder="Validator Filter" type="text" />
       </div>
       <div class="block-list-wrapper">
         <block-table

@@ -2,9 +2,8 @@
   <div class="panel-wrapper">
     <div class="panel-title">
       <div class="panel-title-left">
-        <slot name="icon"></slot>
-        <slot v-if="!title" name="header"></slot>
-        <span v-else>{{ title }}</span>
+        <span v-if="title">{{ title }}</span>
+        <slot v-else name="headerLeft"></slot>
       </div>
       <div class="panel-title-right">
         <slot name="headerRight"></slot>
@@ -41,7 +40,7 @@ export default {
 }
 .panel-title {
   @extend .flexRow;
-  margin-bottom: rem(25);
+  margin-bottom: rem(20);
 }
 .panel-title-left {
   font-size: rem(18);

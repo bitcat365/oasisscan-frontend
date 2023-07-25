@@ -45,7 +45,7 @@ export default {
 .panel-title {
   @extend .flexRow;
   height: rem(30);
-  margin-bottom: rem(25);
+  margin-bottom: rem(30);
   .panel-title-left {
     font-size: 1rem;
     color: $gray500;
@@ -62,6 +62,6 @@ export default {
 }
 .panel-content {
   border-top: 1px solid $gray100;
-  height: calc(100% - #{rem(30)});
+  // height: calc(100% - #{rem(30)});
 }
 </style>
