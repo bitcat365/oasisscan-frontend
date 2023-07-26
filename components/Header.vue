@@ -1,6 +1,6 @@
 <template>
   <header>
-    <Input v-model="keywords" @on-enter="onsubmit" icon="ios-search" type="text" placeholder="Search by Address/Entity/Block/Tx hash"></Input>
+    <Input v-model="keywords" prefix="ios-search" @on-enter="onsubmit" placeholder="Search by Address/Entity/Block/Tx hash"></Input>
     <Dropdown @on-click="networkClick">
       <a class="network-selector" href="javascript:void(0)">
         {{ net }}
@@ -65,17 +65,18 @@ header {
   line-height: rem(50);
   padding: 0 rem(50);
   font-size: 1rem;
-  color: #667085;
+  color: $gray500;
   border: 0;
   border-radius: rem(25);
 }
-/deep/.ivu-input-icon {
+/deep/.ivu-input:focus{
+  box-shadow: none;
+}
+/deep/.ivu-icon {
   width: rem(50);
   height: rem(50);
   line-height: rem(50);
   font-size: rem(24);
-  position: absolute;
-  left: 0;
 }
 /deep/.ivu-dropdown {
   font-size: 1rem;
