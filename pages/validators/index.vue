@@ -17,12 +17,15 @@
         </div>
       </template>
     </Head>
-    <Panel>
+    <Panel class="panel">
       <template slot="headerLeft">
-        左侧自定义
+        <Input v-model="name" prefix="ios-search" placeholder="Search Validator" />
       </template>
       <template slot="headerRight">
-        右侧tab切换
+        <div class="tag-con">
+          <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">Active</div>
+          <div :class="['type inactive', type === 'inactive'? 'sel' : '']" @click="type='inactive'">Inactive</div>
+        </div>
       </template>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
@@ -82,12 +85,12 @@ export default {
       currentSortKey: '',
       columns: [
         {
-          title: 'Rank',
+          title: '#',
           key: 'rank',
           slot: true
         },
         {
-          title: 'Validator',
+          title: 'Name',
           key: 'name',
           slot: true
         },
@@ -263,6 +266,41 @@ export default {
       }
     }
   }
+  .panel {
+    /deep/.ivu-input {
+      background-color: $gray100;
+      color: #6B758A
+      // max-width:
+    }
+    .tag-con {
+        display: flex;
+        flex-direction: row;
+        .type {
+          display: flex;
+          align-items: center;
+          text-align: center;
+          height: rem(24);
+          font-size: rem(12);
+          padding: 0 0.75rem;
+          border: 1px solid #979797;
+          border-radius: rem(4);
+          color: #333333;
+          margin-left: rem(8);
+          cursor: pointer;
+          background-color: white;
+          &.sel {
+            color: white;
+            background-color: $theme-color;
+          }
+          .inactive{
+            margin-left: 1.06rem;
+          }
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+    }
   .escrow-change24 {
     &.positive {
       color: #12b76a;
