@@ -40,7 +40,7 @@ export default {
 }
 .panel-title {
   @extend .flexRow;
-  margin-bottom: rem(20);
+  margin-bottom: rem(10);
 }
 .panel-title-left {
   font-size: rem(18);
