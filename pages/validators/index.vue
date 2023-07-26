@@ -7,11 +7,11 @@
       <template #HeadRight>
         <div class="validator-info">
           <div class="info-item">
-            <div class="info-name">active validators</div>
+            <div class="info-name">Active validators</div>
             <div class="active-count">{{ active | readable }}</div>
           </div>
           <div class="info-item">
-            <div class="info-name">delegators</div>
+            <div class="info-name">Delegators</div>
             <div class="active-count">{{ delegators | readable }}</div>
           </div>
         </div>
@@ -23,14 +23,15 @@
       </template>
       <template slot="headerRight">
         <div class="tag-con">
-          <div :class="['type active', type === 'active'? 'sel' : '']" @click="type='active'">Active</div>
-          <div :class="['type inactive', type === 'inactive'? 'sel' : '']" @click="type='inactive'">Inactive</div>
+          <div :class="['type active', type === 'active' ? 'sel' : '']" @click="type = 'active'">Active</div>
+          <div :class="['type inactive', type === 'inactive' ? 'sel' : '']" @click="type = 'inactive'">Inactive</div>
         </div>
       </template>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
           <template v-slot:status="{ data }">
-            <div :class="data ? 'validator-status-success' : 'validator-status-error'"></div>
+            <span v-if="data" class="success">Online</span>
+            <span v-else class="error">Offline</span>
           </template>
           <template v-slot:escrow="{ data: { escrow, escrowPercent } }">
             <span>{{ escrow | readable }} ({{ escrowPercent | percentFormat }})</span>
@@ -57,8 +58,6 @@
           <template v-slot:rank="slotData">
             <div class="rank">
               {{ slotData.data.rank }}
-              <img @click="star(slotData.data.entityId, false)" v-if="slotData.data.stared" class="star" src="../../assets/star.svg" />
-              <img @click="star(slotData.data.entityId, true)" v-else class="star unstar" src="../../assets/unstar.svg" />
             </div>
           </template>
         </block-table>
@@ -122,10 +121,10 @@ export default {
           slot: true
         },
         {
-          title: 'Sign(1k block)',
+          title: 'Sign',
           key: 'uptime',
           slot: true,
-          sortable: true
+          iconName: 'question'
         }
       ]
     }
@@ -239,6 +238,12 @@ export default {
 
 <style lang="scss" scoped>
 #validators {
+  .success {
+    color: #12b76a;
+  }
+  .error {
+    color: #f04438;
+  }
   .HeadLeft {
     color: $gray500;
     font-size: rem(18);
@@ -268,62 +273,51 @@ export default {
   }
   .panel {
     /deep/.ivu-input {
+      width: rem(320);
+      font-size: 1rem;
+      color: $gray500;
       background-color: $gray100;
-      color: #6B758A
-      // max-width:
+      border: 0;
+      border-radius: rem(8);
+    }
+    /deep/.ivu-input:focus {
+      box-shadow: none;
     }
     .tag-con {
+      display: flex;
+      flex-direction: row;
+      .type {
         display: flex;
-        flex-direction: row;
-        .type {
-          display: flex;
-          align-items: center;
-          text-align: center;
-          height: rem(24);
-          font-size: rem(12);
-          padding: 0 0.75rem;
-          border: 1px solid #979797;
-          border-radius: rem(4);
-          color: #333333;
-          margin-left: rem(8);
-          cursor: pointer;
-          background-color: white;
-          &.sel {
-            color: white;
-            background-color: $theme-color;
-          }
-          .inactive{
-            margin-left: 1.06rem;
-          }
-          &:first-child {
-            margin-left: 0;
-          }
+        align-items: center;
+        text-align: center;
+        height: rem(28);
+        font-size: rem(14);
+        padding: 0 0.75rem;
+        border: 1px solid $gray200;
+        border-radius: rem(8);
+        color: $gray500;
+        margin-left: rem(8);
+        cursor: pointer;
+        background-color: white;
+        &.sel {
+          color: white;
+          background-color: $theme-color;
+        }
+        .inactive {
+          margin-left: 1.06rem;
+        }
+        &:first-child {
+          margin-left: 0;
         }
       }
     }
+  }
   .escrow-change24 {
     &.positive {
       color: #12b76a;
     }
     &.negative {
       color: #f04438;
-    }
-  }
-  .rank {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .star {
-      width: rem(10);
-      margin-top: rem(5);
-      cursor: pointer;
-      display: block;
-      opacity: 1;
-    }
-    .unstar {
-      display: none;
-      transition: all 0.3s;
-      opacity: 0;
     }
   }
   .validator-name {
@@ -335,19 +329,6 @@ export default {
     width: rem(30);
     height: rem(30);
     border-radius: rem(4);
-  }
-  .validator-status-success {
-    width: rem(10);
-    height: rem(10);
-    border-radius: rem(5);
-    background-color: #12b76a;
-    margin: auto;
-  }
-  .validator-status-error {
-    width: rem(10);
-    height: rem(10);
-    border-radius: rem(5);
-    background-color: #f04438;
   }
   .uptime-item {
     color: white;
@@ -366,13 +347,13 @@ export default {
       background-color: #fef0c7;
     }
     &.red {
-      color: #f15045;
+      color: #f04438;
       background-color: #fee4e2;
     }
   }
   .block-list-wrapper {
     background-color: white;
-    padding-bottom: rem(20);
+    padding-bottom: rem(10);
     border-radius: rem(8);
     .block-total-list {
       padding: 0;
