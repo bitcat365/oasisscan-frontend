@@ -17,6 +17,12 @@
               <img v-if="item.sortType === 'down'" :data-type="item.sortType === 'down'" class="down" src="../../assets/arrow-light.svg" />
               <img v-else class="down" :data-type="item.sortType === 'down'" src="../../assets/arrow.svg" />
             </div>
+            <div v-else-if="item.iconName">
+              <div v-if="item.iconName==='question'" title="Last 1000 blocks">
+                <SvgIcon className="svgIcon" iconName="question" />
+              </div>
+              <SvgIcon v-else className="svgIcon1" :iconName="item.iconName" />
+            </div>
           </div>
         </th>
       </tr>
@@ -180,9 +186,10 @@ table {
   }
   > thead {
     th {
+      height: rem(60);
       text-align: left;
       white-space: nowrap;
-      &:nth-child(3) {
+      &:nth-child(1) {
         text-align: center;
         .header-title {
           justify-content: center;
@@ -198,10 +205,11 @@ table {
   }
   > tbody {
     td {
+      height: rem(60);
       word-break: break-all;
       box-sizing: border-box;
-      &:nth-child(3) {
-        text-align: center;
+      &:nth-child(1) {
+        text-align: left;
       }
       &:last-child {
         text-align: right;
@@ -224,7 +232,7 @@ table {
     border-bottom: 1px solid $gray100;
   }
   .header-column {
-    color: rgba(55, 65, 107, 1);
+    color: $gray500;
   }
   .sorts {
     display: flex;
@@ -272,5 +280,15 @@ table {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.svgIcon {
+  width: rem(24);
+  height: rem(24);
+  position: relative;
+  top: rem(4);
+}
+.svgIcon1 {
+  width: rem(30);
+  height: rem(30);
 }
 </style>

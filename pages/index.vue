@@ -166,7 +166,7 @@ export default {
     margin-bottom: rem(20);
     .ivu-col {
       > * {
-        height: rem(360);
+        height: rem(350);
       }
       .headerRight {
         color: $gray400;
