@@ -239,10 +239,10 @@ export default {
 <style lang="scss" scoped>
 #validators {
   .success {
-    color: #12b76a;
+    color: $success500;
   }
   .error {
-    color: #f04438;
+    color: $error500;
   }
   .HeadLeft {
     color: $gray500;
@@ -311,120 +311,95 @@ export default {
         }
       }
     }
-  }
-  .escrow-change24 {
-    &.positive {
-      color: #12b76a;
-    }
-    &.negative {
-      color: #f04438;
-    }
-  }
-  .validator-name {
-    display: flex;
-    align-items: center;
-  }
-  .name-icon {
-    margin-right: rem(5);
-    width: rem(30);
-    height: rem(30);
-    border-radius: rem(4);
-  }
-  .uptime-item {
-    color: white;
-    text-align: center;
-    height: rem(30);
-    border-radius: rem(4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &.green {
-      color: #12b76a;
-      background-color: #a6f4c5;
-    }
-    &.yellow {
-      color: #f79718;
-      background-color: #fef0c7;
-    }
-    &.red {
-      color: #f04438;
-      background-color: #fee4e2;
-    }
-  }
-  .block-list-wrapper {
-    background-color: white;
-    padding-bottom: rem(10);
-    border-radius: rem(8);
-    .block-total-list {
-      padding: 0;
-      width: 100%;
-      margin-left: 0;
-      border-radius: 1px;
-      /deep/ .table-row:hover {
-        .unstar {
-          display: block;
-          opacity: 1;
-        }
-      }
-      /deep/ td,
-      /deep/ th {
-        vertical-align: middle;
-        padding: 18px 10px;
-      }
-      /deep/ td {
-        padding: rem(10);
-      }
-      /deep/ tr th,
-      /deep/ tr td {
-        &:nth-child(1) {
-          width: 60px;
-          text-align: center;
-        }
-        &:nth-child(2) {
-          width: 280px;
-          .hash-link {
-            color: #5f5f5f;
+    .block-list-wrapper {
+      background-color: white;
+      padding-bottom: rem(10);
+      border-radius: rem(8);
+      .block-total-list {
+        padding: 0;
+        width: 100%;
+        margin-left: 0;
+        border-radius: 1px;
+        /deep/ .table-row:hover {
+          .unstar {
+            display: block;
+            opacity: 1;
           }
         }
-        &:nth-child(3) {
-          width: 200px;
+        /deep/ td,
+        /deep/ th {
+          vertical-align: middle;
+          padding: 18px 10px;
         }
-        &:nth-child(7) {
-          text-align: center;
-          .header-title {
-            justify-content: center;
+        /deep/ td {
+          padding: rem(10);
+        }
+        /deep/ tr th,
+        /deep/ tr td {
+          &:nth-child(1) {
+            width: 60px;
+            text-align: center;
+          }
+          &:nth-child(2) {
+            width: 280px;
+            .hash-link {
+              color: $gray500;
+            }
+          }
+          &:nth-child(3) {
+            width: 200px;
+          }
+          &:nth-child(7) {
+            text-align: center;
+            .header-title {
+              justify-content: center;
+            }
+          }
+          &:last-child {
+            padding-left: 0;
+            width: 110px;
           }
         }
-        &:last-child {
-          padding-left: 0;
-          width: 110px;
+      }
+      .escrow-change24 {
+        &.positive {
+          color: $success500;
+        }
+        &.negative {
+          color: $error500;
         }
       }
-    }
-    .title {
-      margin-left: 0px;
-      margin-top: 6px;
-      font-size: 18px;
-      font-family: PingFangSC-Regular;
-      font-weight: 400;
-      color: rgba(55, 65, 107, 1);
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      > .icon {
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
+      .validator-name {
+        display: flex;
+        align-items: center;
       }
-    }
-    .total-records {
-      margin-left: 40px;
-      margin-top: 9px;
-      font-size: 12px;
-      font-family: PingFangSC-Regular;
-      font-weight: 400;
-      color: rgba(55, 65, 107, 0.5);
-      line-height: 1;
+      .name-icon {
+        margin-right: rem(5);
+        width: rem(30);
+        height: rem(30);
+        border-radius: rem(4);
+      }
+      .uptime-item {
+        color: white;
+        text-align: center;
+        height: rem(30);
+        border-radius: rem(4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &.green {
+          color: $success500;
+          background-color: $success200;
+        }
+        &.yellow {
+          color: $warning500;
+          background-color: $warning200;
+        }
+        &.red {
+          color: $error500;
+          background-color: $error200;
+        }
+      }
     }
   }
 }
