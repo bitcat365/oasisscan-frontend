@@ -36,10 +36,10 @@
     height: rem(18);
     border-radius: rem(2);
     &.yes {
-      background-color: #FF7A59;
+      background-color: $blue400;
     }
     &.no {
-      border: 1px solid #FF7A59;
+      border: 1px solid $blue400;
     }
   }
   .kuai-row {

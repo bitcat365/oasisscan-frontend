@@ -75,7 +75,7 @@ import {getMonth, readable} from '../../utils';
           plotOptions: {
             areaspline: {
               fillOpacity: 0.2,
-              color: '#F86E49',
+              color: '#53B1FD',
               marker: {
                 enabled: false
               }
