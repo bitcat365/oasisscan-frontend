@@ -3,20 +3,44 @@
     <Head title="VALIDATOR INFO"></Head>
     <Row class="top">Detail</Row>
     <Row :gutter="20" class="center-chart">
-      <Col span="12">Escrow Status</Col>
-      <Col span="12">Escrow Trend</Col>
+      <Col span="12">
+        <panel title="Escrow Status">
+          <pie-chart :data="escrowAmountStatus"></pie-chart>
+        </panel>
+      </Col>
+      <Col span="12">
+        <panel title="Escrow Trend">
+          <trend-chart :trends="escrowTrendData"></trend-chart>
+        </panel>
+      </Col>
     </Row>
     <Row :gutter="20" class="center-block">
-      <Col span="12">Signatures Blocks</Col>
-      <Col span="12">Proposal Blocks</Col>
+      <Col span="12">
+        <panel title="Signatures Blocks">
+          <Kuai :list="signsStates"></Kuai>
+        </panel>
+      </Col>
+      <Col span="12">
+        <panel title="Proposal Blocks">
+          <Kuai :list="proposalsStates"></Kuai>
+        </panel>
+      </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-top">
-      <Col span="12">Delegators</Col>
-      <Col span="12">Escrow Event</Col>
+      <Col span="12">
+        <panel title="Delegators"></panel>
+      </Col>
+      <Col span="12">
+        <panel title="Escrow Event"></panel>
+      </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-bot">
-      <Col span="12">Proposed Blocks</Col>
-      <Col span="12">Votes</Col>
+      <Col span="12">
+        <panel title="Proposed Blocks"></panel>
+      </Col>
+      <Col span="12">
+        <panel title="Votes"></panel>
+      </Col>
     </Row>
   </div>
 </template>
@@ -221,4 +245,47 @@ export default {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+#validatorInfo {
+  .top {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(400);
+      }
+    }
+  }
+  .center-chart {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(260);
+      }
+    }
+  }
+  .center-block {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(170);
+      }
+    }
+  }
+  .bottom-table-top {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(490);
+      }
+    }
+  }
+  .bottom-table-bot {
+    margin-bottom: rem(20);
+    .ivu-col {
+      > * {
+        height: rem(490);
+      }
+    }
+  }
+}
+</style>
