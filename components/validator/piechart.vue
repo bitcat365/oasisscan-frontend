@@ -1,63 +1,77 @@
 <template>
   <div class="chart-wrapper">
     <highcharts ref="chart" class="chart-con" :options="chartOptions"></highcharts>
+    <div>
+      <div class="title">
+        <div style="display: inline-block;width: 30px;height: 4px;background-color: #000;"></div>
+        <span class="label">Self</span> <span class="per">({{ (data.self / data.total) | percentFormat }})</span>
+      </div>
+      <div class="values">
+        <span>{{ data.self | readable }} ROSE / {{ data.self | readable }} Shares</span>
+      </div>
+      <div class="title">
+        <span class="label">Other</span> <span class="per">({{ (data.other / data.total) | percentFormat }})</span>
+      </div>
+      <div class="values">
+        <span>{{ data.other | readable }} ROSE / {{ data.other | readable }} Shares</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'piechart',
-    props: ['data'],
-    data() {
-      let colors = ['#4CD4A9', '#919191']
-      let data = [
-        ['Self', parseFloat(this.data.self)],
-        ['Other', parseFloat(this.data.other)]
-      ]
-      if (+this.data.self === 0) {
-        colors = colors.reverse()
-        data = data.reverse()
-      }
-      return {
-        chartOptions: {
-          colors: colors,
-          chart: {
-          },
-          title: {
-            text: ''
-          },
-          credits: {
-            enabled: false
-          },
-          tooltip: {
-            headerFormat: '',
-            pointFormat: '{point.name} ({point.percentage:.2f}%)<br>{point.y}'
-         },
-          plotOptions: {
-            series: {
-              dataLabels: {
-                enabled: false
-              }
-            },
-            pie: {
-              size: 110
+export default {
+  name: 'piechart',
+  props: ['data'],
+  data() {
+    let colors = ['#B692F6', '#36BFFA80']
+    let data = [['Self', parseFloat(this.data.self)], ['Other', parseFloat(this.data.other)]]
+    if (+this.data.self === 0) {
+      data = data.reverse()
+    }
+    return {
+      chartOptions: {
+        colors: colors,
+        chart: {},
+        title: {
+          text: ''
+        },
+        credits: {
+          enabled: false
+        },
+        tooltip: {
+          headerFormat: '',
+          pointFormat: '{point.name} ({point.percentage:.2f}%)<br>{point.y}'
+        },
+        plotOptions: {
+          series: {
+            dataLabels: {
+              enabled: false
             }
           },
-          series: [{
+        },
+        series: [
+          {
             type: 'pie',
-            name: '浏览器占比',
+            name: '',
+            innerSize: '60%',
             data: data
-          }]
-        }
+          }
+        ]
       }
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
-  .chart-con {
-    margin-top: rem(15);
-    width: rem(135);
-    height: rem(135);
-  }
+@import '~assets/css/utils';
+.chart-wrapper {
+  @extend .flexRow;
+  align-items: center;
+}
+.chart-con {
+  width: rem(200);
+  height: rem(200);
+}
 </style>
