@@ -223,9 +223,7 @@ export default {
   .botIcon2 {
     margin: rem(4) 0;
     height: rem(68);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    @extend .flexColumn;
     align-items: center;
   }
   .botText {
