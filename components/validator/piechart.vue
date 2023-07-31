@@ -1,19 +1,22 @@
 <template>
   <div class="chart-wrapper">
     <highcharts ref="chart" class="chart-con" :options="chartOptions"></highcharts>
-    <div>
+    <div class="chart-desc">
       <div class="title">
-        <div style="display: inline-block;width: 30px;height: 4px;background-color: #000;"></div>
-        <span class="label">Self</span> <span class="per">({{ (data.self / data.total) | percentFormat }})</span>
+        <div class="title-icon self-background-color"></div>
+        <span class="title-label self-color">Self ({{ (data.self / data.total) | percentFormat }})</span>
       </div>
       <div class="values">
-        <span>{{ data.self | readable }} ROSE / {{ data.self | readable }} Shares</span>
+        <span>{{ data.self | readable }} ROSE </span>
+        <span>/ {{ data.self | readable }} Shares</span>
       </div>
       <div class="title">
-        <span class="label">Other</span> <span class="per">({{ (data.other / data.total) | percentFormat }})</span>
+        <div class="title-icon other-background-color"></div>
+        <span class="title-label other-color">Other ({{ (data.other / data.total) | percentFormat }})</span>
       </div>
       <div class="values">
-        <span>{{ data.other | readable }} ROSE / {{ data.other | readable }} Shares</span>
+        <span>{{ data.other | readable }} ROSE </span>
+        <span>/ {{ data.other | readable }} Shares</span>
       </div>
     </div>
   </div>
@@ -66,6 +69,18 @@ export default {
 
 <style lang="scss" scoped>
 @import '~assets/css/utils';
+.self-color { 
+  color:#B692F6;
+}
+.self-background-color{
+  background-color: #B692F6;
+}
+.other-color { 
+  color:#36BFFA;
+}
+.other-background-color{
+  background-color: #36BFFA;
+}
 .chart-wrapper {
   @extend .flexRow;
   align-items: center;
@@ -73,5 +88,17 @@ export default {
 .chart-con {
   width: rem(200);
   height: rem(200);
+}
+.chart-desc{
+  .title {
+    .title-icon{
+      display: inline-block;
+      width: rem(30);
+      height: rem(4);
+      margin: rem(4) 0;
+    }
+    .title-label{}
+  }
+  .values {}
 }
 </style>

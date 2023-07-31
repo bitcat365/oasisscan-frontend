@@ -28,6 +28,12 @@ import {getMonth, readable} from '../../utils';
       }
       daysArray.reverse()
       const values = this.trends.map(h => +h.escrow).sort((a, b) => (a - b))
+      // let daysArray = []
+      // for (let i = 0; i < this.trends.length; i++) {
+      //   let thatDay = new Date(this.trends[i].key * 1000)
+      //   daysArray.push(thatDay)
+      // }
+      // let data = this.trends.map(h => h.value)
       const min = values[0]
       const max = values[values.length - 1]
       return {
@@ -60,7 +66,12 @@ import {getMonth, readable} from '../../utils';
             // maxPadding: 0.2,
             floor: 0,
             min: min - (max - min) * 0.02,
-            max: max + (max - min) * 0.02
+            max: max + (max - min) * 0.02,
+            labels: {
+              style: {
+                color: '#53B1FD'
+              }
+            }
           },
           tooltip: {
             shared: false,
@@ -99,7 +110,7 @@ import {getMonth, readable} from '../../utils';
     margin-top: rem(12);
   }
   .chart-con{
-    width: rem(554);
-    height: rem(142);
+    width: 100%;
+    height: rem(200);
   }
 </style>
