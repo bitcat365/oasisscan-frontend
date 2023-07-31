@@ -58,11 +58,15 @@ export default {
               let day = this.value.getDate()
               let month = getMonth(this.value.getMonth())
               return day + `<br/>` + month
+            },
+            style: {
+              color: '#98A2B3'
             }
           },
           crosshair: {
             width: 1,
-            dashStyle: 'LongDash'
+            dashStyle: 'LongDash',
+            color: '#D0D5DD'
           }
         },
         yAxis: [
@@ -75,7 +79,8 @@ export default {
               style: {
                 color: '#7A5AF8'
               }
-            }
+            },
+            gridLineColor: '#F2F4F7'
           },
           {
             title: '',
@@ -87,7 +92,8 @@ export default {
               style: {
                 color: '#53B1FD'
               }
-            }
+            },
+            gridLineColor: '#F2F4F7'
           }
         ],
         tooltip: {
@@ -141,10 +147,7 @@ export default {
             },
             fillColor: {
               linearGradient: [0, 0, 0, 300],
-              stops: [
-                [0, 'rgba(83,177,253,0.3)'],
-                [0.6, 'rgba(83,177,253,0)']
-              ]
+              stops: [[0, 'rgba(83,177,253,0.3)'], [0.6, 'rgba(83,177,253,0)']]
             }
           }
         ]

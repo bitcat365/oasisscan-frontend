@@ -4,19 +4,19 @@
     <div class="chart-desc">
       <div class="title">
         <div class="title-icon self-background-color"></div>
-        <span class="title-label self-color">Self ({{ (data.self / data.total) | percentFormat }})</span>
+        <span class="self-color">Self ({{ (data.self / data.total) | percentFormat }})</span>
       </div>
       <div class="values">
-        <span>{{ data.self | readable }} ROSE </span>
-        <span>/ {{ data.self | readable }} Shares</span>
+        <span class="values-rose">{{ data.self | readable }} ROSE </span>
+        <span class="values-shares">/ {{ data.self | readable }} Shares</span>
       </div>
       <div class="title">
         <div class="title-icon other-background-color"></div>
-        <span class="title-label other-color">Other ({{ (data.other / data.total) | percentFormat }})</span>
+        <span class="other-color">Other ({{ (data.other / data.total) | percentFormat }})</span>
       </div>
       <div class="values">
-        <span>{{ data.other | readable }} ROSE </span>
-        <span>/ {{ data.other | readable }} Shares</span>
+        <span class="values-rose">{{ data.other | readable }} ROSE </span>
+        <span class="values-shares">/ {{ data.other | readable }} Shares</span>
       </div>
     </div>
   </div>
@@ -42,23 +42,21 @@ export default {
         credits: {
           enabled: false
         },
-        tooltip: {
-          headerFormat: '',
-          pointFormat: '{point.name} ({point.percentage:.2f}%)<br>{point.y}'
-        },
+        tooltip: false,
         plotOptions: {
           series: {
             dataLabels: {
               enabled: false
             }
-          },
+          }
         },
         series: [
           {
             type: 'pie',
             name: '',
-            innerSize: '60%',
-            data: data
+            innerSize: '55%',
+            data: data,
+            borderWidth: 4
           }
         ]
       }
@@ -68,37 +66,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~assets/css/utils';
-.self-color { 
-  color:#B692F6;
+.pie {
+  border-radius: 5px;
 }
-.self-background-color{
-  background-color: #B692F6;
+.self-color {
+  color: #b692f6;
 }
-.other-color { 
-  color:#36BFFA;
+.self-background-color {
+  background-color: #b692f6;
 }
-.other-background-color{
-  background-color: #36BFFA;
+.other-color {
+  color: #36bffa;
+}
+.other-background-color {
+  background-color: #36bffa;
 }
 .chart-wrapper {
-  @extend .flexRow;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
 }
 .chart-con {
   width: rem(200);
   height: rem(200);
 }
-.chart-desc{
+.chart-desc {
+  font-size: rem(14);
+  height: rem(120);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   .title {
-    .title-icon{
+    .title-icon {
       display: inline-block;
       width: rem(30);
       height: rem(4);
       margin: rem(4) 0;
     }
-    .title-label{}
   }
-  .values {}
+  .values {
+    .values-rose {
+      color: $gray500;
+    }
+    .values-shares {
+      color: $gray400;
+    }
+  }
 }
 </style>
