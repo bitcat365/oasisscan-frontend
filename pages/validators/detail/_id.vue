@@ -28,15 +28,70 @@
     </Row>
     <Row :gutter="20" class="bottom-table-top">
       <Col span="12">
-        <panel title="Delegators"></panel>
+        <panel title="Delegators">
+          <block-table
+            v-if="delegatorsList && delegatorsList.length > 0"
+            :data="delegatorsList"
+            :columns="columns1"
+            :expand="false"
+            class="block-totasl-list  delegator-table"
+            cell-class="block-total-list-cell"
+          >
+            <template v-slot:address="{ data }">
+              <a :href="data.link">{{ data.text | hashFormat }}</a>
+              <span v-if="data.text === entityAddress">(Self)</span>
+            </template>
+          </block-table>
+          <div class="page-navigation">
+            <page
+              v-if="delegatorsList && delegatorsList.length > 0"
+              type="simple"
+              :sizer="eventListSizer"
+              :records-count="totalDelegatorSize"
+              :page="delegatorListPage"
+              @goto="gotoDelegators"
+            ></page>
+          </div>
+        </panel>
       </Col>
       <Col span="12">
-        <panel title="Escrow Event"></panel>
+        <panel title="Escrow Event">
+          <block-table
+            v-if="evensList && evensList.length > 0"
+            :data="evensList"
+            :columns="columns2"
+            :expand="false"
+            class="block-total-list events-list"
+            cell-class="block-total-list-cell"
+          >
+            <template v-slot:amountAndShares="slotData">
+              <div class="amount-share" :class="positiveStyle(slotData.data.add)">
+                {{showAmountShare(slotData.data.value, slotData.data.add)}}
+              </div>
+            </template>
+          </block-table>
+          <div class="page-navigation">
+            <page
+              v-if="evensList && evensList.length > 0"
+              type="simple"
+              :sizer="eventListSizer"
+              :records-count="totalEventListSize"
+              :page="eventListPage"
+              root-class="block-page"
+              @goto="gotoEvents"/>
+          </div>
+        </panel>
       </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-bot">
       <Col span="12">
-        <panel title="Proposed Blocks"></panel>
+        <panel title="Proposed Blocks">
+          <block-table class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList">
+        </block-table>
+        <div class="page-navigation">
+          <page type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" root-class="block-page" @goto="goto"></page>
+        </div>
+        </panel>
       </Col>
       <Col span="12">
         <panel title="Votes"></panel>
@@ -46,17 +101,24 @@
 </template>
 
 <script>
-import Head from '~/components/Head'
-import Panel from '../../../components/panel/Panel'
-import BlockTable from '../../../components/Table/index'
-import Page from '../../../components/Page'
-import PieChart from '../../../components/validator/piechart'
-import TrendChart from '../../../components/validator/trendchart'
-import Kuai from '../../../components/validator/kuai'
-import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer, validatorStats, fetchEscrowTrendByAddress } from '../../../fetch'
-import Config from '../../../config'
+import Head from "~/components/Head";
+import Panel from "../../../components/panel/Panel";
+import BlockTable from "../../../components/Table/index";
+import Page from "../../../components/Page";
+import PieChart from "../../../components/validator/piechart";
+import TrendChart from "../../../components/validator/trendchart";
+import Kuai from "../../../components/validator/kuai";
+import {
+  getDelegatorsByProposer,
+  getEventsByProposer,
+  fetchValidatorDetail,
+  getBlockByProposer,
+  validatorStats,
+  fetchEscrowTrendByAddress
+} from "../../../fetch";
+import Config from "../../../config";
 export default {
-  name: 'validatorDetail',
+  name: "validatorDetail",
   components: {
     Head,
     BlockTable,
@@ -67,14 +129,38 @@ export default {
     Kuai
   },
   async asyncData({ $axios, store: $store, params }) {
-    const entityAddress = decodeURIComponent(params.id)
-    const data = await Promise.all([fetchValidatorDetail({ $axios, $store }, entityAddress), fetchEscrowTrendByAddress({ $axios, $store }, entityAddress)])
-    const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', twitter = '', keybase = '', icon = '', active, rank, delegators, rates, bounds, nonce, ...others } = data[0]
-    const { list: escrowTrendData } = data[1]
+    const entityAddress = decodeURIComponent(params.id);
+    const data = await Promise.all([
+      fetchValidatorDetail({ $axios, $store }, entityAddress),
+      fetchEscrowTrendByAddress({ $axios, $store }, entityAddress)
+    ]);
+    const {
+      name = "Validator",
+      escrow,
+      proposals,
+      signs,
+      nodes = [""],
+      balance,
+      website = "",
+      twitter = "",
+      keybase = "",
+      icon = "",
+      active,
+      rank,
+      delegators,
+      rates,
+      bounds,
+      nonce,
+      ...others
+    } = data[0];
+    const { list: escrowTrendData } = data[1];
     // console.log('escrowTrendData', escrowTrendData)
     // console.log('data 0', data[0])
     // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
-    const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
+    const {
+      list: blockList,
+      totalSize: totalBlockListSize
+    } = await getBlockByProposer({ $axios, $store }, entityAddress);
     const res = {
       ...others,
       blockList,
@@ -100,8 +186,8 @@ export default {
       rates,
       bounds,
       nonce
-    }
-    return res
+    };
+    return res;
   },
   data() {
     return {
@@ -119,133 +205,164 @@ export default {
       proposalsStates: [],
       blockListColumns: [
         {
-          title: 'Height',
-          key: 'height'
+          title: "Height",
+          key: "height"
         },
         {
-          title: 'Block Hash',
-          key: 'hash'
+          title: "Block Hash",
+          key: "hash"
         },
         {
-          title: 'Txs',
-          key: 'txs'
+          title: "Txs",
+          key: "txs"
         },
         {
-          title: 'Time',
-          key: 'timestamp'
+          title: "Time",
+          key: "timestamp"
         }
       ],
       list: [],
       columns1: [
         {
-          title: 'Address',
-          key: 'address',
+          title: "Address",
+          key: "address",
           slot: true
         },
         {
-          title: 'Amount/Shares',
-          key: 'amountAndShares'
+          title: "Amount/Shares",
+          key: "amountAndShares"
         },
         {
-          title: 'Percentage',
-          key: 'percent'
+          title: "Percentage",
+          key: "percent"
         }
       ],
       columns2: [
         {
-          title: 'Height',
-          key: 'height'
+          title: "Height",
+          key: "height"
         },
         {
-          title: 'Tx Hash',
-          key: 'txHash'
+          title: "Tx Hash",
+          key: "txHash"
         },
         {
-          title: 'Amount/Shares',
-          key: 'amountAndShares',
+          title: "Amount/Shares",
+          key: "amountAndShares",
           slot: true
         },
         {
-          title: 'Time',
-          key: 'timestamp'
+          title: "Time",
+          key: "timestamp"
         }
       ]
-    }
+    };
   },
   computed: {
     noExtraInfo() {
-      return !this.website && !this.twitter && !this.keybase
+      return !this.website && !this.twitter && !this.keybase;
     }
   },
   mounted() {
-    this.gotoEvents(1)
-    this.gotoDelegators(1)
-    this.getStates()
-    this.timer && clearTimeout(this.timer)
+    this.gotoEvents(1);
+    this.gotoDelegators(1);
+    this.getStates();
+    this.timer && clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      this.repool()
-    }, 6000)
+      this.repool();
+    }, 6000);
   },
   destroyed() {
-    this.timer && clearTimeout(this.timer)
-    this.timer = null
+    this.timer && clearTimeout(this.timer);
+    this.timer = null;
   },
   methods: {
     async repool() {
-      await this.getStates()
+      await this.getStates();
       this.timer = setTimeout(() => {
-        this.repool()
-      }, 5000)
+        this.repool();
+      }, 5000);
     },
     async getStates() {
-      const { $axios, $store } = this
-      const { signs, proposals } = await validatorStats({ $axios, $store }, this.entityAddress)
+      const { $axios, $store } = this;
+      const { signs, proposals } = await validatorStats(
+        { $axios, $store },
+        this.entityAddress
+      );
       // console.log('signs', signs)
-      this.signsStates = signs
-      this.proposalsStates = proposals
+      this.signsStates = signs;
+      this.proposalsStates = proposals;
     },
     async goto(pageNumber) {
-      const { $axios, $store } = this
-      const { list, totalSize } = await getBlockByProposer({ $axios, $store }, this.entityAddress, this.blockListSizer, pageNumber)
-      this.blockList = list
-      this.totalBlockListSize = totalSize
-      this.blockListPage = pageNumber
+      const { $axios, $store } = this;
+      const { list, totalSize } = await getBlockByProposer(
+        { $axios, $store },
+        this.entityAddress,
+        this.blockListSizer,
+        pageNumber
+      );
+      this.blockList = list;
+      this.totalBlockListSize = totalSize;
+      this.blockListPage = pageNumber;
     },
     async gotoEvents(pageNumber) {
-      const { $axios, $store } = this
-      const { list, totalSize } = await getEventsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
-      this.evensList = list
+      const { $axios, $store } = this;
+      const { list, totalSize } = await getEventsByProposer(
+        { $axios, $store },
+        this.entityAddress,
+        this.eventListSizer,
+        pageNumber
+      );
+      this.evensList = list;
       // console.log('evensList', list)
-      this.totalEventListSize = totalSize
-      this.eventListPage = pageNumber
+      this.totalEventListSize = totalSize;
+      this.eventListPage = pageNumber;
     },
     async gotoDelegators(pageNumber) {
-      const { $axios, $store } = this
-      const { list, totalSize } = await getDelegatorsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
-      this.delegatorsList = list
+      const { $axios, $store } = this;
+      const { list, totalSize } = await getDelegatorsByProposer(
+        { $axios, $store },
+        this.entityAddress,
+        this.eventListSizer,
+        pageNumber
+      );
+      this.delegatorsList = list;
       // console.log('delegatorsList', list)
-      this.totalDelegatorSize = totalSize
-      this.delegatorListPage = pageNumber
+      this.totalDelegatorSize = totalSize;
+      this.delegatorListPage = pageNumber;
     },
     showAmountShare(amountShare, add) {
       if (add) {
-        return '+' + amountShare
+        return "+" + amountShare;
       } else {
-        return '-' + amountShare
+        return "-" + amountShare;
       }
     },
     positiveStyle(add) {
       if (add) {
-        return 'positive'
+        return "positive";
       } else {
-        return 'negative'
+        return "negative";
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
+.page-navigation {
+  padding-top: rem(16);
+  display: flex;
+  justify-content: center;
+}
+.amount-share{
+  &.positive {
+    color: #00B538;
+  }
+  &.negative {
+    color: #B60000;
+  }
+}
 #validatorInfo {
   .top {
     margin-bottom: rem(20);
