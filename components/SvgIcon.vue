@@ -36,7 +36,7 @@ export default {
 .svg-icon {
   // width: 1em;
   // height: 1em;
-  color: $theme-color;
+  // color: $theme-color;
   fill: currentColor;
   overflow: hidden;
 }
