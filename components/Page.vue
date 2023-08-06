@@ -136,6 +136,9 @@ export default {
   justify-content: center;
   cursor: pointer;
   margin: rem(2.5);
+  // TODO
+  // color: $gray500;
+  // background-color: #2F80ED;
 }
 .sim-btn-icon {
   width: rem(32);
