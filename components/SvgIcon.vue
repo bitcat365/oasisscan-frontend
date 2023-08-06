@@ -34,8 +34,8 @@ export default {
 
 <style lang="scss" scoped>
 .svg-icon {
-  // width: 1em;
-  // height: 1em;
+  width: 1em;
+  height: 1em;
   // color: $theme-color;
   fill: currentColor;
   overflow: hidden;
