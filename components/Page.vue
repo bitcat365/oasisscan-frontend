@@ -1,44 +1,36 @@
 <template>
-  <div v-if="type==='simple'" :class="rootClasses">
-    <div class="sim-btn" @click="first">
-      <img src="../assets/first.svg"/>
+  <div v-if="type === 'simple'" :class="rootClasses">
+    <div class="sim-btn-icon" @click="first">
+      <SvgIcon className="svgIcon" iconName="left-double" />
     </div>
-    <div class="sim-btn" @click="previous">
-      <img src="../assets/pre.svg"/>
+    <div class="sim-btn-icon" @click="previous">
+      <SvgIcon className="svgIcon" iconName="left" />
     </div>
-    <span class="sim-text">Page {{ page }} of {{ total }}</span>
-    <div class="sim-btn" @click="next">
-      <img src="../assets/next.svg"/>
+    <!-- <span class="sim-text">Page {{ page }} of {{ total }}</span> -->
+    <template v-if="total <= 5">
+      <div class="sim-btn-num" v-for="i in total">
+        <span>{{ i }}</span>
+      </div>
+    </template>
+    <template v-else>
+      <div class="sim-btn-num" v-for="i in 3">
+        <span>{{ i }}</span>
+      </div>
+      <div class="sim-btn-omit">
+        <span>...</span>
+      </div>
+      <div class="sim-btn-num">{{ total }}</div>
+    </template>
+    <div class="sim-btn-icon" @click="next">
+      <SvgIcon className="svgIcon" iconName="right" />
     </div>
-    <div class="sim-btn" @click="last">
-      <img src="../assets/latest.svg"/>
+    <div class="sim-btn-icon" @click="last">
+      <SvgIcon className="svgIcon" iconName="right-double" />
     </div>
   </div>
   <div v-else>
-    <ipage :total="recordsCount" :page-size="sizer" show-elevator @on-change="pageNumberClick"/>
+    待定
   </div>
-<!--  <div v-else :class="rootClasses">-->
-<!--    <span class="sizer">{{ $t('pageSize', {sizer: sizer}) }}</span>-->
-<!--    <button class="previous" @click="previous">-->
-<!--      <Icon type="md-arrow-dropleft" class="previous-arrow"/>-->
-<!--    </button>-->
-<!--    <ul class="pages-list">-->
-<!--      <li v-for="(item, index) in pages" :key="item + '-' + index"-->
-<!--          :class="[item === '...' ? 'dots' : 'page-number', item === page ? 'current' : '']"-->
-<!--          @click="pageNumberClick(item)">-->
-<!--        <span> {{ item }}</span>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--    <button class="next" @click="next">-->
-<!--      <Icon type="md-arrow-dropright" class="next-arrow"/>-->
-<!--    </button>-->
-<!--    <form @submit.prevent.stop="to" class="to-page-wrapper">-->
-<!--      <span v-for="(text, textIndex) in toPageText" :key="textIndex">-->
-<!--        <input v-if="text === '$'" type="text" v-model="toPage"/>-->
-<!--        <span v-else>{{ text }}</span>-->
-<!--      </span>-->
-<!--    </form>-->
-<!--  </div>-->
 </template>
 
 <script>
@@ -50,229 +42,115 @@ export default {
     rootClass: String,
     sizer: Number,
     page: Number,
-    recordsCount: Number,
+    recordsCount: Number
   },
   name: 'Page',
   data() {
     return {
       rootClasses: '',
-      toPage: '',
-    };
+      toPage: ''
+    }
   },
   created() {
-    this.rootClasses = cls('page-wrapper', this.rootClass);
+    this.rootClasses = cls('page-wrapper', this.rootClass)
   },
   methods: {
     first() {
       // console.log('ffff')
-      this.$emit('goto', 1);
+      this.$emit('goto', 1)
     },
     last() {
-      this.$emit('goto', this.total);
+      this.$emit('goto', this.total)
     },
     previous() {
       if (this.page <= 1) {
-        return;
+        return
       }
-      this.$emit('goto', this.page - 1);
+      this.$emit('goto', this.page - 1)
     },
     next() {
       if (this.page >= this.total) {
-        return;
+        return
       }
-      this.$emit('goto', this.page + 1);
-    },
-    pageNumberClick(number) {
-      console.log('1111')
-      if (number === '...') {
-        return;
-      }
-      if (number !== this.page) {
-        this.$emit('goto', number);
-      }
+      this.$emit('goto', this.page + 1)
     },
     to(e) {
       if (String(this.toPage).match(/^\d+$/)) {
-        const pageNumber = parseInt(this.toPage);
+        const pageNumber = parseInt(this.toPage)
         if (pageNumber > 0 && pageNumber <= this.total && pageNumber !== this.page) {
-          this.$emit('goto', parseInt(this.toPage));
+          this.$emit('goto', parseInt(this.toPage))
         }
       }
-    },
+    }
   },
   computed: {
     toPageText() {
-      const arr = [];
-      const text = this.$t('topage', {pageNumber: '$'});
-      const inputIndex = text.indexOf('$');
-      arr.push(text.substring(0, inputIndex));
-      arr.push('$');
-      arr.push(text.substring(inputIndex + 1, text.length));
-      return arr;
+      const arr = []
+      const text = this.$t('topage', { pageNumber: '$' })
+      const inputIndex = text.indexOf('$')
+      arr.push(text.substring(0, inputIndex))
+      arr.push('$')
+      arr.push(text.substring(inputIndex + 1, text.length))
+      return arr
     },
     total() {
-      return Math.ceil(this.recordsCount / this.sizer);
+      return Math.ceil(this.recordsCount / this.sizer)
     },
     pages() {
-      const pageArray = [];
-      const total = this.total;
-      const min = Math.max(this.page - 2, 1);
-      const max = Math.min(this.page + 2, total);
-      const dots = '...';
+      const pageArray = []
+      const total = this.total
+      const min = Math.max(this.page - 2, 1)
+      const max = Math.min(this.page + 2, total)
+      const dots = '...'
       for (let i = min; i <= max; i++) {
-        pageArray.push(i);
+        pageArray.push(i)
       }
       if (min > 2) {
-        pageArray.unshift(dots);
+        pageArray.unshift(dots)
       }
       if (min > 1) {
-        pageArray.unshift(1);
+        pageArray.unshift(1)
       }
       if (max < total - 1) {
-        pageArray.push(dots);
+        pageArray.push(dots)
       }
       if (max <= total - 1) {
-        pageArray.push(total);
+        pageArray.push(total)
       }
-      return pageArray;
-    },
-  },
-};
+      return pageArray
+    }
+  }
+}
 </script>
-<style lang="scss">
-.ivu-page-item-active,.ivu-page-item:hover {
-  border-color: #ff3f0f;
-}
-.ivu-page-item-active a, .ivu-page-item-active:hover a,.ivu-page-item:hover a {
-  color: #ff3f0f;
-}
-.ivu-page-options-elevator input:focus {
-  border-color: #ff3f0f;
-  box-shadow: 0 0 0 2px rgba(255, 63, 15, 0.4);
-}
-.ivu-page-options-elevator input:hover {
-  border-color: #ff3f0f;
-}
-.ivu-page-next:hover, .ivu-page-prev:hover {
-  border-color: #ff3f0f;
-}
-.ivu-page-next:hover a, .ivu-page-prev:hover a {
-  color: #ff3f0f;
-}
-a:hover {
-  color: #ff3f0f;
-}
-</style>
 <style scoped lang="scss">
-
-.sim-btn {
-  width: rem(40);
-  height: rem(24);
+.svgIcon {
+  width: rem(16);
+  height: rem(16);
+}
+[class^='sim-btn'] {
+  height: rem(32);
+  border: 1px solid $gray200;
+  border-radius: rem(8);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-left: rem(9);
-
-  &:first-child {
-    margin-left: rem(0);
-  }
-
-  img {
-    height: rem(24);
-  }
+  margin: rem(2.5);
 }
-
-.sim-text {
-  color: #979797;
-  font-size: rem(12);
-  margin-left: rem(9);
+.sim-btn-icon {
+  width: rem(32);
+}
+.sim-btn-num {
+  min-width: rem(32);
+  padding: 0 rem(10);
+}
+.sim-btn-omit {
+  width: rem(32);
+  border: 0;
 }
 
 .page-wrapper {
   display: flex;
   align-items: center;
-}
-
-.previous, .next {
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  border: 1px solid rgba(55, 65, 107, 0.1);
-  cursor: pointer;
-  background-color: white;
-
-  &:focus {
-    outline: none;
-  }
-
-  .previous-arrow, .next-arrow {
-    font-size: 20px;
-  }
-}
-
-.previous {
-  margin-right: 10px;
-}
-
-.next {
-  margin-left: 10px;
-}
-
-.sizer {
-  margin-right: 20px;
-  font-size: 12px;
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
-  color: rgba(55, 65, 107, 0.5);
-  line-height: 1;
-}
-
-.pages-list {
-  display: flex;
-  list-style: none;
-
-  li {
-    font-size: 14px;
-    font-family: PingFangSC-Medium;
-    font-weight: 500;
-    color: rgba(55, 65, 107, 1);
-    line-height: 1;
-    padding: 10px;
-
-    &.page-number {
-      cursor: pointer;
-    }
-
-    &.current {
-      text-decoration: underline;
-    }
-  }
-}
-
-.to-page-wrapper {
-  margin-left: 20px;
-  font-size: 12px;
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
-  color: rgba(55, 65, 107, 0.5);
-  line-height: 1;
-  display: flex;
-  align-items: center;
-
-  input {
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
-    border: 1px solid rgba(55, 65, 107, 0.1);
-    margin: 0 0 0 10px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-
-    &:focus {
-      outline: none;
-    }
-  }
 }
 </style>
