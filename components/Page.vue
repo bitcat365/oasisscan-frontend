@@ -6,14 +6,13 @@
     <div class="sim-btn-icon" @click="previous">
       <SvgIcon className="svgIcon" iconName="left" />
     </div>
-    <!-- <span class="sim-text">Page {{ page }} of {{ total }}</span> -->
     <template v-if="total <= 5">
-      <div class="sim-btn-num" v-for="i in total">
+      <div :class="i=== page ? 'sim-btn-num sim-btn-active':'sim-btn-num'" v-for="i in total">
         <span>{{ i }}</span>
       </div>
     </template>
     <template v-else>
-      <div class="sim-btn-num" v-for="i in 3">
+      <div :class="i=== page ? 'sim-btn-num sim-btn-active':'sim-btn-num'" v-for="i in 3">
         <span>{{ i }}</span>
       </div>
       <div class="sim-btn-omit">
@@ -136,9 +135,7 @@ export default {
   justify-content: center;
   cursor: pointer;
   margin: rem(2.5);
-  // TODO
-  // color: $gray500;
-  // background-color: #2F80ED;
+  color: $gray500;
 }
 .sim-btn-icon {
   width: rem(32);
@@ -150,6 +147,10 @@ export default {
 .sim-btn-omit {
   width: rem(32);
   border: 0;
+}
+.sim-btn-active {
+  color: #ffffff;
+  background-color: #2F80ED;
 }
 
 .page-wrapper {
