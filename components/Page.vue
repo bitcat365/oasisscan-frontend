@@ -1,38 +1,29 @@
 <template>
   <div v-if="type === 'simple'" :class="rootClasses">
-    <div class="sim-btn-icon" @click="first">
-      <SvgIcon className="svgIcon" iconName="left-double" />
-    </div>
     <div class="sim-btn-icon" @click="previous">
       <SvgIcon className="svgIcon" iconName="left" />
     </div>
-    <!-- <template v-if="total <= 5">
-      <div :class="i === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" v-for="i in total">
-        <span>{{ i }}</span>
-      </div>
-    </template> -->
     <template>
       <div :class="1 === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(1)">
         <span>1</span>
       </div>
       <div class="sim-btn-omit" @click="omitLeft" v-show="continuousNumList[0] > 2">
-        <span>...</span>
+        <SvgIcon class="omit-icon" className="svgIcon" iconName="left-double" />
+        <span class="omit-show">...</span>
       </div>
       <div :class="i === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" v-for="i in continuousNumList" @click="gotoPage(i)">
         <span>{{ i }}</span>
       </div>
       <div class="sim-btn-omit" @click="omitRight" v-show="continuousNumList[continuousNumList.length - 1] < total - 1">
-        <span>...</span>
+        <SvgIcon class="omit-icon" className="svgIcon" iconName="right-double" />
+        <span class="omit-show">...</span>
       </div>
-      <div :class="total === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(total)">
+      <div :class="total === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(total)" v-show="total > 1">
         <span>{{ total }}</span>
       </div>
     </template>
     <div class="sim-btn-icon" @click="next">
       <SvgIcon className="svgIcon" iconName="right" />
-    </div>
-    <div class="sim-btn-icon" @click="last">
-      <SvgIcon className="svgIcon" iconName="right-double" />
     </div>
   </div>
   <div v-else>
@@ -99,7 +90,7 @@ export default {
   watch: {
     page: {
       handler(val) {
-        if (!this.continuousNumList.includes(val)) this.continuousNum()
+        if (!this.continuousNumList.includes(val) || (val == 1 && this.continuousNumList[0] !== 2) || (val == this.total && this.continuousNumList[this.continuousNumList.length - 1] !== this.total - 1)) this.continuousNum()
       },
       immediate: true
     }
@@ -108,13 +99,6 @@ export default {
     this.rootClasses = cls('page-wrapper', this.rootClass)
   },
   methods: {
-    first() {
-      // console.log('ffff')
-      this.$emit('goto', 1)
-    },
-    last() {
-      this.$emit('goto', this.total)
-    },
     previous() {
       if (this.page <= 1) {
         return
@@ -137,20 +121,26 @@ export default {
     },
     continuousNum() {
       switch (true) {
-        case [1, 2, 3, 4, 5].includes(this.page):
+        case [1, 2, 3, 4, 5].includes(this.page) && this.total <= 5:
+          let arr1 = []
+          for (var i = 2; i < this.total; i++) {
+            arr1.push(i)
+          }
+          this.continuousNumList = arr1
+          break
+        case [1, 2, 3, 4, 5].includes(this.page) && this.total > 5:
           this.continuousNumList = [2, 3, 4, 5]
           break
         case [this.total - 4, this.total - 3, this.total - 2, this.total - 1, this.total].includes(this.page):
           this.continuousNumList = [this.total - 4, this.total - 3, this.total - 2, this.total - 1]
           break
         default:
-          let arr = []
+          let arr2 = []
           let Q = Math.floor((this.page - this.continuousNumList[0]) / 4)
-          // let R = (this.page - this.continuousNumList[0]) % 4
           for (var i = 0; i < this.continuousNumList.length; i++) {
-            arr.push(this.continuousNumList[i] + 4 * Q)
+            arr2.push(this.continuousNumList[i] + 4 * Q)
           }
-          this.continuousNumList = arr
+          this.continuousNumList = arr2
           break
       }
     },
@@ -213,13 +203,26 @@ export default {
   min-width: rem(32);
   padding: 0 rem(10);
 }
-.sim-btn-omit {
-  width: rem(32);
-  border: 0;
-}
 .sim-btn-active {
   color: #ffffff;
   background-color: #2f80ed;
+}
+.sim-btn-omit {
+  width: rem(32);
+  .omit-icon {
+    display: none;
+  }
+  .omit-show {
+    display: inline;
+  }
+}
+.sim-btn-omit:hover {
+  .omit-icon {
+    display: block;
+  }
+  .omit-show {
+    display: none;
+  }
 }
 
 .page-wrapper {
