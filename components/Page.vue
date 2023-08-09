@@ -1,51 +1,58 @@
 <template>
-  <div v-if="type === 'simple'" :class="rootClasses">
-    <div class="sim-btn-icon" @click="previous">
-      <SvgIcon className="svgIcon" iconName="left" />
+  <div :class="type == 'simple' ? 'simple-page-wrapper' : 'page-wrapper'">
+    <div v-if="type !== 'simple'" class="noSimple">
+      <span>Show</span>&nbsp;
+      <Dropdown trigger="click" @on-click="networkClick" class="select-page">
+        <span>20</span>&nbsp;
+        <Icon type="ios-arrow-down"></Icon>
+        <DropdownMenu slot="list">
+          <DropdownItem v-for="item in elevatorList" :name="item">{{ item }}</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+      &nbsp;<span>Records</span>
     </div>
-    <template>
-      <div :class="1 === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(1)">
-        <span>1</span>
+    <div class="simple">
+      <div class="sim-btn-icon" @click="previous">
+        <SvgIcon className="svgIcon" iconName="left" />
       </div>
-      <div class="sim-btn-omit" @click="omitLeft" v-show="continuousNumList[0] > 2">
-        <SvgIcon class="omit-icon" className="svgIcon" iconName="left-double" />
-        <span class="omit-show">...</span>
+      <template>
+        <div :class="1 === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(1)">
+          <span>1</span>
+        </div>
+        <div class="sim-btn-omit" @click="omitLeft" v-show="continuousNumList[0] > 2">
+          <SvgIcon class="omit-icon" className="svgIcon" iconName="left-double" />
+          <span class="omit-show">...</span>
+        </div>
+        <div :class="i === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" v-for="i in continuousNumList" @click="gotoPage(i)">
+          <span>{{ i }}</span>
+        </div>
+        <div class="sim-btn-omit" @click="omitRight" v-show="continuousNumList[continuousNumList.length - 1] < total - 1">
+          <SvgIcon class="omit-icon" className="svgIcon" iconName="right-double" />
+          <span class="omit-show">...</span>
+        </div>
+        <div :class="total === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(total)" v-show="total > 1">
+          <span>{{ total }}</span>
+        </div>
+      </template>
+      <div class="sim-btn-icon" @click="next">
+        <SvgIcon className="svgIcon" iconName="right" />
       </div>
-      <div :class="i === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" v-for="i in continuousNumList" @click="gotoPage(i)">
-        <span>{{ i }}</span>
-      </div>
-      <div class="sim-btn-omit" @click="omitRight" v-show="continuousNumList[continuousNumList.length - 1] < total - 1">
-        <SvgIcon class="omit-icon" className="svgIcon" iconName="right-double" />
-        <span class="omit-show">...</span>
-      </div>
-      <div :class="total === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(total)" v-show="total > 1">
-        <span>{{ total }}</span>
-      </div>
-    </template>
-    <div class="sim-btn-icon" @click="next">
-      <SvgIcon className="svgIcon" iconName="right" />
     </div>
-  </div>
-  <div v-else>
-    待定
   </div>
 </template>
 
 <script>
-import cls from 'classnames'
-
 export default {
   name: 'Page',
   props: {
     type: String,
-    rootClass: String,
     sizer: Number,
     page: Number,
     recordsCount: Number
   },
   data() {
     return {
-      rootClasses: '',
+      elevatorList: [10, 20, 30, 50, 100],
       toPage: '',
       continuousNumList: [2, 3, 4, 5]
     }
@@ -85,6 +92,9 @@ export default {
         pageArray.push(total)
       }
       return pageArray
+    },
+    networkClick(name) {
+      console.log('name', name)
     }
   },
   watch: {
@@ -94,9 +104,6 @@ export default {
       },
       immediate: true
     }
-  },
-  created() {
-    this.rootClasses = cls('page-wrapper', this.rootClass)
   },
   methods: {
     previous() {
@@ -119,6 +126,7 @@ export default {
         }
       }
     },
+    // TODO page=0||total=0
     continuousNum() {
       switch (true) {
         case [1, 2, 3, 4, 5].includes(this.page) && this.total <= 5:
@@ -181,52 +189,84 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.svgIcon {
-  width: rem(16);
-  height: rem(16);
-}
-[class^='sim-btn'] {
-  height: rem(32);
-  border: 1px solid $gray200;
-  border-radius: rem(8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin: rem(2.5);
-  color: $gray500;
-}
-.sim-btn-icon {
-  width: rem(32);
-}
-.sim-btn-num {
-  min-width: rem(32);
-  padding: 0 rem(10);
-}
-.sim-btn-active {
-  color: #ffffff;
-  background-color: #2f80ed;
-}
-.sim-btn-omit {
-  width: rem(32);
-  .omit-icon {
-    display: none;
-  }
-  .omit-show {
-    display: inline;
-  }
-}
-.sim-btn-omit:hover {
-  .omit-icon {
-    display: block;
-  }
-  .omit-show {
-    display: none;
-  }
-}
-
 .page-wrapper {
+  padding: rem(15) rem(10);
+  font-size: rem(14);
+  color: $gray500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.simple-page-wrapper {
+  padding: rem(15) rem(10);
+  font-size: rem(14);
+  color: $gray500;
+  display: flex;
+  justify-content: center;
+}
+.noSimple {
+  .select-page {
+    padding: rem(6) rem(12);
+    border: 1px solid $gray200;
+    border-radius: rem(6);
+    color: $gray800;
+  }
+  /deep/.ivu-icon {
+    color: $gray200;
+  }
+  /deep/.ivu-select-dropdown {
+    width: rem(66);
+  }
+  /deep/.ivu-dropdown-item {
+    width: rem(66);
+    font-size: rem(14) !important;
+  }
+}
+.simple {
   display: flex;
   align-items: center;
+  .svgIcon {
+    width: rem(16);
+    height: rem(16);
+  }
+  [class^='sim-btn'] {
+    height: rem(32);
+    border: 1px solid $gray200;
+    border-radius: rem(8);
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin: rem(2.5);
+  }
+  .sim-btn-icon {
+    width: rem(32);
+  }
+  .sim-btn-num {
+    min-width: rem(32);
+    padding: 0 rem(10);
+  }
+  .sim-btn-active {
+    color: #ffffff;
+    background-color: #2f80ed;
+  }
+  .sim-btn-omit {
+    width: rem(32);
+    .omit-icon {
+      display: none;
+    }
+    .omit-show {
+      display: inline;
+    }
+  }
+  .sim-btn-omit:hover {
+    .omit-icon {
+      display: block;
+    }
+    .omit-show {
+      display: none;
+    }
+  }
 }
 </style>
