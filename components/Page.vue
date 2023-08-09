@@ -210,6 +210,7 @@ export default {
     border: 1px solid $gray200;
     border-radius: rem(6);
     color: $gray800;
+    cursor: pointer;
   }
   /deep/.ivu-icon {
     color: $gray200;
