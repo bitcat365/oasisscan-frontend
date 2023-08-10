@@ -1,9 +1,10 @@
 <template>
-  <div :class="type == 'simple' ? 'simple-page-wrapper' : 'page-wrapper'">
+  <div :class="type == 'simple' ? 'simple-page-wrapper' : 'page-wrapper'" v-show="page > 0 && recordsCount > 0">
     <div v-if="type !== 'simple'" class="noSimple">
       <span>Show</span>&nbsp;
-      <Dropdown trigger="click" @on-click="networkClick" class="select-page">
-        <span>20</span>&nbsp;
+      <Dropdown trigger="click" @on-click="pageSize" class="select-page">
+        <span>{{ sizer }}</span
+        >&nbsp;
         <Icon type="ios-arrow-down"></Icon>
         <DropdownMenu slot="list">
           <DropdownItem v-for="item in elevatorList" :name="item">{{ item }}</DropdownItem>
@@ -15,25 +16,23 @@
       <div class="sim-btn-icon" @click="previous">
         <SvgIcon className="svgIcon" iconName="left" />
       </div>
-      <template>
-        <div :class="1 === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(1)">
-          <span>1</span>
-        </div>
-        <div class="sim-btn-omit" @click="omitLeft" v-show="continuousNumList[0] > 2">
-          <SvgIcon class="omit-icon" className="svgIcon" iconName="left-double" />
-          <span class="omit-show">...</span>
-        </div>
-        <div :class="i === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" v-for="i in continuousNumList" @click="gotoPage(i)">
-          <span>{{ i }}</span>
-        </div>
-        <div class="sim-btn-omit" @click="omitRight" v-show="continuousNumList[continuousNumList.length - 1] < total - 1">
-          <SvgIcon class="omit-icon" className="svgIcon" iconName="right-double" />
-          <span class="omit-show">...</span>
-        </div>
-        <div :class="total === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(total)" v-show="total > 1">
-          <span>{{ total }}</span>
-        </div>
-      </template>
+      <div :class="1 === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(1)">
+        <span>1</span>
+      </div>
+      <div class="sim-btn-omit" @click="omitLeft" v-show="continuousNumList[0] > 2">
+        <SvgIcon class="omit-icon" className="svgIcon" iconName="left-double" />
+        <span class="omit-show">...</span>
+      </div>
+      <div :class="i === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" v-for="i in continuousNumList" @click="gotoPage(i)">
+        <span>{{ i }}</span>
+      </div>
+      <div class="sim-btn-omit" @click="omitRight" v-show="continuousNumList[continuousNumList.length - 1] < total - 1">
+        <SvgIcon class="omit-icon" className="svgIcon" iconName="right-double" />
+        <span class="omit-show">...</span>
+      </div>
+      <div :class="total === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(total)" v-show="total > 1">
+        <span>{{ total }}</span>
+      </div>
       <div class="sim-btn-icon" @click="next">
         <SvgIcon className="svgIcon" iconName="right" />
       </div>
@@ -46,13 +45,13 @@ export default {
   name: 'Page',
   props: {
     type: String,
-    sizer: Number,
-    page: Number,
+    page: { type: Number, default: 1 },
+    sizer: { type: Number, default: 20 },
+    elevatorList: { type: Array, default: () => [10, 20, 30, 50, 100] },
     recordsCount: Number
   },
   data() {
     return {
-      elevatorList: [10, 20, 30, 50, 100],
       toPage: '',
       continuousNumList: [2, 3, 4, 5]
     }
@@ -69,32 +68,6 @@ export default {
     },
     total() {
       return Math.ceil(this.recordsCount / this.sizer)
-    },
-    pages() {
-      const pageArray = []
-      const total = this.total
-      const min = Math.max(this.page - 2, 1)
-      const max = Math.min(this.page + 2, total)
-      const dots = '...'
-      for (let i = min; i <= max; i++) {
-        pageArray.push(i)
-      }
-      if (min > 2) {
-        pageArray.unshift(dots)
-      }
-      if (min > 1) {
-        pageArray.unshift(1)
-      }
-      if (max < total - 1) {
-        pageArray.push(dots)
-      }
-      if (max <= total - 1) {
-        pageArray.push(total)
-      }
-      return pageArray
-    },
-    networkClick(name) {
-      console.log('name', name)
     }
   },
   watch: {
@@ -106,27 +79,29 @@ export default {
     }
   },
   methods: {
+    pageSize(name) {
+      this.$emit('goto', this.page, name)
+    },
     previous() {
       if (this.page <= 1) {
         return
       }
-      this.$emit('goto', this.page - 1)
+      this.$emit('goto', this.page - 1, this.sizer)
     },
     next() {
       if (this.page >= this.total) {
         return
       }
-      this.$emit('goto', this.page + 1)
+      this.$emit('goto', this.page + 1, this.sizer)
     },
     to(e) {
       if (String(this.toPage).match(/^\d+$/)) {
         const pageNumber = parseInt(this.toPage)
         if (pageNumber > 0 && pageNumber <= this.total && pageNumber !== this.page) {
-          this.$emit('goto', parseInt(this.toPage))
+          this.$emit('goto', parseInt(this.toPage), this.sizer)
         }
       }
     },
-    // TODO page=0||total=0
     continuousNum() {
       switch (true) {
         case [1, 2, 3, 4, 5].includes(this.page) && this.total <= 5:
@@ -153,18 +128,18 @@ export default {
       }
     },
     gotoPage(i) {
-      this.$emit('goto', i)
+      this.$emit('goto', i, this.sizer)
     },
     omitLeft() {
       switch (true) {
         case this.page === this.total:
-          this.$emit('goto', this.total - 5)
+          this.$emit('goto', this.total - 5, this.sizer)
           break
         default:
           if (this.page - 4 > 1) {
-            this.$emit('goto', this.page - 4)
+            this.$emit('goto', this.page - 4, this.sizer)
           } else {
-            this.$emit('goto', 1)
+            this.$emit('goto', 1, this.sizer)
           }
           break
       }
@@ -173,13 +148,13 @@ export default {
     omitRight() {
       switch (true) {
         case this.page === 1:
-          this.$emit('goto', 6)
+          this.$emit('goto', 6, this.sizer)
           break
         default:
           if (this.page + 4 < this.total) {
-            this.$emit('goto', this.page + 4)
+            this.$emit('goto', this.page + 4, this.sizer)
           } else {
-            this.$emit('goto', this.total)
+            this.$emit('goto', this.total, this.sizer)
           }
           break
       }

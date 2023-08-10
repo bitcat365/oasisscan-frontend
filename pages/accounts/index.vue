@@ -14,7 +14,7 @@
           </div>
         </template>
       </BlockTable>
-      <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
+      <Page :page="page" :sizer="sizer" :records-count="total" root-class="block-page" @goto="goto"></Page>
     </div>
   </div>
 </template>
@@ -41,11 +41,12 @@ export default {
     return { list, total: totalSize }
   },
   methods: {
-    async goto(pageNumber) {
+    async goto(pageNumber, pageSize) {
       const $axios = this.$axios
       const $store = this.$store
-      const { list, totalSize } = await fetchAccountsList({ $axios, $store }, pageNumber, this.sizer)
+      const { list, totalSize } = await fetchAccountsList({ $axios, $store }, pageNumber, pageSize)
       this.page = pageNumber
+      this.sizer = pageSize
       this.list = list
       this.total = totalSize
       document.documentElement.scrollTop = document.body.scrollTop = 0
