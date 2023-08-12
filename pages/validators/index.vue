@@ -124,7 +124,8 @@ export default {
           title: 'Sign',
           key: 'uptime',
           slot: true,
-          iconName: 'question'
+          iconName: 'question',
+          iconTip:'Last 1000 blocks'
         }
       ]
     }

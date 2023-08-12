@@ -18,7 +18,7 @@
               <img v-else class="down" :data-type="item.sortType === 'down'" src="../../assets/arrow.svg" />
             </div>
             <div v-else-if="item.iconName">
-              <div v-if="item.iconName==='question'" title="Last 1000 blocks">
+              <div v-if="item.iconName === 'question'" :title="item.iconTip">
                 <SvgIcon className="svgIcon" iconName="question" />
               </div>
               <SvgIcon v-else className="svgIcon1" :iconName="item.iconName" />
@@ -284,8 +284,7 @@ table {
 .svgIcon {
   width: rem(24);
   height: rem(24);
-  position: relative;
-  top: rem(4);
+  vertical-align: -4px;
 }
 .svgIcon1 {
   width: rem(30);
