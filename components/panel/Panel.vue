@@ -1,6 +1,6 @@
 <template>
   <div class="panel-wrapper">
-    <div class="panel-title">
+    <div class="panel-title" v-if="title">
       <div class="panel-title-left">
         <span v-if="title">{{ title }}</span>
         <slot v-else name="headerLeft"></slot>
