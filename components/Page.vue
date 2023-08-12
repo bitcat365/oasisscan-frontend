@@ -3,8 +3,8 @@
     <div v-if="type !== 'simple'" class="noSimple">
       <span>Show</span>&nbsp;
       <Dropdown trigger="click" @on-click="pageSize" class="select-page">
-        <span>{{ sizer }}</span
-        >&nbsp;
+        <span>{{ sizer }}</span>
+        &nbsp;
         <Icon type="ios-arrow-down"></Icon>
         <DropdownMenu slot="list">
           <DropdownItem v-for="item in elevatorList" :name="item">{{ item }}</DropdownItem>
