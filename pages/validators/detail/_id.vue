@@ -1,7 +1,11 @@
 <template>
   <div id="validatorInfo">
     <Head title="VALIDATOR INFO"></Head>
-    <Row class="top">Detail</Row>
+    <Row class="top">
+      <panel>
+        <Detail :detailData="detailData" />
+      </panel>
+    </Row>
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Escrow Status">
@@ -70,6 +74,7 @@ import Head from '~/components/Head'
 import Panel from '../../../components/panel/Panel'
 import BlockTable from '../../../components/Table/index'
 import Page from '../../../components/Page'
+import Detail from '../../../components/validator/detail'
 import PieChart from '../../../components/validator/piechart'
 import TrendChart from '../../../components/validator/trendchart'
 import Kuai from '../../../components/validator/kuai'
@@ -82,6 +87,7 @@ export default {
     BlockTable,
     Panel,
     Page,
+    Detail,
     PieChart,
     TrendChart,
     Kuai
@@ -89,37 +95,23 @@ export default {
   async asyncData({ $axios, store: $store, params }) {
     const entityAddress = decodeURIComponent(params.id)
     const data = await Promise.all([fetchValidatorDetail({ $axios, $store }, entityAddress), fetchEscrowTrendByAddress({ $axios, $store }, entityAddress)])
-    const { name = 'Validator', escrow, proposals, signs, nodes = [''], balance, website = '', twitter = '', keybase = '', icon = '', active, rank, delegators, rates, bounds, nonce, ...others } = data[0]
+    const { escrowAmountStatus, ...other } = data[0]
+    const detailData = { ...other, entityAddress: entityAddress }
     const { list: escrowTrendData } = data[1]
+    console.log('data 0', data[0])
     // console.log('escrowTrendData', escrowTrendData)
-    // console.log('data 0', data[0])
     // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
     const res = {
-      ...others,
+      entityAddress,
+      escrowAmountStatus,
+      detailData,
       blockList,
       totalBlockListSize,
       escrowTrendData: [...escrowTrendData].reverse(),
       signsList: [],
       proposalsList: [],
-      blockInfo: {},
-      name,
-      escrow,
-      proposals,
-      signs,
-      nodes,
-      balance,
-      website,
-      twitter,
-      keybase,
-      icon,
-      active,
-      rank,
-      entityAddress,
-      delegators,
-      rates,
-      bounds,
-      nonce
+      blockInfo: {}
     }
     return res
   },
@@ -190,11 +182,6 @@ export default {
           key: 'timestamp'
         }
       ]
-    }
-  },
-  computed: {
-    noExtraInfo() {
-      return !this.website && !this.twitter && !this.keybase
     }
   },
   mounted() {
