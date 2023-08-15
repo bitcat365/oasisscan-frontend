@@ -172,7 +172,7 @@ export default {
           a {
             margin-left: rem(10);
             display: flex;
-            justify-content: end;
+            justify-content: flex-end;
             .svg {
               width: rem(24);
               height: rem(24);
