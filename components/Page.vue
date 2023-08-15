@@ -7,7 +7,7 @@
         &nbsp;
         <Icon type="ios-arrow-down"></Icon>
         <DropdownMenu slot="list">
-          <DropdownItem v-for="item in elevatorList" :name="item">{{ item }}</DropdownItem>
+          <DropdownItem v-for="item in elevatorList" :key="item" :name="item">{{ item }}</DropdownItem>
         </DropdownMenu>
       </Dropdown>
       &nbsp;<span>Records</span>
