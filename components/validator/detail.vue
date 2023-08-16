@@ -50,50 +50,52 @@
         </Row>
       </Col>
     </Row>
-    <Row class="info-con-bot">
-      <Col span="6" class="title">
-        <div>Node ID</div>
-        <div>Escrow</div>
-        <div>Delegators</div>
-        <div>Commission Bounds</div>
-        <div>Commission Rates</div>
-        <div>Paratimes</div>
-      </Col>
-      <Col span="18" class="content">
-        <div>{{ nodeId ? nodeId : '' }}</div>
-        <div>{{ escrow }}</div>
-        <div>{{ delegators | readable }}</div>
-        <div>
-          {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
-          <Tooltip content="1%~25% [start at epoch 14973]">
-            <Icon type="ios-information-circle-outline" class="icon" />
-          </Tooltip>
-        </div>
-        <div>
-          {{ commission | percentFormat }}
-          <Tooltip content="1% [start at epoch 14973]">
-            <Icon type="ios-information-circle-outline" class="icon" />
-          </Tooltip>
-        </div>
-        <div>?</div>
-      </Col>
-    </Row>
+    <Description :list="descriptionList" class="info-con-bot">
+      <div slot="bounds">
+        {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
+        <Tooltip content="1%~25% [start at epoch 14973]">
+          <Icon type="ios-information-circle-outline" class="icon" />
+        </Tooltip>
+      </div>
+      <div slot="rates">
+        {{ commission | percentFormat }}
+        <Tooltip content="1% [start at epoch 14973]">
+          <Icon type="ios-information-circle-outline" class="icon" />
+        </Tooltip>
+      </div>
+    </Description>
   </div>
 </template>
 
 <script>
+import { readable } from '~/utils/index'
 import Config from '~/config'
+import Description from '~/components/description/index.vue'
 export default {
+  components: { Description },
   props: {
     detailData: {
       type: Object,
       default: () => {}
     }
   },
+  computed: {
+    descriptionList() {
+      const list = [
+        { title: 'Node ID', content: this.detailData.nodeId || '' },
+        { title: 'Escrow', content: this.detailData.escrow || '' },
+        { title: 'Delegators', content: readable(this.detailData.delegators) },
+        { title: 'Commission Bounds', name: 'bounds' },
+        { title: 'Commission Rates', name: 'rates' },
+        { title: 'Paratimes', content: '?' }
+      ]
+      return list
+    }
+  },
   data() {
     return {
       name: this.detailData.name || 'Validator',
-      escrow: this.detailData.escrow,
+      // escrow: this.detailData.escrow,
       proposals: this.detailData.proposals,
       signs: this.detailData.signs,
       nodes: this.detailData.nodes || [''],
@@ -106,14 +108,14 @@ export default {
       active: this.detailData.active,
       rank: this.detailData.rank,
       entityAddress: this.detailData.entityAddress,
-      delegators: this.detailData.delegators,
+      // delegators: this.detailData.delegators,
       rates: this.detailData.rates,
       bounds: this.detailData.bounds,
       nonce: this.detailData.nonce,
       commission: this.detailData.commission,
       bound: this.detailData.bound,
       entityId: this.detailData.entityId,
-      nodeId: this.detailData.entityId,
+      // nodeId: this.detailData.nodeId,
       editURL: Config.editURL
     }
   }
@@ -177,7 +179,7 @@ export default {
               width: rem(24);
               height: rem(24);
             }
-            .edit{
+            .edit {
               font-size: rem(12);
               color: $gray300;
             }
@@ -220,21 +222,10 @@ export default {
   }
   .info-con-bot {
     border-top: 1px solid $gray100;
-    .title {
-      > * {
-        margin: rem(10) 0;
-      }
-    }
-    .content {
-      color: $gray500;
-      > * {
-        margin: rem(10);
-      }
-      .icon {
-        font-size: rem(18);
-        margin-left: rem(2);
-        vertical-align: -2px;
-      }
+    .icon {
+      font-size: rem(18);
+      margin-left: rem(2);
+      vertical-align: -2px;
     }
   }
 }
