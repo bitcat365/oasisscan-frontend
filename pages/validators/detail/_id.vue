@@ -98,7 +98,7 @@ export default {
     const { escrowAmountStatus, ...other } = data[0]
     const detailData = { ...other, entityAddress: entityAddress }
     const { list: escrowTrendData } = data[1]
-    console.log('data 0', data[0])
+    // console.log('data 0', data[0])
     // console.log('escrowTrendData', escrowTrendData)
     // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
