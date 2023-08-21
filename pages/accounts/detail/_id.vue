@@ -4,17 +4,14 @@
     <Row class="top">
       <Col>
         <panel>
-          <VTable class="v-table" :headers="listSchema" :data="data">
-            <template v-slot:address="slotData">
-              <div class="address-item">
-                <emoji :amount="slotData.data.total" />
-                <span>{{ slotData.data.address }}</span> <span class="copy-con" v-clipboard:copy="slotData.data.address" v-clipboard:success="onCopy"> <img class="copy-icon" src="../../../assets/copy.svg"/></span>
-              </div>
-            </template>
-            <template v-slot:total="{ data }">
-              <span>{{ data | unit(isTest) }}</span>
-            </template>
-          </VTable>
+          <Description :list="descriptionList" class="info-list">
+            <div slot="address">
+              <span>{{ data.address.address }}</span>
+              <span class="copy-con" v-clipboard:copy="data.address.address" v-clipboard:success="onCopy">
+                <!-- <img class="copy-icon" src="./../../assets/copy.svg" /> -->
+              </span>
+            </div>
+          </Description>
         </panel>
       </Col>
     </Row>
@@ -112,7 +109,7 @@ import Head from '~/components/Head'
 import Panel from '../../../components/panel/Panel'
 import BlockTable from '../../../components/Table/index'
 import Page from '../../../components/Page'
-import VTable from '../../../components/VTable/index'
+import Description from '~/components/description/index.vue'
 import Emoji from '../../../components/emoji'
 import PieChart from '../../../components/accounts/piechart'
 import Loader from '../../../components/Loader'
@@ -128,7 +125,7 @@ const EscrowTypes = {
 }
 export default {
   name: 'accountDetail',
-  components: { Head, PieChart, Panel, VTable, BlockTable, Page, Emoji, Loader },
+  components: { Head, PieChart, Panel, Description, BlockTable, Page, Emoji, Loader },
   async asyncData({ $axios, store: $store, params }) {
     const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id)])
     const data = await datas[0]
@@ -183,38 +180,6 @@ export default {
         {
           title: 'Due Epoch',
           key: 'debondEnd'
-        }
-      ],
-      listSchema: [
-        {
-          label: 'Address',
-          key: 'address',
-          slot: true
-        },
-        {
-          label: 'Entity ID',
-          key: 'total'
-        },
-        {
-          label: 'Total Balance',
-          key: 'total',
-          slot: true
-        },
-        {
-          label: 'Available',
-          key: 'available'
-        },
-        {
-          label: 'Escrow',
-          key: 'escrow'
-        },
-        {
-          label: 'Debonding',
-          key: 'debonding'
-        },
-        {
-          label: 'Nonce',
-          key: 'nonce'
         }
       ],
       eventListSchema: [
@@ -301,6 +266,38 @@ export default {
           key: 'timestamp'
         }
       ]
+    }
+  },
+  computed: {
+    descriptionList() {
+      const list = [
+        { title: 'Address', name: 'address' },
+        {
+          title: 'Entity ID',
+          content: '?'
+        },
+        {
+          title: 'Total Balance',
+          content: this.data.total + ' ROSE' || ''
+        },
+        {
+          title: 'Available',
+          content: this.data.available || ''
+        },
+        {
+          title: 'Escrow',
+          content: this.data.escrow || ''
+        },
+        {
+          title: 'Debonding',
+          content: this.data.debonding || ''
+        },
+        {
+          title: 'Nonce',
+          content: this.data.nonce || ''
+        }
+      ]
+      return list
     }
   },
   async mounted() {
@@ -401,9 +398,6 @@ export default {
   .top {
     margin-bottom: rem(20);
     .ivu-col {
-      > * {
-        height: rem(400);
-      }
     }
   }
   .center-chart {
