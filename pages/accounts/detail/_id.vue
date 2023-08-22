@@ -5,11 +5,16 @@
       <Col>
         <panel>
           <Description :list="descriptionList" class="info-list">
-            <div slot="address">
+            <div slot="address" class="address">
               <span>{{ data.address.address }}</span>
               <span class="copy-con" v-clipboard:copy="data.address.address" v-clipboard:success="onCopy">
-                <!-- <img class="copy-icon" src="./../../assets/copy.svg" /> -->
+                <SvgIcon className="svgIcon" iconName="copy" />
               </span>
+              <div class="QRcode">
+                <SvgIcon className="svgIcon" iconName="QRcode" />
+                <!-- TODO 二维码 -->
+                <img class="QRcodeImg" src="./../../../assets/validator_dafult_icon.png" />
+              </div>
             </div>
           </Description>
         </panel>
@@ -339,6 +344,8 @@ export default {
       }
     },
     onCopy() {
+      // TODO 未提示
+      console.log('执行了')
       this.$toast.top('Copied')
     },
     async gotoEvents(pageNumber) {
@@ -398,6 +405,22 @@ export default {
   .top {
     margin-bottom: rem(20);
     .ivu-col {
+      .address {
+        display: flex;
+        align-items: center;
+        .QRcode{
+          position: relative;
+          .QRcodeImg{
+            position: absolute;
+            top: 0;
+            left: rem(40);
+          }
+        }
+        .svgIcon {
+          width: rem(30);
+          height: rem(30);
+        }
+      }
     }
   }
   .center-chart {
