@@ -37,6 +37,9 @@ export default {
   .content {
     color: $gray500;
     padding: rem(10) 0;
+    a{
+      color: $blue500;
+    }
   }
 }
 </style>

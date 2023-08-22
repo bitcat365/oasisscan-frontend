@@ -2,7 +2,11 @@
   <div class="root">
     <Head title="EVENT DETAILS"></Head>
     <panel>
-      <Description :list="descriptionList" class="info-list"></Description>
+      <Description :list="descriptionList" class="info-list">
+        <template #timestamp>
+          <span>{{ data.value | timeFormat }} ( {{ data.value | timeFormat2 }} )</span>
+        </template>
+      </Description>
     </panel>
     <panel class="trx-panel" title="Contents">
       <div class="raw-data">
@@ -37,16 +41,16 @@ export default {
           content: this.data.txHash || ''
         },
         {
+          title: 'Type',
+          content: this.data.type || ''
+        },
+        {
           title: 'Height',
-          content: this.data.height.text || ''
+          content: this.data.height || ''
         },
         {
           title: 'Time',
-          name: this.data.timestamp || ''
-        },
-        {
-          title: 'Type',
-          content: this.data.type || ''
+          name: 'timestamp'
         }
       ]
     }
