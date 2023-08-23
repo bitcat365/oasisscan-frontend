@@ -11,9 +11,8 @@
                 <SvgIcon className="svgIcon" iconName="copy" />
               </span>
               <div class="QRcode">
-                <SvgIcon className="svgIcon" iconName="QRcode" />
-                <!-- TODO 二维码 -->
-                <img class="QRcodeImg" src="./../../../assets/validator_dafult_icon.png" />
+                <SvgIcon className="svgIcon" iconName="QRcode" @click="creatQrCode" />
+                <div v-show="qrcodeShow" class="QRcodeImg" id="qrCode" ref="qrCode"></div>
               </div>
             </div>
           </Description>
@@ -118,6 +117,7 @@ import Description from '~/components/description/index.vue'
 import Emoji from '../../../components/emoji'
 import PieChart from '../../../components/accounts/piechart'
 import Loader from '../../../components/Loader'
+// import creatQrCode from '../../../plugins/nuxt-swiper-plugins'
 import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions } from '../../../fetch/index'
 const ListTypes = {
   consensus: 'consensus',
@@ -270,7 +270,9 @@ export default {
           title: 'Time',
           key: 'timestamp'
         }
-      ]
+      ],
+      qrcode: {},
+      qrcodeShow: true
     }
   },
   computed: {
@@ -348,6 +350,20 @@ export default {
       console.log('执行了')
       this.$toast.top('Copied')
     },
+    creatQrCode() {
+      if (Object.keys(this.qrcode).length === 0) {
+        this.qrcode = new this.$QRCode(this.$refs.qrCode, {
+          text: this.data.address.address,
+          width: 200,
+          height: 200,
+          colorDark: '#1849A9',
+          colorLight: '#ffffff',
+          correctLevel: this.$QRCode.CorrectLevel.L
+        })
+      } else {
+        this.qrcodeShow = !this.qrcodeShow
+      }
+    },
     async gotoEvents(pageNumber) {
       const $axios = this.$axios
       const $store = this.$store
@@ -408,9 +424,9 @@ export default {
       .address {
         display: flex;
         align-items: center;
-        .QRcode{
+        .QRcode {
           position: relative;
-          .QRcodeImg{
+          .QRcodeImg {
             position: absolute;
             top: 0;
             left: rem(40);
@@ -419,6 +435,7 @@ export default {
         .svgIcon {
           width: rem(30);
           height: rem(30);
+          cursor: pointer;
         }
       }
     }
