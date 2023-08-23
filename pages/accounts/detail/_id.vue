@@ -346,8 +346,6 @@ export default {
       }
     },
     onCopy() {
-      // TODO 未提示
-      console.log('执行了')
       this.$toast.top('Copied')
     },
     creatQrCode() {
