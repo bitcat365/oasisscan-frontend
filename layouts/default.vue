@@ -12,6 +12,7 @@
   </div>
 </template>
 <script>
+import 'vue2-toast/lib/toast.css'
 import Menu from '../components/Menu.vue'
 import Header from '../components/Header.vue'
 export default {
