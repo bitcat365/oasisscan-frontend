@@ -92,14 +92,13 @@
 <style lang="scss" scoped>
   .chart-con {
     margin-top: rem(0);
-    width: rem(210);
-    height: rem(210);
+    // width: rem(210);
+    // height: rem(210);
   }
   .chart-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-right: rem(40);
   }
   .labels-con {
     display: flex;
