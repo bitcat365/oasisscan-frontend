@@ -6,8 +6,8 @@
         <span>Header</span>
       </template>
       <div class="overview-content">
-        <Description :list="descriptionList" class="info-list"></Description>
-        <pie-chart :options="data.options"></pie-chart>
+        <Description :list="descriptionList" :span="[8,16]" class="info-list"></Description>
+        <pie-chart :options="data.options" class="chart"></pie-chart>
       </div>
     </panel>
     <panel title="Votes" class="trx-panel" v-if="!isRequesting">
@@ -165,5 +165,12 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+  .info-list{
+    flex:3
+  }
+  .chart{
+    flex:1
+  }
 }
 </style>
