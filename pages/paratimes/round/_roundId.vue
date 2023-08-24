@@ -1,72 +1,64 @@
 <template>
   <div class="root">
-    <nav-bar :active="6" />
-    <div class="page-container container">
-      <div class="title">
-        <h1>ROUND DETAILS</h1>
+    <Head title="ROUND DETAILS" class="title">
+      <template #HeadLeft>
         <div class="paratime-tag">Paratime</div>
+      </template>
+    </Head>
+    <panel title="Header">
+      <!-- TODO -->
+      <v-table class="v-table" :headers="listSchema" :data="data">
+        <template v-slot:round="slotData">
+          <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
+        </template>
+        <template v-slot:timestamp="{data}">
+          <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
+        </template>
+      </v-table>
+    </panel>
+    <panel class="trx-panel" title="Transactions">
+      <div class="loader-con"  v-if="isRequesting">
+        <loader/>
       </div>
-      <panel>
-        <template v-slot:header>
-          <span>Header</span>
+      <p v-if="total === 0 && !isRequesting" class="no-result">
+        <img class="empty-icon" src="../../../assets/empty.svg">
+        {{$t('noTx')}}
+      </p>
+      <block-table
+        v-if="total > 0 && !isRequesting"
+        :data="list"
+        :columns="columns"
+        root-class="block-total-list"
+        cell-class="block-total-list-cell"
+      >
+        <template v-slot:result="{data}">
+          <span v-if="data" class="status-success">Success</span>
+          <span v-else class="status-fail" :data-data="data">Fail</span>
         </template>
-        <v-table class="v-table" :headers="listSchema" :data="data">
-          <template v-slot:round="slotData">
-            <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
-          </template>
-          <template v-slot:timestamp="{data}">
-            <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
-          </template>
-        </v-table>
-      </panel>
-      <panel class="trx-panel">
-        <template v-slot:header>
-          <span>Transactions</span>
+        <template v-slot:timestamp="{data}">
+          <span>{{data.value | timeFormat}}</span>
         </template>
-        <div class="loader-con"  v-if="isRequesting">
-          <loader/>
-        </div>
-        <p v-if="total === 0 && !isRequesting" class="no-result">
-          <img class="empty-icon" src="../../../assets/empty.svg">
-          {{$t('noTx')}}
-        </p>
-        <block-table
-          v-if="total > 0 && !isRequesting"
-          :data="list"
-          :columns="columns"
-          root-class="block-total-list"
-          cell-class="block-total-list-cell"
-        >
-          <template v-slot:result="{data}">
-            <span v-if="data" class="status-success">Success</span>
-            <span v-else class="status-fail" :data-data="data">Fail</span>
-          </template>
-          <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}}</span>
-          </template>
-        </block-table>
-        <div v-if="total > 0 && !isRequesting" class="page-navigation">
-          <page type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
-        </div>
-      </panel>
-    </div>
+      </block-table>
+      <div v-if="total > 0 && !isRequesting" class="page-navigation">
+        <page type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
+      </div>
+    </panel>
   </div>
 </template>
 
 <script>
+  import Head from '~/components/Head'
   import Panel from '../../../components/panel/Panel'
   import BlockTable from '../../../components/Table/index'
   import ArrowNavigate from '../../../components/ArrowNavigate'
   import Page from '../../../components/Page'
   import VTable from '../../../components/VTable/index'
-
-  import NavBar from '../../../components/NavigationBar'
   import {fetchRoundDetail, fetchRuntimeTxList} from '../../../fetch'
   import Loader from '../../../components/Loader';
 
   export default {
     name: 'roundDetail',
-    components: { NavBar, Panel, VTable, ArrowNavigate, BlockTable,  Loader,Page },
+    components: { Head, Panel, VTable, ArrowNavigate, BlockTable,  Loader,Page },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRoundDetail({ $axios, $store }, route.query.runtime, params.roundId)
       return {
@@ -187,23 +179,6 @@
   .container {
   }
   .title {
-    padding-top: rem(20);
-    padding-bottom: rem(20);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    h1 {
-      font-size: rem(20);
-      padding: 0;
-      margin: 0;
-      @include regular;;
-      color: black;
-      font-weight: normal;
-      span {
-        font-size: rem(14);
-        color: rgba(0, 0, 0, 0.5);
-      }
-    }
     .paratime-tag {
       background: #ccc;
       color: white;

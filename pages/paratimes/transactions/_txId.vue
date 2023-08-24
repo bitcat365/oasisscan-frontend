@@ -1,58 +1,47 @@
 <template>
   <div class="root">
-    <nav-bar :active="6" />
-    <div class="page-container container">
-      <div class="title">
-        <h1>TRANSACTION DETAILS</h1>
+    <Head title="TRANSACTION DETAILS" class="title">
+      <template #HeadLeft>
         <div class="paratime-tag">Paratime</div>
+      </template>
+    </Head>
+    <panel title="Header">
+      <!-- TODO -->
+      <v-table class="v-table" :headers="listSchema" :data="data">
+        <template v-slot:timestamp="{data}">
+          <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
+        </template>
+        <template v-slot:result="{data, detail}">
+          <span v-if="data" class="status-success">Success</span>
+          <div v-else>
+            <span class="status-fail" >Fail</span>
+            <span class="error-message">{{ detail.message }}</span>
+          </div>
+        </template>
+      </v-table>
+    </panel>
+    <panel class="panel" title="Contents">
+      <div class="raw-data">
+        <pre>{{(data.etx || data.ctx || {}) | pretty }}</pre>
       </div>
-      <panel>
-        <template v-slot:header>
-          <span>Header</span>
-        </template>
-        <v-table class="v-table" :headers="listSchema" :data="data">
-          <template v-slot:timestamp="{data}">
-            <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
-          </template>
-          <template v-slot:result="{data, detail}">
-            <span v-if="data" class="status-success">Success</span>
-            <div v-else>
-              <span class="status-fail" >Fail</span>
-              <span class="error-message">{{ detail.message }}</span>
-            </div>
-          </template>
-        </v-table>
-      </panel>
-      <panel class="panel">
-        <template v-slot:header>
-          <span>Contents</span>
-        </template>
-        <div class="raw-data">
-          <pre>{{(data.etx || data.ctx || {}) | pretty }}</pre>
-        </div>
-      </panel>
-      <panel v-if="data.events" class="panel event-panel">
-        <template v-slot:header>
-          <span>Events</span>
-        </template>
-        <div class="raw-data">
-          <pre>{{(data.events) | pretty }}</pre>
-        </div>
-      </panel>
-    </div>
+    </panel>
+    <panel title="Events" v-if="data.events" class="panel event-panel">
+      <div class="raw-data">
+        <pre>{{(data.events) | pretty }}</pre>
+      </div>
+    </panel>
   </div>
 </template>
 
 <script>
+  import Head from '~/components/Head'
   import Panel from '../../../components/panel/Panel'
   import VTable from '../../../components/VTable/index'
-
-  import NavBar from '../../../components/NavigationBar'
   import { fetchRuntimeTxDetail } from '../../../fetch'
 
   export default {
     name: 'runtimeTxDetail',
-    components: { NavBar, Panel, VTable },
+    components: { Head, Panel, VTable },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId, route.query.round)
      console.log('data', data)
@@ -100,38 +89,12 @@
 </script>
 
 <style scoped lang="scss">
-  .root {
-    background-color: #f7f7f7;
-    padding-bottom: rem(50);
-    min-height: calc(100vh - #{rem(100)});
-  }
-  .label-content {
-    display: flex;
-    align-items: center;
-  }
   .v-table {
     margin-top: rem(16);
   }
   .container {
   }
   .title {
-    padding-top: rem(20);
-    padding-bottom: rem(20);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    h1 {
-      font-size: rem(20);
-      padding: 0;
-      margin: 0;
-      @include regular;;
-      color: black;
-      font-weight: normal;
-      span {
-        font-size: rem(14);
-        color: rgba(0, 0, 0, 0.5);
-      }
-    }
     .paratime-tag {
       background: #ccc;
       color: white;

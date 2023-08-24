@@ -1,21 +1,16 @@
 <template>
   <div class="blocks-root">
-    <nav-bar :active="7"/>
-    <div class="page-container container">
-      <div class="title">
-        <h1>PROPOSALS<span class="total-count"> ({{list.length | readable}})</span></h1>
-      </div>
-      <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
-          <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}} </span>
-          </template>
-        </block-table>
-<!--        <div class="page-navigation">-->
-<!--          <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>-->
-<!--        </div>-->
-      </div>
-      <!--<div>{{JSON.stringify(list)}}</div>-->
+    <Head title="PROPOSALS">
+      <template #HeadLeft v-if="latestBlock > 0">
+      <span class="total-count"> ({{list.length | readable}})</span>
+    </template>
+    </Head>
+    <div class="block-list-wrapper">
+      <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+        <template v-slot:timestamp="{data}">
+          <span>{{data.value | timeFormat}} </span>
+        </template>
+      </block-table>
     </div>
   </div>
 </template>
@@ -23,13 +18,13 @@
 <script>
   import {fetchProposals} from '../../fetch/index'
   import BlockTable from '../../components/Table/index'
-  import NavBar from '../../components/NavigationBar'
+  import Head from '~/components/Head'
   import Page from '../../components/Page'
 
   export default {
     name: 'index',
     components: {
-      NavBar,
+      Head,
       BlockTable,
       Page,
     },
@@ -91,31 +86,6 @@
 </script>
 
 <style scoped lang="scss">
-  .blocks-root {
-    background-color: #f7f7f7;
-    min-height: calc(100vh - #{rem(100)});
-  }
-  .container {
-    padding-bottom: rem(50);
-  }
-  .title {
-    padding-top: rem(20);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    h1 {
-      font-size: rem(20);
-      padding: 0;
-      margin: 0;
-      @include regular;;
-      color: black;
-      font-weight: normal;
-      span {
-        font-size: rem(14);
-        color: rgba(0, 0, 0, 0.5);
-      }
-    }
-  }
   .block-list-wrapper {
     margin-top: rem(12);
     background-color: white;
@@ -169,10 +139,5 @@
       color:rgba(55,65,107,0.5);
       line-height: 1;
     }
-  }
-  .page-navigation {
-    display: flex;
-    justify-content: center;
-    padding: 15px 0;
   }
 </style>

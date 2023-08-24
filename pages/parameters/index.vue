@@ -1,16 +1,12 @@
 <template>
   <div>
-    <nav-bar />
     <tab-menu :active="3"></tab-menu>
     <div class="page-container container">
       <block-info :blockInfo="blockInfo"></block-info>
       <div class="title">
         <h1>CURRENT NETWORK PARAMETERS</h1>
       </div>
-      <panel root-class="parameters-panel">
-        <template v-slot:header>
-          <span>{{net}}</span>
-        </template>
+      <panel :title="net" root-class="parameters-panel">
         <div class="parameters-content">
 
 <p><a href="https://github.com/oasislabs/public-testnet-artifacts/releases/download/2020-03-05/genesis.json" target="_blank">Genesis Document</a>:</p>
@@ -38,7 +34,6 @@
 
 <script>
   import { fetchBlockInfo } from '../../fetch/index'
-  import NavBar from '../../components/NavigationBar'
   import TabMenu from '../../components/TabMenu'
   import BlockInfo from '../../components/index/BlockInfo'
   import Panel from '../../components/panel/Panel'
@@ -46,7 +41,6 @@
   export default {
     name: 'index',
     components: {
-      NavBar,
       TabMenu,
       BlockInfo,
       Panel

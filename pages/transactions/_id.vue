@@ -2,6 +2,7 @@
   <div class="root">
     <Head title="TRANSACTION DETAILS"></Head>
     <panel>
+      <!-- TODO -->
       <v-table class="v-table" :headers="listSchema" :data="data">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>

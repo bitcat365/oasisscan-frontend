@@ -1,97 +1,98 @@
 <template>
   <div class="blocks-root">
-    <nav-bar :active="6"/>
-    <div class="page-container container">
-      <div class="title">
-        <h1>PARATIMES<span class="total-count"> ({{ runtimeListSize | readable }})</span></h1>
+    <Head title="PARATIMES" class="title">
+      <template #HeadLeft>
+        <span class="total-count"> ({{ runtimeListSize | readable }})</span>
+      </template>
+      <template #HeadRight>
         <div v-if="currentListType === ListTypes.nodeList && !isLoading" class="node-info">
-          <div class="info-item">
-            <div class="active-count">{{onlineNodes | readable}}</div>
-            <div class="info-name">active nodes</div>
-          </div>
-          <div class="info-item">
-            <div class="active-count">{{offlineNodes | readable}}</div>
-            <div class="info-name">inactive nodes</div>
-          </div>
+        <div class="info-item">
+          <div class="active-count">{{onlineNodes | readable}}</div>
+          <div class="info-name">active nodes</div>
+        </div>
+        <div class="info-item">
+          <div class="active-count">{{offlineNodes | readable}}</div>
+          <div class="info-name">inactive nodes</div>
         </div>
       </div>
-      <div class="operate">
-        <div class="tags">
-          <Dropdown trigger="click" placement="bottom-start" @on-click="change">
-            <a class="show-cur runtime-dropdown" href="javascript:void(0)">
-              {{currentRuntime && currentRuntime.name ? currentRuntime.name : 'Unknown'}}
-              ({{ currentRuntime ? currentRuntime.runtimeId : '' | hashFormat(10)}})
-              <Icon type="ios-arrow-down"></Icon>
-            </a>
-            <DropdownMenu slot="list">
-              <DropdownItem v-for="runtime in runtimeList" :key="runtime.runtimeId" :name="runtime.runtimeId">
-                {{ runtime.name ? runtime.name : 'Unknown'}}
-                ({{ runtime.runtimeId | hashFormat(10)}})
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          <div class="tag-con">
-            <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
-            <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
-            <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
-          </div>
-        </div>
-        <input v-if="currentListType === ListTypes.nodeList" v-model="nodeName" placeholder="Node Filter" type="text"></input>
-      </div>
-      <div v-if="currentListType=== ListTypes.roundList && !isLoading" class="block-list-wrapper round-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
-          <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}} </span>
-          </template>
-        </block-table>
-        <div class="page-navigation">
-          <page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></page>
+      </template>
+    </Head>
+    <!-- TODO -->
+    <div class="operate">
+      <div class="tags">
+        <Dropdown trigger="click" placement="bottom-start" @on-click="change">
+          <a class="show-cur runtime-dropdown" href="javascript:void(0)">
+            {{currentRuntime && currentRuntime.name ? currentRuntime.name : 'Unknown'}}
+            ({{ currentRuntime ? currentRuntime.runtimeId : '' | hashFormat(10)}})
+            <Icon type="ios-arrow-down"></Icon>
+          </a>
+          <DropdownMenu slot="list">
+            <DropdownItem v-for="runtime in runtimeList" :key="runtime.runtimeId" :name="runtime.runtimeId">
+              {{ runtime.name ? runtime.name : 'Unknown'}}
+              ({{ runtime.runtimeId | hashFormat(10)}})
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        <div class="tag-con">
+          <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
+          <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
+          <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
         </div>
       </div>
-      <div v-else-if="currentListType=== ListTypes.nodeList && !isLoading" class="block-list-wrapper node-list-wrapper">
-        <p v-if="nodeList && nodeList.length === 0" class="no-result">
-          <img class="empty-icon" src="../../assets/empty.svg">
-          No Node List
-        </p>
-        <block-table
-          v-if="nodeList && nodeList.length > 0"
-          root-class="block-total-list"
-          cell-class="block-total-list-cell"
-          :columns="nodeListColumns"
-          :data="filterNodes"
-          @sort="sortNodeList"
-          >
-          <template v-slot:status="{ data }">
-            <img v-if="data" class="node-status" src="../../assets/status-success.svg" />
-            <img :data-v="JSON.stringify(data)" v-else class="node-status" src="../../assets/status-fail.svg" />
-          </template>
-        </block-table>
+      <input v-if="currentListType === ListTypes.nodeList" v-model="nodeName" placeholder="Node Filter" type="text"></input>
+    </div>
+    <div v-if="currentListType=== ListTypes.roundList && !isLoading" class="block-list-wrapper round-list-wrapper">
+      <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
+        <template v-slot:timestamp="{data}">
+          <span>{{data.value | timeFormat}} </span>
+        </template>
+      </block-table>
+      <div class="page-navigation">
+        <page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></page>
       </div>
-      <div v-else-if="currentListType=== ListTypes.txList && !isLoading" class="block-list-wrapper tx-list-wrapper">
-        <p v-if="txList && txList.length === 0" class="no-result">
-          <img class="empty-icon" src="../../assets/empty.svg">
-          No Transaction History
-        </p>
-        <block-table
-          v-if="txList && txList.length > 0"
-          root-class="block-total-list"
-          cell-class="block-total-list-cell"
-          :columns="txListColumns"
-          :data="txList"
-          >
-          <template v-slot:result="slotData">
-            <div class="status-item green" v-if="slotData.data">Success</div>
-            <div class="status-item red" v-else>Fail</div>
-          </template>
-        </block-table>
-        <div class="page-navigation">
-          <page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></page>
-        </div>
+    </div>
+    <div v-else-if="currentListType=== ListTypes.nodeList && !isLoading" class="block-list-wrapper node-list-wrapper">
+      <p v-if="nodeList && nodeList.length === 0" class="no-result">
+        <img class="empty-icon" src="../../assets/empty.svg">
+        No Node List
+      </p>
+      <block-table
+        v-if="nodeList && nodeList.length > 0"
+        root-class="block-total-list"
+        cell-class="block-total-list-cell"
+        :columns="nodeListColumns"
+        :data="filterNodes"
+        @sort="sortNodeList"
+        >
+        <template v-slot:status="{ data }">
+          <img v-if="data" class="node-status" src="../../assets/status-success.svg" />
+          <img :data-v="JSON.stringify(data)" v-else class="node-status" src="../../assets/status-fail.svg" />
+        </template>
+      </block-table>
+    </div>
+    <div v-else-if="currentListType=== ListTypes.txList && !isLoading" class="block-list-wrapper tx-list-wrapper">
+      <p v-if="txList && txList.length === 0" class="no-result">
+        <img class="empty-icon" src="../../assets/empty.svg">
+        No Transaction History
+      </p>
+      <block-table
+        v-if="txList && txList.length > 0"
+        root-class="block-total-list"
+        cell-class="block-total-list-cell"
+        :columns="txListColumns"
+        :data="txList"
+        >
+        <template v-slot:result="slotData">
+          <div class="status-item green" v-if="slotData.data">Success</div>
+          <div class="status-item red" v-else>Fail</div>
+        </template>
+      </block-table>
+      <div class="page-navigation">
+        <page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></page>
       </div>
-      <div class="loader-con">
-        <loader v-if="isLoading"/>
-      </div>
-      <!--<div>{{JSON.stringify(list)}}</div>-->
+    </div>
+    <div class="loader-con">
+      <loader v-if="isLoading"/>
     </div>
   </div>
 </template>
@@ -105,7 +106,6 @@ import {
   fetchRuntimeTxList
 } from '../../fetch/index'
 import BlockTable from '../../components/Table/index'
-import NavBar from '../../components/NavigationBar'
 import Page from '../../components/Page'
 import Loader from '../../components/Loader'
 import Config from '../../config'
@@ -118,7 +118,6 @@ import Config from '../../config'
     name: 'index',
     components: {
       Loader,
-      NavBar,
       BlockTable,
       Page,
     },
@@ -381,13 +380,6 @@ import Config from '../../config'
 </script>
 
 <style scoped lang="scss">
-  .blocks-root {
-    background-color: #f7f7f7;
-    min-height: calc(100vh - #{rem(100)});
-  }
-  .container {
-    padding-bottom: rem(50);
-  }
   .title {
     padding-top: rem(20);
     display: flex;
