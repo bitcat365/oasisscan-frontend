@@ -1,10 +1,7 @@
 <template>
   <div class="faq-root">
-    <nav-bar :active="-1" />
     <div class="page-container container">
-      <div class="title">
-        <h1>FAQ</h1>
-      </div>
+      <Head title="FAQ"></Head>
       <div class="faq-panel">
         <Collapse value="0">
             <Panel key="1">
@@ -42,30 +39,16 @@
             </p>
           </Panel>
         </Collapse>
-        <!--<ul class="faq-list">-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-        <!--</ul>-->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import NavBar from '../components/NavigationBar'
+  import Head from '~/components/Head'
   export default {
     components: {
-      NavBar,
+      Head,
     },
     mounted() {
 
