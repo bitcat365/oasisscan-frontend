@@ -2,22 +2,17 @@
   <div class="chart-wrapper">
     <highcharts ref="chart" class="chart-con" :options="chartOptions"></highcharts>
     <div class="chart-desc">
-      <div class="title">
-        <div class="title-icon self-background-color"></div>
-        <span class="self-color">Self ({{ (data.self / data.total) | percentFormat }})</span>
-      </div>
-      <div class="values">
-        <span class="values-rose">{{ data.self | readable }} ROSE </span>
-        <span class="values-shares">/ {{ data.self | readable }} Shares</span>
-      </div>
-      <div class="title">
-        <div class="title-icon other-background-color"></div>
-        <span class="other-color">Other ({{ (data.other / data.total) | percentFormat }})</span>
-      </div>
-      <div class="values">
-        <span class="values-rose">{{ data.other | readable }} ROSE </span>
-        <span class="values-shares">/ {{ data.other | readable }} Shares</span>
-      </div>
+      <template v-for="(item,index) in descList">{{ colors[index] }}
+        <div class="title">
+          <div class="title-icon" :style="{backgroundColor: colors[index]}"></div>
+          <span :style="{color: colors[index]}" v-if="item.title">{{ item.title}}</span>
+        </div>
+        <div class="values">
+          <span class="values-content" v-if="item.content">{{ item.content }} </span>
+          <span class="values-content1" v-else-if="item.content1">{{ item.content1 }} </span>
+          <slot v-else-if="item.contentName"></slot>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -25,16 +20,15 @@
 <script>
 export default {
   name: 'piechart',
-  props: ['data'],
+  props: ['data','descList','colors'],
   data() {
-    let colors = ['#B692F6', '#36BFFA80']
     let data = [['Self', parseFloat(this.data.self)], ['Other', parseFloat(this.data.other)]]
     if (+this.data.self === 0) {
       data = data.reverse()
     }
     return {
       chartOptions: {
-        colors: colors,
+        colors: this.colors,
         chart: {},
         title: {
           text: ''
@@ -66,21 +60,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pie {
-  border-radius: 5px;
-}
-.self-color {
-  color: #b692f6;
-}
-.self-background-color {
-  background-color: #b692f6;
-}
-.other-color {
-  color: #36bffa;
-}
-.other-background-color {
-  background-color: #36bffa;
-}
 .chart-wrapper {
   display: flex;
   flex-direction: row;
@@ -106,10 +85,10 @@ export default {
     }
   }
   .values {
-    .values-rose {
+    .values-content {
       color: $gray500;
     }
-    .values-shares {
+    .values-content1 {
       color: $gray400;
     }
   }
