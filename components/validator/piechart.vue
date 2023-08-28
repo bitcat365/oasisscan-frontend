@@ -2,10 +2,10 @@
   <div class="chart-wrapper">
     <highcharts ref="chart" class="chart-con" :options="chartOptions"></highcharts>
     <div class="chart-desc">
-      <template v-for="(item,index) in descList">
+      <template v-for="(item, index) in descList">
         <div class="title">
-          <div class="title-icon" :style="{backgroundColor: colors[index].slice(0,7)}"></div>
-          <span :style="{color: colors[index].slice(0,7)}" v-if="item.title">{{ item.title}}</span>
+          <div class="title-icon" :style="{ backgroundColor: colors[index].slice(0, 7) }"></div>
+          <span :style="{ color: colors[index].slice(0, 7) }" v-if="item.title">{{ item.title }}</span>
         </div>
         <div class="values">
           <span class="values-content" v-if="item.content">{{ item.content }} </span>
@@ -20,9 +20,9 @@
 <script>
 export default {
   name: 'piechart',
-  props: ['data','descList','colors'],
+  props: ['data', 'descList', 'colors'],
   data() {
-    let data = [['Self', parseFloat(this.data.self)], ['Other', parseFloat(this.data.other)]]
+    const that = this
     return {
       chartOptions: {
         colors: this.colors,
@@ -33,7 +33,18 @@ export default {
         credits: {
           enabled: false
         },
-        tooltip: false,
+        tooltip: {
+          formatter: function() {
+            const color = this.color.slice(0, 7)
+            that.chartOptions.tooltip.backgroundColor = color
+            const index = this.point.x
+            return `<span style="font-size:12px;color:#fff;font-size:600}">${that.descList[index].title}</span><br/>
+            <span style="font-size:12px;color:#fff;font-size:600}">${that.descList[index].content}</span>`
+          },
+          backgroundColor: '#fff',
+          borderColor: '#fff',
+          borderRadius: 8
+        },
         plotOptions: {
           series: {
             dataLabels: {
