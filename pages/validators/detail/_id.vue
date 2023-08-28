@@ -9,7 +9,7 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Escrow Status">
-          <pie-chart :data="escrowAmountStatus" :descList="descList" :colors="['#B692F6', '#36BFFA80']"></pie-chart>
+          <pie-chart :data="[['Self', parseFloat(this.escrowAmountStatus.self)], ['Other', parseFloat(this.escrowAmountStatus.other)]]" :descList="descList" :colors="['#B692F6', '#36BFFA80']"></pie-chart>
         </panel>
       </Col>
       <Col span="12">
@@ -80,7 +80,7 @@ import TrendChart from '../../../components/validator/trendchart'
 import Kuai from '../../../components/validator/kuai'
 import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer, validatorStats, fetchEscrowTrendByAddress } from '../../../fetch'
 import Config from '../../../config'
-import { percent, readable} from '~/utils'
+import { percent, readable } from '~/utils'
 export default {
   name: 'validatorDetail',
   components: {
@@ -99,9 +99,6 @@ export default {
     const { escrowAmountStatus, ...other } = data[0]
     const detailData = { ...other, entityAddress: entityAddress }
     const { list: escrowTrendData } = data[1]
-    // console.log('data 0', data[0])
-    // console.log('escrowTrendData', escrowTrendData)
-    // const { signs: signsList, proposals: proposalsList } = await fetchBlockList($axios, entityId)
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
     const res = {
       entityAddress,
@@ -185,19 +182,19 @@ export default {
       ]
     }
   },
-  computed:{
-    descList(){
+  computed: {
+    descList() {
       let data = this.escrowAmountStatus
       let list = [
         {
-          title:'Self ('+ percent(data.self / data.total, 1) +')',
-          content: readable(data.self)+' ROSE',
-          content1:'/ '+readable(data.self)+' Shares'
+          title: 'Self (' + percent(data.self / data.total, 1) + ')',
+          content: readable(data.self) + ' ROSE',
+          content1: '/ ' + readable(data.self) + ' Shares'
         },
         {
-          title:'Other ('+ percent(data.other / data.total, 1) +')',
-          content: readable(data.other)+' ROSE',
-          content1:'/ '+readable(data.other)+' Shares'
+          title: 'Other (' + percent(data.other / data.total, 1) + ')',
+          content: readable(data.other) + ' ROSE',
+          content1: '/ ' + readable(data.other) + ' Shares'
         }
       ]
       return list
