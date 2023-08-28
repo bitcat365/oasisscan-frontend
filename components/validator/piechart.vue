@@ -2,15 +2,15 @@
   <div class="chart-wrapper">
     <highcharts ref="chart" class="chart-con" :options="chartOptions"></highcharts>
     <div class="chart-desc">
-      <template v-for="(item,index) in descList">{{ colors[index] }}
+      <template v-for="(item,index) in descList">
         <div class="title">
-          <div class="title-icon" :style="{backgroundColor: colors[index]}"></div>
-          <span :style="{color: colors[index]}" v-if="item.title">{{ item.title}}</span>
+          <div class="title-icon" :style="{backgroundColor: colors[index].slice(0,7)}"></div>
+          <span :style="{color: colors[index].slice(0,7)}" v-if="item.title">{{ item.title}}</span>
         </div>
         <div class="values">
           <span class="values-content" v-if="item.content">{{ item.content }} </span>
-          <span class="values-content1" v-else-if="item.content1">{{ item.content1 }} </span>
-          <slot v-else-if="item.contentName"></slot>
+          <span class="values-content1" v-if="item.content1">{{ item.content1 }} </span>
+          <slot v-if="item.contentName"></slot>
         </div>
       </template>
     </div>
@@ -23,9 +23,6 @@ export default {
   props: ['data','descList','colors'],
   data() {
     let data = [['Self', parseFloat(this.data.self)], ['Other', parseFloat(this.data.other)]]
-    if (+this.data.self === 0) {
-      data = data.reverse()
-    }
     return {
       chartOptions: {
         colors: this.colors,
@@ -49,7 +46,7 @@ export default {
             type: 'pie',
             name: '',
             innerSize: '55%',
-            data: data,
+            data: this.data,
             borderWidth: 4
           }
         ]
