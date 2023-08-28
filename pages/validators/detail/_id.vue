@@ -9,7 +9,7 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Escrow Status">
-          <pie-chart :data="[['Self', parseFloat(this.escrowAmountStatus.self)], ['Other', parseFloat(this.escrowAmountStatus.other)]]" :descList="descList" :colors="['#B692F6', '#36BFFA80']"></pie-chart>
+          <pie-chart :data="[parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#B692F6', '#36BFFA80']"></pie-chart>
         </panel>
       </Col>
       <Col span="12">
