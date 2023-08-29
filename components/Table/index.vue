@@ -4,7 +4,7 @@
       <tr>
         <th v-if="expand" class="table-expand-icon-th"></th>
         <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
-          <div class="header-title">
+          <div :class="['header-title',item.textAlign?'text-'+item.textAlign:'text-left']">
             <div>
               <div v-for="ti in item.title.split('\n')" :key="ti">
                 {{ ti }}
@@ -31,7 +31,13 @@
       <tr
         v-for="(row, rowIndex) in rowData"
         :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
-        :class="['table-row', rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', row.isExtendedRow ? 'extended-row' : 'main-row', row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : '']"
+        :class="[
+          'table-row',
+          row.textAlign ? 'text-' + row.textAlign : 'text-left',
+          rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', 
+          row.isExtendedRow ? 'extended-row' : 'main-row', 
+          row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : ''
+        ]"
       >
         <td v-if="expand" :class="['table-row-expand-icon-cell']" @click="expandRow(rowIndex)">
           <Icon v-if="!row.isExtendedRow" class="table-row-expand-icon" :type="!row.expand ? 'ios-add' : 'ios-remove'" />
@@ -68,31 +74,22 @@ export default {
   },
   data() {
     const d = {
-      // rowData: JSON.parse(JSON.stringify(this.data)),
       rootClasses: classNames('table', this.rootClass),
       colspan: Object.keys(this.columns).length
     }
-    // this.markRow(d.rowData)
-    // console.log('1111', JSON.stringify(d.rowData))
-    return d
+    return {
+      ...d
+    }
   },
   computed: {
     rowData() {
-      let index = 0
-      return this.data.map(item => {
-        return {
-          ...item,
-          odd: !item.isExtendedRow ? ++index % 2 === 1 : undefined
-        }
+      return this.data.map((item,index) => {
+        let textAlign = item && item.textAlign? item.textAlign : this.columns[index] && this.columns[index].textAlign? this.columns[index].textAlign :''
+        let odd = !item.isExtendedRow ? ++index % 2 === 1 : undefined
+        Object.assign(item, { textAlign: textAlign, odd: odd })
+        return {...item}
       })
     }
-  },
-  watch: {
-    // data(newVal, oldVal) {
-    //   this.rowData = JSON.parse(JSON.stringify(newVal))
-    //   this.markRow(this.rowData)
-    //   console.log('2222', JSON.stringify(this.rowData))
-    // }
   },
   methods: {
     sort(key, sortType) {
@@ -150,6 +147,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
 table {
   border-collapse: collapse;
   border-spacing: 0;
@@ -189,18 +195,18 @@ table {
       height: rem(60);
       text-align: left;
       white-space: nowrap;
-      &:nth-child(1) {
-        text-align: center;
-        .header-title {
-          justify-content: center;
-        }
-      }
-      &:last-child {
-        text-align: right;
-        .header-title {
-          justify-content: flex-end;
-        }
-      }
+      // &:nth-child(1) {
+      //   text-align: center;
+      //   .header-title {
+      //     justify-content: center;
+      //   }
+      // }
+      // &:last-child {
+      //   text-align: right;
+      //   .header-title {
+      //     justify-content: flex-end;
+      //   }
+      // }
     }
   }
   > tbody {
@@ -208,12 +214,12 @@ table {
       height: rem(60);
       word-break: break-all;
       box-sizing: border-box;
-      &:nth-child(1) {
-        text-align: left;
-      }
-      &:last-child {
-        text-align: right;
-      }
+      // &:nth-child(1) {
+      //   text-align: left;
+      // }
+      // &:last-child {
+      //   text-align: right;
+      // }
     }
   }
 }
@@ -276,7 +282,7 @@ table {
     }
   }
 }
-.text-truncate {
+/deep/.text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
