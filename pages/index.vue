@@ -89,11 +89,13 @@ export default {
         },
         {
           title: 'Txs',
-          key: 'txs'
+          key: 'txs',
+          textAlign: 'center'
         },
         {
           title: 'Time',
-          key: 'timestamp'
+          key: 'timestamp',
+          textAlign: 'right'
         }
       ],
       transactionColumns: [
@@ -111,7 +113,8 @@ export default {
         },
         {
           title: 'Time',
-          key: 'timestamp'
+          key: 'timestamp',
+          textAlign: 'right'
         }
       ]
     }

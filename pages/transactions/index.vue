@@ -134,7 +134,8 @@ export default {
         {
           title: 'Time',
           key: 'timestamp',
-          slot: true
+          slot: true,
+          textAlign: 'right'
         }
       ]
     }

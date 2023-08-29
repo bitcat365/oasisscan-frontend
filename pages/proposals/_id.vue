@@ -59,7 +59,8 @@ export default {
         },
         {
           title: "Vote",
-          key: "vote"
+          key: "vote",
+          textAlign: 'right'
         }
       ]
     };

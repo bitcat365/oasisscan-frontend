@@ -4,7 +4,7 @@
       <tr>
         <th v-if="expand" class="table-expand-icon-th"></th>
         <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
-          <div :class="['header-title',item.textAlign?'text-'+item.textAlign:'text-left']">
+          <div :class="[item.sortable||item.iconName?'header-title':'', item.textAlign ? 'text-' + item.textAlign : 'text-left']">
             <div>
               <div v-for="ti in item.title.split('\n')" :key="ti">
                 {{ ti }}
@@ -31,19 +31,13 @@
       <tr
         v-for="(row, rowIndex) in rowData"
         :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
-        :class="[
-          'table-row',
-          row.textAlign ? 'text-' + row.textAlign : 'text-left',
-          rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', 
-          row.isExtendedRow ? 'extended-row' : 'main-row', 
-          row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : ''
-        ]"
+        :class="['table-row', rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', row.isExtendedRow ? 'extended-row' : 'main-row', row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : '']"
       >
         <td v-if="expand" :class="['table-row-expand-icon-cell']" @click="expandRow(rowIndex)">
           <Icon v-if="!row.isExtendedRow" class="table-row-expand-icon" :type="!row.expand ? 'ios-add' : 'ios-remove'" />
         </td>
         <td v-if="row.isExtendedRow" class="table-row-expand-cell" :colspan="colspan">{{ $t(row.key) }}&nbsp;:&nbsp;{{ row.value }}</td>
-        <table-cell v-for="(columnItem, columnIndex) in columns" v-else :key="`column${rowIndex}-${columnIndex}`" :data="row[columnItem.key]" :root-class="cellClass">
+        <table-cell v-else v-for="(columnItem, columnIndex) in columns" :class="columnItem.textAlign ? 'text-' + columnItem.textAlign : 'text-left'" :key="`column${rowIndex}-${columnIndex}`" :data="row[columnItem.key]" :root-class="cellClass">
           <template v-if="columnItem.slot" v-slot:default="slotProps">
             <slot :name="columnItem.key" v-bind:data="slotProps.data"></slot>
           </template>
@@ -83,11 +77,10 @@ export default {
   },
   computed: {
     rowData() {
-      return this.data.map((item,index) => {
-        let textAlign = item && item.textAlign? item.textAlign : this.columns[index] && this.columns[index].textAlign? this.columns[index].textAlign :''
+      return this.data.map((item, index) => {
         let odd = !item.isExtendedRow ? ++index % 2 === 1 : undefined
-        Object.assign(item, { textAlign: textAlign, odd: odd })
-        return {...item}
+        Object.assign(item, { odd: odd })
+        return { ...item }
       })
     }
   },
@@ -254,7 +247,6 @@ table {
     }
   }
   .header-title {
-    color: $gray500;
     display: flex;
     align-items: center;
     flex-direction: row;

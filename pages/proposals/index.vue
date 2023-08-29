@@ -77,7 +77,8 @@
           },
           {
             title: 'Status',
-            key: 'state'
+            key: 'state',
+            textAlign: 'right'
           }
         ]
       }

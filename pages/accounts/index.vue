@@ -85,7 +85,8 @@ export default {
       columns: [
         {
           title: '#',
-          key: 'rank'
+          key: 'rank',
+          textAlign: 'center'
         },
         {
           title: 'Account',
@@ -106,7 +107,8 @@ export default {
         },
         {
           title: 'Amount',
-          key: 'total'
+          key: 'total',
+          textAlign: 'right'
         }
       ]
     }

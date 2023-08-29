@@ -57,34 +57,6 @@ export default {
   data() {
     return {
       isRequesting: true,
-      listSchema: [
-        {
-          label: 'Height',
-          key: 'height',
-          slot: true
-        },
-        {
-          label: 'Epoch',
-          key: 'epoch'
-        },
-        {
-          label: 'Time',
-          key: 'timestamp',
-          slot: true
-        },
-        {
-          label: 'Hash',
-          key: 'hash'
-        },
-        {
-          label: 'Transactions',
-          key: 'txs'
-        },
-        {
-          label: 'Proposer',
-          key: 'proposer'
-        }
-      ],
       list: [],
       total: 0,
       sizer: 10,
@@ -114,7 +86,8 @@ export default {
         },
         {
           title: 'Time',
-          key: 'timestamp'
+          key: 'timestamp',
+          textAlign: 'right'
         }
       ]
     }

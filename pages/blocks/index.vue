@@ -81,10 +81,6 @@ export default {
           title: 'Height',
           key: 'height'
         },
-        // {
-        //   title: 'Epoch',
-        //   key: 'epoch'
-        // },
         {
           title: 'Block Hash',
           key: 'hash'
@@ -100,7 +96,8 @@ export default {
         {
           title: 'Time',
           key: 'timestamp',
-          slot: true
+          slot: true,
+          textAlign: 'right'
         }
       ]
     }

@@ -86,7 +86,8 @@ export default {
         {
           title: '#',
           key: 'rank',
-          slot: true
+          slot: true,
+          textAlign: 'center'
         },
         {
           title: 'Name',
@@ -118,7 +119,8 @@ export default {
         {
           title: 'Status',
           key: 'status',
-          slot: true
+          slot: true,
+          textAlign: 'center'
         },
         {
           title: 'Sign',

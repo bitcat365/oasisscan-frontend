@@ -170,7 +170,8 @@ export default {
         },
         {
           title: 'Amount',
-          key: 'amount'
+          key: 'amount',
+          textAlign: 'right'
         }
       ],
       columns2: [
@@ -198,7 +199,8 @@ export default {
         },
         {
           title: 'Type',
-          key: 'type'
+          key: 'type',
+          textAlign: 'right'
         }
       ],
       eventList: null,
@@ -237,11 +239,13 @@ export default {
         {
           title: 'Status',
           key: 'status',
-          slot: true
+          slot: true,
+          textAlign: 'center'
         },
         {
           title: 'Time',
-          key: 'timestamp'
+          key: 'timestamp',
+          textAlign: 'right'
         }
       ],
       runtimeColumns: [

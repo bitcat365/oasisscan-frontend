@@ -137,12 +137,9 @@ export default {
           key: 'hash'
         },
         {
-          title: 'Txs',
-          key: 'txs'
-        },
-        {
           title: 'Time',
-          key: 'timestamp'
+          key: 'timestamp',
+          textAlign: 'right'
         }
       ],
       list: [],
@@ -158,7 +155,8 @@ export default {
         },
         {
           title: 'Percentage',
-          key: 'percent'
+          key: 'percent',
+          textAlign: 'right'
         }
       ],
       columns2: [
@@ -167,17 +165,14 @@ export default {
           key: 'height'
         },
         {
-          title: 'Tx Hash',
-          key: 'txHash'
-        },
-        {
           title: 'Amount/Shares',
           key: 'amountAndShares',
           slot: true
         },
         {
           title: 'Time',
-          key: 'timestamp'
+          key: 'timestamp',
+          textAlign: 'right'
         }
       ]
     }
