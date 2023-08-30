@@ -38,8 +38,11 @@ export default {
             const color = this.color.slice(0, 7)
             that.chartOptions.tooltip.backgroundColor = color
             const index = this.point.x
-            return `<span style="font-size:12px;color:#fff;font-size:600}">${that.descList[index].title}</span><br/>
-            <span style="font-size:12px;color:#fff;font-size:600}">${that.descList[index].content}</span>`
+            let content = `<span style="font-size:12px;color:#fff;font-size:600}">${that.descList[index].title}</span><br/>`
+            if (Object.hasOwn(that.descList[index], 'content') || Object.hasOwn(that.descList[index], 'value')) {
+              content += `<span style="font-size:12px;color:#fff;font-size:600}">${that.descList[index].content ? that.descList[index].content : that.descList[index].value}</span>`
+            }
+            return content
           },
           backgroundColor: '#fff',
           borderColor: '#fff',
