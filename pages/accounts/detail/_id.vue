@@ -6,8 +6,8 @@
         <panel>
           <Description :list="descriptionList" class="info-list">
             <div slot="address" class="address">
-              <span>{{ data.address.address }}</span>
-              <span class="copy-con" v-clipboard:copy="data.address.address" v-clipboard:success="onCopy">
+              <span>{{ data.address }}</span>
+              <span class="copy-con" v-clipboard:copy="data.address" v-clipboard:success="onCopy">
                 <SvgIcon className="svgIcon" iconName="copy" />
               </span>
               <div class="QRcode">
@@ -22,7 +22,8 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Assets">
-          <pie-chart :data="data"></pie-chart>
+          <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80','#016AA3']">
+          </pie-chart>
         </panel>
       </Col>
       <Col span="12">
@@ -115,9 +116,9 @@ import BlockTable from '../../../components/Table/index'
 import Page from '../../../components/Page'
 import Description from '~/components/description/index.vue'
 import Emoji from '../../../components/emoji'
-import PieChart from '../../../components/accounts/piechart'
+import PieChart from '../../../components/charts/piechart'
 import Loader from '../../../components/Loader'
-// import creatQrCode from '../../../plugins/nuxt-swiper-plugins'
+import { percent, readable } from '~/utils'
 import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions } from '../../../fetch/index'
 const ListTypes = {
   consensus: 'consensus',
@@ -289,23 +290,41 @@ export default {
         },
         {
           title: 'Total Balance',
-          content: this.data.total + ' ROSE' || ''
+          content: readable(this.data.total) + ' ROSE' || ''
         },
         {
           title: 'Available',
-          content: this.data.available || ''
+          content: readable(this.data.available) || ''
         },
         {
           title: 'Escrow',
-          content: this.data.escrow || ''
+          content: readable(this.data.escrow) || ''
         },
         {
           title: 'Debonding',
-          content: this.data.debonding || ''
+          content: readable(this.data.debonding) || ''
         },
         {
           title: 'Nonce',
-          content: this.data.nonce || ''
+          content: readable(this.data.nonce) || ''
+        }
+      ]
+      return list
+    },
+    descList() {
+      let data = this.data
+      let list = [
+        {
+          title: 'Available (' + percent(data.available / data.total, 1) + ')',
+          content: readable(data.available) + ' ROSE'
+        },
+        {
+          title: 'Escrow (' + percent(data.escrow / data.total, 1) + ')',
+          content: readable(data.escrow) + ' ROSE'
+        },
+        {
+          title: 'Debonding (' + percent(data.debonding / data.total, 1) + ')',
+          content: readable(data.debonding) + ' ROSE'
         }
       ]
       return list
@@ -355,7 +374,7 @@ export default {
     creatQrCode() {
       if (Object.keys(this.qrcode).length === 0) {
         this.qrcode = new this.$QRCode(this.$refs.qrCode, {
-          text: this.data.address.address,
+          text: this.data.address,
           width: 200,
           height: 200,
           colorDark: '#1849A9',

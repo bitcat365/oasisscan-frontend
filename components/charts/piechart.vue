@@ -80,10 +80,6 @@ export default {
 }
 .chart-desc {
   font-size: rem(14);
-  height: rem(120);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
   .title {
     .title-icon {
       display: inline-block;
@@ -93,6 +89,7 @@ export default {
     }
   }
   .values {
+    margin-bottom: rem(10);
     .values-content {
       color: $gray500;
     }

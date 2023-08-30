@@ -34,7 +34,7 @@
         debonding: this.data.debonding.replace(/,/g, '')
       }
       return {
-        disable: parseFloat(parsedData.available) === 0 && parseFloat(parsedData.escrow) === 0 && parseFloat(parsedData.debonding) === 0,
+        disable: !data[0]&&!data[1]&&!data[2],
         chartOptions: {
           colors: ['#4CD4A9', '#58D0FF', '#919191'],
           chart: {
