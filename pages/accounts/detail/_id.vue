@@ -485,23 +485,6 @@ export default {
       }
     }
   }
-  .v-table {
-    margin-top: rem(16);
-    .address-item {
-      display: flex;
-      align-items: center;
-      .copy-con {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        padding: 0 rem(6);
-        .copy-icon {
-          width: rem(16);
-          height: rem(16);
-        }
-      }
-    }
-  }
   .no-result {
     display: flex;
     flex-direction: column;
