@@ -2,12 +2,9 @@
   <div class="root">
     <Head title="PROPOSAL DETAILS"></Head>
     <panel>
-      <template v-slot:header>
-        <span>Header</span>
-      </template>
       <div class="overview-content">
         <Description :list="descriptionList" :span="[8,16]" class="info-list"></Description>
-        <pie-chart :options="data.options" class="chart"></pie-chart>
+        <pie-chart :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80']" class="chart"></pie-chart>
       </div>
     </panel>
     <panel title="Votes" class="trx-panel" v-if="!isRequesting">
@@ -33,9 +30,9 @@ import Panel from "../../components/panel/Panel";
 import BlockTable from "../../components/Table/index";
 import Page from "../../components/Page";
 import Description from '~/components/description/index.vue'
-import PieChart from "../../components/proposals/piechart";
+import PieChart from "../../components/charts/piechart";
 import { fetchProposalDetail, fetchVotes } from "../../fetch";
-
+import { decimalConvert, percent, readable } from '~/utils'
 export default {
   name: "proposalDetail",
   components: { Head, Panel, BlockTable, Page, Description, PieChart },
@@ -53,6 +50,7 @@ export default {
       sizer: 10,
       page: 1,
       columns: [
+        // TODO
         {
           title: "Voter",
           key: "voter"
@@ -93,6 +91,23 @@ export default {
           content: this.data.handler || ''
         }
       ]
+    },
+    pieChartData() {
+      const data = this.data.options
+      const list = data.map(item=>{
+        return item.percent
+      })
+      return list
+    },
+    descList() {
+      const data = this.data.options
+      const list = data.map(item=>{
+        return {
+          title:item.name,
+          // value:parseFloat(decimalConvert(item.amount))
+        }
+      })
+      return list
     }
   },
   async mounted() {
