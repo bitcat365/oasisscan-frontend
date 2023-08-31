@@ -51,8 +51,9 @@ export default {
         plotOptions: {
           series: {
             dataLabels: {
-              enabled: false
-            }
+              enabled: false,
+            },
+            borderRadius: 10  //TODO
           }
         },
         series: [
@@ -61,7 +62,7 @@ export default {
             name: '',
             innerSize: '55%',
             data: this.data,
-            borderWidth: 4
+            borderWidth: 4,
           }
         ]
       }
