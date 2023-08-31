@@ -2,32 +2,30 @@
   <div class="root">
     <Head title="TRANSACTION DETAILS"></Head>
     <panel>
-      <!-- TODO -->
-      <v-table class="v-table" :headers="listSchema" :data="data">
-        <template v-slot:fee="{ data }">
-          <span v-if="data">{{ data | unit(isTest) }}</span>
+      <Description :list="listSchema" class="info-list">
+        <template #fee>
+          <span v-if="data.fee">{{ data.fee | unit(isTest) }}</span>
           <span v-else>{{ 0 | unit(isTest) }}</span>
         </template>
-
-        <template v-slot:status="{ data }">
+        <template #status>
           <span v-if="data.status" class="status-success">Success</span>
           <div v-else>
             <span class="status-fail">Fail</span>
             <span class="error-message">{{ data.error }}</span>
           </div>
         </template>
-        <template v-slot:timestamp="{ data }">
-          <span>{{ (data * 1000) | timeFormat }} ( {{ (data * 1000) | timeFormat2 }} )</span>
+        <template #timestamp>
+          <span>{{ (data.timestamp * 1000) | timeFormat }} ( {{ (data.timestamp * 1000) | timeFormat2 }} )</span>
         </template>
-      </v-table>
+      </Description>
     </panel>
     <panel title="Contents" class="trx-panel">
-      <v-table v-if="data.method === 'staking.Transfer'" class="v-table" :headers="fromToSchema" :data="data">
+      <Description v-if="data.method === 'staking.Transfer'" :list="fromToSchema" class="info-list">
         <template v-slot:amount="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>{{ 0 | unit(isTest) }}</span>
         </template>
-      </v-table>
+      </Description>
       <div class="raw-data" v-else>
         <pre> {{ data.raw | pretty }}</pre>
       </div>
@@ -39,11 +37,11 @@
 import Head from '~/components/Head'
 import Panel from '../../components/panel/Panel'
 import Description from '~/components/description/index.vue'
-import VTable from '../../components/VTable/index'
 import { fetchTransactionDetail } from '~/fetch/index'
+import { readable } from '~/utils'
 export default {
   name: 'transactionDetail',
-  components: { Head, Panel, Description, VTable },
+  components: { Head, Panel, Description },
   async asyncData({ $axios, store: $store, params }) {
     console.log('params', params)
     const data = await fetchTransactionDetail({ $axios, $store }, params.id)
@@ -53,60 +51,56 @@ export default {
   },
   data() {
     return {
-      listSchema: [
-        {
-          label: 'Tx Hash',
-          key: 'txHash'
-        },
-        {
-          label: 'Status',
-          key: 'status',
-          slot: true
-        },
-        {
-          label: 'Time',
-          key: 'timestamp',
-          slot: true
-        },
-        {
-          label: 'Height',
-          key: 'height'
-        },
-        {
-          label: 'Fee',
-          key: 'fee',
-          slot: true
-        },
-        {
-          label: 'Nonce',
-          key: 'nonce'
-        },
-        {
-          label: 'Type',
-          key: 'method'
-        }
-      ],
-      list: [],
-      fromToSchema: [
-        {
-          label: 'From',
-          key: 'from'
-        },
-        {
-          label: 'To',
-          key: 'to'
-        },
-        {
-          label: 'Amount',
-          key: 'amount',
-          slot: true
-        }
-      ]
+      list: []
     }
   },
   computed: {
-    descriptionList() {
-      return []
+      listSchema(){ 
+        return [{
+          title: 'Tx Hash',
+          content: this.data.txHash ||''
+        },
+        {
+          title: 'Status',
+          name: 'status'
+        },
+        {
+          title: 'Time',
+          name: 'timestamp'
+        },
+        {
+          title: 'Height',
+          content: this.data.height || ''
+        },
+        {
+          title: 'Fee',
+          name: 'fee'
+        },
+        {
+          title: 'Nonce',
+          content: this.data.nonce || ''
+        },
+        {
+          title: 'Type',
+          content: this.data.method || ''
+        }
+      ]
+    },
+    fromToSchema() {
+      return [
+        {
+          title: 'From',
+          content: this.data.from || ''
+        },
+        {
+          title: 'To',
+          content: this.data.to || ''
+        },
+        {
+          title: 'Amount',
+          name: 'amount'
+        }
+      ]
     }
   },
   async mounted() {},
@@ -128,30 +122,6 @@ export default {
   pre {
     white-space: pre-wrap;
     word-wrap: break-word;
-  }
-}
-.v-table {
-  margin-top: rem(16);
-}
-.container {
-}
-.title {
-  padding-top: rem(20);
-  padding-bottom: rem(20);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  h1 {
-    font-size: rem(20);
-    padding: 0;
-    margin: 0;
-    @include regular;
-    color: black;
-    font-weight: normal;
-    span {
-      font-size: rem(14);
-      color: rgba(0, 0, 0, 0.5);
-    }
   }
 }
 .trx-panel {
