@@ -6,15 +6,22 @@
       </template>
     </Head>
     <panel title="Header">
-      <!-- TODO -->
-      <v-table class="v-table" :headers="listSchema" :data="data">
+      <Description :list="listSchema" class="info-list">
+        <template #round>
+          <div class="label-content">{{data.round}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
+        </template>
+        <template #timestamp>
+          <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
+        </template>
+      </Description>
+      <!-- <v-table class="v-table" :headers="listSchema" :data="data">
         <template v-slot:round="slotData">
           <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
         </template>
         <template v-slot:timestamp="{data}">
           <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
         </template>
-      </v-table>
+      </v-table> -->
     </panel>
     <panel class="trx-panel" title="Transactions">
       <div class="loader-con"  v-if="isRequesting">
@@ -52,13 +59,14 @@
   import BlockTable from '../../../components/Table/index'
   import ArrowNavigate from '../../../components/ArrowNavigate'
   import Page from '../../../components/Page'
+  import Description from '~/components/description/index.vue'
   import VTable from '../../../components/VTable/index'
   import {fetchRoundDetail, fetchRuntimeTxList} from '../../../fetch'
   import Loader from '../../../components/Loader';
 
   export default {
     name: 'roundDetail',
-    components: { Head, Panel, VTable, ArrowNavigate, BlockTable,  Loader,Page },
+    components: { Head, Panel, Description, VTable, ArrowNavigate, BlockTable,  Loader,Page },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRoundDetail({ $axios, $store }, route.query.runtime, params.roundId)
       return {
@@ -69,42 +77,6 @@
     data() {
       return {
         isRequesting: true,
-        listSchema: [
-          {
-            label: 'Round',
-            key: 'round',
-            slot: true
-          },
-          {
-            label: 'Runtime ID',
-            key: 'runtimeIdAndName'
-          },
-          {
-            label: 'Header Type',
-            key: 'header_type'
-          },
-          {
-            label: 'Time',
-            key: 'timestamp',
-            slot: true
-          },
-          {
-            label: 'Previous Hash',
-            key: 'previous_hash'
-          },
-          {
-            label: 'IO Toot',
-            key: 'io_root'
-          },
-          {
-            label: 'State Toot',
-            key: 'state_root'
-          },
-          {
-            label: 'Messages Hash',
-            key: 'messages_hash'
-          },
-        ],
         list: [],
         total: 0,
         sizer: 10,
@@ -135,6 +107,43 @@
         ]
       }
     },
+    computed: {
+      listSchema(){
+        return [{
+          title: 'Round',
+          name: 'round'
+        },
+        {
+          title: 'Runtime ID',
+          content: this.data.runtimeIdAndName || ''
+        },
+        {
+          title: 'Header Type',
+          content: this.data.header_type || ''
+        },
+        {
+          title: 'Time',
+          name: 'timestamp'
+        },
+        {
+          title: 'Previous Hash',
+          content: this.data.previous_hash || ''
+        },
+        {
+          title: 'IO Toot',
+          content: this.data.io_root || ''
+        },
+        {
+          title: 'State Toot',
+          content: this.data.state_root || ''
+        },
+        {
+          title: 'Messages Hash',
+          content: this.data.messages_hash || ''
+        },
+        ]
+      } 
+    },
     async mounted() {
       await this.fetchList()
       this.isRequesting = false
@@ -164,19 +173,9 @@
 </script>
 
 <style scoped lang="scss">
-  .root {
-    background-color: #f7f7f7;
-    padding-bottom: rem(50);
-    min-height: calc(100vh - #{rem(100)});
-  }
   .label-content {
     display: flex;
     align-items: center;
-  }
-  .v-table {
-    margin-top: rem(16);
-  }
-  .container {
   }
   .title {
     .paratime-tag {

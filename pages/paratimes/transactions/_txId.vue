@@ -6,8 +6,19 @@
       </template>
     </Head>
     <panel title="Header">
-      <!-- TODO -->
-      <v-table class="v-table" :headers="listSchema" :data="data">
+      <Description :list="listSchema" class="info-list">
+        <template #timestamp>
+          <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
+        </template>
+        <template #result>
+          <span v-if="data.result" class="status-success">Success</span>
+          <div v-else>
+            <span class="status-fail" >Fail</span>
+            <span class="error-message">{{ data.detail.message }}</span>
+          </div>
+        </template>
+      </Description>
+      <!-- <v-table class="v-table" :headers="listSchema" :data="data">
         <template v-slot:timestamp="{data}">
           <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
         </template>
@@ -18,7 +29,7 @@
             <span class="error-message">{{ detail.message }}</span>
           </div>
         </template>
-      </v-table>
+      </v-table> -->
     </panel>
     <panel class="panel" title="Contents">
       <div class="raw-data">
@@ -36,12 +47,13 @@
 <script>
   import Head from '~/components/Head'
   import Panel from '../../../components/panel/Panel'
+  import Description from '~/components/description/index.vue'
   import VTable from '../../../components/VTable/index'
   import { fetchRuntimeTxDetail } from '../../../fetch'
 
   export default {
     name: 'runtimeTxDetail',
-    components: { Head, Panel, VTable },
+    components: { Head, Panel, Description, VTable },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId, route.query.round)
      console.log('data', data)
@@ -50,35 +62,36 @@
       }
     },
     data() {
-      return {
-        listSchema: [
+      return {}
+    },
+    computed: {
+      listSchema(){
+        return [
           {
-            label: 'Tx Hash',
-            key: 'txHash'
+            title: 'Tx Hash',
+            content: this.data.txHash || ''
           },
           {
-            label: 'Runtime ID',
-            key: 'runtimeIdAndName'
+            title: 'Runtime ID',
+            content: this.data.runtimeIdAndName || ''
           },
           {
-            label: 'Status',
-            key: 'result',
-            slot: true
+            title: 'Status',
+            name: 'result'
           },
           {
-            label: 'Time',
-            key: 'timestamp',
-            slot: true
+            title: 'Time',
+            name: 'timestamp'
           },
           {
-            label: 'Round',
-            key: 'round'
+            title: 'Round',
+            content: this.data.round || ''
           },
           {
-            label: 'Type',
-            key: 'type'
+            title: 'Type',
+            content: this.data.type || ''
           },
-        ],
+        ]
       }
     },
     async mounted() {
@@ -89,11 +102,6 @@
 </script>
 
 <style scoped lang="scss">
-  .v-table {
-    margin-top: rem(16);
-  }
-  .container {
-  }
   .title {
     .paratime-tag {
       background: #ccc;
