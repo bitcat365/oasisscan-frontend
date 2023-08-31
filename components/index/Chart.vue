@@ -53,6 +53,7 @@ export default {
           },
           categories: [...daysArray],
           labels: {
+            align: 'right',
             step: 3,
             formatter: function() {
               let day = this.value.getDate()
