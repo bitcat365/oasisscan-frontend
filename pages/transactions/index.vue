@@ -2,7 +2,7 @@
   <div class="blocks-root">
     <Head title="TRANSACTIONS">
       <template #HeadLeft>
-        <span class="total-count"> ({{ totalTxs | readable }})</span>
+        <span class="HeadLeft"> ({{ totalTxs | readable }})</span>
       </template>
     </Head>
     <Dropdown trigger="click" placement="bottom-start" @on-click="change">
@@ -29,9 +29,7 @@
           <span>{{ data.value | timeFormat }} </span>
         </template>
       </block-table>
-      <div class="page-navigation">
-        <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
-      </div>
+      <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
     </div>
   </div>
 </template>
@@ -144,6 +142,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.HeadLeft {
+  color: $gray500;
+  font-size: rem(18);
+}
 .method-dropdown {
   margin-top: rem(20);
   padding: rem(2) rem(10);
@@ -223,10 +225,5 @@ export default {
     color: rgba(55, 65, 107, 0.5);
     line-height: 1;
   }
-}
-.page-navigation {
-  display: flex;
-  justify-content: center;
-  padding: 15px 0;
 }
 </style>
