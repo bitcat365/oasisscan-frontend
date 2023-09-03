@@ -11,8 +11,7 @@
           <span>{{ data.value | timeFormat }} </span>
         </template>
       </block-table>
-      <!-- <div class="page-navigation"> -->
-        <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
+      <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
     </div>
   </div>
 </template>
