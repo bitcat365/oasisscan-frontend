@@ -19,13 +19,13 @@
     </Head>
     <Panel class="panel">
       <template slot="headerLeft">
-        <Input v-model="name" prefix="ios-search" placeholder="Search Validator" />
-      </template>
-      <template slot="headerRight">
         <div class="tag-con">
           <div :class="['type active', type === 'active' ? 'sel' : '']" @click="type = 'active'">Active</div>
           <div :class="['type inactive', type === 'inactive' ? 'sel' : '']" @click="type = 'inactive'">Inactive</div>
         </div>
+      </template>
+      <template slot="headerRight">
+        <Input v-model="name" prefix="ios-search" placeholder="Validator Filter" />
       </template>
       <div class="block-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
