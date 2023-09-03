@@ -2,7 +2,7 @@
   <div class="blocks-root">
     <Head title="PARATIMES" class="title">
       <template #HeadLeft>
-        <span class="total-count"> ({{ runtimeListSize | readable }})</span>
+        <span class="HeadLeft"> ({{ runtimeListSize | readable }})</span>
       </template>
       <template #HeadRight>
         <div v-if="currentListType === ListTypes.nodeList && !isLoading" class="node-info">
@@ -47,9 +47,7 @@
           <span>{{data.value | timeFormat}} </span>
         </template>
       </block-table>
-      <div class="page-navigation">
-        <page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></page>
-      </div>
+      <Page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
     </div>
     <div v-else-if="currentListType=== ListTypes.nodeList && !isLoading" class="block-list-wrapper node-list-wrapper">
       <p v-if="nodeList && nodeList.length === 0" class="no-result">
@@ -87,9 +85,7 @@
           <div class="status-item red" v-else>Fail</div>
         </template>
       </block-table>
-      <div class="page-navigation">
-        <page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></page>
-      </div>
+      <Page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></Page>
     </div>
     <div class="loader-con">
       <loader v-if="isLoading"/>
@@ -105,6 +101,7 @@ import {
   fetchRuntimeNodeList,
   fetchRuntimeTxList
 } from '../../fetch/index'
+import Head from '~/components/Head'
 import BlockTable from '../../components/Table/index'
 import Page from '../../components/Page'
 import Loader from '../../components/Loader'
@@ -117,6 +114,7 @@ import Config from '../../config'
   export default {
     name: 'index',
     components: {
+      Head,
       Loader,
       BlockTable,
       Page,
@@ -380,6 +378,10 @@ import Config from '../../config'
 </script>
 
 <style scoped lang="scss">
+  .HeadLeft {
+    color: $gray500;
+    font-size: rem(18);
+  }
   .title {
     padding-top: rem(20);
     display: flex;
@@ -519,11 +521,6 @@ import Config from '../../config'
         }
       }
     }
-  }
-  .page-navigation {
-    display: flex;
-    justify-content: center;
-    padding: 15px 0;
   }
   .operate {
     display: flex;
