@@ -4,7 +4,10 @@
     <panel>
       <Description :list="descriptionList" class="info-list">
         <template #height>
-          <div class="label-content">{{ data.height }} <arrow-navigate :is-last="isLast" @pre="pre" @next="next" /></div>
+          <div class="label-content">
+            {{ data.height }} 
+            <ArrowNavigate :is-last="isLast" @pre="pre" @next="next" />
+          </div>
         </template>
         <template #timestamp>
           <span>{{ data.timestamp.value | timeFormat }} ( {{ data.value | timeFormat2 }} )</span>
