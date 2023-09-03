@@ -1,8 +1,8 @@
 <template>
   <div class="blocks-root">
     <Head title="PROPOSALS">
-      <template #HeadLeft v-if="latestBlock > 0">
-      <span class="total-count"> ({{list.length | readable}})</span>
+      <template #HeadLeft>
+      <span class="HeadLeft"> ({{list.length | readable}})</span>
     </template>
     </Head>
     <div class="block-list-wrapper">
@@ -87,6 +87,10 @@
 </script>
 
 <style scoped lang="scss">
+  .HeadLeft {
+    color: $gray500;
+    font-size: rem(18);
+  }
   .block-list-wrapper {
     margin-top: rem(12);
     background-color: white;
