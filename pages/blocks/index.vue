@@ -2,7 +2,7 @@
   <div class="blocks-root">
     <Head title="BLOCKS">
       <template #HeadLeft v-if="latestBlock > 0">
-        <span class="total-count"> ({{ latestBlock | readable }})</span>
+        <span class="HeadLeft"> ({{ latestBlock | readable }})</span>
       </template>
     </Head>
     <div class="block-list-wrapper">
@@ -104,6 +104,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.HeadLeft {
+  color: $gray500;
+  font-size: rem(18);
+}
 .block-list-wrapper {
   margin-top: rem(12);
   background-color: white;
