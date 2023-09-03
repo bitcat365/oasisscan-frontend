@@ -5,32 +5,36 @@
         <span class="HeadLeft"> ({{ totalTxs | readable }})</span>
       </template>
     </Head>
-    <Dropdown trigger="click" placement="bottom-start" @on-click="change">
-      <a class="show-cur method-dropdown" href="javascript:void(0)">
-        {{ method === '' ? 'All Type' : method }}
-        <Icon type="ios-arrow-down"></Icon>
-      </a>
-      <DropdownMenu slot="list">
-        <DropdownItem name="all">All Type</DropdownItem>
-        <DropdownItem v-for="method in methods" :key="method" :name="method">{{ method }}</DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
-    <div class="block-list-wrapper">
-      <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
-        <template v-slot:fee="{ data }">
-          <span v-if="data">{{ data | unit(isTest) }}</span>
-          <span v-else>0</span>
-        </template>
-        <template v-slot:status="{ data }">
-          <span v-if="data" class="status-success">Success</span>
-          <span v-else class="status-fail" :data-data="data">Fail</span>
-        </template>
-        <template v-slot:timestamp="{ data }">
-          <span>{{ data.value | timeFormat }} </span>
-        </template>
-      </block-table>
-      <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
-    </div>
+    <Panel class="panel">
+      <template slot="headerLeft">
+        <Dropdown class="dropdown" trigger="click" placement="bottom-start" @on-click="change">
+          <a class="method-dropdown" href="javascript:void(0)">
+            {{ method === '' ? 'ALL TYPES' : method }}
+            <Icon type="ios-arrow-down"></Icon>
+          </a>
+          <DropdownMenu slot="list" class="select-list">
+            <DropdownItem name="all" class="select-item">ALL TYPES</DropdownItem>
+            <DropdownItem v-for="method in methods" :key="method" :name="method" class="select-item">{{ method }}</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </template>
+      <div class="block-list-wrapper">
+        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+          <template v-slot:fee="{ data }">
+            <span v-if="data">{{ data | unit(isTest) }}</span>
+            <span v-else>0</span>
+          </template>
+          <template v-slot:status="{ data }">
+            <span v-if="data" class="status-success">Success</span>
+            <span v-else class="status-fail" :data-data="data">Fail</span>
+          </template>
+          <template v-slot:timestamp="{ data }">
+            <span>{{ data.value | timeFormat }} </span>
+          </template>
+        </block-table>
+        <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
+      </div>
+    </Panel>
   </div>
 </template>
 
@@ -38,12 +42,14 @@
 import { fetchTransactionsList, fetchChainMethods, fetchBlockInfo } from '../../fetch/index'
 import BlockTable from '../../components/Table/index'
 import Head from '~/components/Head'
+import Panel from '~/components/panel/Panel'
 import Page from '../../components/Page'
 
 export default {
   name: 'index',
   components: {
     Head,
+    Panel,
     BlockTable,
     Page
   },
@@ -146,15 +152,34 @@ export default {
   color: $gray500;
   font-size: rem(18);
 }
-.method-dropdown {
-  margin-top: rem(20);
-  padding: rem(2) rem(10);
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  display: inline-block;
-  border-radius: rem(4);
-  background-color: #ffffff;
-  .show-cur {
-    color: #5f5f5f;
+.dropdown {
+  .method-dropdown {
+    padding: 0 rem(16);
+    height: rem(40);
+    line-height: rem(40);
+    display: inline-block;
+    border-radius: rem(16);
+    background-color: $gray100;
+    color: $gray600;
+    font-size: rem(14);
+  }
+  /deep/.ivu-select-dropdown {
+    padding: 0;
+    .select-list {
+      min-width: rem(260);
+      background-color: $gray100;
+      border-radius: rem(8);
+      padding: 0;
+      .select-item {
+        font-size: rem(14);
+        padding: 0 rem(10);
+        height: rem(30);
+        line-height: rem(30);
+        &:hover {
+          background: $gray200;
+        }
+      }
+    }
   }
 }
 .status-fail,
@@ -170,15 +195,7 @@ export default {
 .status-success {
   background-color: #2ed47a;
 }
-.blocks-root {
-  background-color: #f7f7f7;
-  min-height: calc(100vh - #{rem(100)});
-}
 .block-list-wrapper {
-  margin-top: rem(12);
-  background-color: white;
-  padding: 0 rem(30);
-  border-radius: rem(8);
   .block-total-list {
     padding: 0;
     width: 100%;
@@ -191,39 +208,11 @@ export default {
     }
     /deep/ tr th,
     /deep/ tr td {
-      &:nth-child(1) {
-        width: rem(240);
-      }
       &:last-child {
         padding-left: 0;
         width: 100px;
       }
     }
-  }
-  .title {
-    margin-left: 0px;
-    margin-top: 6px;
-    font-size: 18px;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: rgba(55, 65, 107, 1);
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    > .icon {
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
-    }
-  }
-  .total-records {
-    margin-left: 40px;
-    margin-top: 9px;
-    font-size: 12px;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: rgba(55, 65, 107, 0.5);
-    line-height: 1;
   }
 }
 </style>
