@@ -22,8 +22,8 @@
   .arrow-nav-con {
     display: flex;
     .arrow {
-      width: rem(16);
-      height: rem(16);
+      width: rem(24);
+      height: rem(24);
       cursor: pointer;
     }
     .pre {
