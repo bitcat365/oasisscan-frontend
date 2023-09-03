@@ -37,13 +37,7 @@
             <span>{{ escrow | readable }} ({{ escrowPercent | percentFormat }})</span>
           </template>
           <template v-slot:uptime="slotData">
-            <div class="uptime-item green" v-if="+slotData.data.replace('%', '') >= 80">
-              {{ slotData.data }}
-            </div>
-            <div class="uptime-item yellow" v-else-if="+slotData.data.replace('%', '') >= 50">
-              {{ slotData.data }}
-            </div>
-            <div class="uptime-item red" v-else>{{ slotData.data }}</div>
+            <ColourDiv :color="+slotData.data.replace('%', '') >= 80 ? 'success' : +slotData.data.replace('%', '') >= 50 ? 'warning' : 'error'">{{ slotData.data }} </ColourDiv>
           </template>
           <template v-slot:name="slotData">
             <div class="validator-name">
@@ -73,8 +67,9 @@ import { hashFormat } from '../../utils'
 import BlockTable from '~/components/Table/index'
 import Head from '~/components/Head'
 import Panel from '~/components/panel/Panel'
+import ColourDiv from '~/components/colourDiv/colourDiv'
 export default {
-  components: { BlockTable, Head, Panel },
+  components: { BlockTable, Head, Panel, ColourDiv },
   data() {
     return {
       staredValidators: [],
@@ -127,7 +122,7 @@ export default {
           key: 'uptime',
           slot: true,
           iconName: 'question',
-          iconTip:'Last 1000 blocks'
+          iconTip: 'Last 1000 blocks'
         }
       ]
     }
@@ -315,9 +310,6 @@ export default {
       }
     }
     .block-list-wrapper {
-      background-color: white;
-      padding-bottom: rem(10);
-      border-radius: rem(8);
       .block-total-list {
         padding: 0;
         width: 100%;
@@ -381,27 +373,6 @@ export default {
         width: rem(30);
         height: rem(30);
         border-radius: rem(4);
-      }
-      .uptime-item {
-        color: white;
-        text-align: center;
-        height: rem(30);
-        border-radius: rem(4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        &.green {
-          color: $success500;
-          background-color: $success200;
-        }
-        &.yellow {
-          color: $warning500;
-          background-color: $warning200;
-        }
-        &.red {
-          color: $error500;
-          background-color: $error200;
-        }
       }
     }
   }

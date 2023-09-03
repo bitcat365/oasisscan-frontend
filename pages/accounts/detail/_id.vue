@@ -22,8 +22,7 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Assets">
-          <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80','#016AA3']">
-          </pie-chart>
+          <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
         </panel>
       </Col>
       <Col span="12">
@@ -81,8 +80,7 @@
                 <span v-else>0</span>
               </template>
               <template v-slot:status="{ data }">
-                <div class="status-item green" v-if="data">Success</div>
-                <div class="status-item red" v-else>Fail</div>
+                <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
               </template>
             </BlockTable>
             <Page type="simple" v-if="total > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
@@ -94,8 +92,7 @@
             </p>
             <BlockTable v-if="runtimeTotal > 0" :data="runtimeList" :columns="runtimeColumns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:status="{ data }">
-                <div class="status-item green" v-if="data">Success</div>
-                <div class="status-item red" v-else>Fail</div>
+                <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
               </template>
             </BlockTable>
             <Page type="simple" v-if="runtimeTotal > 0" :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" root-class="block-page" @goto="runTimeGoto"></Page>
@@ -118,6 +115,7 @@ import Description from '~/components/description/index.vue'
 import Emoji from '../../../components/emoji'
 import PieChart from '../../../components/charts/piechart'
 import Loader from '../../../components/Loader'
+import ColourDiv from '~/components/colourDiv/colourDiv'
 import { percent, readable } from '~/utils'
 import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions } from '../../../fetch/index'
 const ListTypes = {
@@ -131,7 +129,7 @@ const EscrowTypes = {
 }
 export default {
   name: 'accountDetail',
-  components: { Head, PieChart, Panel, Description, BlockTable, Page, Emoji, Loader },
+  components: { Head, PieChart, Panel, Description, BlockTable, Page, Emoji, Loader, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
     const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id)])
     const data = await datas[0]

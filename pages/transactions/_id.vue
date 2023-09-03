@@ -8,11 +8,8 @@
           <span v-else>{{ 0 | unit(isTest) }}</span>
         </template>
         <template #status>
-          <span v-if="data.status" class="status-success">Success</span>
-          <div v-else>
-            <span class="status-fail">Fail</span>
-            <span class="error-message">{{ data.error }}</span>
-          </div>
+          <ColourDiv :color="data.status ? 'success' : 'error'">{{ data.status ? 'Success' : 'Fail' }}</ColourDiv>
+          <span v-if="!data.status" class="error-message">{{ data.error }}</span>
         </template>
         <template #timestamp>
           <span>{{ (data.timestamp * 1000) | timeFormat }} ( {{ (data.timestamp * 1000) | timeFormat2 }} )</span>
@@ -37,11 +34,12 @@
 import Head from '~/components/Head'
 import Panel from '../../components/panel/Panel'
 import Description from '~/components/description/index.vue'
+import ColourDiv from '~/components/colourDiv/colourDiv'
 import { fetchTransactionDetail } from '~/fetch/index'
 import { readable } from '~/utils'
 export default {
   name: 'transactionDetail',
-  components: { Head, Panel, Description },
+  components: { Head, Panel, Description, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
     console.log('params', params)
     const data = await fetchTransactionDetail({ $axios, $store }, params.id)
@@ -55,10 +53,11 @@ export default {
     }
   },
   computed: {
-      listSchema(){ 
-        return [{
+    listSchema() {
+      return [
+        {
           title: 'Tx Hash',
-          content: this.data.txHash ||''
+          content: this.data.txHash || ''
         },
         {
           title: 'Status',
@@ -144,21 +143,7 @@ export default {
     margin-bottom: rem(11);
   }
 }
-
-.status-fail,
-.status-success {
-  padding: rem(4) rem(10);
-  color: white;
-  border-radius: rem(4);
-  font-size: rem(12);
-}
-.status-fail {
-  background-color: #f7685b;
-}
 .error-message {
-  color: #f7685b;
-}
-.status-success {
-  background-color: #2ed47a;
+  color: $error500;
 }
 </style>

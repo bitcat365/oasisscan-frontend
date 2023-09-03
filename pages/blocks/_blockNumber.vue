@@ -5,7 +5,7 @@
       <Description :list="descriptionList" class="info-list">
         <template #height>
           <div class="label-content">
-            {{ data.height }} 
+            {{ data.height }}
             <ArrowNavigate :is-last="isLast" @pre="pre" @next="next" />
           </div>
         </template>
@@ -20,18 +20,15 @@
         {{ $t('noTx') }}
       </p>
       <block-table v-if="total > 0" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
-        <template v-slot:fee="{ data }"
-          ><span v-if="data">{{ data | unit(isTest) }}</span>
+        <template v-slot:fee="{ data }">
+          <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>0</span>
         </template>
         <template v-slot:status="{ data }">
-          <span v-if="data" class="status-success">Success</span>
-          <span v-else class="status-fail" :data-data="data">Fail</span>
+          <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
         </template>
       </block-table>
-      <div v-if="total > 0" class="page-navigation">
-        <page type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
-      </div>
+      <Page v-if="total > 0" type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto" />
     </panel>
   </div>
 </template>
@@ -43,11 +40,12 @@ import BlockTable from '../../components/Table/index'
 import ArrowNavigate from '../../components/ArrowNavigate'
 import Page from '../../components/Page'
 import Description from '~/components/description/index.vue'
+import ColourDiv from '~/components/colourDiv/colourDiv'
 import { fetchBlockDetail, fetchTransactions, fetchBlockInfo } from '../../fetch'
 
 export default {
   name: 'blockDetail',
-  components: { Head, Panel, BlockTable, Page, Description, ArrowNavigate },
+  components: { Head, Panel, BlockTable, Page, Description, ArrowNavigate, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
     const datas = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchBlockDetail({ $axios, $store }, params.blockNumber)])
     const { curHeight: latestHeight } = datas[0]
@@ -163,11 +161,6 @@ export default {
     margin-left: 0;
   }
 }
-.page-navigation {
-  padding-top: 30px;
-  display: flex;
-  justify-content: center;
-}
 .no-result {
   display: flex;
   flex-direction: column;
@@ -180,18 +173,5 @@ export default {
     width: rem(80);
     margin-bottom: rem(11);
   }
-}
-.status-fail,
-.status-success {
-  padding: rem(4) rem(10);
-  color: white;
-  border-radius: rem(4);
-  font-size: rem(12);
-}
-.status-fail {
-  background-color: #f7685b;
-}
-.status-success {
-  background-color: #2ed47a;
 }
 </style>

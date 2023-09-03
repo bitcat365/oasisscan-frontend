@@ -25,8 +25,7 @@
             <span v-else>0</span>
           </template>
           <template v-slot:status="{ data }">
-            <span v-if="data" class="status-success">Success</span>
-            <span v-else class="status-fail" :data-data="data">Fail</span>
+            <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
           <template v-slot:timestamp="{ data }">
             <span>{{ data.value | timeFormat }} </span>
@@ -44,14 +43,15 @@ import BlockTable from '../../components/Table/index'
 import Head from '~/components/Head'
 import Panel from '~/components/panel/Panel'
 import Page from '../../components/Page'
-
+import ColourDiv from '~/components/colourDiv/colourDiv'
 export default {
   name: 'index',
   components: {
     Head,
     Panel,
     BlockTable,
-    Page
+    Page,
+    ColourDiv
   },
   async asyncData({ $axios, store: $store }) {
     const res = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchTransactionsList({ $axios, $store }, 1, 20, '', true, 12)])
@@ -181,19 +181,6 @@ export default {
       }
     }
   }
-}
-.status-fail,
-.status-success {
-  padding: rem(4) rem(10);
-  color: white;
-  border-radius: rem(4);
-  font-size: rem(12);
-}
-.status-fail {
-  background-color: #f7685b;
-}
-.status-success {
-  background-color: #2ed47a;
 }
 .block-list-wrapper {
   .block-total-list {
