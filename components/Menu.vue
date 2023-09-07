@@ -11,9 +11,10 @@
       <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoright" v-show="!menuOpen" @click="open()" />
     </div>
     <nav class="menu-list1">
-      <template v-for="item in menuList1" :key="item.index">
+      <template v-for="item in menuList1">
         <router-link
           v-if="item.path"
+          :key="item.index"
           :to="item.path"
           :class="className(item.index)"
           @click.native="
