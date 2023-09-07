@@ -14,34 +14,34 @@
       <template v-for="item in menuList1">
         <router-link
           v-if="item.path"
-          :key="item.index"
+          :key="item.id"
           :to="item.path"
-          :class="className(item.index)"
+          :class="className(item.id)"
           @click.native="
-            active = item.index
+            active = item.id
             item.open = !item.open
           "
         >
-          <SvgIcon v-if="item.iconName" :className="active === item.index ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
+          <SvgIcon v-if="item.iconName" :className="active === item.id ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
           <span v-if="menuOpen" :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
         </router-link>
         <span v-else-if="!item.path && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
       </template>
     </nav>
     <div class="menu-list2">
-      <router-link :to="'/FAQ'" :class="className(8) + ' top-border'" @click.native="active = 8">
-        <SvgIcon :className="active === 8 ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
+      <router-link :to="'/FAQ'" :class="className('2-1') + ' top-border'" @click.native="active = '2-1'">
+        <SvgIcon :className="active === '2-1' ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
         <span v-show="menuOpen">FAQ</span>
         <span v-show="!menuOpen" class="hoverText">FAQ</span>
       </router-link>
       <div
-        :class="className(9) + ' pointer'"
+        :class="className('2-2') + ' pointer'"
         @click="
-          active = 9
+          active = '2-2'
           theme == 'dark' ? (theme = 'light') : (theme = 'dark')
         "
       >
-        <SvgIcon :className="active === 9 ? 'svgClass-active' : 'svgClass'" :iconName="theme" />
+        <SvgIcon :className="active === '2-2' ? 'svgClass-active' : 'svgClass'" :iconName="theme" />
         <span v-show="menuOpen">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
         <span v-show="!menuOpen" class="hoverText">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
       </div>
@@ -60,23 +60,14 @@
 </template>
 
 <script>
+import { fetchRuntimeList } from '../fetch/index'
 export default {
+  name: 'Menu',
   data() {
     return {
       theme: 'dark', // realTheme=light
       active: null,
-      menuList1: [
-        { index: 1, name: 'DASHBOARD', path: '/', iconName: 'home' },
-        { index: 2, name: 'VALIDATORS', path: '/validators', iconName: 'validator' },
-        { index: 3, name: 'ACCOUNTS', path: '/accounts', iconName: 'accounts' },
-        { index: 4, name: 'BLOCKS', path: '/blocks', iconName: 'blocks' },
-        { index: 5, name: 'TRANSACTIONS', path: '/transactions', iconName: 'transactions' },
-        { index: 6, name: 'PROPOSALS', path: '/proposals', iconName: 'proposals' },
-        { index: 7, name: 'PARATIMES', path: '' },
-        { index: 8, name: 'Emerald', path: '/emerald', iconName: 'paratimes' },
-        { index: 9, name: 'Sapphire', path: '/sapphire', iconName: 'paratimes' },
-        { index: 10, name: 'Cipher', path: '/cipher', iconName: 'paratimes' },
-      ]
+      runtimeList: []
     }
   },
   props: {
@@ -87,6 +78,23 @@ export default {
     },
     menuWidth() {
       return this.$store.state.menuOpen ? '16rem' : '6.25rem'
+    },
+    menuList1(){
+      let menuList = [
+        { id: '1-1', name: 'DASHBOARD', path: '/', iconName: 'home' },
+        { id: '1-2', name: 'VALIDATORS', path: '/validators', iconName: 'validator' },
+        { id: '1-3', name: 'ACCOUNTS', path: '/accounts', iconName: 'accounts' },
+        { id: '1-4', name: 'BLOCKS', path: '/blocks', iconName: 'blocks' },
+        { id: '1-5', name: 'TRANSACTIONS', path: '/transactions', iconName: 'transactions' },
+        { id: '1-6', name: 'PROPOSALS', path: '/proposals', iconName: 'proposals' }
+      ]
+      if(this.runtimeList.length>0){
+        menuList.push({ id: '1-7', name: 'PARATIMES', path: '' })
+        this.runtimeList.forEach(ele => {
+          menuList.push({ id: '1-'+ menuList.length + 1, name: ele.name, path: '/paratimes/'+ele.runtimeId, iconName: 'paratimes'})
+        });
+      }
+      return menuList
     }
   },
   methods: {
@@ -96,13 +104,25 @@ export default {
     close() {
       this.$store.commit('SET_MENU_OPEN', false)
     },
-    className(index) {
+    className(id) {
       if (this.$store.state.menuOpen) {
-        return this.active === index ? 'menu-item menu-item-open menu-item-active' : 'menu-item menu-item-open'
+        return this.active == id ? 'menu-item menu-item-open menu-item-active' : 'menu-item menu-item-open'
       } else {
-        return this.active === index ? 'menu-item menu-item-close menu-item-active' : 'menu-item menu-item-close'
+        return this.active == id ? 'menu-item menu-item-close menu-item-active' : 'menu-item menu-item-close'
       }
-    }
+    },
+    async RuntimeList() {
+      const { $axios, $store } = this
+      const runtimeList = await fetchRuntimeList({ $axios, $store })
+      if (runtimeList.length > 0) {
+        this.runtimeList = runtimeList
+      } else {
+        this.runtimeList = []
+      }
+    },
+  },
+  created(){
+    this.RuntimeList()
   }
 }
 </script>
