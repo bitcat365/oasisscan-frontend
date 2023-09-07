@@ -11,21 +11,21 @@
       <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoright" v-show="!menuOpen" @click="open()" />
     </div>
     <nav class="menu-list1">
-      <router-link
-        v-for="item in menuList1"
-        :key="item.index"
-        :to="item.path"
-        :class="className(item.index)"
-        @click.native="
-          active = item.index
-          item.open = !item.open
-        "
-      >
-        <SvgIcon :className="active === item.index ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
-        <span v-show="menuOpen">{{ item.name }}</span>
-        <span v-show="!menuOpen" class="hoverText">{{ item.name }}</span>
-        <SvgIcon v-show="menuOpen && item.children" :className="active === item.index ? 'svgClass-active' : 'svgClass'" :iconName="item.open ? 'down' : 'right'" />
-      </router-link>
+      <template v-for="item in menuList1" :key="item.index">
+        <router-link
+          v-if="item.path"
+          :to="item.path"
+          :class="className(item.index)"
+          @click.native="
+            active = item.index
+            item.open = !item.open
+          "
+        >
+          <SvgIcon v-if="item.iconName" :className="active === item.index ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
+          <span v-if="menuOpen" :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
+        </router-link>
+        <span v-else-if="!item.path && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
+      </template>
     </nav>
     <div class="menu-list2">
       <router-link :to="'/FAQ'" :class="className(8) + ' top-border'" @click.native="active = 8">
@@ -71,7 +71,10 @@ export default {
         { index: 4, name: 'BLOCKS', path: '/blocks', iconName: 'blocks' },
         { index: 5, name: 'TRANSACTIONS', path: '/transactions', iconName: 'transactions' },
         { index: 6, name: 'PROPOSALS', path: '/proposals', iconName: 'proposals' },
-        { index: 7, name: 'PARATIMES', path: '', iconName: 'paratimes', children: [{ name: 'Emerald', path: '/emerald' }, { name: 'Cipher', path: '/cipher' }, { name: 'Sapphire', path: '/sapphire' }], open: false }
+        { index: 7, name: 'PARATIMES', path: '' },
+        { index: 8, name: 'Emerald', path: '/emerald', iconName: 'paratimes' },
+        { index: 9, name: 'Sapphire', path: '/sapphire', iconName: 'paratimes' },
+        { index: 10, name: 'Cipher', path: '/cipher', iconName: 'paratimes' },
       ]
     }
   },
