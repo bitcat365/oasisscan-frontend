@@ -10,7 +10,7 @@
         <template #timestamp>
           <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
         </template>
-        <template #result>
+        <template #status>
           <span v-if="data.result" class="status-success">Success</span>
           <div v-else>
             <span class="status-fail" >Fail</span>
@@ -18,18 +18,6 @@
           </div>
         </template>
       </Description>
-      <!-- <v-table class="v-table" :headers="listSchema" :data="data">
-        <template v-slot:timestamp="{data}">
-          <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
-        </template>
-        <template v-slot:result="{data, detail}">
-          <span v-if="data" class="status-success">Success</span>
-          <div v-else>
-            <span class="status-fail" >Fail</span>
-            <span class="error-message">{{ detail.message }}</span>
-          </div>
-        </template>
-      </v-table> -->
     </panel>
     <panel class="panel" title="Contents">
       <div class="raw-data">
@@ -48,12 +36,11 @@
   import Head from '~/components/Head'
   import Panel from '../../../components/panel/Panel'
   import Description from '~/components/description/index.vue'
-  import VTable from '../../../components/VTable/index'
   import { fetchRuntimeTxDetail } from '../../../fetch'
 
   export default {
     name: 'runtimeTxDetail',
-    components: { Head, Panel, Description, VTable },
+    components: { Head, Panel, Description },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId, route.query.round)
      console.log('data', data)
@@ -77,7 +64,7 @@
           },
           {
             title: 'Status',
-            name: 'result'
+            name: 'status'
           },
           {
             title: 'Time',

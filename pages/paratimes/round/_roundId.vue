@@ -14,14 +14,6 @@
           <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
         </template>
       </Description>
-      <!-- <v-table class="v-table" :headers="listSchema" :data="data">
-        <template v-slot:round="slotData">
-          <div class="label-content">{{slotData.data}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
-        </template>
-        <template v-slot:timestamp="{data}">
-          <span>{{data | timeFormat}} ( {{data | timeFormat2}} )</span>
-        </template>
-      </v-table> -->
     </panel>
     <panel class="trx-panel" title="Transactions">
       <div class="loader-con"  v-if="isRequesting">
@@ -60,13 +52,12 @@
   import ArrowNavigate from '../../../components/ArrowNavigate'
   import Page from '../../../components/Page'
   import Description from '~/components/description/index.vue'
-  import VTable from '../../../components/VTable/index'
   import {fetchRoundDetail, fetchRuntimeTxList} from '../../../fetch'
   import Loader from '../../../components/Loader';
 
   export default {
     name: 'roundDetail',
-    components: { Head, Panel, Description, VTable, ArrowNavigate, BlockTable,  Loader,Page },
+    components: { Head, Panel, Description, ArrowNavigate, BlockTable,  Loader,Page },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRoundDetail({ $axios, $store }, route.query.runtime, params.roundId)
       return {
