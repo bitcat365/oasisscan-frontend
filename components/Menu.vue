@@ -13,9 +13,9 @@
     <nav class="menu-list1">
       <template v-for="item in menuList1">
         <router-link
-          v-if="item.path"
+          v-if="item.to"
           :key="item.id"
-          :to="item.path"
+          :to="item.to"
           :class="className(item.id)"
           @click.native="
             active = item.id
@@ -25,7 +25,7 @@
           <SvgIcon v-if="item.iconName" :className="active === item.id ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
           <span v-if="menuOpen" :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
         </router-link>
-        <span v-else-if="!item.path && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
+        <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
       </template>
     </nav>
     <div class="menu-list2">
@@ -81,17 +81,18 @@ export default {
     },
     menuList1(){
       let menuList = [
-        { id: '1-1', name: 'DASHBOARD', path: '/', iconName: 'home' },
-        { id: '1-2', name: 'VALIDATORS', path: '/validators', iconName: 'validator' },
-        { id: '1-3', name: 'ACCOUNTS', path: '/accounts', iconName: 'accounts' },
-        { id: '1-4', name: 'BLOCKS', path: '/blocks', iconName: 'blocks' },
-        { id: '1-5', name: 'TRANSACTIONS', path: '/transactions', iconName: 'transactions' },
-        { id: '1-6', name: 'PROPOSALS', path: '/proposals', iconName: 'proposals' }
+        { id: '1-1', name: 'DASHBOARD', to: '/', iconName: 'home' },
+        { id: '1-2', name: 'VALIDATORS', to: '/validators', iconName: 'validator' },
+        { id: '1-3', name: 'ACCOUNTS', to: '/accounts', iconName: 'accounts' },
+        { id: '1-4', name: 'BLOCKS', to: '/blocks', iconName: 'blocks' },
+        { id: '1-5', name: 'TRANSACTIONS', to: '/transactions', iconName: 'transactions' },
+        { id: '1-6', name: 'PROPOSALS', to: '/proposals', iconName: 'proposals' }
       ]
       if(this.runtimeList.length>0){
-        menuList.push({ id: '1-7', name: 'PARATIMES', path: '' })
+        menuList.push({ id: '1-7', name: 'PARATIMES' })
         this.runtimeList.forEach(ele => {
-          menuList.push({ id: '1-'+ menuList.length + 1, name: ele.name, path: '/paratimes/'+ele.runtimeId, iconName: 'paratimes'})
+          console.log(ele);
+          menuList.push({ id: '1-'+ menuList.length + 1, name: ele.name, to: {path:'/paratimes/'+ele.runtimeId,query:ele}, iconName: 'paratimes'})
         });
       }
       return menuList
