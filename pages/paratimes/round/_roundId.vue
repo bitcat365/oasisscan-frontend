@@ -5,7 +5,7 @@
         <div class="paratime-tag">Paratime</div>
       </template>
     </Head>
-    <panel title="Header">
+    <Panel title="Header">
       <Description :list="listSchema" class="info-list">
         <template #round>
           <div class="label-content">{{data.round}} <arrow-navigate :is-last="isLast" @pre="pre" @next="next"/></div>
@@ -14,8 +14,8 @@
           <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
         </template>
       </Description>
-    </panel>
-    <panel class="trx-panel" title="Transactions">
+    </Panel>
+    <Panel class="trx-panel" title="Transactions">
       <div class="loader-con"  v-if="isRequesting">
         <loader/>
       </div>
@@ -30,9 +30,8 @@
         root-class="block-total-list"
         cell-class="block-total-list-cell"
       >
-        <template v-slot:result="{data}">
-          <span v-if="data" class="status-success">Success</span>
-          <span v-else class="status-fail" :data-data="data">Fail</span>
+        <template v-slot:status="{ data }">
+          <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
         </template>
         <template v-slot:timestamp="{data}">
           <span>{{data.value | timeFormat}}</span>
@@ -41,7 +40,7 @@
       <div v-if="total > 0 && !isRequesting" class="page-navigation">
         <page type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
       </div>
-    </panel>
+    </Panel>
   </div>
 </template>
 
@@ -52,12 +51,13 @@
   import ArrowNavigate from '../../../components/ArrowNavigate'
   import Page from '../../../components/Page'
   import Description from '~/components/description/index.vue'
+  import ColourDiv from '~/components/colourDiv/colourDiv'
   import {fetchRoundDetail, fetchRuntimeTxList} from '../../../fetch'
   import Loader from '../../../components/Loader';
 
   export default {
     name: 'roundDetail',
-    components: { Head, Panel, Description, ArrowNavigate, BlockTable,  Loader,Page },
+    components: { Head, Panel, Description, ArrowNavigate, BlockTable,  Loader,Page,ColourDiv },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRoundDetail({ $axios, $store }, route.query.runtime, params.roundId)
       return {
@@ -83,7 +83,7 @@
           },
           {
             title: 'Status',
-            key: 'result',
+            key: 'status',
             slot: true
           },
           {
@@ -170,12 +170,16 @@
   }
   .title {
     .paratime-tag {
-      background: #ccc;
-      color: white;
+      display: inline-block;
+      margin-left: rem(8);
+      width: rem(100);
+      height: rem(30);
+      line-height: rem(30);
       font-size: rem(16);
       border-radius: rem(12);
-      padding: 0 rem(8);
-      margin-left: rem(8);
+      text-align: center;
+      background: $gray500;
+      color: white;
     }
   }
   .trx-panel {
@@ -208,18 +212,6 @@
       width: rem(80);
       margin-bottom: rem(11);
     }
-  }
-  .status-fail,.status-success {
-    padding: rem(4) rem(10);
-    color: white;
-    border-radius: rem(4);
-    font-size: rem(12);
-  }
-  .status-fail {
-    background-color: #F7685B;
-  }
-  .status-success {
-    background-color: #2ED47A;
   }
   .loader-con {
     margin-top: 60px;

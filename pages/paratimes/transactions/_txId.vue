@@ -11,11 +11,11 @@
           <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
         </template>
         <template #status>
-          <span v-if="data.result" class="status-success">Success</span>
-          <div v-else>
-            <span class="status-fail" >Fail</span>
-            <span class="error-message">{{ data.detail.message }}</span>
-          </div>
+          <ColourDiv v-if="data.result" color="success">Success</ColourDiv>
+          <template v-else>
+            <ColourDiv color="error">Fail</ColourDiv>
+            <!-- <span class="error-message">{{ data.detail.message }}</span> -->
+          </template>
         </template>
       </Description>
     </panel>
@@ -36,11 +36,12 @@
   import Head from '~/components/Head'
   import Panel from '../../../components/panel/Panel'
   import Description from '~/components/description/index.vue'
+  import ColourDiv from '~/components/colourDiv/colourDiv'
   import { fetchRuntimeTxDetail } from '../../../fetch'
 
   export default {
     name: 'runtimeTxDetail',
-    components: { Head, Panel, Description },
+    components: { Head, Panel, Description, ColourDiv },
     async asyncData({ $axios, store: $store, params, route }) {
       const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId, route.query.round)
      console.log('data', data)
@@ -91,49 +92,39 @@
 <style scoped lang="scss">
   .title {
     .paratime-tag {
-      background: #ccc;
-      color: white;
+      display: inline-block;
+      margin-left: rem(8);
+      width: rem(100);
+      height: rem(30);
+      line-height: rem(30);
       font-size: rem(16);
       border-radius: rem(12);
-      padding: 0 rem(8);
-      margin-left: rem(8);
+      text-align: center;
+      background: $gray500;
+      color: white;
     }
   }
   .panel {
-    margin-top: rem(36);
+    margin-top: rem(20);
     &.event-panel {
       margin-top: rem(18);
     }
   }
   .raw-data {
-    background: #F8F9FA;
-    border: 1px solid #B2B2B2;
-    border-radius: rem(4);
-    max-height: rem(400);
-    overflow-y: scroll;
-    padding: rem(15) rem(20);
-    margin-top: rem(30);
-    margin-left: rem(20);
-    margin-right: rem(20);
+      color: $gray500;
+      background: $gray50;
+      font-size: rem(14);
+      border-radius: rem(8);
+      max-height: rem(400);
+      overflow-y: auto;
+      padding: rem(10);
     pre {
       white-space: pre-wrap;
       word-wrap: break-word;
     }
   }
-  .status-fail,.status-success {
-    padding: rem(4) rem(10);
-    color: white;
-    border-radius: rem(4);
-    font-size: rem(12);
-  }
-  .status-fail {
-    background-color: #F7685B;
-  }
   .error-message {
     color: #F7685B;
-  }
-  .status-success {
-    background-color: #2ED47A;
   }
   /deep/ .info-list > li > .label {
     width: rem(120);
