@@ -1,49 +1,51 @@
 <template>
   <div :style="{ width: menuWidth }" class="menu">
-    <div class="menu-logo">
-      <router-link to="/">
-        <SvgIcon class="logo-oasis" className="svgIcon" iconName="menulogo" v-show="menuOpen" />
-      </router-link>
-      <router-link to="/">
-        <SvgIcon class="logo-oasis" className="svgIcon1" iconName="menulogo1" v-show="!menuOpen" />
-      </router-link>
-      <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoleft" v-show="menuOpen" @click="close()" />
-      <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoright" v-show="!menuOpen" @click="open()" />
-    </div>
-    <nav class="menu-list1">
-      <template v-for="item in menuList1">
-        <router-link
-          v-if="item.to"
-          :key="item.id"
-          :to="item.to"
-          :class="className(item.id)"
-          @click.native="
-            active = item.id
-            item.open = !item.open
+    <div class="menu-top">
+      <div class="menu-logo">
+        <router-link to="/">
+          <SvgIcon class="logo-oasis" className="svgIcon" iconName="menulogo" v-show="menuOpen" />
+        </router-link>
+        <router-link to="/">
+          <SvgIcon class="logo-oasis" className="svgIcon1" iconName="menulogo1" v-show="!menuOpen" />
+        </router-link>
+        <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoleft" v-show="menuOpen" @click="close()" />
+        <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoright" v-show="!menuOpen" @click="open()" />
+      </div>
+      <nav class="menu-list1">
+        <template v-for="item in menuList1">
+          <router-link
+            v-if="item.to"
+            :key="item.id"
+            :to="item.to"
+            :class="className(item.id)"
+            @click.native="
+              active = item.id
+              item.open = !item.open
+            "
+          >
+            <SvgIcon v-if="item.iconName" :className="active === item.id ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
+            <span :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
+          </router-link>
+          <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
+        </template>
+      </nav>
+      <div class="menu-list2">
+        <router-link :to="'/FAQ'" :class="className('2-1') + ' top-border'" @click.native="active = '2-1'">
+          <SvgIcon :className="active === '2-1' ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
+          <span v-show="menuOpen">FAQ</span>
+          <span v-show="!menuOpen" class="hoverText">FAQ</span>
+        </router-link>
+        <div
+          :class="className('2-2') + ' pointer'"
+          @click="
+            active = '2-2'
+            theme == 'dark' ? (theme = 'light') : (theme = 'dark')
           "
         >
-          <SvgIcon v-if="item.iconName" :className="active === item.id ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
-          <span :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
-        </router-link>
-        <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
-      </template>
-    </nav>
-    <div class="menu-list2">
-      <router-link :to="'/FAQ'" :class="className('2-1') + ' top-border'" @click.native="active = '2-1'">
-        <SvgIcon :className="active === '2-1' ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
-        <span v-show="menuOpen">FAQ</span>
-        <span v-show="!menuOpen" class="hoverText">FAQ</span>
-      </router-link>
-      <div
-        :class="className('2-2') + ' pointer'"
-        @click="
-          active = '2-2'
-          theme == 'dark' ? (theme = 'light') : (theme = 'dark')
-        "
-      >
-        <SvgIcon :className="active === '2-2' ? 'svgClass-active' : 'svgClass'" :iconName="theme" />
-        <span v-show="menuOpen">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
-        <span v-show="!menuOpen" class="hoverText">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
+          <SvgIcon :className="active === '2-2' ? 'svgClass-active' : 'svgClass'" :iconName="theme" />
+          <span v-show="menuOpen">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
+          <span v-show="!menuOpen" class="hoverText">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
+        </div>
       </div>
     </div>
     <div class="menu-bot">
@@ -131,101 +133,103 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/css/utils';
 .menu {
+  height: 100%;
   min-height: 100vh;
   background-color: $theme-background;
   border-radius: 0 15px 15px 0;
-  display: flex;
-  flex-direction: column;
+  @extend .flexColumn;
 }
-.menu-logo {
-  height: rem(120);
-  padding: rem(30) 0;
-  text-align: center;
-  position: relative;
-  .logo-oasis {
-    margin: auto;
-  }
-  .menu-right {
-    position: absolute;
-    right: rem(-15);
-    bottom: 0;
-  }
-  .svgIcon {
-    width: rem(200);
-    height: rem(60);
+.menu-top{
+  .menu-logo {
+    height: rem(120);
+    padding: rem(30) 0;
+    text-align: center;
     position: relative;
-    left: rem(-6);
-  }
-  .svgIcon1 {
-    width: rem(50);
-    height: rem(50);
-    margin: rem(5) auto;
-  }
-  .svgIcon2 {
-    width: rem(30);
-    height: rem(30);
-  }
-}
-[class^='menu-list'] {
-  .menu-item {
-    position: relative;
-    display: block;
-    height: rem(50);
-    line-height: rem(50);
-    margin: 0 rem(25);
-    font-size: rem(14);
-    color: $theme-color;
-    border-radius: 5px;
-    .hoverText {
+    .logo-oasis {
+      margin: auto;
+    }
+    .menu-right {
       position: absolute;
-      visibility: hidden;
-      top: rem(10);
-      left: rem(54);
-      height: rem(28);
-      line-height: rem(28);
-      padding: 0 rem(10);
-      color: $theme-background;
-      background-color: $theme-color;
-      border-radius: 5px;
-      white-space: nowrap;
+      right: rem(-15);
+      bottom: 0;
+    }
+    .svgIcon {
+      width: rem(200);
+      height: rem(60);
+      position: relative;
+      left: rem(-6);
+    }
+    .svgIcon1 {
+      width: rem(50);
+      height: rem(50);
+      margin: rem(5) auto;
+    }
+    .svgIcon2 {
+      width: rem(30);
+      height: rem(30);
     }
   }
-  .menu-item:hover .hoverText {
-    visibility: visible;
+  [class^='menu-list'] {
+    .menu-item {
+      position: relative;
+      display: block;
+      height: rem(50);
+      line-height: rem(50);
+      margin: 0 rem(25);
+      font-size: rem(14);
+      color: $theme-color;
+      border-radius: 5px;
+      .hoverText {
+        position: absolute;
+        visibility: hidden;
+        top: rem(10);
+        left: rem(54);
+        height: rem(28);
+        line-height: rem(28);
+        padding: 0 rem(10);
+        color: $theme-background;
+        background-color: $theme-color;
+        border-radius: 5px;
+        white-space: nowrap;
+      }
+    }
+    .menu-item:hover .hoverText {
+      visibility: visible;
+    }
+    .menu-item-open {
+      padding: 0 rem(10);
+      text-align: left;
+    }
+    .menu-item-close {
+      text-align: center;
+    }
+    .menu-item:hover {
+      font-weight: bold;
+    }
+    .menu-item-active {
+      font-weight: bold;
+      color: $theme-background;
+      background-color: $theme-color;
+    }
+    .svgClass {
+      vertical-align: -0.7em;
+      width: rem(30);
+      height: rem(30);
+    }
+    .svgClass-active {
+      vertical-align: -0.7em;
+      width: rem(30);
+      height: rem(30);
+      color: $theme-background;
+      background-color: $theme-color;
+    }
   }
-  .menu-item-open {
-    padding: 0 rem(10);
-    text-align: left;
+  .menu-list1 {
   }
-  .menu-item-close {
-    text-align: center;
-  }
-  .menu-item:hover {
-    font-weight: bold;
-  }
-  .menu-item-active {
-    font-weight: bold;
-    color: $theme-background;
-    background-color: $theme-color;
-  }
-  .svgClass {
-    vertical-align: -0.7em;
-    width: rem(30);
-    height: rem(30);
-  }
-  .svgClass-active {
-    vertical-align: -0.7em;
-    width: rem(30);
-    height: rem(30);
-    color: $theme-background;
-    background-color: $theme-color;
-  }
-}
-.menu-list1 {
-}
-.menu-list2 {
-  .top-border {
-    border-top: 1px solid #e0dff0;
+  .menu-list2 {
+    .top-border {
+      border-top: 1px solid #e0dff0;
+    }
   }
 }
 .menu-bot {
