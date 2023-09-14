@@ -23,7 +23,7 @@
           "
         >
           <SvgIcon v-if="item.iconName" :className="active === item.id ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
-          <span v-if="menuOpen" :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
+          <span :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
         </router-link>
         <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
       </template>
@@ -131,7 +131,7 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/css/utils';
 .menu {
-  height: 100%;
+  min-height: 100vh;
   background-color: $theme-background;
   border-radius: 0 15px 15px 0;
   display: flex;
