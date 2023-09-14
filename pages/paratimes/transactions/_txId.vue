@@ -24,7 +24,7 @@
         <pre>{{(data.etx || data.ctx || {}) | pretty }}</pre>
       </div>
     </Panel>
-    <Panel title="Events" v-if="data.events" class="panel event-panel">
+    <Panel title="Events" v-if="data.events" class="panel">
       <div class="raw-data">
         <pre>{{(data.events) | pretty }}</pre>
       </div>
@@ -106,9 +106,6 @@
   }
   .panel {
     margin-top: rem(20);
-    &.event-panel {
-      margin-top: rem(18);
-    }
   }
   .raw-data {
       color: $gray500;
