@@ -5,13 +5,13 @@
         <span class="HeadLeft"> ({{ $route.query.runtimeId }})</span>
       </template>
     </Head>
-    <Panel>
+    <Panel class="panel">
       <div class="tag-con"  slot="headerLeft">
         <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
         <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
         <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
       </div>
-      <input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" placeholder="Node Filter" type="text"/>
+      <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" prefix="ios-search" placeholder="Node Filter"/>
       <div v-if="currentListType=== ListTypes.roundList && !isLoading" class="block-list-wrapper round-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
           <template v-slot:timestamp="{data}">
@@ -34,8 +34,8 @@
           @sort="sortNodeList"
           >
           <template v-slot:status="{ data }">
-            <img v-if="data" class="node-status" src="../../assets/status-success.svg" />
-            <img :data-v="JSON.stringify(data)" v-else class="node-status" src="../../assets/status-fail.svg" />
+            <span v-if="data" class="success">Online</span>
+            <span v-else class="error">Offline</span>
           </template>
         </block-table>
       </div>
@@ -51,9 +51,8 @@
           :columns="txListColumns"
           :data="txList"
           >
-          <template v-slot:result="slotData">
-            <div class="status-item green" v-if="slotData.data">Success</div>
-            <div class="status-item red" v-else>Fail</div>
+          <template v-slot:status="{ data }">
+            <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
         </block-table>
         <Page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></Page>
@@ -78,6 +77,7 @@ import Panel from '~/components/panel/Panel'
 import BlockTable from '../../components/Table/index'
 import Page from '../../components/Page'
 import Loader from '../../components/Loader'
+import ColourDiv from '~/components/colourDiv/colourDiv'
 import Config from '../../config'
   const ListTypes = {
     roundList: 'roundList',
@@ -92,6 +92,7 @@ import Config from '../../config'
       Loader,
       BlockTable,
       Page,
+      ColourDiv
     },
     async asyncData({ $axios, store: $store, redirect, params }) {
       // if ($store.state.net !== Config.testnetChainId) {
@@ -338,7 +339,7 @@ import Config from '../../config'
           },
           {
             title: 'Status',
-            key: 'result',
+            key: 'status',
             slot: true
           },
           {
@@ -352,6 +353,12 @@ import Config from '../../config'
 </script>
 
 <style scoped lang="scss">
+  .success {
+    color: $success500;
+  }
+  .error {
+    color: $error500;
+  }
   .HeadLeft {
     color: $gray500;
     font-size: rem(18);
@@ -530,33 +537,45 @@ import Config from '../../config'
       justify-content: space-between;
       align-items: center;
     }
-  }
-  .tag-con {
-    display: flex;
-    flex-direction: row;
-    margin-left: rem(8);
-    .type {
+  } 
+  .panel {
+    /deep/.ivu-input {
+      width: rem(320);
+      font-size: 1rem;
+      color: $gray500;
+      background-color: $gray100;
+      border: 0;
+      border-radius: rem(8);
+    }
+    /deep/.ivu-input:focus {
+      box-shadow: none;
+    }
+    .tag-con {
       display: flex;
-      align-items: center;
-      text-align: center;
-      height: rem(24);
-      font-size: rem(12);
-      padding: 0 0.75rem;
-      border: 1px solid #979797;
-      border-radius: rem(4);
-      color: #333333;
-      margin-left: rem(8);
-      cursor: pointer;
-      background-color: white;
-      &.sel {
-        color: white;
-        background-color: #808080;
-      }
-      .inactive{
-        margin-left: 1.06rem;
-      }
-      &:first-child {
-        margin-left: 0;
+      flex-direction: row;
+      .type {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        height: rem(28);
+        font-size: rem(14);
+        padding: 0 0.75rem;
+        border: 1px solid $gray200;
+        border-radius: rem(8);
+        color: $gray500;
+        margin-left: rem(8);
+        cursor: pointer;
+        background-color: white;
+        &.sel {
+          color: white;
+          background-color: $theme-color;
+        }
+        .inactive {
+          margin-left: 1.06rem;
+        }
+        &:first-child {
+          margin-left: 0;
+        }
       }
     }
   }
@@ -577,10 +596,6 @@ import Config from '../../config'
       width: rem(80);
       margin-bottom: rem(11);
     }
-  }
-  .node-status {
-    width: rem(16);
-    height: rem(16);
   }
   .node-info {
     background-color: white;
