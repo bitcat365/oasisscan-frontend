@@ -5,7 +5,7 @@
         <div class="paratime-tag">Paratime</div>
       </template>
     </Head>
-    <panel title="Header">
+    <Panel title="Header">
       <Description :list="listSchema" class="info-list">
         <template #timestamp>
           <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
@@ -18,17 +18,17 @@
           </template>
         </template>
       </Description>
-    </panel>
-    <panel class="panel" title="Contents">
+    </Panel>
+    <Panel class="panel" title="Contents">
       <div class="raw-data">
         <pre>{{(data.etx || data.ctx || {}) | pretty }}</pre>
       </div>
-    </panel>
-    <panel title="Events" v-if="data.events" class="panel event-panel">
+    </Panel>
+    <Panel title="Events" v-if="data.events" class="panel event-panel">
       <div class="raw-data">
         <pre>{{(data.events) | pretty }}</pre>
       </div>
-    </panel>
+    </Panel>
   </div>
 </template>
 
