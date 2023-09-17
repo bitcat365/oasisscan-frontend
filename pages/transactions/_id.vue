@@ -109,15 +109,13 @@ export default {
 
 <style scoped lang="scss">
 .raw-data {
-  background: #f8f9fa;
-  border: 1px solid #b2b2b2;
-  border-radius: rem(4);
-  max-height: rem(400);
-  overflow-y: scroll;
-  padding: rem(15) rem(20);
-  margin-top: rem(30);
-  margin-left: rem(20);
-  margin-right: rem(20);
+    color: $gray500;
+    background: $gray50;
+    font-size: rem(14);
+    border-radius: rem(8);
+    max-height: rem(400);
+    overflow-y: auto;
+    padding: rem(10);
   pre {
     white-space: pre-wrap;
     word-wrap: break-word;
