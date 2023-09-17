@@ -4,22 +4,25 @@
     <Row class="top">
       <Col>
         <panel>
-          <Description :list="descriptionList" class="info-list">
-            <div slot="address" class="address">
-              <span>{{ data.address }}</span>
-              <span class="copy-con" v-clipboard:copy="data.address" v-clipboard:success="onCopy">
-                <SvgIcon className="svgIcon" iconName="copy" />
-              </span>
-              <div class="QRcode">
-                <SvgIcon className="svgIcon" iconName="QRcode" @click="creatQrCode" />
-                <div v-show="qrcodeShow" class="QRcodeImg" id="qrCode" ref="qrCode"></div>
+          <div class="topDesc">
+            <Description :list="descriptionList" class="info-list">
+              <div slot="address" class="address">
+                <span>{{ data.address }}</span>
+                <span class="copy-con" v-clipboard:copy="data.address" v-clipboard:success="onCopy">
+                  <SvgIcon className="svgIcon" iconName="copy" />
+                </span>
+                <div class="QRcode">
+                  <SvgIcon className="svgIcon" iconName="QRcode" @click="creatQrCode" />
+                  <div v-show="qrcodeShow" class="QRcodeImg" id="qrCode" ref="qrCode"></div>
+                </div>
               </div>
-            </div>
-          </Description>
+            </Description>
+            <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
+        </div>
         </panel>
       </Col>
     </Row>
-    <Row :gutter="20" class="center-chart">
+    <!-- <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Assets">
           <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
@@ -30,7 +33,7 @@
           柱状图
         </panel>
       </Col>
-    </Row>
+    </Row> -->
     <Row :gutter="20" class="bottom-table-top">
       <Col span="12">
         <panel title="Escrow">
@@ -439,6 +442,11 @@ export default {
 #accountInfo {
   .top {
     margin-bottom: rem(20);
+    .topDesc{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
     .ivu-col {
       .address {
         display: flex;
