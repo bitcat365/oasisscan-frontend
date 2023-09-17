@@ -57,9 +57,9 @@
         </block-table>
         <Page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></Page>
       </div>
-      <div class="loader-con">
+      <!-- <div class="loader-con">
         <loader v-if="isLoading"/>
-      </div>
+      </div> -->
     </Panel>
   </div>
 </template>
@@ -76,7 +76,7 @@ import Head from '~/components/Head'
 import Panel from '~/components/panel/Panel'
 import BlockTable from '../../components/Table/index'
 import Page from '../../components/Page'
-import Loader from '../../components/Loader'
+// import Loader from '../../components/Loader'
 import ColourDiv from '~/components/colourDiv/colourDiv'
 import Config from '../../config'
   const ListTypes = {
@@ -89,7 +89,7 @@ import Config from '../../config'
     components: {
       Head,
       Panel,
-      Loader,
+      // Loader,
       BlockTable,
       Page,
       ColourDiv
@@ -383,11 +383,6 @@ import Config from '../../config'
   }
 
   .block-list-wrapper {
-    margin-top: rem(12);
-    background-color: white;
-    padding:0 rem(30);
-    padding-bottom: rem(24);
-    border-radius: rem(8);
     &.tx-list-wrapper {
       .block-total-list{
         /deep/ td {
@@ -579,11 +574,11 @@ import Config from '../../config'
       }
     }
   }
-  .loader-con {
-    margin-top: 60px;
-    display: flex;
-    justify-content: center;
-  }
+  // .loader-con {
+  //   margin-top: 60px;
+  //   display: flex;
+  //   justify-content: center;
+  // }
   .no-result {
     display: flex;
     flex-direction: column;
