@@ -9,7 +9,6 @@
       <BlockTable root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:address="{ data }">
           <div class="account-item">
-            <emoji :amount="data.total"></emoji>
             <a :href="data.link" target="_self">{{ data.text }}</a>
           </div>
         </template>
@@ -22,7 +21,6 @@
 <script>
 import LS from 'local-storage'
 import { fetchAccountsList } from '../../fetch/index'
-import Emoji from '../../components/emoji'
 import BlockTable from '../../components/Table/index'
 import Head from '~/components/Head'
 import Page from '../../components/Page'
@@ -32,8 +30,7 @@ export default {
   components: {
     Head,
     BlockTable,
-    Page,
-    Emoji
+    Page
   },
   async asyncData({ $axios, store: $store }) {
     const { list, totalSize } = await fetchAccountsList({ $axios, $store }, 1, 20)
