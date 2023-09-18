@@ -11,14 +11,18 @@
       </div>
     </div>
     <div class="panel-content">
-      <slot></slot>
+      <slot>
+        <NoRecord></NoRecord>
+      </slot>
     </div>
   </div>
 </template>
 
 <script>
+import NoRecord from '../NoRecord.vue'
 export default {
-  name: 'Panel',
+  components: { NoRecord },
+  name: 'PanelSmall',
   props: {
     title: {
       type: String,
@@ -62,6 +66,6 @@ export default {
 }
 .panel-content {
   border-top: 1px solid $gray100;
-  // height: calc(100% - #{rem(30)});
+  height: calc(100% - #{rem(30)});
 }
 </style>

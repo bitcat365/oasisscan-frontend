@@ -10,13 +10,17 @@
       </div>
     </div>
     <div class="panel-content">
-      <slot></slot>
+      <slot>
+        <NoRecord></NoRecord>
+      </slot>
     </div>
   </div>
 </template>
 
 <script>
+import NoRecord from '../NoRecord.vue'
 export default {
+  components: { NoRecord },
   name: 'Panel',
   props: {
     title: {
@@ -27,7 +31,13 @@ export default {
   data() {
     return {}
   },
-  created() {}
+  methods: {
+    noredord() {}
+  },
+  mounted() {
+    console.log(this.$slots, '$slots')
+    console.log(this.$scopedSlots, '$scopedSlots')
+  }
 }
 </script>
 
@@ -37,15 +47,19 @@ export default {
   background-color: #fff;
   border-radius: rem(15);
   padding: rem(20);
-}
-.panel-title {
-  @extend .flexRow;
-  margin-bottom: rem(10);
-}
-.panel-title-left {
-  font-size: rem(18);
-}
-.panel-title-right {
-  font-size: rem(14);
+  .panel-title {
+    @extend .flexRow;
+    margin-bottom: rem(10);
+    height: rem(30);
+    .panel-title-left {
+      font-size: rem(18);
+    }
+    .panel-title-right {
+      font-size: rem(14);
+    }
+  }
+  .panel-content {
+    height: calc(100% - #{rem(30)});
+  }
 }
 </style>
