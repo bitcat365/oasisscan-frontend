@@ -47,7 +47,7 @@
             </div>
           </template>
           <template v-slot:escrowChange24="slotData">
-            <div class="escrow-change24" :class="slotData.data > 0 ? 'positive' : slotData.data < 0 ? 'negative' : ''">{{ showChangeSign(slotData.data) }} {{ slotData.data | readable }}</div>
+            <div class="escrow-change24" :class="slotData.data > 0 ? 'success' : slotData.data < 0 ? 'error' : ''">{{ showChangeSign(slotData.data) }} {{ slotData.data | readable }}</div>
           </template>
           <template v-slot:rank="slotData">
             <div class="rank">
@@ -351,14 +351,6 @@ export default {
             padding-left: 0;
             width: 110px;
           }
-        }
-      }
-      .escrow-change24 {
-        &.positive {
-          color: $success500;
-        }
-        &.negative {
-          color: $error500;
         }
       }
       .validator-name {

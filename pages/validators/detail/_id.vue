@@ -43,7 +43,7 @@
         </panel>
       </Col>
       <Col span="12">
-        <panel title="Escrow Event">
+        <panel title="Escrow Events">
           <BlockTable v-if="evensList && evensList.length > 0" :data="evensList" :columns="columns2" :expand="false" class="block-total-list events-list" cell-class="block-total-list-cell">
             <template v-slot:amountAndShares="slotData">
               <div class="amount-share" :class="positiveStyle(slotData.data.add)">
@@ -254,9 +254,9 @@ export default {
     },
     positiveStyle(add) {
       if (add) {
-        return 'positive'
+        return 'success'
       } else {
-        return 'negative'
+        return 'error'
       }
     }
   }
@@ -264,15 +264,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.amount-share {
-  &.positive {
-    color: #00b538;
-  }
-  &.negative {
-    color: #b60000;
-  }
-}
 #validatorInfo {
+  .success {
+    color: $success500;
+  }
+  .error {
+    color: $error500;
+  }
   .top {
     margin-bottom: rem(20);
     .ivu-col {
