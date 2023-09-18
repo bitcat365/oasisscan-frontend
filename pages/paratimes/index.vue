@@ -51,7 +51,7 @@
           :columns="txListColumns"
           :data="txList"
           >
-          <template v-slot:status="{ data }">
+          <template v-slot:result="{data}">
             <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
         </block-table>
@@ -339,7 +339,7 @@ import Config from '../../config'
           },
           {
             title: 'Status',
-            key: 'status',
+            key: 'result',
             slot: true
           },
           {

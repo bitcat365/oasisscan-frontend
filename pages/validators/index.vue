@@ -28,7 +28,7 @@
         <Input v-model="name" prefix="ios-search" placeholder="Validator Filter" />
       </template>
       <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
+        <BlockTable root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
           <template v-slot:status="{ data }">
             <span v-if="data" class="success">Online</span>
             <span v-else class="error">Offline</span>
@@ -54,7 +54,7 @@
               {{ slotData.data.rank }}
             </div>
           </template>
-        </block-table>
+        </BlockTable>
       </div>
     </Panel>
   </div>
@@ -128,10 +128,7 @@ export default {
     }
   },
   async asyncData({ $axios, store: $store }) {
-    const { list, active, inactive, delegators } = await fetchValidatorsList({
-      $axios,
-      $store
-    })
+    const { list, active, inactive, delegators } = await fetchValidatorsList({$axios,$store},'escrow')
     // const blockInfo = await fetchBlockInfo($axios)
     console.log('list', list)
     return { list, active, inactive, delegators }
