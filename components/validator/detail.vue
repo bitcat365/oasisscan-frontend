@@ -83,11 +83,11 @@ export default {
     descriptionList() {
       const list = [
         { title: 'Node ID', content: this.detailData.nodeId || '' },
-        { title: 'Escrow', content: this.detailData.escrow || '' },
+        { title: 'Escrow', content: readable(this.detailData.escrow) + ' ROSE' || '0 ROSE' },
         { title: 'Delegators', content: readable(this.detailData.delegators) },
         { title: 'Commission Bounds', name: 'bounds' },
         { title: 'Commission Rates', name: 'rates' },
-        { title: 'Paratimes', content: '?' }
+        // { title: 'Paratimes', content: '?' }
       ]
       return list
     }
