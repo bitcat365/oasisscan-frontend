@@ -4,7 +4,7 @@
       <tr>
         <th v-if="expand" class="table-expand-icon-th"></th>
         <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
-          <div :class="[item.sortable||item.iconName?'header-title':'', item.textAlign ? 'text-' + item.textAlign : 'text-left']">
+          <div :class="[item.sortable || item.iconName ? 'header-title' : '', item.textAlign ? 'text-' + item.textAlign : 'text-left']">
             <div>
               <div v-for="ti in item.title.split('\n')" :key="ti">
                 {{ ti }}
@@ -27,7 +27,7 @@
         </th>
       </tr>
     </thead>
-    <tbody v-if="rowData.length > 0">
+    <tbody>
       <tr
         v-for="(row, rowIndex) in rowData"
         :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
@@ -44,11 +44,6 @@
         </table-cell>
       </tr>
     </tbody>
-    <!-- TODO -->
-    <div v-else class="noRecord">
-      <SvgIcon iconName="noRecord"  className="icon"></SvgIcon>
-      <div class="desc">No record</div>
-    </div>
   </table>
 </template>
 <script>
@@ -193,18 +188,6 @@ table {
       height: rem(60);
       text-align: left;
       white-space: nowrap;
-      // &:nth-child(1) {
-      //   text-align: center;
-      //   .header-title {
-      //     justify-content: center;
-      //   }
-      // }
-      // &:last-child {
-      //   text-align: right;
-      //   .header-title {
-      //     justify-content: flex-end;
-      //   }
-      // }
     }
   }
   > tbody {
@@ -212,12 +195,6 @@ table {
       height: rem(60);
       word-break: break-all;
       box-sizing: border-box;
-      // &:nth-child(1) {
-      //   text-align: left;
-      // }
-      // &:last-child {
-      //   text-align: right;
-      // }
     }
   }
 }
@@ -283,21 +260,6 @@ table {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.noRecord{
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
-  text-align: center;
-  .icon{
-    width: rem(60);
-    height: rem(60);
-  }
-  .desc{
-    font-size: rem(14);
-    color: $gray300;
-  }
 }
 .svgIcon {
   width: rem(24);
