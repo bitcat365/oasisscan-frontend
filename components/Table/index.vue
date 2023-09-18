@@ -27,7 +27,7 @@
         </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody v-if="rowData.length > 0">
       <tr
         v-for="(row, rowIndex) in rowData"
         :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
@@ -44,6 +44,11 @@
         </table-cell>
       </tr>
     </tbody>
+    <!-- TODO -->
+    <div v-else class="noRecord">
+      <SvgIcon iconName="noRecord"  className="icon"></SvgIcon>
+      <div class="desc">No record</div>
+    </div>
   </table>
 </template>
 <script>
@@ -278,6 +283,21 @@ table {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.noRecord{
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  text-align: center;
+  .icon{
+    width: rem(60);
+    height: rem(60);
+  }
+  .desc{
+    font-size: rem(14);
+    color: $gray300;
+  }
 }
 .svgIcon {
   width: rem(24);
