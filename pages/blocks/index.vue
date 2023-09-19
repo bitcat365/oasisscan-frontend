@@ -5,14 +5,14 @@
         <span class="HeadLeft"> ({{ latestBlock | readable }})</span>
       </template>
     </Head>
-    <div class="block-list-wrapper">
+    <Panel class="block-list-wrapper">
       <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:timestamp="{ data }">
           <span>{{ data.value | timeFormat }} </span>
         </template>
       </block-table>
       <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
-    </div>
+    </Panel>
   </div>
 </template>
 
@@ -21,13 +21,15 @@ import Head from '~/components/Head'
 import { fetchBlockList } from '../../fetch/index'
 import BlockTable from '../../components/Table/index'
 import Page from '../../components/Page'
+import Panel from '~/components/panel/Panel'
 
 export default {
   name: 'index',
   components: {
     Head,
     BlockTable,
-    Page
+    Page,
+    Panel
   },
   async asyncData({ $axios, store: $store }) {
     const { list, totalSize } = await fetchBlockList({ $axios, $store }, 1, 20)
@@ -109,10 +111,6 @@ export default {
   font-size: rem(18);
 }
 .block-list-wrapper {
-  margin-top: rem(12);
-  background-color: white;
-  padding: 0 rem(30);
-  border-radius: rem(8);
   .block-total-list {
     padding: 0;
     width: 100%;

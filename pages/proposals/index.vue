@@ -5,13 +5,13 @@
       <span class="HeadLeft"> ({{list.length | readable}})</span>
     </template>
     </Head>
-    <div class="block-list-wrapper">
+    <Panel>
       <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:timestamp="{data}">
           <span>{{data.value | timeFormat}} </span>
         </template>
       </block-table>
-    </div>
+    </Panel>
   </div>
 </template>
 
@@ -20,6 +20,7 @@
   import BlockTable from '../../components/Table/index'
   import Head from '~/components/Head'
   import Page from '../../components/Page'
+  import Panel from '~/components/panel/Panel'
 
   export default {
     name: 'index',
@@ -27,6 +28,7 @@
       Head,
       BlockTable,
       Page,
+      Panel
     },
     async asyncData({ $axios, store: $store }) {
       const { list, totalSize } = await fetchProposals({ $axios, $store }, 1, 20)
@@ -91,11 +93,6 @@
     color: $gray500;
     font-size: rem(18);
   }
-  .block-list-wrapper {
-    margin-top: rem(12);
-    background-color: white;
-    padding:0 rem(30) rem(18);
-    border-radius: rem(8);
     .block-total-list{
       padding: 0;
       width: 100%;
@@ -144,5 +141,4 @@
       color:rgba(55,65,107,0.5);
       line-height: 1;
     }
-  }
 </style>
