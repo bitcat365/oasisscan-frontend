@@ -1,15 +1,15 @@
 <template>
   <div class="panel-wrapper">
-    <div class="panel-title">
-      <div class="panel-title-left">
+    <div :class="['panel-title', hasTitle ? 'height' : '']">
+      <div class="panel-title-left" ref="paneltitleleft">
         <span v-if="title">{{ title }}</span>
         <slot v-else name="headerLeft"></slot>
       </div>
-      <div class="panel-title-right">
+      <div class="panel-title-right" ref="paneltitleright">
         <slot name="headerRight"></slot>
       </div>
     </div>
-    <div class="panel-content">
+    <div :class="['panel-content', hasTitle ? 'height' : 'height1']">
       <slot>
         <NoRecord></NoRecord>
       </slot>
@@ -29,14 +29,13 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+      hasTitle: false
+    }
   },
-  methods: {
-    noredord() {}
-  },
+  methods: {},
   mounted() {
-    console.log(this.$slots, '$slots')
-    console.log(this.$scopedSlots, '$scopedSlots')
+    this.hasTitle = this.$refs.paneltitleleft.hasChildNodes() || this.$refs.paneltitleright.hasChildNodes()
   }
 }
 </script>
@@ -50,7 +49,9 @@ export default {
   .panel-title {
     @extend .flexRow;
     margin-bottom: rem(10);
-    height: rem(30);
+    &.height {
+      height: rem(30);
+    }
     .panel-title-left {
       font-size: rem(18);
     }
@@ -59,7 +60,12 @@ export default {
     }
   }
   .panel-content {
-    height: calc(100% - #{rem(30)});
+    &.height {
+      height: calc(100% - #{rem(30)});
+    }
+    &.height1 {
+      height: 100%;
+    }
   }
 }
 </style>
