@@ -38,32 +38,17 @@
       <Col span="12">
         <panel title="Escrow">
           <div v-if="currentEscrowType === EscrowTypes.active && !isEscrowRequesting">
-            <p v-if="delegationsList && delegationsList.length === 0" class="no-result">
-              <img class="empty-icon_s" src="../../../assets/empty.svg" />
-              No Escrow
-            </p>
             <BlockTable v-if="delegationsList && delegationsList.length > 0" :data="delegationsList" :columns="columns1" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
             <Page v-if="delegationsList && delegationsList.length > 0" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" root-class="block-page" @goto="gotoDelegations" />
           </div>
           <div v-else-if="!isEscrowRequesting">
-            <p v-if="debondingsList && debondingsList.length === 0" class="no-result">
-              <img class="empty-icon_s" src="../../../assets/empty.svg" />
-              No Debonding
-            </p>
             <BlockTable v-if="debondingsList && debondingsList.length > 0" :data="debondingsList" :columns="columns2" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell"> </BlockTable>
             <Page v-if="debondingsList && debondingsList.length > 0" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" root-class="block-page" @goto="gotoDeboundings" />
-          </div>
-          <div v-if="isEscrowRequesting" class="escrow-loader-con">
-            <loader />
           </div>
         </panel>
       </Col>
       <Col span="12">
         <panel title="Event">
-          <p v-if="eventList && eventList.length === 0" class="no-result">
-            <img class="empty-icon_s" src="../../../assets/empty.svg" />
-            No Event
-          </p>
           <BlockTable v-if="eventList && eventList.length > 0" :data="eventList" :columns="eventListSchema" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
           <Page v-if="eventList && eventList.length > 0" type="simple" :sizer="eventSizer" :records-count="eventTotal" :page="eventPage" root-class="block-page" @goto="gotoEvents" />
         </panel>
@@ -73,10 +58,6 @@
       <Col span="24">
         <panel title="Transactions">
           <div v-if="currentTxListType === ListTypes.consensus && !isRequesting">
-            <p v-if="total === 0" class="no-result">
-              <img class="empty-icon" src="../../../assets/empty.svg" />
-              {{ $t('noTx') }}
-            </p>
             <BlockTable v-if="total > 0" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:fee="{ data }">
                 <span v-if="data">{{ data | unit(isTest) }}</span>
@@ -89,19 +70,12 @@
             <Page type="simple" v-if="total > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
           </div>
           <div v-else-if="currentTxListType === ListTypes.paratime && !isRequesting">
-            <p v-if="runtimeTotal === 0 && !isRequesting" class="no-result">
-              <img class="empty-icon" src="../../../assets/empty.svg" />
-              {{ $t('noTx') }}
-            </p>
             <BlockTable v-if="runtimeTotal > 0" :data="runtimeList" :columns="runtimeColumns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:status="{ data }">
                 <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
               </template>
             </BlockTable>
             <Page type="simple" v-if="runtimeTotal > 0" :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" root-class="block-page" @goto="runTimeGoto"></Page>
-          </div>
-          <div v-if="isRequesting" class="loader-con">
-            <Loader />
           </div>
         </panel>
       </Col>
@@ -117,7 +91,6 @@ import Page from '../../../components/Page'
 import Description from '~/components/description/index.vue'
 import Emoji from '../../../components/emoji'
 import PieChart from '../../../components/charts/piechart'
-import Loader from '../../../components/Loader'
 import ColourDiv from '~/components/colourDiv/colourDiv'
 import { percent, readable } from '~/utils'
 import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions } from '../../../fetch/index'
@@ -132,7 +105,7 @@ const EscrowTypes = {
 }
 export default {
   name: 'accountDetail',
-  components: { Head, PieChart, Panel, Description, BlockTable, Page, Emoji, Loader, ColourDiv },
+  components: { Head, PieChart, Panel, Description, BlockTable, Page, Emoji, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
     const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id)])
     const data = await datas[0]
@@ -490,29 +463,6 @@ export default {
         // height: rem(490);
       }
     }
-  }
-  .no-result {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    font-size: 14px;
-    color: rgba(55, 65, 107, 1);
-    padding: rem(80) 0;
-    .empty-icon {
-      width: rem(80);
-      margin-bottom: rem(11);
-    }
-    .empty-icon_s {
-      width: rem(50);
-      margin-bottom: rem(11);
-    }
-  }
-  .loader-con,
-  .escrow-loader-con {
-    padding: rem(80) 0;
-    display: flex;
-    justify-content: center;
   }
 }
 </style>

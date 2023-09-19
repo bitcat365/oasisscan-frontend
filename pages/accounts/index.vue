@@ -5,7 +5,7 @@
         <span class="HeadLeft">({{ total | readable }})</span>
       </template>
     </Head>
-    <div class="block-list-wrapper">
+    <Panel>
       <BlockTable root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:address="{ data }">
           <div class="account-item">
@@ -14,13 +14,14 @@
         </template>
       </BlockTable>
       <Page :page="page" :sizer="sizer" :records-count="total" root-class="block-page" @goto="goto"></Page>
-    </div>
+    </Panel>
   </div>
 </template>
 
 <script>
 import LS from 'local-storage'
 import { fetchAccountsList } from '../../fetch/index'
+import Panel from '~/components/panel/Panel'
 import BlockTable from '../../components/Table/index'
 import Head from '~/components/Head'
 import Page from '../../components/Page'
@@ -28,6 +29,7 @@ import Page from '../../components/Page'
 export default {
   name: 'index',
   components: {
+    Panel,
     Head,
     BlockTable,
     Page
@@ -118,11 +120,6 @@ export default {
   color: $gray500;
   font-size: rem(18);
 }
-.block-list-wrapper {
-  min-height: calc(100vh - #{rem(100)});
-  background-color: white;
-  padding: 0 rem(10);
-  border-radius: rem(8);
   .block-total-list {
     padding: 0;
     width: 100%;
@@ -156,5 +153,4 @@ export default {
     display: flex;
     align-items: center;
   }
-}
 </style>
