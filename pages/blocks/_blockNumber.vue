@@ -15,10 +15,6 @@
       </Description>
     </panel>
     <panel class="trx-panel" title="Transactions" v-if="!isRequesting">
-      <p v-if="total === 0" class="no-result">
-        <img class="empty-icon" src="../../assets/empty.svg" />
-        {{ $t('noTx') }}
-      </p>
       <block-table v-if="total > 0" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
