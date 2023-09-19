@@ -11,9 +11,7 @@
       </div>
     </div>
     <div class="panel-content">
-      <slot>
-        <NoRecord></NoRecord>
-      </slot>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -48,7 +46,6 @@ export default {
 }
 .panel-title {
   @extend .flexRow;
-  height: rem(30);
   margin-bottom: rem(30);
   .panel-title-left {
     font-size: 1rem;
@@ -66,6 +63,5 @@ export default {
 }
 .panel-content {
   border-top: 1px solid $gray100;
-  height: calc(100% - #{rem(30)});
 }
 </style>
