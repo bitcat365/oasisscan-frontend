@@ -27,35 +27,33 @@
       <template slot="headerRight">
         <Input v-model="name" prefix="ios-search" placeholder="Validator Filter" />
       </template>
-      <div class="block-list-wrapper">
-        <BlockTable root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
-          <template v-slot:status="{ data }">
-            <span v-if="data" class="success">Online</span>
-            <span v-else class="error">Offline</span>
-          </template>
-          <template v-slot:escrow="{ data: { escrow, escrowPercent } }">
-            <span>{{ escrow | readable }} ({{ escrowPercent | percentFormat }})</span>
-          </template>
-          <template v-slot:uptime="slotData">
-            <ColourDiv :color="+slotData.data.replace('%', '') >= 80 ? 'success' : +slotData.data.replace('%', '') >= 50 ? 'warning' : 'error'">{{ slotData.data }} </ColourDiv>
-          </template>
-          <template v-slot:name="slotData">
-            <div class="validator-name">
-              <img v-if="slotData.data.icon" class="name-icon" :src="slotData.data.icon" />
-              <img v-else class="name-icon" src="../../assets/validator_dafult_icon.svg" />
-              <router-link :to="slotData.data.link" :class="slotData.data.type === 'hash-link' ? 'hash-link' : ''">{{ slotData.data.type === 'hash-link' ? hashFormat(slotData.data.text) : slotData.data.text }}</router-link>
-            </div>
-          </template>
-          <template v-slot:escrowChange24="slotData">
-            <div class="escrow-change24" :class="slotData.data > 0 ? 'success' : slotData.data < 0 ? 'error' : ''">{{ showChangeSign(slotData.data) }} {{ slotData.data | readable }}</div>
-          </template>
-          <template v-slot:rank="slotData">
-            <div class="rank">
-              {{ slotData.data.rank }}
-            </div>
-          </template>
-        </BlockTable>
-      </div>
+      <BlockTable root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
+        <template v-slot:status="{ data }">
+          <span v-if="data" class="success">Online</span>
+          <span v-else class="error">Offline</span>
+        </template>
+        <template v-slot:escrow="{ data: { escrow, escrowPercent } }">
+          <span>{{ escrow | readable }} ({{ escrowPercent | percentFormat }})</span>
+        </template>
+        <template v-slot:uptime="slotData">
+          <ColourDiv :color="+slotData.data.replace('%', '') >= 80 ? 'success' : +slotData.data.replace('%', '') >= 50 ? 'warning' : 'error'">{{ slotData.data }} </ColourDiv>
+        </template>
+        <template v-slot:name="slotData">
+          <div class="validator-name">
+            <img v-if="slotData.data.icon" class="name-icon" :src="slotData.data.icon" />
+            <img v-else class="name-icon" src="../../assets/validator_dafult_icon.svg" />
+            <router-link :to="slotData.data.link" :class="slotData.data.type === 'hash-link' ? 'hash-link' : ''">{{ slotData.data.type === 'hash-link' ? hashFormat(slotData.data.text) : slotData.data.text }}</router-link>
+          </div>
+        </template>
+        <template v-slot:escrowChange24="slotData">
+          <div class="escrow-change24" :class="slotData.data > 0 ? 'success' : slotData.data < 0 ? 'error' : ''">{{ showChangeSign(slotData.data) }} {{ slotData.data | readable }}</div>
+        </template>
+        <template v-slot:rank="slotData">
+          <div class="rank">
+            {{ slotData.data.rank }}
+          </div>
+        </template>
+      </BlockTable>
     </Panel>
   </div>
 </template>
@@ -128,7 +126,7 @@ export default {
     }
   },
   async asyncData({ $axios, store: $store }) {
-    const { list, active, inactive, delegators } = await fetchValidatorsList({$axios,$store},'escrow')
+    const { list, active, inactive, delegators } = await fetchValidatorsList({ $axios, $store }, 'escrow')
     // const blockInfo = await fetchBlockInfo($axios)
     console.log('list', list)
     return { list, active, inactive, delegators }
@@ -306,63 +304,61 @@ export default {
         }
       }
     }
-    .block-list-wrapper {
-      .block-total-list {
-        padding: 0;
-        width: 100%;
-        margin-left: 0;
-        border-radius: 1px;
-        /deep/ .table-row:hover {
-          .unstar {
-            display: block;
-            opacity: 1;
-          }
-        }
-        /deep/ td,
-        /deep/ th {
-          vertical-align: middle;
-          padding: 18px 10px;
-        }
-        /deep/ td {
-          padding: rem(10);
-        }
-        /deep/ tr th,
-        /deep/ tr td {
-          &:nth-child(1) {
-            width: 60px;
-            text-align: center;
-          }
-          &:nth-child(2) {
-            width: 280px;
-            .hash-link {
-              color: $gray500;
-            }
-          }
-          &:nth-child(3) {
-            width: 200px;
-          }
-          &:nth-child(7) {
-            text-align: center;
-            .header-title {
-              justify-content: center;
-            }
-          }
-          &:last-child {
-            padding-left: 0;
-            width: 110px;
-          }
+    .block-total-list {
+      padding: 0;
+      width: 100%;
+      margin-left: 0;
+      border-radius: 1px;
+      /deep/ .table-row:hover {
+        .unstar {
+          display: block;
+          opacity: 1;
         }
       }
-      .validator-name {
-        display: flex;
-        align-items: center;
+      /deep/ td,
+      /deep/ th {
+        vertical-align: middle;
+        padding: 18px 10px;
       }
-      .name-icon {
-        margin-right: rem(5);
-        width: rem(30);
-        height: rem(30);
-        border-radius: rem(4);
+      /deep/ td {
+        padding: rem(10);
       }
+      /deep/ tr th,
+      /deep/ tr td {
+        &:nth-child(1) {
+          width: 60px;
+          text-align: center;
+        }
+        &:nth-child(2) {
+          width: 280px;
+          .hash-link {
+            color: $gray500;
+          }
+        }
+        &:nth-child(3) {
+          width: 200px;
+        }
+        &:nth-child(7) {
+          text-align: center;
+          .header-title {
+            justify-content: center;
+          }
+        }
+        &:last-child {
+          padding-left: 0;
+          width: 110px;
+        }
+      }
+    }
+    .validator-name {
+      display: flex;
+      align-items: center;
+    }
+    .name-icon {
+      margin-right: rem(5);
+      width: rem(30);
+      height: rem(30);
+      border-radius: rem(4);
     }
   }
 }
