@@ -2,37 +2,37 @@
   <div id="validatorInfo">
     <Head title="VALIDATOR INFO"></Head>
     <Row class="top">
-      <panel>
+      <Panel>
         <Detail :detailData="detailData" />
-      </panel>
+      </Panel>
     </Row>
     <Row :gutter="20" class="center-chart">
       <Col span="12">
-        <panel title="Escrow Status">
-          <pie-chart :data="[parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#B692F6', '#36BFFA80']"></pie-chart>
-        </panel>
+        <Panel title="Escrow Status">
+          <pie-chart v-if="descList && descList.length > 0" :data="[parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#B692F6', '#36BFFA80']"></pie-chart>
+        </Panel>
       </Col>
       <Col span="12">
-        <panel title="Escrow Trend">
-          <trend-chart :trends="escrowTrendData"></trend-chart>
-        </panel>
+        <Panel title="Escrow Trend">
+          <trend-chart v-if="escrowTrendData && escrowTrendData.length > 0" :trends="escrowTrendData"></trend-chart>
+        </Panel>
       </Col>
     </Row>
     <Row :gutter="20" class="center-block">
       <Col span="12">
-        <panel title="Signatures Blocks">
-          <Kuai :list="signsStates"></Kuai>
-        </panel>
+        <Panel title="Signatures Blocks">
+          <Kuai v-if="signsStates && signsStates.length > 0" :list="signsStates"></Kuai>
+        </Panel>
       </Col>
       <Col span="12">
-        <panel title="Proposal Blocks">
-          <Kuai :list="proposalsStates"></Kuai>
-        </panel>
+        <Panel title="Proposal Blocks">
+          <Kuai v-if="proposalsStates && proposalsStates.length > 0" :list="proposalsStates"></Kuai>
+        </Panel>
       </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-top">
       <Col span="12">
-        <panel title="Delegators">
+        <Panel title="Delegators">
           <BlockTable v-if="delegatorsList && delegatorsList.length > 0" :data="delegatorsList" :columns="columns1" :expand="false" class="block-totasl-list  delegator-table" cell-class="block-total-list-cell">
             <template v-slot:address="{ data }">
               <a :href="data.link">{{ data.text | hashFormat }}</a>
@@ -40,10 +40,10 @@
             </template>
           </BlockTable>
           <Page v-if="delegatorsList && delegatorsList.length > 0" type="simple" :sizer="eventListSizer" :records-count="totalDelegatorSize" :page="delegatorListPage" @goto="gotoDelegators" />
-        </panel>
+        </Panel>
       </Col>
       <Col span="12">
-        <panel title="Escrow Events">
+        <Panel title="Escrow Events">
           <BlockTable v-if="evensList && evensList.length > 0" :data="evensList" :columns="columns2" :expand="false" class="block-total-list events-list" cell-class="block-total-list-cell">
             <template v-slot:amountAndShares="slotData">
               <div class="amount-share" :class="positiveStyle(slotData.data.add)">
@@ -52,18 +52,18 @@
             </template>
           </BlockTable>
           <Page v-if="evensList && evensList.length > 0" type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" root-class="block-page" @goto="gotoEvents" />
-        </panel>
+        </Panel>
       </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-bot">
       <Col span="12">
-        <panel title="Proposed Blocks">
-          <BlockTable class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList"> </BlockTable>
-          <Page type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" root-class="block-page" @goto="goto" />
-        </panel>
+        <Panel title="Proposed Blocks">
+          <BlockTable v-if="blockList && blockList.length > 0" class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList"> </BlockTable>
+          <Page v-if="blockList && blockList.length > 0" type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" root-class="block-page" @goto="goto" />
+        </Panel>
       </Col>
       <Col span="12">
-        <panel title="Votes"></panel>
+        <Panel title="Votes"></Panel>
       </Col>
     </Row>
   </div>

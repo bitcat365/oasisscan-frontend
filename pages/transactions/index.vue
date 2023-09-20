@@ -18,21 +18,19 @@
           </DropdownMenu>
         </Dropdown>
       </template>
-      <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
-          <template v-slot:fee="{ data }">
-            <span v-if="data">{{ data | unit(isTest) }}</span>
-            <span v-else>0</span>
-          </template>
-          <template v-slot:status="{ data }">
-            <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
-          </template>
-          <template v-slot:timestamp="{ data }">
-            <span>{{ data.value | timeFormat }} </span>
-          </template>
-        </block-table>
-        <Page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
-      </div>
+      <block-table v-if="list && list.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+        <template v-slot:fee="{ data }">
+          <span v-if="data">{{ data | unit(isTest) }}</span>
+          <span v-else>0</span>
+        </template>
+        <template v-slot:status="{ data }">
+          <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
+        </template>
+        <template v-slot:timestamp="{ data }">
+          <span>{{ data.value | timeFormat }} </span>
+        </template>
+      </block-table>
+      <Page v-if="list && list.length > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
     </Panel>
   </div>
 </template>
@@ -182,7 +180,6 @@ export default {
     }
   }
 }
-.block-list-wrapper {
   .block-total-list {
     padding: 0;
     width: 100%;
@@ -201,5 +198,4 @@ export default {
       }
     }
   }
-}
 </style>

@@ -6,14 +6,14 @@
       </template>
     </Head>
     <Panel>
-      <BlockTable root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <BlockTable v-if="list && list.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:address="{ data }">
           <div class="account-item">
             <a :href="data.link" target="_self">{{ data.text }}</a>
           </div>
         </template>
       </BlockTable>
-      <Page :page="page" :sizer="sizer" :records-count="total" root-class="block-page" @goto="goto"></Page>
+      <Page v-if="list && list.length > 0" :page="page" :sizer="sizer" :records-count="total" root-class="block-page" @goto="goto"></Page>
     </Panel>
   </div>
 </template>

@@ -21,10 +21,6 @@
         <Page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
       <div v-else-if="currentListType=== ListTypes.nodeList && !isLoading" class="block-list-wrapper node-list-wrapper">
-        <p v-if="nodeList && nodeList.length === 0" class="no-result">
-          <img class="empty-icon" src="../../assets/empty.svg">
-          No Node List
-        </p>
         <block-table
           v-if="nodeList && nodeList.length > 0"
           root-class="block-total-list"
@@ -40,10 +36,6 @@
         </block-table>
       </div>
       <div v-else-if="currentListType=== ListTypes.txList && !isLoading" class="block-list-wrapper tx-list-wrapper">
-        <p v-if="txList && txList.length === 0" class="no-result">
-          <img class="empty-icon" src="../../assets/empty.svg">
-          No Transaction History
-        </p>
         <block-table
           v-if="txList && txList.length > 0"
           root-class="block-total-list"
@@ -57,9 +49,6 @@
         </block-table>
         <Page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></Page>
       </div>
-      <!-- <div class="loader-con">
-        <loader v-if="isLoading"/>
-      </div> -->
     </Panel>
   </div>
 </template>

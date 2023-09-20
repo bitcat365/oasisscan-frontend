@@ -43,7 +43,7 @@
             <div class="circle" style="background-color:#53B1FD"></div>
             Total Escrow
           </span>
-          <Chart v-if="tx.length>0||escrow.length>0" :tx="tx" :escrow="escrow" />
+          <Chart v-if="(tx && tx.length > 0) || (escrow && escrow.length > 0)" :tx="tx" :escrow="escrow" />
         </Panel>
       </Col>
     </Row>
@@ -51,13 +51,13 @@
       <Col span="12">
         <Panel title="Latest Blocks">
           <router-link slot="headerRight" to="/blocks" class="headerRight">View All</router-link>
-          <BlockTable v-if="blocks.length>0" :columns="blockListColumns" :data="blocks" />
+          <BlockTable v-if="blocks&&blocks.length>0" :columns="blockListColumns" :data="blocks" />
         </Panel>
       </Col>
       <Col span="12">
         <Panel title="Latest Transactions">
           <router-link slot="headerRight" to="/transactions" class="headerRight">View All</router-link>
-          <BlockTable v-if="transactions.length>0" :columns="transactionColumns" :data="transactions" />
+          <BlockTable v-if="transactions&&transactions.length>0" :columns="transactionColumns" :data="transactions" />
         </Panel>
       </Col>
     </Row>

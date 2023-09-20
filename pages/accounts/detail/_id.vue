@@ -56,7 +56,7 @@
     </Row>
     <Row :gutter="20" class="bottom-table-bot">
       <Col span="24">
-        <panel title="Transactions">
+        <Panel title="Transactions">
           <div v-if="currentTxListType === ListTypes.consensus && !isRequesting">
             <BlockTable v-if="total > 0" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:fee="{ data }">
@@ -77,7 +77,7 @@
             </BlockTable>
             <Page type="simple" v-if="runtimeTotal > 0" :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" root-class="block-page" @goto="runTimeGoto"></Page>
           </div>
-        </panel>
+        </Panel>
       </Col>
     </Row>
   </div>

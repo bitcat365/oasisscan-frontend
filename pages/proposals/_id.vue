@@ -8,10 +8,6 @@
       </div>
     </panel>
     <panel title="Votes" class="trx-panel" v-if="!isRequesting">
-      <p v-if="data.votes.length === 0" class="no-result">
-        <img class="empty-icon" src="../../assets/empty.svg" />
-        {{ $t("noVotes") }}
-      </p>
       <block-table
         v-if="data.votes.length > 0"
         :data="data.votes"

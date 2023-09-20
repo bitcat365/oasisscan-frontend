@@ -16,13 +16,6 @@
       </Description>
     </Panel>
     <Panel class="trx-panel" title="Transactions">
-      <div class="loader-con"  v-if="isRequesting">
-        <loader/>
-      </div>
-      <p v-if="total === 0 && !isRequesting" class="no-result">
-        <img class="empty-icon" src="../../../assets/empty.svg">
-        {{$t('noTx')}}
-      </p>
       <block-table
         v-if="total > 0 && !isRequesting"
         :data="list"

@@ -6,7 +6,7 @@
     </template>
     </Head>
     <Panel>
-      <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <block-table v-if="list && list.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:timestamp="{data}">
           <span>{{data.value | timeFormat}} </span>
         </template>

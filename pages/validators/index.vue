@@ -27,7 +27,7 @@
       <template slot="headerRight">
         <Input v-model="name" prefix="ios-search" placeholder="Validator Filter" />
       </template>
-      <BlockTable root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
+      <BlockTable v-if="showList && showList.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
         <template v-slot:status="{ data }">
           <span v-if="data" class="success">Online</span>
           <span v-else class="error">Offline</span>
