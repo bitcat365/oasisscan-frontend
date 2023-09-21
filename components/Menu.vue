@@ -13,15 +13,15 @@
       </div>
       <nav class="menu-list1">
         <template v-for="item in menuList1">
+            <!-- @click.native="
+              active = item.id
+              item.open = !item.open
+            " -->
           <router-link
             v-if="item.to"
             :key="item.id"
             :to="item.to"
             :class="className(item.to)"
-            @click.native="
-              active = item.id
-              item.open = !item.open
-            "
           >
             <SvgIcon v-if="item.iconName" :className="ifActive(item.to) ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
             <span :class="menuOpen ? '' : 'hoverText'">{{ item.name }}</span>
@@ -30,8 +30,9 @@
         </template>
       </nav>
       <div class="menu-list2">
-        <router-link :to="'/FAQ'" :class="className('/FAQ') + ' top-border'" @click.native="active = '2-1'">
-          <SvgIcon :className="active === '2-1' ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
+        <!-- @click.native="active = '2-1'" -->
+        <router-link :to="'/FAQ'" :class="className('/FAQ') + ' top-border'">
+          <SvgIcon :className="ifActive('/FAQ') ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
           <span v-show="menuOpen">FAQ</span>
           <span v-show="!menuOpen" class="hoverText">FAQ</span>
         </router-link>
@@ -68,7 +69,7 @@ export default {
   data() {
     return {
       theme: 'dark', // realTheme=light
-      active: null,
+      // active: null,
       runtimeList: []
     }
   },
