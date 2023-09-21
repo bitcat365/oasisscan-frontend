@@ -24,7 +24,7 @@
             "
           >
             <SvgIcon v-if="item.iconName" :className="ifActive(item.to) ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
-            <span :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
+            <span :class="menuOpen ? '' : 'hoverText'">{{ item.name }}</span>
           </router-link>
           <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
         </template>
@@ -72,8 +72,7 @@ export default {
       runtimeList: []
     }
   },
-  props: {
-  },
+  props: {},
   computed: {
     menuOpen() {
       return this.$store.state.menuOpen
@@ -81,7 +80,7 @@ export default {
     menuWidth() {
       return this.$store.state.menuOpen ? '16rem' : '6.25rem'
     },
-    menuList1(){
+    menuList1() {
       let menuList = [
         { id: '1-1', name: 'DASHBOARD', to: '/', iconName: 'home' },
         { id: '1-2', name: 'VALIDATORS', to: '/validators', iconName: 'validator' },
@@ -90,11 +89,11 @@ export default {
         { id: '1-5', name: 'TRANSACTIONS', to: '/transactions', iconName: 'transactions' },
         { id: '1-6', name: 'PROPOSALS', to: '/proposals', iconName: 'proposals' }
       ]
-      if(this.runtimeList.length>0){
-        menuList.push({ id: '1-7', name: 'PARATIMES' })
+      if (this.runtimeList.length > 0) {
+        menuList.push({ id: '1-7', name: 'PARATIMES', key: '/paratimes' })
         this.runtimeList.forEach(ele => {
-          menuList.push({ id: '1-'+ menuList.length + 1, name: ele.name, to: {path:'/paratimes/'+ele.runtimeId,query:ele}, iconName: 'paratimes'})
-        });
+          menuList.push({ id: '1-' + menuList.length + 1, name: ele.name, to: { path: '/paratimes/' + ele.runtimeId, query: ele }, iconName: 'paratimes' })
+        })
       }
       return menuList
     }
@@ -106,9 +105,9 @@ export default {
     close() {
       this.$store.commit('SET_MENU_OPEN', false)
     },
-    ifActive(to){
-      const path = typeof to == "string" ? to : to.path
-      const res = this.$route.path == path ? true : this.$route.path.startsWith(path + '/')
+    ifActive(to) {
+      const path = typeof to == 'string' ? to : to.path
+      const res = this.$route.path == path ? true : this.$route.path.startsWith(path + '/') ? true : this.$route.path.startsWith(to.key)
       return res
     },
     className(to) {
@@ -126,9 +125,9 @@ export default {
       } else {
         this.runtimeList = []
       }
-    },
+    }
   },
-  created(){
+  created() {
     this.RuntimeList()
   }
 }
@@ -143,7 +142,7 @@ export default {
   border-radius: 0 15px 15px 0;
   @extend .flexColumn;
 }
-.menu-top{
+.menu-top {
   .menu-logo {
     height: rem(120);
     padding: rem(30) 0;
