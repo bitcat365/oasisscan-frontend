@@ -93,7 +93,6 @@ export default {
       if(this.runtimeList.length>0){
         menuList.push({ id: '1-7', name: 'PARATIMES' })
         this.runtimeList.forEach(ele => {
-          console.log(ele);
           menuList.push({ id: '1-'+ menuList.length + 1, name: ele.name, to: {path:'/paratimes/'+ele.runtimeId,query:ele}, iconName: 'paratimes'})
         });
       }
@@ -130,7 +129,6 @@ export default {
     },
   },
   created(){
-    console.log(this.$route);
     this.RuntimeList()
   }
 }
