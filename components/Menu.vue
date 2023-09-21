@@ -17,20 +17,20 @@
             v-if="item.to"
             :key="item.id"
             :to="item.to"
-            :class="className(item.id)"
+            :class="className(item.to)"
             @click.native="
               active = item.id
               item.open = !item.open
             "
           >
-            <SvgIcon v-if="item.iconName" :className="active === item.id ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
+            <SvgIcon v-if="item.iconName" :className="ifActive(item.to) ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
             <span :class="menuOpen?'':'hoverText'">{{ item.name }}</span>
           </router-link>
           <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
         </template>
       </nav>
       <div class="menu-list2">
-        <router-link :to="'/FAQ'" :class="className('2-1') + ' top-border'" @click.native="active = '2-1'">
+        <router-link :to="'/FAQ'" :class="className('/FAQ') + ' top-border'" @click.native="active = '2-1'">
           <SvgIcon :className="active === '2-1' ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
           <span v-show="menuOpen">FAQ</span>
           <span v-show="!menuOpen" class="hoverText">FAQ</span>
@@ -107,11 +107,16 @@ export default {
     close() {
       this.$store.commit('SET_MENU_OPEN', false)
     },
-    className(id) {
+    ifActive(to){
+      const path = typeof to == "string" ? to : to.path
+      const res = this.$route.path == path ? true : this.$route.path.startsWith(path + '/')
+      return res
+    },
+    className(to) {
       if (this.$store.state.menuOpen) {
-        return this.active == id ? 'menu-item menu-item-open menu-item-active' : 'menu-item menu-item-open'
+        return this.ifActive(to) ? 'menu-item menu-item-open menu-item-active' : 'menu-item menu-item-open'
       } else {
-        return this.active == id ? 'menu-item menu-item-close menu-item-active' : 'menu-item menu-item-close'
+        return this.ifActive(to) ? 'menu-item menu-item-close menu-item-active' : 'menu-item menu-item-close'
       }
     },
     async RuntimeList() {
@@ -125,6 +130,7 @@ export default {
     },
   },
   created(){
+    console.log(this.$route);
     this.RuntimeList()
   }
 }
