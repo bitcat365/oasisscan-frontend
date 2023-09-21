@@ -35,7 +35,7 @@
           <span v-show="menuOpen">FAQ</span>
           <span v-show="!menuOpen" class="hoverText">FAQ</span>
         </router-link>
-        <div
+        <!-- <div
           :class="className('2-2') + ' pointer'"
           @click="
             active = '2-2'
@@ -45,7 +45,7 @@
           <SvgIcon :className="active === '2-2' ? 'svgClass-active' : 'svgClass'" :iconName="theme" />
           <span v-show="menuOpen">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
           <span v-show="!menuOpen" class="hoverText">{{ theme == 'dark' ? 'Dark Theme' : 'Light Theme' }}</span>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="menu-bot">
