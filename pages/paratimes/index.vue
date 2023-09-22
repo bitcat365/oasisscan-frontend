@@ -117,12 +117,11 @@ export default {
         roundListTotal,
         txListTotal,
         runtimeList,
-        runtimeListSize: runtimeList.length,
         currentRuntime,
         currentListType
       }
     } else {
-      return { runtimeList: [], runtimeListSize: 0, currentRuntime: null, currentListType }
+      return { runtimeList: [], currentRuntime: null, currentListType }
     }
   },
   methods: {
