@@ -352,7 +352,7 @@ export async function fetchRuntimeTransactions($config, address = '', page = 1, 
   const res = list.map(item => {
     return {
       ...item,
-      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${item.runtimeId}&round=${item.round}`, type: 'hash-link' },
+      txHash: { text: item.txHash, link: `/paratimes/${item.runtimeId}/transactions/${item.txHash}?round=${item.round}`, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       status: item.result
     }
@@ -638,7 +638,7 @@ export async function onSearch(vue, text) {
           break
         case 'runtime-transaction':
           const [runtimeId, txHash] = res.result.split('_')
-          vue.$router.push(`/paratimes/transactions/${txHash}?runtime=${runtimeId}`)
+          vue.$router.push(`/paratimes/${runtimeId}/transactions/${txHash}`)
           break
         default:
           vue.$Spin.hide()
@@ -680,7 +680,7 @@ export async function fetchRoundList($config, runtimeId, page = 1, size = 20) {
       ...item,
       state_root: { value: item.state_root, type: 'hash' },
       io_root: { value: item.io_root, type: 'hash' },
-      round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },
+      round: { text: item.round, link: `/paratimes/${runtimeId}/round/${item.round}`, type: 'link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' }
     }
   })
@@ -715,7 +715,7 @@ export async function fetchRuntimeTxDetail($config, runtimeId, txHash, roundHeig
     data = {}
   } else {
     data.runtimeIdAndName = (data.runtimeName ? data.runtimeName : 'Unknown') + ` (${data.runtimeId})`
-    data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
+    data.round = { text: data.round, link: `/paratimes/${runtimeId}/round/${data.round}`, type: 'link' }
     data.timestamp = data.timestamp * 1000
   }
   return data
@@ -769,8 +769,8 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
     // console.log('item.timestamp * 1000', (item.timestamp * 1000 - new Date()) / 1000)
     return {
       ...item,
-      round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },
-      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${runtimeId}&round=${item.round}`, type: 'hash-link', sliceLength: 12 },
+      round: { text: item.round, link: `/paratimes/${runtimeId}/round/${item.round}`, type: 'link' },
+      txHash: { text: item.txHash, link: `/paratimes/${runtimeId}/transactions/${item.txHash}?round=${item.round}`, type: 'hash-link', sliceLength: 12 },
       timestamp: { value: item.timestamp * 1000, type: 'time' }
     }
   })
