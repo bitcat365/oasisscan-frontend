@@ -5,7 +5,7 @@
         <div class="paratime-tag">Paratime</div>
       </template>
     </Head>
-    <Panel title="Header">{{ data }}
+    <Panel title="Header">
       <Description :list="listSchema" class="info-list">
         <template #timestamp>
           <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
