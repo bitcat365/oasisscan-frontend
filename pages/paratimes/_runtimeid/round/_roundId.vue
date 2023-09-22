@@ -39,20 +39,20 @@
 
 <script>
   import Head from '~/components/Head'
-  import Panel from '../../../components/panel/Panel'
-  import BlockTable from '../../../components/Table/index'
-  import ArrowNavigate from '../../../components/ArrowNavigate'
-  import Page from '../../../components/Page'
+  import Panel from '~/components/panel/Panel'
+  import BlockTable from '~/components/Table/index'
+  import ArrowNavigate from '~/components/ArrowNavigate'
+  import Page from '~/components/Page'
   import Description from '~/components/description/index.vue'
   import ColourDiv from '~/components/colourDiv/colourDiv'
-  import {fetchRoundDetail, fetchRuntimeTxList} from '../../../fetch'
-  import Loader from '../../../components/Loader';
+  import {fetchRoundDetail, fetchRuntimeTxList} from '~/fetch'
+  import Loader from '~/components/Loader';
 
   export default {
     name: 'roundDetail',
     components: { Head, Panel, Description, ArrowNavigate, BlockTable,  Loader,Page,ColourDiv },
     async asyncData({ $axios, store: $store, params, route }) {
-      const data = await fetchRoundDetail({ $axios, $store }, route.query.runtime, params.roundId)
+      const data = await fetchRoundDetail({ $axios, $store }, route.params.runtimeid, params.roundId)
       return {
         data,
         isLast: !data.next
@@ -139,7 +139,7 @@
       async fetchList(page = 1) {
         const $axios = this.$axios
         const $store = this.$store
-        const runtime = this.$route.query.runtime
+        const runtime = this.$route.params.runtimeid
         const roundId = this.$route.params.roundId
         const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, runtime, roundId, page, this.sizer)
         this.list = list
@@ -147,10 +147,10 @@
         this.page = page
       },
       pre() {
-        this.$router.push(`./${parseInt(this.$route.params.roundId) - 1}?runtime=${this.$route.query.runtime}`)
+        this.$router.push(`/paratimes/${this.$route.params.runtimeid}/round/${parseInt(this.$route.params.roundId) - 1}`)
       },
       next() {
-        this.$router.push(`./${parseInt(this.$route.params.roundId) + 1}?runtime=${this.$route.query.runtime}`)
+        this.$router.push(`/paratimes/${this.$route.params.runtimeid}/round/${parseInt(this.$route.params.roundId) + 1}`)
       }
     }
   }

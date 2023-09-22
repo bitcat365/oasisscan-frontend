@@ -5,7 +5,7 @@
         <div class="paratime-tag">Paratime</div>
       </template>
     </Head>
-    <Panel title="Header">
+    <Panel title="Header">{{ data }}
       <Description :list="listSchema" class="info-list">
         <template #timestamp>
           <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
@@ -14,7 +14,7 @@
           <ColourDiv v-if="data.result" color="success">Success</ColourDiv>
           <template v-else>
             <ColourDiv color="error">Fail</ColourDiv>
-            <!-- <span class="error-message">{{ data.detail.message }}</span> -->
+            <span class="error-message">{{ data.message }}</span>
           </template>
         </template>
       </Description>
@@ -34,16 +34,16 @@
 
 <script>
   import Head from '~/components/Head'
-  import Panel from '../../../components/panel/Panel'
+  import Panel from '~/components/panel/Panel'
   import Description from '~/components/description/index.vue'
   import ColourDiv from '~/components/colourDiv/colourDiv'
-  import { fetchRuntimeTxDetail } from '../../../fetch'
+  import { fetchRuntimeTxDetail } from '~/fetch'
 
   export default {
     name: 'runtimeTxDetail',
     components: { Head, Panel, Description, ColourDiv },
     async asyncData({ $axios, store: $store, params, route }) {
-      const data = await fetchRuntimeTxDetail({ $axios, $store }, route.query.runtime, params.txId, route.query.round)
+      let data = await fetchRuntimeTxDetail({ $axios, $store }, route.params.runtimeid, params.txId, route.query.round)
      console.log('data', data)
       return {
         data,
