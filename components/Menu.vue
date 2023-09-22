@@ -199,6 +199,7 @@ export default {
     }
     .menu-item:hover .hoverText {
       visibility: visible;
+      z-index: 999;
     }
     .menu-item-open {
       padding: 0 rem(10);
