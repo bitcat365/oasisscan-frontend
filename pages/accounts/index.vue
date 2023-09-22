@@ -9,7 +9,7 @@
       <BlockTable v-if="list && list.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:address="{ data }">
           <div class="account-item">
-            <a :href="data.link" target="_self">{{ data.text }}</a>
+            <router-link :to="data.link">{{ data.text }}</router-link>
           </div>
         </template>
       </BlockTable>

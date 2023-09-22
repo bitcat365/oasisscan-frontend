@@ -35,7 +35,7 @@
         <Panel title="Delegators">
           <BlockTable v-if="delegatorsList && delegatorsList.length > 0" :data="delegatorsList" :columns="columns1" :expand="false" class="block-totasl-list  delegator-table" cell-class="block-total-list-cell">
             <template v-slot:address="{ data }">
-              <a :href="data.link">{{ data.text | hashFormat }}</a>
+              <router-link :to="data.link">{{ data.text | hashFormat }}</router-link>
               <span v-if="data.text === entityAddress">(Self)</span>
             </template>
           </BlockTable>
