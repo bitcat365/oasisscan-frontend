@@ -124,7 +124,7 @@ export async function fetchBlockList($config, page = 1, size = 20, progress = tr
     const name = item.name ? item.name : item.entityAddress
     return {
       ...item,
-      hash: { text: item.hash, link: `/blocks/${item.height}`, sliceLength: 12, type: 'hash-link' },
+      hash: { text: item.hash, link: `/blocks/${item.height}`, sliceLength: 8, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       proposer: { text: name, link: `/validators/detail/${item.entityAddress}`, type: item.name ? 'link' : 'hash-link' },
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' }
@@ -226,7 +226,7 @@ export async function fetchAccountsList($config, page = 1, size = 10) {
   return { list: res, totalSize }
 }
 
-export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 8) {
+export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 6) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/transactions', {
     params: {
       page,
@@ -557,7 +557,7 @@ export async function getBlockByProposer($config, address, size = 5, page = 1) {
       return {
         ...item,
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-        hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link', sliceLength: 12 },
+        hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link', sliceLength: 6 },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         type: `${item.method}`
       }
@@ -770,7 +770,7 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
     return {
       ...item,
       round: { text: item.round, link: `/paratimes/${runtimeId}/round/${item.round}`, type: 'link' },
-      txHash: { text: item.txHash, link: `/paratimes/${runtimeId}/transactions/${item.txHash}?round=${item.round}`, type: 'hash-link', sliceLength: 12 },
+      txHash: { text: item.txHash, link: `/paratimes/${runtimeId}/transactions/${item.txHash}?round=${item.round}`, type: 'hash-link', sliceLength: 8 },
       timestamp: { value: item.timestamp * 1000, type: 'time' }
     }
   })
