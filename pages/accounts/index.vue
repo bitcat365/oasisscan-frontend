@@ -36,7 +36,7 @@ export default {
   },
   async asyncData({ $axios, store: $store }) {
     const { list, totalSize } = await fetchAccountsList({ $axios, $store }, 1, 20)
-    console.log('list', list)
+    // console.log('list', list)
     return { list, total: totalSize }
   },
   methods: {

@@ -127,8 +127,7 @@ export default {
   },
   async asyncData({ $axios, store: $store }) {
     const { list, active, inactive, delegators } = await fetchValidatorsList({ $axios, $store }, 'escrow')
-    // const blockInfo = await fetchBlockInfo($axios)
-    console.log('list', list)
+    // console.log('list', list)
     return { list, active, inactive, delegators }
   },
   computed: {
