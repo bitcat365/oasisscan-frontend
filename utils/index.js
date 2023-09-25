@@ -29,7 +29,7 @@ export function convertTime(list) {
   })
   return list
 }
-export function hashFormat(val, length = 8) {
+export function hashFormat(val, length = 6) {
   if (!val) {
     return ''
   }
