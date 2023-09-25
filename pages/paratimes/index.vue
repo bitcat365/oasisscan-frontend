@@ -1,8 +1,8 @@
 <template>
   <div class="blocks-root">
-    <Head :title="$route.query.name" class="title">
+    <Head :title="titleName" class="title">
       <template #HeadLeft>
-        <span class="HeadLeft"> ({{ $route.query.runtimeId }})</span>
+        <span class="HeadLeft"> ({{ runtimeId }})</span>
       </template>
     </Head>
     <Panel class="panel">
@@ -12,7 +12,7 @@
         <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
       </div>
       <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" prefix="ios-search" placeholder="Node Filter" />
-      <div v-if="currentListType === ListTypes.roundList && !isLoading" class="block-list-wrapper round-list-wrapper">
+      <div v-if="currentListType === ListTypes.roundList" class="block-list-wrapper round-list-wrapper">
         <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
           <template v-slot:timestamp="{ data }">
             <span>{{ data.value | timeFormat }} </span>
@@ -20,7 +20,7 @@
         </block-table>
         <Page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
-      <div v-else-if="currentListType === ListTypes.nodeList && !isLoading" class="block-list-wrapper node-list-wrapper">
+      <div v-else-if="currentListType === ListTypes.nodeList" class="block-list-wrapper node-list-wrapper">
         <block-table v-if="nodeList && nodeList.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
           <template v-slot:status="{ data }">
             <span v-if="data" class="success">Online</span>
@@ -28,7 +28,7 @@
           </template>
         </block-table>
       </div>
-      <div v-else-if="currentListType === ListTypes.txList && !isLoading" class="block-list-wrapper tx-list-wrapper">
+      <div v-else-if="currentListType === ListTypes.txList" class="block-list-wrapper tx-list-wrapper">
         <block-table v-if="txList && txList.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="txListColumns" :data="txList">
           <template v-slot:result="{ data }">
             <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { fetchBlockList, fetchRoundList, fetchRuntimeList, fetchRuntimeNodeList, fetchRuntimeTxList } from '../../fetch/index'
+import { fetchRoundList, fetchRuntimeNodeList, fetchRuntimeTxList } from '../../fetch/index'
 import Head from '~/components/Head'
 import Panel from '~/components/panel/Panel'
 import BlockTable from '../../components/Table/index'
@@ -65,63 +65,57 @@ export default {
     ColourDiv
   },
   async asyncData({ $axios, store: $store, query }) {
-    // if ($store.state.net !== Config.testnetChainId) {
-    //   redirect(`/`)
-    //   return
-    // }
-    let currentListType, currentRuntime
+    let currentListType, runtimeId, titleName
     if (query.listType) {
       currentListType = query.listType
     } else {
       currentListType = ListTypes.nodeList
     }
-
-    const runtimeList = await fetchRuntimeList({ $axios, $store })
-    if (runtimeList.length > 0) {
-      if (query.runtimeid) {
-        currentRuntime = runtimeList.find(({ runtimeId }) => runtimeId === query.runtimeid)
-      }
-      if (!currentRuntime) {
-        currentRuntime = runtimeList[0]
-      }
-      let roundList = [],
-        nodeList = [],
-        txList = []
-      let roundListTotal = 0,
-        nodeListTotal = 0,
-        txListTotal = 0,
-        onlineNodes = 0,
-        offlineNodes = 0
-      if (currentListType === ListTypes.roundList) {
-        const { list, totalSize } = await fetchRoundList({ $axios, $store }, currentRuntime.runtimeId)
-        roundList = list
-        roundListTotal = totalSize
-      } else if (currentListType === ListTypes.txList) {
-        const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, currentRuntime.runtimeId, null)
-        txList = list
-        txListTotal = totalSize
-      } else {
-        const { list, totalSize, online, offline } = await fetchRuntimeNodeList({ $axios, $store }, currentRuntime.runtimeId)
-        nodeList = list
-        nodeListTotal = totalSize
-        onlineNodes = online
-        offlineNodes = offline
-      }
-      return {
-        onlineNodes,
-        offlineNodes,
-        nodeList,
-        roundList,
-        txList,
-        nodeListTotal,
-        roundListTotal,
-        txListTotal,
-        runtimeList,
-        currentRuntime,
-        currentListType
-      }
+    if (query.runtimeId) {
+      runtimeId = query.runtimeId
+    }else{
+      runtimeId = ''
+    }
+    if (query.name) {
+      titleName = query.name
+    }else{
+      titleName = ''
+    }
+    let roundList = [],
+      nodeList = [],
+      txList = []
+    let roundListTotal = 0,
+      nodeListTotal = 0,
+      txListTotal = 0,
+      onlineNodes = 0,
+      offlineNodes = 0
+    if (currentListType === ListTypes.roundList) {
+      const { list, totalSize } = await fetchRoundList({ $axios, $store }, runtimeId)
+      roundList = list
+      roundListTotal = totalSize
+    } else if (currentListType === ListTypes.txList) {
+      const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, runtimeId, null)
+      txList = list
+      txListTotal = totalSize
     } else {
-      return { runtimeList: [], currentRuntime: null, currentListType }
+      const { list, totalSize, online, offline } = await fetchRuntimeNodeList({ $axios, $store }, runtimeId)
+      nodeList = list
+      nodeListTotal = totalSize
+      onlineNodes = online
+      offlineNodes = offline
+    }
+    return {
+      runtimeId,
+      titleName,
+      currentListType,
+      onlineNodes,
+      offlineNodes,
+      nodeList,
+      roundList,
+      txList,
+      nodeListTotal,
+      roundListTotal,
+      txListTotal,
     }
   },
   methods: {
@@ -153,14 +147,14 @@ export default {
     },
     async getRoundList(pageNumber) {
       const { $axios, $store } = this
-      const { list, totalSize } = await fetchRoundList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer)
+      const { list, totalSize } = await fetchRoundList({ $axios, $store }, this.runtimeId, pageNumber, this.sizer)
       this.roundListPage = pageNumber
       this.roundList = list
       this.roundListTotal = totalSize
     },
     async getNodeList(pageNumber, sortKey = 0) {
       const { $axios, $store } = this
-      const { list, totalSize, offline, online } = await fetchRuntimeNodeList({ $axios, $store }, this.currentRuntime.runtimeId, pageNumber, this.sizer, sortKey)
+      const { list, totalSize, offline, online } = await fetchRuntimeNodeList({ $axios, $store }, this.runtimeId, pageNumber, this.sizer, sortKey)
       this.nodeListPage = pageNumber
       this.nodeList = list
       this.nodeListTotal = totalSize
@@ -169,7 +163,7 @@ export default {
     },
     async getRuntimeTxList(pageNumber) {
       const { $axios, $store } = this
-      const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, this.currentRuntime.runtimeId, null, pageNumber, this.sizer)
+      const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, this.runtimeId, null, pageNumber, this.sizer)
       this.txListPage = pageNumber
       this.txList = list
       this.txListTotal = totalSize
@@ -178,9 +172,7 @@ export default {
       this.currentListType = listType
       let query = Object.assign({}, this.$route.query, { listType: listType })
       this.$router.push({ path: this.$route.path, query: query })
-      this.isLoading = true
       await this.goto(1)
-      this.isLoading = false
     }
   },
   computed: {
@@ -214,10 +206,8 @@ export default {
       nodeListTotal: 0,
       txList: [],
       txListTotal: 0,
-      currentRuntime: null,
       ListTypes,
       currentListType: ListTypes.nodeList,
-      isLoading: false,
       currentNodeListSortKey: '',
       onlineNodes: 0,
       offlineNodes: 0,
