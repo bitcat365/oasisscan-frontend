@@ -178,6 +178,10 @@ export default {
             .svg {
               width: rem(24);
               height: rem(24);
+              color: $gray300;
+            }
+            .svg:hover{
+              color: $gray400;
             }
             .edit {
               font-size: rem(12);
