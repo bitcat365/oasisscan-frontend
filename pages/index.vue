@@ -81,7 +81,8 @@ export default {
       blockListColumns: [
         {
           title: 'Height',
-          key: 'height'
+          key: 'height',
+          width: '8rem'
         },
         {
           title: 'Proposer',
@@ -90,12 +91,14 @@ export default {
         {
           title: 'Txs',
           key: 'txs',
-          textAlign: 'center'
+          textAlign: 'center',
+          width: '4rem'
         },
         {
           title: 'Time',
           key: 'timestamp',
-          textAlign: 'right'
+          textAlign: 'right',
+          width: '8rem'
         }
       ],
       transactionColumns: [
@@ -105,7 +108,8 @@ export default {
         },
         {
           title: 'Height',
-          key: 'height'
+          key: 'height',
+          width: '8rem'
         },
         {
           title: 'Type',
@@ -114,7 +118,8 @@ export default {
         {
           title: 'Time',
           key: 'timestamp',
-          textAlign: 'right'
+          textAlign: 'right',
+          width: '8rem'
         }
       ]
     }

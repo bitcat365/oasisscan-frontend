@@ -119,7 +119,7 @@ export default {
     headerStyle(params) {
       const style = {}
       if (params.width) {
-        style.width = params.width + 'px'
+        style.width = params.width
       }
       return style
     },
