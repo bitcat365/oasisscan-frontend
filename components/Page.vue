@@ -57,15 +57,6 @@ export default {
     }
   },
   computed: {
-    toPageText() {
-      const arr = []
-      const text = this.$t('topage', { pageNumber: '$' })
-      const inputIndex = text.indexOf('$')
-      arr.push(text.substring(0, inputIndex))
-      arr.push('$')
-      arr.push(text.substring(inputIndex + 1, text.length))
-      return arr
-    },
     total() {
       return Math.ceil(this.recordsCount / this.sizer)
     }
