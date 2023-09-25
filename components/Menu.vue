@@ -44,8 +44,8 @@
     </div>
     <div class="menu-bot">
       <div :class="menuOpen ? 'botIcon1' : 'botIcon2'">
-        <SvgIcon className="svgClass pointer" iconName="Twitter" />
-        <SvgIcon className="svgClass pointer" iconName="Telegram" />
+        <a href="https://twitter.com/BitCat365" target="_blank"><SvgIcon className="svgClass pointer" iconName="Twitter" /></a>
+        <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" target="_blank"><SvgIcon className="svgClass pointer" iconName="Telegram" /></a>
       </div>
       <div class="botText">
         <span>Powered By</span><br v-if="!menuOpen" />
