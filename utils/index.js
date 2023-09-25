@@ -33,7 +33,7 @@ export function hashFormat(val, length = 8) {
   if (!val) {
     return ''
   }
-  return val.substr(0, length) + '...' + val.substr(-length)
+  return val.slice(0, length) + '...' + val.slice(-length)
 }
 export function intFormat(val) {
   if (!val) {
