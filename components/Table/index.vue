@@ -29,6 +29,7 @@
     </thead>
     <tbody>
       <tr
+        v-if="rowData && rowData.length > 0"
         v-for="(row, rowIndex) in rowData"
         :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
         :class="['table-row', rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', row.isExtendedRow ? 'extended-row' : 'main-row', row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : '']"
@@ -43,12 +44,14 @@
           </template>
         </table-cell>
       </tr>
+      <NoRecord v-else></NoRecord>
     </tbody>
   </table>
 </template>
 <script>
 import classNames from 'classnames'
 import TableCell from './TableCell'
+import NoRecord from '../NoRecord.vue'
 export default {
   props: {
     data: Array,
@@ -64,7 +67,8 @@ export default {
   },
   name: 'Table',
   components: {
-    TableCell
+    TableCell,
+    NoRecord
   },
   data() {
     const d = {
@@ -235,6 +239,7 @@ table {
   }
 }
 .table-row {
+  font-size: rem(14);
   &.odd {
     background: $gray25;
   }
