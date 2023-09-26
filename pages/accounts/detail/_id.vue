@@ -38,27 +38,27 @@
       <Col span="12">
         <panel title="Escrow">
           <div v-if="currentEscrowType === EscrowTypes.active && !isEscrowRequesting">
-            <BlockTable v-if="delegationsList && delegationsList.length > 0" :data="delegationsList" :columns="columns1" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
+            <BlockTable v-if="delegationsList && delegationsList.length > 0" :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
             <Page v-if="delegationsList && delegationsList.length > 0" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" root-class="block-page" @goto="gotoDelegations" />
           </div>
           <div v-else-if="!isEscrowRequesting">
-            <BlockTable v-if="debondingsList && debondingsList.length > 0" :data="debondingsList" :columns="columns2" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell"> </BlockTable>
+            <BlockTable v-if="debondingsList && debondingsList.length > 0" :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell"> </BlockTable>
             <Page v-if="debondingsList && debondingsList.length > 0" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" root-class="block-page" @goto="gotoDeboundings" />
           </div>
         </panel>
       </Col>
       <Col span="12">
-        <panel title="Event">
-          <BlockTable v-if="eventList && eventList.length > 0" :data="eventList" :columns="eventListSchema" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
+        <Panel title="Event">
+          <BlockTable v-if="eventList && eventList.length > 0" :loading="loading2" :data="eventList" :columns="eventListSchema" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
           <Page v-if="eventList && eventList.length > 0" type="simple" :sizer="eventSizer" :records-count="eventTotal" :page="eventPage" root-class="block-page" @goto="gotoEvents" />
-        </panel>
+        </Panel>
       </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-bot">
       <Col span="24">
         <Panel title="Transactions">
           <div v-if="currentTxListType === ListTypes.consensus && !isRequesting">
-            <BlockTable v-if="total > 0" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
+            <BlockTable v-if="total > 0" :loading="loading3" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:fee="{ data }">
                 <span v-if="data">{{ data | unit(isTest) }}</span>
                 <span v-else>0</span>
@@ -70,7 +70,7 @@
             <Page type="simple" v-if="total > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
           </div>
           <div v-else-if="currentTxListType === ListTypes.paratime && !isRequesting">
-            <BlockTable v-if="runtimeTotal > 0" :data="runtimeList" :columns="runtimeColumns" root-class="block-total-list" cell-class="block-total-list-cell">
+            <BlockTable v-if="runtimeTotal > 0" :loading="loading3" :data="runtimeList" :columns="runtimeColumns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:status="{ data }">
                 <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
               </template>
@@ -251,7 +251,10 @@ export default {
         }
       ],
       qrcode: {},
-      qrcodeShow: true
+      qrcodeShow: true,
+      loading1: false,
+      loading2: false,
+      loading3: false,
     }
   },
   computed: {
@@ -362,7 +365,9 @@ export default {
     async gotoEvents(pageNumber) {
       const $axios = this.$axios
       const $store = this.$store
+      this.loading2 = true
       const { list, totalSize } = await fetchEventsTransactions({ $axios, $store }, this.accountAddress, pageNumber, this.eventSizer)
+      this.loading2 = false
       this.eventList = list
       console.log('eventList', list)
       this.eventTotal = totalSize
@@ -371,7 +376,9 @@ export default {
     async gotoDelegations(pageNumber) {
       const $axios = this.$axios
       const $store = this.$store
+      this.loading1 = true
       const { list, totalSize } = await fetchAccountDelegations({ $axios, $store }, this.accountAddress, pageNumber, this.delegationsListSizer)
+      this.loading1 = false
       this.delegationsList = list
       console.log('delegatorsList', list)
       this.totalDelegationsSize = totalSize
@@ -387,7 +394,9 @@ export default {
       this.debondingsListPage = pageNumber
     },
     async goto(pageNumber) {
+      this.loading3 = true
       await this.fetchList(pageNumber)
+      this.loading3 = false
     },
     runTimeGoto(pageNumber) {
       return this.fetchList(pageNumber, true)

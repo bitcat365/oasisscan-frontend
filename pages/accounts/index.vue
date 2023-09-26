@@ -6,7 +6,7 @@
       </template>
     </Head>
     <Panel>
-      <BlockTable v-if="list && list.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <BlockTable v-if="list && list.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:address="{ data }">
           <div class="account-item">
             <router-link :to="data.link">{{ data.text }}</router-link>
@@ -43,7 +43,9 @@ export default {
     async goto(pageNumber, pageSize) {
       const $axios = this.$axios
       const $store = this.$store
+      this.loading = true
       const { list, totalSize } = await fetchAccountsList({ $axios, $store }, pageNumber, pageSize)
+      this.loading = false
       this.page = pageNumber
       this.sizer = pageSize
       this.list = list
@@ -109,7 +111,8 @@ export default {
           key: 'total',
           textAlign: 'right'
         }
-      ]
+      ],
+      loading: false
     }
   }
 }

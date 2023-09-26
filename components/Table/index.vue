@@ -45,6 +45,7 @@
         </table-cell>
       </tr>
       <NoRecord v-else></NoRecord>
+      <Loader :loading="loading"></Loader>
     </tbody>
   </table>
 </template>
@@ -52,6 +53,7 @@
 import classNames from 'classnames'
 import TableCell from './TableCell'
 import NoRecord from '../NoRecord.vue'
+import Loader from '../Loader.vue'
 export default {
   props: {
     data: Array,
@@ -63,12 +65,17 @@ export default {
     expand: {
       type: Boolean,
       default: false
+    },
+    loading:{
+      type: Boolean,
+      default: false
     }
   },
   name: 'Table',
   components: {
     TableCell,
-    NoRecord
+    NoRecord,
+    Loader
   },
   data() {
     const d = {
@@ -195,6 +202,7 @@ table {
     }
   }
   > tbody {
+    position: relative;
     td {
       height: rem(60);
       word-break: break-all;
