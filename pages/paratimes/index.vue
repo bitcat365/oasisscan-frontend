@@ -521,20 +521,12 @@ export default {
         color: white;
         background-color: $theme-color;
       }
-      .inactive {
-        margin-left: 1.06rem;
-      }
       &:first-child {
         margin-left: 0;
       }
     }
   }
 }
-// .loader-con {
-//   margin-top: 60px;
-//   display: flex;
-//   justify-content: center;
-// }
 .no-result {
   display: flex;
   flex-direction: column;
