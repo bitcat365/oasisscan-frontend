@@ -36,7 +36,12 @@
     </Row> -->
     <Row :gutter="20" class="bottom-table-top">
       <Col span="12">
-        <panel title="Escrow">
+        <Panel title="Escrow">
+          <div class="tag-con" slot="headerRight">
+            <div :class="['type', currentEscrowType === EscrowTypes.active ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.active)">Active</div>
+            <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Debonding</div>
+            <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div>
+          </div>
           <div v-if="currentEscrowType === EscrowTypes.active && !isEscrowRequesting">
             <BlockTable v-if="delegationsList && delegationsList.length > 0" :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
             <Page v-if="delegationsList && delegationsList.length > 0" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" root-class="block-page" @goto="gotoDelegations" />
@@ -45,7 +50,7 @@
             <BlockTable v-if="debondingsList && debondingsList.length > 0" :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell"> </BlockTable>
             <Page v-if="debondingsList && debondingsList.length > 0" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" root-class="block-page" @goto="gotoDeboundings" />
           </div>
-        </panel>
+        </Panel>
       </Col>
       <Col span="12">
         <Panel title="Event">
@@ -57,6 +62,10 @@
     <Row :gutter="20" class="bottom-table-bot">
       <Col span="24">
         <Panel title="Transactions">
+          <div class="tag-con" slot="headerRight">
+            <div :class="['type', currentTxListType === ListTypes.consensus ? 'sel' : '']" @click="changeTxListType(ListTypes.consensus)">Consensus</div>
+            <div :class="['type', currentTxListType === ListTypes.paratime ? 'sel' : '']" @click="changeTxListType(ListTypes.paratime)">Paratime</div>
+          </div>
           <div v-if="currentTxListType === ListTypes.consensus && !isRequesting">
             <BlockTable v-if="total > 0" :loading="loading3" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:fee="{ data }">
@@ -470,6 +479,31 @@ export default {
     .ivu-col {
       > * {
         // height: rem(490);
+      }
+    }
+  }
+  .tag-con {
+    display: flex;
+    flex-direction: row;
+    .type {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      height: rem(28);
+      font-size: rem(14);
+      padding: 0 0.75rem;
+      border: 1px solid $gray200;
+      border-radius: rem(8);
+      color: $gray500;
+      margin-left: rem(8);
+      cursor: pointer;
+      background-color: white;
+      &.sel {
+        color: white;
+        background-color: $theme-color;
+      }
+      &:first-child {
+        margin-left: 0;
       }
     }
   }
