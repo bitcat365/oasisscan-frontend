@@ -66,7 +66,7 @@
             <div :class="['type', currentTxListType === ListTypes.consensus ? 'sel' : '']" @click="changeTxListType(ListTypes.consensus)">Consensus</div>
             <div :class="['type', currentTxListType === ListTypes.paratime ? 'sel' : '']" @click="changeTxListType(ListTypes.paratime)">Paratime</div>
           </div>
-          <div v-if="currentTxListType === ListTypes.consensus && !isRequesting">
+          <div v-if="currentTxListType === ListTypes.consensus">
             <BlockTable v-if="total > 0" :loading="loading3" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:fee="{ data }">
                 <span v-if="data">{{ data | unit(isTest) }}</span>
@@ -78,7 +78,7 @@
             </BlockTable>
             <Page type="simple" v-if="total > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
           </div>
-          <div v-else-if="currentTxListType === ListTypes.paratime && !isRequesting">
+          <div v-else-if="currentTxListType === ListTypes.paratime">
             <BlockTable v-if="runtimeTotal > 0" :loading="loading3" :data="runtimeList" :columns="runtimeColumns" root-class="block-total-list" cell-class="block-total-list-cell">
               <template v-slot:status="{ data }">
                 <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
@@ -110,7 +110,8 @@ const ListTypes = {
 
 const EscrowTypes = {
   active: 'active',
-  debonding: 'debonding'
+  debonding: 'debonding',
+  reward: 'reward'
 }
 export default {
   name: 'accountDetail',
@@ -200,7 +201,6 @@ export default {
       runtimeTotal: 0,
       runtimeSizer: 10,
       runtimePage: 1,
-      isRequesting: true,
       isEscrowRequesting: false,
       columns: [
         {
@@ -318,7 +318,6 @@ export default {
   },
   async mounted() {
     await this.fetchList()
-    this.isRequesting = false
     console.log('data', this.data)
   },
   methods: {
@@ -327,14 +326,18 @@ export default {
       if (type === EscrowTypes.active) {
         if (this.list.length === 0) {
           this.isEscrowRequesting = true
+          this.loading1 = true
           await this.gotoDelegations(1)
           this.isEscrowRequesting = false
+          this.loading1 = fasle
         }
       } else {
         if (this.debondingsList.length === 0) {
           this.isEscrowRequesting = true
+          this.loading1 = true
           await this.gotoDeboundings(1)
           this.isEscrowRequesting = false
+          this.loading1 = fasle
         }
       }
     },
@@ -342,15 +345,11 @@ export default {
       this.currentTxListType = type
       if (type === ListTypes.consensus) {
         if (this.delegationsList.length === 0) {
-          this.isRequesting = true
           await this.goto(1)
-          this.isRequesting = false
         }
       } else {
         if (this.debondingsList.length === 0) {
-          this.isRequesting = true
           await this.runTimeGoto(1)
-          this.isRequesting = false
         }
       }
     },
@@ -396,7 +395,9 @@ export default {
     async gotoDeboundings(pageNumber) {
       const $axios = this.$axios
       const $store = this.$store
+      this.loading1 = true
       const { list, totalSize } = await fetchAccountDebonding({ $axios, $store }, this.accountAddress, pageNumber, this.debondingsListSizer)
+      this.loading1 = false
       this.debondingsList = list
       console.log('delegatorsList', list)
       this.totalDebondingsSize = totalSize
@@ -407,8 +408,10 @@ export default {
       await this.fetchList(pageNumber)
       this.loading3 = false
     },
-    runTimeGoto(pageNumber) {
-      return this.fetchList(pageNumber, true)
+    async runTimeGoto(pageNumber) {
+      this.loading3 = true
+      await this.fetchList(pageNumber, true)
+      this.loading3 = false
     },
     async fetchList(page = 1, runtime = false) {
       const $axios = this.$axios

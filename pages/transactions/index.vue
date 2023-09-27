@@ -18,7 +18,7 @@
           </DropdownMenu>
         </Dropdown>
       </template>
-      <block-table v-if="list && list.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <block-table v-if="list && list.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>0</span>
@@ -64,7 +64,9 @@ export default {
         this.timer && clearTimeout(this.timer)
         this.timer = null
       }
+      this.loading = true
       const { list, totalSize } = await fetchTransactionsList({ $axios, $store }, pageNumber, this.sizer, this.method, progress, 12)
+      this.loading = false
       this.page = pageNumber
       this.list = list
       this.total = totalSize
@@ -139,7 +141,8 @@ export default {
           slot: true,
           textAlign: 'right'
         }
-      ]
+      ],
+      loading: false
     }
   }
 }

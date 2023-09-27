@@ -15,7 +15,7 @@
       </Description>
     </panel>
     <panel class="trx-panel" title="Transactions" v-if="!isRequesting">
-      <block-table v-if="total > 0" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
+      <block-table v-if="total > 0" :loading="loading" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>0</span>
@@ -86,7 +86,8 @@ export default {
           key: 'timestamp',
           textAlign: 'right'
         }
-      ]
+      ],
+      loading: false
     }
   },
   computed: {
@@ -124,8 +125,10 @@ export default {
     this.isRequesting = false
   },
   methods: {
-    goto(pageNumber) {
-      this.fetchList(pageNumber)
+    async goto(pageNumber) {
+      this.loading = true
+      await this.fetchList(pageNumber)
+      this.loading = false
     },
     async fetchList(page = 1) {
       const $axios = this.$axios

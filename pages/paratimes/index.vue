@@ -13,7 +13,7 @@
       </div>
       <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" prefix="ios-search" placeholder="Node Filter" />
       <div v-if="currentListType === ListTypes.roundList" class="block-list-wrapper round-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
+        <block-table root-class="block-total-list" :loading="loading" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
           <template v-slot:timestamp="{ data }">
             <span>{{ data.value | timeFormat }} </span>
           </template>
@@ -21,7 +21,7 @@
         <Page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
       <div v-else-if="currentListType === ListTypes.nodeList" class="block-list-wrapper node-list-wrapper">
-        <block-table v-if="nodeList && nodeList.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
+        <block-table v-if="nodeList && nodeList.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
           <template v-slot:status="{ data }">
             <span v-if="data" class="success">Online</span>
             <span v-else class="error">Offline</span>
@@ -29,7 +29,7 @@
         </block-table>
       </div>
       <div v-else-if="currentListType === ListTypes.txList" class="block-list-wrapper tx-list-wrapper">
-        <block-table v-if="txList && txList.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="txListColumns" :data="txList">
+        <block-table v-if="txList && txList.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="txListColumns" :data="txList">
           <template v-slot:result="{ data }">
             <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
@@ -136,6 +136,7 @@ export default {
         this.timer && clearTimeout(this.timer)
         this.timer = null
       }
+      this.loading = true
       if (this.currentListType === ListTypes.roundList) {
         await this.getRoundList(pageNumber)
       } else if (this.currentListType === ListTypes.nodeList) {
@@ -143,6 +144,7 @@ export default {
       } else if (this.currentListType === ListTypes.txList) {
         await this.getRuntimeTxList(pageNumber)
       }
+      this.loading = false
       progress && (document.documentElement.scrollTop = document.body.scrollTop = 0)
     },
     async getRoundList(pageNumber) {
@@ -196,6 +198,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       sizer: 20,
       roundListPage: 1,
       nodeListPage: 1,

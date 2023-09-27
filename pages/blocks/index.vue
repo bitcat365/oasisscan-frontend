@@ -6,7 +6,7 @@
       </template>
     </Head>
     <Panel class="block-list-wrapper">
-      <block-table v-if="list && list.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <block-table v-if="list && list.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:timestamp="{ data }">
           <span>{{ data.value | timeFormat }} </span>
         </template>
@@ -42,7 +42,9 @@ export default {
         this.timer = null
       }
       const { $axios, $store } = this
+      this.loading = true
       const { list, totalSize } = await fetchBlockList({ $axios, $store }, pageNumber, this.sizer, progress)
+      this.loading = false
       this.page = pageNumber
       this.list = list
       this.total = totalSize
@@ -99,7 +101,8 @@ export default {
           slot: true,
           textAlign: 'right'
         }
-      ]
+      ],
+      loading: false
     }
   }
 }
