@@ -36,37 +36,38 @@ export default {
     return { list, total: totalSize, latestBlock: list && list.length > 0 ? list[0].height.text : 0 }
   },
   methods: {
-    async goto(pageNumber, progress = true) {
-      if (pageNumber > 1) {
-        this.timer && clearTimeout(this.timer)
-        this.timer = null
-      }
+    async goto(pageNumber, pageSize, progress = true) {
+      // if (pageNumber > 1) {
+      //   this.timer && clearTimeout(this.timer)
+      //   this.timer = null
+      // }
       const { $axios, $store } = this
       this.loading = true
-      const { list, totalSize } = await fetchBlockList({ $axios, $store }, pageNumber, this.sizer, progress)
+      const { list, totalSize } = await fetchBlockList({ $axios, $store }, pageNumber, pageSize, progress)
       this.loading = false
       this.page = pageNumber
+      this.sizer = pageSize
       this.list = list
       this.total = totalSize
       progress && (document.documentElement.scrollTop = document.body.scrollTop = 0)
-      if (this.page === 1) {
-        this.repull()
-      }
+      // if (this.page === 1) {
+      //   this.repull()
+      // }
     },
-    repull() {
-      this.timer && clearTimeout(this.timer)
-      this.timer = setTimeout(async () => {
-        if (this.page === 1) {
-          await this.goto(1, false)
-          this.repull()
-        }
-      }, 6000)
-    }
+    // repull() {
+    //   this.timer && clearTimeout(this.timer)
+    //   this.timer = setTimeout(async () => {
+    //     if (this.page === 1) {
+    //       await this.goto(1, false)
+    //       this.repull()
+    //     }
+    //   }, 6000)
+    // }
   },
   computed: {},
   created() {},
   mounted() {
-    this.repull()
+    // this.repull()
   },
   destroyed() {
     this.timer && clearTimeout(this.timer)
