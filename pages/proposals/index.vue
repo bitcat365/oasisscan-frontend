@@ -91,7 +91,7 @@
 <style scoped lang="scss">
   .HeadLeft {
     color: $gray500;
-    font-size: rem(18);
+    font-size: rem(16);
   }
     .block-total-list{
       padding: 0;

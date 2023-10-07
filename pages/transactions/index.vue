@@ -151,7 +151,7 @@ export default {
 <style scoped lang="scss">
 .HeadLeft {
   color: $gray500;
-  font-size: rem(18);
+  font-size: rem(16);
 }
 .dropdown {
   .method-dropdown {

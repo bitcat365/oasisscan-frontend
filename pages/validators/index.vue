@@ -238,7 +238,7 @@ export default {
   }
   .HeadLeft {
     color: $gray500;
-    font-size: rem(18);
+    font-size: rem(16);
   }
   .validator-info {
     background-color: $theme-background;

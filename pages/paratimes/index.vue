@@ -314,7 +314,7 @@ export default {
 }
 .HeadLeft {
   color: $gray500;
-  font-size: rem(18);
+  font-size: rem(16);
 }
 .title {
   padding-top: rem(20);

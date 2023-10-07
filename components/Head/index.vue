@@ -33,8 +33,8 @@ export default {
   line-height: rem(40);
   margin-bottom: rem(20);
   .Head-left {
-    @include fontFamily-Poppins;
-    font-size: rem(24);
+    font-size: rem(20);
+    color: $gray800;
   }
   .Head-right {
     font-size: rem(16);
