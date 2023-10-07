@@ -56,15 +56,16 @@
       </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-bot">
-      <Col span="12">
+      <!-- <Col span="12"> -->
+      <Col span="24">
         <Panel title="Proposed Blocks">
           <BlockTable v-if="blockList && blockList.length > 0" class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList"> </BlockTable>
           <Page v-if="blockList && blockList.length > 0" type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" root-class="block-page" @goto="goto" />
         </Panel>
       </Col>
-      <Col span="12">
+      <!-- <Col span="12">
         <Panel title="Votes"></Panel>
-      </Col>
+      </Col> -->
     </Row>
   </div>
 </template>

@@ -270,10 +270,10 @@ export default {
     descriptionList() {
       const list = [
         { title: 'Address', name: 'address' },
-        {
-          title: 'Entity ID',
-          content: '?'
-        },
+        // {
+        //   title: 'Entity ID',
+        //   content: '?'
+        // },
         {
           title: 'Total Balance',
           content: readable(this.data.total) + ' ROSE' || ''
