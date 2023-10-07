@@ -165,7 +165,7 @@ export default {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  // table-layout: fixed;
+  table-layout: fixed;
   .table-expand-icon-th,
   .table-row-expand-icon-cell {
     width: 50px;
