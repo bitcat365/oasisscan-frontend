@@ -21,7 +21,7 @@
         <Page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
       <div v-else-if="currentListType === ListTypes.nodeList" class="block-list-wrapper node-list-wrapper">
-        <BlockTable v-if="nodeList && nodeList.length > 0" :loading="loading" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
+        <BlockTable :loading="loading" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
           <template v-slot:status="{ data }">
             <span v-if="data" class="success">Online</span>
             <span v-else class="error">Offline</span>
@@ -29,7 +29,7 @@
         </BlockTable>
       </div>
       <div v-else-if="currentListType === ListTypes.txList" class="block-list-wrapper tx-list-wrapper">
-        <BlockTable v-if="txList && txList.length > 0" :loading="loading" :columns="txListColumns" :data="txList">
+        <BlockTable :loading="loading" :columns="txListColumns" :data="txList">
           <template v-slot:result="{ data }">
             <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
