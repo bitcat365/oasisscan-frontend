@@ -31,7 +31,7 @@ $rem-base: 16;
 
 body {
   @include fontFamily;
-  font-size: $rem-base + px;
+  font-size: $rem-base/1 + px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
