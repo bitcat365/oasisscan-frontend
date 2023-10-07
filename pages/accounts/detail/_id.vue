@@ -40,15 +40,15 @@
           <div class="tag-con" slot="headerRight">
             <div :class="['type', currentEscrowType === EscrowTypes.active ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.active)">Active</div>
             <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Debonding</div>
-            <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div>
+            <!-- <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div> -->
           </div>
-          <div v-if="currentEscrowType === EscrowTypes.active && !isEscrowRequesting">
-            <BlockTable v-if="delegationsList && delegationsList.length > 0" :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" />
-            <Page v-if="delegationsList && delegationsList.length > 0" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
+          <div v-if="currentEscrowType === EscrowTypes.active">
+            <BlockTable :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" />
+            <Page type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
           </div>
-          <div v-else-if="!isEscrowRequesting">
-            <BlockTable v-if="debondingsList && debondingsList.length > 0" :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false"> </BlockTable>
-            <Page v-if="debondingsList && debondingsList.length > 0" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
+          <div v-else>
+            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false"> </BlockTable>
+            <Page type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
           </div>
         </Panel>
       </Col>
@@ -201,7 +201,6 @@ export default {
       runtimeTotal: 0,
       runtimeSizer: 10,
       runtimePage: 1,
-      isEscrowRequesting: false,
       columns: [
         {
           title: 'Tx Hash',
@@ -325,19 +324,11 @@ export default {
       this.currentEscrowType = type
       if (type === EscrowTypes.active) {
         if (this.list.length === 0) {
-          this.isEscrowRequesting = true
-          this.loading1 = true
           await this.gotoDelegations(1)
-          this.isEscrowRequesting = false
-          this.loading1 = fasle
         }
       } else {
         if (this.debondingsList.length === 0) {
-          this.isEscrowRequesting = true
-          this.loading1 = true
           await this.gotoDeboundings(1)
-          this.isEscrowRequesting = false
-          this.loading1 = fasle
         }
       }
     },
