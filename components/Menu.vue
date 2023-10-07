@@ -49,7 +49,7 @@
       </div>
       <div class="botText">
         <span>Powered By</span><br v-if="!menuOpen" />
-        <span>Bit Cat</span>
+        <a href="https://www.bitcat365.com" target="_blank" class="link"> Bit Cat</a>
       </div>
     </div>
   </div>
@@ -173,7 +173,7 @@ export default {
       height: rem(50);
       line-height: rem(50);
       margin: 0 rem(25);
-      font-size: rem(14);
+      font-size: rem(16);
       color: $theme-color;
       border-radius: 5px;
       .hoverText {
@@ -234,7 +234,7 @@ export default {
   height: 100%;
   padding-bottom: rem(30);
   font-size: rem(14);
-  color: $theme-color;
+  color: $gray500;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -242,6 +242,7 @@ export default {
     vertical-align: -0.7em;
     width: rem(30);
     height: rem(30);
+    color: $blue500;
   }
   .botIcon1 {
     text-align: center;
@@ -256,6 +257,9 @@ export default {
   .botText {
     text-align: center;
     font-size: rem(12);
+    .link{
+      color: $blue500;
+    }
   }
 }
 </style>
