@@ -166,6 +166,9 @@ export default {
       > * {
         height: rem(210);
       }
+      .headerRight {
+        font-size: rem(18);
+      }
     }
   }
   .center {

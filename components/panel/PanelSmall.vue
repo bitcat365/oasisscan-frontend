@@ -48,7 +48,7 @@ export default {
   @extend .flexRow;
   margin-bottom: rem(30);
   .panel-title-left {
-    font-size: 1rem;
+    font-size: rem(14);
     color: $gray500;
     display: flex;
     flex-direction: row;
