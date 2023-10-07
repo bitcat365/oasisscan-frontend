@@ -1,53 +1,55 @@
 <template>
-  <table :class="rootClasses">
-    <thead class="header">
-      <tr>
-        <th v-if="expand" class="table-expand-icon-th"></th>
-        <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
-          <div :class="[item.sortable || item.iconName ? 'header-title' : '', item.textAlign ? 'text-' + item.textAlign : 'text-left']">
-            <div>
-              <div v-for="ti in item.title.split('\n')" :key="ti">
-                {{ ti }}
+  <div>
+    <table style="text-align: center;" :class="rootClasses">
+      <thead class="header">
+        <tr>
+          <th v-if="expand" class="table-expand-icon-th"></th>
+          <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
+            <div :class="[item.sortable || item.iconName ? 'header-title' : '', item.textAlign ? 'text-' + item.textAlign : 'text-left']">
+              <div>
+                <div v-for="ti in item.title.split('\n')" :key="ti">
+                  {{ ti }}
+                </div>
+              </div>
+              <div v-if="item.sortable" class="sorts" @click="sort(typeof item.sortKey !== 'undefined' ? item.sortKey : item.key, item.sortType)">
+                <img v-if="item.sortType === 'up' && !item.singleSortDirection" class="up" :data-type="item.sortType === 'up'" src="../../assets/arrow-light.svg" />
+                <img v-else-if="!item.singleSortDirection" class="up" :data-type="item.sortType === 'up'" src="../../assets/arrow.svg" />
+                <div class="sep"></div>
+                <img v-if="item.sortType === 'down'" :data-type="item.sortType === 'down'" class="down" src="../../assets/arrow-light.svg" />
+                <img v-else class="down" :data-type="item.sortType === 'down'" src="../../assets/arrow.svg" />
+              </div>
+              <div v-else-if="item.iconName">
+                <div v-if="item.iconName === 'question'" :title="item.iconTip">
+                  <SvgIcon className="svgIcon" iconName="question" />
+                </div>
+                <SvgIcon v-else className="svgIcon1" :iconName="item.iconName" />
               </div>
             </div>
-            <div v-if="item.sortable" class="sorts" @click="sort(typeof item.sortKey !== 'undefined' ? item.sortKey : item.key, item.sortType)">
-              <img v-if="item.sortType === 'up' && !item.singleSortDirection" class="up" :data-type="item.sortType === 'up'" src="../../assets/arrow-light.svg" />
-              <img v-else-if="!item.singleSortDirection" class="up" :data-type="item.sortType === 'up'" src="../../assets/arrow.svg" />
-              <div class="sep"></div>
-              <img v-if="item.sortType === 'down'" :data-type="item.sortType === 'down'" class="down" src="../../assets/arrow-light.svg" />
-              <img v-else class="down" :data-type="item.sortType === 'down'" src="../../assets/arrow.svg" />
-            </div>
-            <div v-else-if="item.iconName">
-              <div v-if="item.iconName === 'question'" :title="item.iconTip">
-                <SvgIcon className="svgIcon" iconName="question" />
-              </div>
-              <SvgIcon v-else className="svgIcon1" :iconName="item.iconName" />
-            </div>
-          </div>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-if="rowData && rowData.length > 0"
-        v-for="(row, rowIndex) in rowData"
-        :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
-        :class="['table-row', rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', row.isExtendedRow ? 'extended-row' : 'main-row', row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : '']"
-      >
-        <td v-if="expand" :class="['table-row-expand-icon-cell']" @click="expandRow(rowIndex)">
-          <Icon v-if="!row.isExtendedRow" class="table-row-expand-icon" :type="!row.expand ? 'ios-add' : 'ios-remove'" />
-        </td>
-        <td v-if="row.isExtendedRow" class="table-row-expand-cell" :colspan="colspan">{{ $t(row.key) }}&nbsp;:&nbsp;{{ row.value }}</td>
-        <table-cell v-else v-for="(columnItem, columnIndex) in columns" :class="columnItem.textAlign ? 'text-' + columnItem.textAlign : 'text-left'" :key="`column${rowIndex}-${columnIndex}`" :data="row[columnItem.key]" :root-class="cellClass">
-          <template v-if="columnItem.slot" v-slot:default="slotProps">
-            <slot :name="columnItem.key" v-bind:data="slotProps.data"></slot>
-          </template>
-        </table-cell>
-      </tr>
-      <NoRecord v-else></NoRecord>
-      <Loader :loading="loading"></Loader>
-    </tbody>
-  </table>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-if="rowData && rowData.length > 0"
+          v-for="(row, rowIndex) in rowData"
+          :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
+          :class="['table-row', rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', row.isExtendedRow ? 'extended-row' : 'main-row', row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : '']"
+        >
+          <td v-if="expand" :class="['table-row-expand-icon-cell']" @click="expandRow(rowIndex)">
+            <Icon v-if="!row.isExtendedRow" class="table-row-expand-icon" :type="!row.expand ? 'ios-add' : 'ios-remove'" />
+          </td>
+          <td v-if="row.isExtendedRow" class="table-row-expand-cell" :colspan="colspan">{{ $t(row.key) }}&nbsp;:&nbsp;{{ row.value }}</td>
+          <table-cell v-else v-for="(columnItem, columnIndex) in columns" :class="columnItem.textAlign ? 'text-' + columnItem.textAlign : 'text-left'" :key="`column${rowIndex}-${columnIndex}`" :data="row[columnItem.key]" :root-class="cellClass">
+            <template v-if="columnItem.slot" v-slot:default="slotProps">
+              <slot :name="columnItem.key" v-bind:data="slotProps.data"></slot>
+            </template>
+          </table-cell>
+        </tr>
+        <Loader :loading="loading"></Loader>
+      </tbody>
+    </table>
+    <NoRecord v-if="!(rowData && rowData.length > 0) && !loading" />
+  </div>
 </template>
 <script>
 import classNames from 'classnames'
@@ -66,7 +68,7 @@ export default {
       type: Boolean,
       default: false
     },
-    loading:{
+    loading: {
       type: Boolean,
       default: false
     }
@@ -163,7 +165,7 @@ export default {
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  table-layout: fixed;
+  // table-layout: fixed;
   .table-expand-icon-th,
   .table-row-expand-icon-cell {
     width: 50px;
