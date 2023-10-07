@@ -6,7 +6,7 @@
       </template>
     </Head>
     <Panel>
-      <BlockTable v-if="list && list.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <BlockTable v-if="list && list.length > 0" :loading="loading" :columns="columns" :data="list">
         <template v-slot:address="{ data }">
           <div class="account-item">
             <router-link :to="data.link">{{ data.text }}</router-link>
@@ -87,12 +87,14 @@ export default {
         {
           title: '#',
           key: 'rank',
-          textAlign: 'center'
+          textAlign: 'left',
+          width: '5%'
         },
         {
           title: 'Account',
           key: 'address',
-          slot: true
+          slot: true,
+          width: '35%'
         },
         {
           title: 'Available',
@@ -123,37 +125,8 @@ export default {
   color: $gray500;
   font-size: rem(16);
 }
-  .block-total-list {
-    padding: 0;
-    width: 100%;
-    margin-left: 0;
-    border-radius: 1px;
-    /deep/ td,
-    /deep/ th {
-      vertical-align: middle;
-      padding: 18px 10px;
-    }
-    /deep/ td {
-      padding: 0 10px;
-      height: rem(57);
-    }
-    /deep/ tr th,
-    /deep/ tr td {
-      &:nth-child(1) {
-        width: 60px;
-        text-align: center;
-      }
-      &:nth-child(2) {
-        width: 400px;
-      }
-      &:last-child {
-        padding-left: 0;
-        width: 110px;
-      }
-    }
-  }
-  .account-item {
-    display: flex;
-    align-items: center;
-  }
+.account-item {
+  display: flex;
+  align-items: center;
+}
 </style>

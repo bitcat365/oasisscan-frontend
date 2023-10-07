@@ -18,7 +18,7 @@
           </DropdownMenu>
         </Dropdown>
       </template>
-      <block-table v-if="list && list.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <BlockTable v-if="list && list.length > 0" :loading="loading" :columns="columns" :data="list">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>0</span>
@@ -29,7 +29,7 @@
         <template v-slot:timestamp="{ data }">
           <span>{{ data.value | timeFormat }} </span>
         </template>
-      </block-table>
+      </BlockTable>
       <Page v-if="list && list.length > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
     </Panel>
   </div>
@@ -115,7 +115,8 @@ export default {
       columns: [
         {
           title: 'Tx Hash',
-          key: 'txHash'
+          key: 'txHash',
+          width: '25%'
         },
         {
           title: 'Height',
@@ -123,7 +124,8 @@ export default {
         },
         {
           title: 'Type',
-          key: 'method'
+          key: 'method',
+          width: '25%'
         },
         {
           title: 'Fee',
@@ -183,22 +185,4 @@ export default {
     }
   }
 }
-  .block-total-list {
-    padding: 0;
-    width: 100%;
-    margin-left: 0;
-    border-radius: 1px;
-    /deep/ td,
-    /deep/ th {
-      vertical-align: middle;
-      padding: 18px 10px;
-    }
-    /deep/ tr th,
-    /deep/ tr td {
-      &:last-child {
-        padding-left: 0;
-        width: 100px;
-      }
-    }
-  }
 </style>

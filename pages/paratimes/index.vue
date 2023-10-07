@@ -13,27 +13,27 @@
       </div>
       <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" prefix="ios-search" placeholder="Node Filter" />
       <div v-if="currentListType === ListTypes.roundList" class="block-list-wrapper round-list-wrapper">
-        <block-table root-class="block-total-list" :loading="loading" cell-class="block-total-list-cell" :columns="roundListColumns" :data="roundList">
+        <BlockTable :loading="loading" :columns="roundListColumns" :data="roundList">
           <template v-slot:timestamp="{ data }">
             <span>{{ data.value | timeFormat }} </span>
           </template>
-        </block-table>
+        </BlockTable>
         <Page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
       <div v-else-if="currentListType === ListTypes.nodeList" class="block-list-wrapper node-list-wrapper">
-        <block-table v-if="nodeList && nodeList.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
+        <BlockTable v-if="nodeList && nodeList.length > 0" :loading="loading" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
           <template v-slot:status="{ data }">
             <span v-if="data" class="success">Online</span>
             <span v-else class="error">Offline</span>
           </template>
-        </block-table>
+        </BlockTable>
       </div>
       <div v-else-if="currentListType === ListTypes.txList" class="block-list-wrapper tx-list-wrapper">
-        <block-table v-if="txList && txList.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="txListColumns" :data="txList">
+        <BlockTable v-if="txList && txList.length > 0" :loading="loading" :columns="txListColumns" :data="txList">
           <template v-slot:result="{ data }">
             <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
-        </block-table>
+        </BlockTable>
         <Page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></Page>
       </div>
     </Panel>
@@ -46,7 +46,6 @@ import Head from '~/components/Head'
 import Panel from '~/components/panel/Panel'
 import BlockTable from '../../components/Table/index'
 import Page from '../../components/Page'
-// import Loader from '../../components/Loader'
 import ColourDiv from '~/components/colourDiv/colourDiv'
 import Config from '../../config'
 const ListTypes = {
@@ -59,7 +58,6 @@ export default {
   components: {
     Head,
     Panel,
-    // Loader,
     BlockTable,
     Page,
     ColourDiv
@@ -216,9 +214,16 @@ export default {
       offlineNodes: 0,
       nodeName: '',
       nodeListColumns: [
+        // {
+        //   title: '#',
+        //   key: 'rank',
+        //   textAlign: 'left',
+        //   width: '5%'
+        // },
         {
           title: 'Node',
-          key: 'entityId'
+          key: 'entityId',
+          width: '30%'
         },
         {
           title: 'Elected',
@@ -251,7 +256,8 @@ export default {
         {
           title: 'Status',
           key: 'status',
-          slot: true
+          slot: true,
+          textAlign: 'right'
         }
       ],
       roundListColumns: [
@@ -265,22 +271,26 @@ export default {
         },
         {
           title: 'IO Root',
-          key: 'io_root'
+          key: 'io_root',
+          width: '30%'
         },
         {
           title: 'State Root',
-          key: 'state_root'
+          key: 'state_root',
+          width: '30%'
         },
         {
           title: 'Times',
           key: 'timestamp',
-          slot: true
+          slot: true,
+          textAlign: 'right'
         }
       ],
       txListColumns: [
         {
           title: 'Tx Hash',
-          key: 'txHash'
+          key: 'txHash',
+          width: '35%'
         },
         {
           title: 'Round',
@@ -297,7 +307,8 @@ export default {
         },
         {
           title: 'Times',
-          key: 'timestamp'
+          key: 'timestamp',
+          textAlign: 'right'
         }
       ]
     }
@@ -336,37 +347,6 @@ export default {
 }
 
 .block-list-wrapper {
-  &.tx-list-wrapper {
-    .block-total-list {
-      /deep/ td {
-        padding: 14px 10px;
-      }
-    }
-  }
-  .block-total-list {
-    padding: 0;
-    width: 100%;
-    margin-left: 0;
-    border-radius: 1px;
-    /deep/ td,
-    /deep/ th {
-      vertical-align: middle;
-      padding: 18px 10px;
-    }
-    /deep/ tr th,
-    /deep/ tr td {
-      &:nth-child(1) {
-        .hash-link {
-          color: #5f5f5f;
-        }
-        //width: 200px
-      }
-      &:last-child {
-        padding-left: 0;
-        width: 260px;
-      }
-    }
-  }
   .title {
     margin-left: 0px;
     margin-top: 6px;
@@ -391,70 +371,6 @@ export default {
     font-weight: 400;
     color: rgba(55, 65, 107, 0.5);
     line-height: 1;
-  }
-}
-.round-list-wrapper {
-  .block-total-list {
-    /deep/ tr th,
-    /deep/ tr td {
-      &:nth-child(3),
-      &:nth-child(4) {
-        width: 250px;
-      }
-    }
-  }
-}
-.node-list-wrapper {
-  .block-total-list {
-    table-layout: auto;
-    /deep/ tr th:not(:last-child):not(:first-child) {
-      padding-right: 90px;
-    }
-    /deep/ tr th,
-    /deep/ tr td {
-      &:nth-child(1) {
-        width: 100%;
-      }
-      &:last-child {
-        //padding-left: 0;
-        padding-right: rem(19);
-        text-align: center;
-        width: auto;
-      }
-    }
-  }
-}
-.tx-list-wrapper {
-  .block-total-list {
-    table-layout: auto;
-    /deep/ tr th,
-    /deep/ tr td {
-      &:nth-child(1) {
-        .hash-link {
-          color: #4472de;
-        }
-      }
-      &:last-child {
-        padding-left: 0;
-        width: auto;
-      }
-    }
-    .status-item {
-      color: white;
-      text-align: center;
-      border-radius: rem(4);
-      padding: rem(4) rem(10);
-      font-size: rem(12);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      &.green {
-        background-color: #2ed47a;
-      }
-      &.red {
-        background-color: #f7685b;
-      }
-    }
   }
 }
 .operate {

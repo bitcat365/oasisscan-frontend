@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <Head title="BLOCK DETAILS"></Head>
-    <panel>
+    <Panel>
       <Description :list="descriptionList" class="info-list">
         <template #height>
           <div class="label-content">
@@ -13,9 +13,9 @@
           <span>{{ data.timestamp.value | timeFormat }} ( {{ data.value | timeFormat2 }} )</span>
         </template>
       </Description>
-    </panel>
-    <panel class="trx-panel" title="Transactions" v-if="!isRequesting">
-      <block-table v-if="total > 0" :loading="loading" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
+    </Panel>
+    <Panel title="Transactions" v-if="!isRequesting">
+      <BlockTable v-if="total > 0" :loading="loading" :data="list" :columns="columns">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>0</span>
@@ -23,9 +23,9 @@
         <template v-slot:status="{ data }">
           <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
         </template>
-      </block-table>
+      </BlockTable>
       <Page v-if="total > 0" type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto" />
-    </panel>
+    </Panel>
   </div>
 </template>
 
@@ -61,7 +61,8 @@ export default {
       columns: [
         {
           title: 'Tx Hash',
-          key: 'txHash'
+          key: 'txHash',
+          width: '25%'
         },
         {
           title: 'Height',
@@ -69,7 +70,8 @@ export default {
         },
         {
           title: 'Type',
-          key: 'type'
+          key: 'type',
+          width: '25%'
         },
         {
           title: 'Fee',
@@ -152,13 +154,6 @@ export default {
 .label-content {
   display: flex;
   align-items: center;
-}
-.trx-panel {
-  margin-top: rem(20);
-  .block-total-list {
-    width: 100%;
-    margin-left: 0;
-  }
 }
 .no-result {
   display: flex;

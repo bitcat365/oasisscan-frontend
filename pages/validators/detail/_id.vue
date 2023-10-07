@@ -134,7 +134,8 @@ export default {
         },
         {
           title: 'Block Hash',
-          key: 'hash'
+          key: 'hash',
+          width: '40%'
         },
         {
           title: 'Time',
@@ -156,7 +157,8 @@ export default {
         {
           title: 'Percentage',
           key: 'percent',
-          textAlign: 'right'
+          textAlign: 'right',
+          width: '20%'
         }
       ],
       columns2: [
@@ -167,7 +169,8 @@ export default {
         {
           title: 'Amount/Shares',
           key: 'amountAndShares',
-          slot: true
+          slot: true,
+          width: '50%'
         },
         {
           title: 'Time',

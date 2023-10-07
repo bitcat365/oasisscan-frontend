@@ -86,11 +86,13 @@ export default {
         },
         {
           title: 'Block Hash',
-          key: 'hash'
+          key: 'hash',
+          width: '25%'
         },
         {
           title: 'Proposer',
-          key: 'proposer'
+          key: 'proposer',
+          width: '37.5%'
         },
         {
           title: 'Txs',
