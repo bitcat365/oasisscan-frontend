@@ -1,10 +1,10 @@
 <template>
   <header>
-    <Input v-model="keywords" prefix="ios-search" @on-enter="onsubmit" placeholder="Search by Address/Entity/Block/Tx hash"></Input>
-    <Dropdown @on-click="networkClick">
+    <Input class="input" v-model="keywords" prefix="ios-search" @on-enter="onsubmit" placeholder="Search by Address/Entity/Block/Tx hash"></Input>
+    <Dropdown class="dropdown" @on-click="networkClick">
       <a class="network-selector" href="javascript:void(0)">
-        {{ net }}
-        <Icon type="ios-arrow-down"></Icon>
+        {{ net }}&nbsp;
+        <Icon type="ios-arrow-down" size="16"></Icon>
       </a>
       <DropdownMenu class="network-select-list" slot="list">
         <DropdownItem :name="chainId" class="network-select-item">
@@ -59,53 +59,55 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-/deep/.ivu-input {
-  max-width: rem(808);
-  height: rem(50);
-  line-height: rem(50);
-  padding: 0 rem(50);
-  font-size: 1rem;
-  color: $gray500;
-  border: 0;
-  border-radius: rem(25);
+.input {
+  /deep/.ivu-input {
+    max-width: rem(808);
+    height: rem(50);
+    line-height: rem(50);
+    padding: 0 rem(50);
+    font-size: 1rem;
+    color: $gray500;
+    border: 0;
+    border-radius: rem(25);
+  }
+  /deep/.ivu-input:focus {
+    box-shadow: none;
+  }
+  /deep/.ivu-icon {
+    width: rem(50);
+    height: rem(50);
+    line-height: rem(50);
+    font-size: rem(24);
+  }
 }
-/deep/.ivu-input:focus{
-  box-shadow: none;
-}
-/deep/.ivu-icon {
-  width: rem(50);
-  height: rem(50);
-  line-height: rem(50);
-  font-size: rem(24);
-}
-/deep/.ivu-dropdown {
-  font-size: 1rem;
-  color: #475467;
-}
-.network-selector {
-  width: rem(110);
-  height: rem(40);
-  padding-left: rem(10);
-  border-radius: rem(20);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background-color: white;
-}
-/deep/.ivu-select-dropdown {
-  border-radius: rem(10);
-  padding: 0;
-}
-.network-select-list {
-  min-width: rem(100);
-  .network-select-item {
-    font-size: 1rem !important;
-    padding: 0 rem(20);
-    height: rem(36);
-    line-height: rem(36);
-    &:hover {
-      background: #e4e7ec;
-      // font-weight: bold;
+.dropdown {
+  /deep/.ivu-dropdown {
+    color: #475467;
+  }
+  .network-selector {
+    display: block;
+    width: rem(130);
+    height: rem(50);
+    line-height: rem(50);
+    text-align: center;
+    border-radius: rem(24);
+    background-color: white;
+  }
+  /deep/.ivu-select-dropdown {
+    border-radius: rem(10);
+    padding: 0;
+  }
+  .network-select-list {
+    min-width: rem(100);
+    .network-select-item {
+      font-size: 1rem !important;
+      padding: 0 rem(20);
+      height: rem(36);
+      line-height: rem(36);
+      &:hover {
+        background: #e4e7ec;
+        // font-weight: bold;
+      }
     }
   }
 }
