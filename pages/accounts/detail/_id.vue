@@ -43,19 +43,19 @@
             <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div>
           </div>
           <div v-if="currentEscrowType === EscrowTypes.active && !isEscrowRequesting">
-            <BlockTable v-if="delegationsList && delegationsList.length > 0" :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
-            <Page v-if="delegationsList && delegationsList.length > 0" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" root-class="block-page" @goto="gotoDelegations" />
+            <BlockTable v-if="delegationsList && delegationsList.length > 0" :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" />
+            <Page v-if="delegationsList && delegationsList.length > 0" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
           </div>
           <div v-else-if="!isEscrowRequesting">
-            <BlockTable v-if="debondingsList && debondingsList.length > 0" :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell"> </BlockTable>
-            <Page v-if="debondingsList && debondingsList.length > 0" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" root-class="block-page" @goto="gotoDeboundings" />
+            <BlockTable v-if="debondingsList && debondingsList.length > 0" :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false"> </BlockTable>
+            <Page v-if="debondingsList && debondingsList.length > 0" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
           </div>
         </Panel>
       </Col>
       <Col span="12">
         <Panel title="Event">
-          <BlockTable v-if="eventList && eventList.length > 0" :loading="loading2" :data="eventList" :columns="eventListSchema" :expand="false" class="block-total-list  delegator-table" cell-class="block-total-list-cell" />
-          <Page v-if="eventList && eventList.length > 0" type="simple" :sizer="eventSizer" :records-count="eventTotal" :page="eventPage" root-class="block-page" @goto="gotoEvents" />
+          <BlockTable v-if="eventList && eventList.length > 0" :loading="loading2" :data="eventList" :columns="eventListSchema" :expand="false" />
+          <Page v-if="eventList && eventList.length > 0" type="simple" :sizer="eventSizer" :records-count="eventTotal" :page="eventPage" @goto="gotoEvents" />
         </Panel>
       </Col>
     </Row>
@@ -67,7 +67,7 @@
             <div :class="['type', currentTxListType === ListTypes.paratime ? 'sel' : '']" @click="changeTxListType(ListTypes.paratime)">Paratime</div>
           </div>
           <div v-if="currentTxListType === ListTypes.consensus">
-            <BlockTable v-if="total > 0" :loading="loading3" :data="list" :columns="columns" root-class="block-total-list" cell-class="block-total-list-cell">
+            <BlockTable :loading="loading3" :data="list" :columns="columns">
               <template v-slot:fee="{ data }">
                 <span v-if="data">{{ data | unit(isTest) }}</span>
                 <span v-else>0</span>
@@ -76,15 +76,15 @@
                 <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
               </template>
             </BlockTable>
-            <Page type="simple" v-if="total > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
+            <Page type="simple" v-if="total > 0" :sizer="sizer" :records-count="total" :page="page" @goto="goto"></Page>
           </div>
           <div v-else-if="currentTxListType === ListTypes.paratime">
-            <BlockTable v-if="runtimeTotal > 0" :loading="loading3" :data="runtimeList" :columns="runtimeColumns" root-class="block-total-list" cell-class="block-total-list-cell">
+            <BlockTable :loading="loading3" :data="runtimeList" :columns="runtimeColumns">
               <template v-slot:status="{ data }">
                 <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
               </template>
             </BlockTable>
-            <Page type="simple" v-if="runtimeTotal > 0" :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" root-class="block-page" @goto="runTimeGoto"></Page>
+            <Page type="simple" v-if="runtimeTotal > 0" :sizer="runtimeSizer" :records-count="runtimeTotal" :page="runtimePage" @goto="runTimeGoto"></Page>
           </div>
         </Panel>
       </Col>
