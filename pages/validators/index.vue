@@ -80,18 +80,20 @@ export default {
           title: '#',
           key: 'rank',
           slot: true,
-          textAlign: 'center'
+          width: '5%'
         },
         {
           title: 'Name',
           key: 'name',
-          slot: true
+          slot: true,
+          width: '22%'
         },
         {
           title: 'Escrow',
           key: 'escrow',
           sortable: true,
-          slot: true
+          slot: true,
+          width: '18%'
         },
         {
           title: 'Change(24h)',
