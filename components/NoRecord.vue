@@ -12,6 +12,7 @@ export default {}
 <style scoped lang="scss">
 .noRecord {
   height: 100%;
+  min-height: rem(100);
   display: flex;
   flex-direction: column;
   justify-content: center;
