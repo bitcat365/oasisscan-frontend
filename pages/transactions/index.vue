@@ -30,7 +30,7 @@
           <span>{{ data.value | timeFormat }} </span>
         </template>
       </BlockTable>
-      <Page v-if="list && list.length > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
+      <Page slot="footer" :sizer="sizer" :records-count="total" :page="page" @goto="goto"></Page>
     </Panel>
   </div>
 </template>

@@ -39,7 +39,7 @@
               <span v-if="data.text === entityAddress">(Self)</span>
             </template>
           </BlockTable>
-          <Page v-if="delegatorsList && delegatorsList.length > 0" type="simple" :sizer="eventListSizer" :records-count="totalDelegatorSize" :page="delegatorListPage" @goto="gotoDelegators" />
+          <Page slot="footer" type="simple" :sizer="eventListSizer" :records-count="totalDelegatorSize" :page="delegatorListPage" @goto="gotoDelegators" />
         </Panel>
       </Col>
       <Col span="12">
@@ -51,7 +51,7 @@
               </div>
             </template>
           </BlockTable>
-          <Page v-if="evensList && evensList.length > 0" type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" root-class="block-page" @goto="gotoEvents" />
+          <Page slot="footer" type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" @goto="gotoEvents" />
         </Panel>
       </Col>
     </Row>
@@ -60,7 +60,7 @@
       <Col span="24">
         <Panel title="Proposed Blocks">
           <BlockTable v-if="blockList && blockList.length > 0" class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList"> </BlockTable>
-          <Page v-if="blockList && blockList.length > 0" type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" root-class="block-page" @goto="goto" />
+          <Page slot="footer" type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" @goto="goto" />
         </Panel>
       </Col>
       <!-- <Col span="12">

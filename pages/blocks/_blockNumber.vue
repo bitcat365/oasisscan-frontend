@@ -15,7 +15,7 @@
       </Description>
     </Panel>
     <Panel title="Transactions" v-if="!isRequesting">
-      <BlockTable v-if="total > 0" :loading="loading" :data="list" :columns="columns">
+      <BlockTable :loading="loading" :data="list" :columns="columns">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>0</span>
@@ -24,7 +24,7 @@
           <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
         </template>
       </BlockTable>
-      <Page v-if="total > 0" type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto" />
+      <Page slot="footer" type="simple" :sizer="sizer" :records-count="total" :page="page" @goto="goto" />
     </Panel>
   </div>
 </template>

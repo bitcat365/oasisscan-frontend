@@ -16,8 +16,7 @@
       </Description>
     </Panel>
     <Panel class="trx-panel" title="Transactions">
-      <block-table
-        v-if="total > 0 && !isRequesting"
+      <BlockTable
         :data="list"
         :columns="columns"
         root-class="block-total-list"
@@ -29,10 +28,8 @@
         <template v-slot:timestamp="{data}">
           <span>{{data.value | timeFormat}}</span>
         </template>
-      </block-table>
-      <div v-if="total > 0 && !isRequesting" class="page-navigation">
-        <page type="simple" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
-      </div>
+      </BlockTable>
+      <Page slot="footer" type="simple" :sizer="sizer" :records-count="total" :page="page" @goto="goto"></Page>
     </Panel>
   </div>
 </template>
@@ -187,11 +184,6 @@
         }
       }
     }
-  }
-  .page-navigation {
-    padding-top: 30px;
-    display: flex;
-    justify-content: center;
   }
   .no-result {
     display: flex;

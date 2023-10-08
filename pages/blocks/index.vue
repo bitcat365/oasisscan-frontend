@@ -6,12 +6,12 @@
       </template>
     </Head>
     <Panel class="block-list-wrapper">
-      <block-table v-if="list && list.length > 0" :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <BlockTable :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
         <template v-slot:timestamp="{ data }">
           <span>{{ data.value | timeFormat }} </span>
         </template>
-      </block-table>
-      <Page v-if="list && list.length > 0" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
+      </BlockTable>
+      <Page slot="footer" :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></Page>
     </Panel>
   </div>
 </template>

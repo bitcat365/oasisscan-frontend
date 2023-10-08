@@ -9,10 +9,13 @@
         <slot name="headerRight"></slot>
       </div>
     </div>
-    <div :class="['panel-content', hasTitle ? 'height' : 'height1']">
+    <div :class="['panel-content', contentHeight()]">
       <slot>
         <NoRecord></NoRecord>
       </slot>
+    </div>
+    <div :class="['panel-footer', hasFooter ? 'height' : '']" ref="panelfooter">
+      <slot name="footer"></slot>
     </div>
   </div>
 </template>
@@ -30,12 +33,27 @@ export default {
   },
   data() {
     return {
-      hasTitle: false
+      hasTitle: false,
+      hasFooter: false
     }
   },
-  methods: {},
+  methods: {
+    contentHeight(){
+      switch(true){
+        case !this.hasTitle && !this.hasFooter:
+          return 'height';
+        case this.hasTitle && !this.hasFooter:
+          return 'height1';
+        case !this.hasTitle && this.hasFooter:
+          return 'height2';
+        case this.hasTitle && this.hasFooter:
+          return 'height3';
+      }
+    }
+  },
   mounted() {
     this.hasTitle = this.$refs.paneltitleleft.hasChildNodes() || this.$refs.paneltitleright.hasChildNodes()
+    this.hasFooter = this.$refs.panelfooter.hasChildNodes()
   }
 }
 </script>
@@ -61,10 +79,21 @@ export default {
   }
   .panel-content {
     &.height {
-      height: calc(100% - #{rem(30)});
+      height: 100%;
     }
     &.height1 {
-      height: 100%;
+      height: calc(100% - #{rem(30)});
+    }
+    &.height2 {
+      height: calc(100% - #{rem(60)});
+    }
+    &.height3 {
+      height: calc(100% - #{rem(90)});
+    }
+  }
+  .panel-footer {
+    &.height {
+      height: rem(60);
     }
   }
 }
