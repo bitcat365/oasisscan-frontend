@@ -59,7 +59,7 @@
       <!-- <Col span="12"> -->
       <Col span="24">
         <Panel title="Proposed Blocks">
-          <BlockTable v-if="blockList && blockList.length > 0" class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList"> </BlockTable>
+          <BlockTable class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList"> </BlockTable>
           <Page slot="footer" type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" @goto="goto" />
         </Panel>
       </Col>
