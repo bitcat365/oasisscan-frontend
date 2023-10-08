@@ -19,14 +19,32 @@
       <div :class="1 === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(1)">
         <span>1</span>
       </div>
-      <div class="sim-btn-omit" @click="omitLeft" v-show="continuousNumList[0] > 2">
+      <div v-if="page > 5" class="sim-btn-omit" @click="omitLeft">
         <SvgIcon class="omit-icon" className="svgIcon" iconName="left-double" />
         <span class="omit-show">...</span>
       </div>
-      <div :class="i === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" v-for="i in continuousNumList" @click="gotoPage(i)">
-        <span>{{ i }}</span>
+      <div v-if="page === 5" class="sim-btn-num" @click="gotoPage(page - 3)">
+        <span>{{ page - 3 }}</span>
       </div>
-      <div class="sim-btn-omit" @click="omitRight" v-show="continuousNumList[continuousNumList.length - 1] < total - 1">
+      <div v-if="page - 2 > 1" class="sim-btn-num" @click="gotoPage(page - 2)">
+        <span>{{ page - 2 }}</span>
+      </div>
+      <div v-if="page - 1 > 1" class="sim-btn-num" @click="gotoPage(page - 1)">
+        <span>{{ page - 1 }}</span>
+      </div>
+      <div v-if="page != 1 && page != total" class="sim-btn-num sim-btn-active" @click="gotoPage(page)">
+        <span>{{ page }}</span>
+      </div>
+      <div v-if="page + 1 < total" class="sim-btn-num" @click="gotoPage(page + 1)">
+        <span>{{ page + 1 }}</span>
+      </div>
+      <div v-if="page + 2 < total" class="sim-btn-num" @click="gotoPage(page + 2)">
+        <span>{{ page + 2 }}</span>
+      </div>
+      <div v-if="total - page === 4" class="sim-btn-num" @click="gotoPage(page + 3)">
+        <span>{{ page + 3 }}</span>
+      </div>
+      <div v-if="total - page >= 5" class="sim-btn-omit" @click="omitRight">
         <SvgIcon class="omit-icon" className="svgIcon" iconName="right-double" />
         <span class="omit-show">...</span>
       </div>
