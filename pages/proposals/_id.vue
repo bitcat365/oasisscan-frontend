@@ -1,42 +1,35 @@
 <template>
   <div class="root">
     <Head title="PROPOSAL DETAILS"></Head>
-    <panel>
+    <Panel class="margin-bottom">
       <div class="overview-content">
-        <Description :list="descriptionList" :span="[8,16]" class="info-list"></Description>
+        <Description :list="descriptionList" :span="[8, 16]" class="info-list"></Description>
         <pie-chart :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80']" class="chart"></pie-chart>
       </div>
-    </panel>
-    <panel title="Votes" class="trx-panel" v-if="!isRequesting">
-      <block-table
-        v-if="data.votes.length > 0"
-        :data="data.votes"
-        :columns="columns"
-        root-class="block-total-list"
-        cell-class="block-total-list-cell"
-      >
-      </block-table>
-    </panel>
+    </Panel>
+    <Panel title="Votes" v-if="!isRequesting">
+      <BlockTable :data="data.votes" :columns="columns"> </BlockTable>
+    </Panel>
   </div>
 </template>
 
 <script>
-import Head from "~/components/Head";
-import Panel from "../../components/panel/Panel";
-import BlockTable from "../../components/Table/index";
-import Page from "../../components/Page";
+import Head from '~/components/Head'
+import Panel from '../../components/panel/Panel'
+import BlockTable from '../../components/Table/index'
+import Page from '../../components/Page'
 import Description from '~/components/description/index.vue'
-import PieChart from "../../components/charts/piechart";
-import { fetchProposalDetail, fetchVotes } from "../../fetch";
+import PieChart from '../../components/charts/piechart'
+import { fetchProposalDetail, fetchVotes } from '../../fetch'
 import { decimalConvert, percent, readable } from '~/utils'
 export default {
-  name: "proposalDetail",
+  name: 'proposalDetail',
   components: { Head, Panel, BlockTable, Page, Description, PieChart },
   async asyncData({ $axios, store: $store, params }) {
-    const data = await fetchProposalDetail({ $axios, $store }, params.id);
+    const data = await fetchProposalDetail({ $axios, $store }, params.id)
     return {
       data
-    };
+    }
   },
   data() {
     return {
@@ -48,58 +41,58 @@ export default {
       columns: [
         // TODO
         {
-          title: "Voter",
-          key: "voter"
+          title: 'Voter',
+          key: 'voter'
         },
         {
-          title: "Vote",
-          key: "vote",
+          title: 'Vote',
+          key: 'vote',
           textAlign: 'right'
         }
       ]
-    };
+    }
   },
   computed: {
     descriptionList() {
       return [
-      {
-          title: "ID",
+        {
+          title: 'ID',
           content: this.data.id || ''
         },
         {
-          title: "Submitter",
+          title: 'Submitter',
           content: this.data.submitter || ''
         },
         {
-          title: "Status",
+          title: 'Status',
           content: this.data.state || ''
         },
         {
-          title: "Deposit",
+          title: 'Deposit',
           content: this.data.deposit || ''
         },
         {
-          title: "Type",
+          title: 'Type',
           content: this.data.type || ''
         },
         {
-          title: "Handler",
+          title: 'Handler',
           content: this.data.handler || ''
         }
       ]
     },
     pieChartData() {
       const data = this.data.options
-      const list = data.map(item=>{
+      const list = data.map(item => {
         return item.percent
       })
       return list
     },
     descList() {
       const data = this.data.options
-      const list = data.map(item=>{
+      const list = data.map(item => {
         return {
-          title:item.name,
+          title: item.name
           // value:parseFloat(decimalConvert(item.amount))
         }
       })
@@ -115,32 +108,18 @@ export default {
       // this.fetchList()
     },
     async fetchList() {
-      const $axios = this.$axios;
-      const $store = this.$store;
-      const { list } = await fetchVotes(
-        { $axios, $store },
-        this.$route.params.id
-      );
-      this.list = list;
+      const $axios = this.$axios
+      const $store = this.$store
+      const { list } = await fetchVotes({ $axios, $store }, this.$route.params.id)
+      this.list = list
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
-.trx-panel {
-  margin-top: rem(12);
-  .block-total-list {
-    width: 100%;
-    margin-left: 0;
-    /deep/ tr td {
-      &:nth-child(1) {
-        .hash-link {
-          color: #5f5f5f;
-        }
-      }
-    }
-  }
+.margin-bottom {
+    margin-bottom: rem(20);
 }
 .page-navigation {
   padding-top: 30px;
@@ -178,11 +157,11 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  .info-list{
-    flex:3
+  .info-list {
+    flex: 3;
   }
-  .chart{
-    flex:1
+  .chart {
+    flex: 1;
   }
 }
 </style>

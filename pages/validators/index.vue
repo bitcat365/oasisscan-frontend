@@ -27,7 +27,7 @@
       <template slot="headerRight">
         <Input v-model="name" prefix="ios-search" placeholder="Validator Filter" />
       </template>
-      <BlockTable v-if="showList && showList.length > 0" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
+      <BlockTable :columns="columns" :data="showList" primary-key="entityId" @sort="sort">
         <template v-slot:status="{ data }">
           <span v-if="data" class="success">Online</span>
           <span v-else class="error">Offline</span>
@@ -302,52 +302,6 @@ export default {
         }
         &:first-child {
           margin-left: 0;
-        }
-      }
-    }
-    .block-total-list {
-      padding: 0;
-      width: 100%;
-      margin-left: 0;
-      border-radius: 1px;
-      /deep/ .table-row:hover {
-        .unstar {
-          display: block;
-          opacity: 1;
-        }
-      }
-      /deep/ td,
-      /deep/ th {
-        vertical-align: middle;
-        padding: 18px 10px;
-      }
-      /deep/ td {
-        padding: rem(10);
-      }
-      /deep/ tr th,
-      /deep/ tr td {
-        &:nth-child(1) {
-          width: 60px;
-          text-align: center;
-        }
-        &:nth-child(2) {
-          width: 280px;
-          .hash-link {
-            color: $gray500;
-          }
-        }
-        &:nth-child(3) {
-          width: 200px;
-        }
-        &:nth-child(7) {
-          text-align: center;
-          .header-title {
-            justify-content: center;
-          }
-        }
-        &:last-child {
-          padding-left: 0;
-          width: 110px;
         }
       }
     }

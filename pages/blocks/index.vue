@@ -6,7 +6,7 @@
       </template>
     </Head>
     <Panel class="block-list-wrapper">
-      <BlockTable :loading="loading" root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
+      <BlockTable :loading="loading" :columns="columns" :data="list">
         <template v-slot:timestamp="{ data }">
           <span>{{ data.value | timeFormat }} </span>
         </template>
@@ -117,28 +117,6 @@ export default {
   font-size: rem(16);
 }
 .block-list-wrapper {
-  .block-total-list {
-    padding: 0;
-    width: 100%;
-    margin-left: 0;
-    border-radius: 1px;
-    table-layout: auto;
-    /deep/ td,
-    /deep/ th {
-      vertical-align: middle;
-      padding: 18px 10px;
-    }
-    /deep/ tr th,
-    /deep/ tr td {
-      &:nth-child(1) {
-        width: 180px;
-      }
-      &:last-child {
-        padding-left: 0;
-        width: 260px;
-      }
-    }
-  }
   .title {
     margin-left: 0px;
     margin-top: 6px;

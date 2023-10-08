@@ -18,7 +18,7 @@
           </DropdownMenu>
         </Dropdown>
       </template>
-      <BlockTable v-if="list && list.length > 0" :loading="loading" :columns="columns" :data="list">
+      <BlockTable :loading="loading" :columns="columns" :data="list">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
           <span v-else>0</span>

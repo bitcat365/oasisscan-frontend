@@ -33,7 +33,7 @@
     <Row :gutter="20" class="bottom-table-top">
       <Col span="12">
         <Panel title="Delegators">
-          <BlockTable v-if="delegatorsList && delegatorsList.length > 0" :data="delegatorsList" :columns="columns1" :expand="false" class="block-totasl-list  delegator-table" cell-class="block-total-list-cell">
+          <BlockTable :loading="loading1" :data="delegatorsList" :columns="columns1" :expand="false">
             <template v-slot:address="{ data }">
               <router-link :to="data.link">{{ data.text | hashFormat }}</router-link>
               <span v-if="data.text === entityAddress">(Self)</span>
@@ -44,7 +44,7 @@
       </Col>
       <Col span="12">
         <Panel title="Escrow Events">
-          <BlockTable v-if="evensList && evensList.length > 0" :data="evensList" :columns="columns2" :expand="false" class="block-total-list events-list" cell-class="block-total-list-cell">
+          <BlockTable :loading="loading2" :data="evensList" :columns="columns2" :expand="false">
             <template v-slot:amountAndShares="slotData">
               <div class="amount-share" :class="positiveStyle(slotData.data.add)">
                 {{ showAmountShare(slotData.data.value, slotData.data.add) }}
@@ -59,7 +59,7 @@
       <!-- <Col span="12"> -->
       <Col span="24">
         <Panel title="Proposed Blocks">
-          <BlockTable class="block-total-list proposed-list" cell-class="block-total-list-cell" :columns="blockListColumns" :data="blockList"> </BlockTable>
+          <BlockTable :loading="loading3" :columns="blockListColumns" :data="blockList"> </BlockTable>
           <Page slot="footer" type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" @goto="goto" />
         </Panel>
       </Col>
@@ -124,8 +124,8 @@ export default {
       eventListPage: 1,
       totalDelegatorSize: 0,
       totalEventListSize: 0,
-      delegatorsList: null,
-      evensList: null,
+      delegatorsList: [],
+      evensList: [],
       signsStates: [],
       proposalsStates: [],
       blockListColumns: [
@@ -178,7 +178,10 @@ export default {
           key: 'timestamp',
           textAlign: 'right'
         }
-      ]
+      ],
+      loading1: false,
+      loading2: false,
+      loading3: false
     }
   },
   computed: {
@@ -228,14 +231,18 @@ export default {
     },
     async goto(pageNumber) {
       const { $axios, $store } = this
+      this.loading3 = true
       const { list, totalSize } = await getBlockByProposer({ $axios, $store }, this.entityAddress, this.blockListSizer, pageNumber)
+      this.loading3 = false
       this.blockList = list
       this.totalBlockListSize = totalSize
       this.blockListPage = pageNumber
     },
     async gotoEvents(pageNumber) {
       const { $axios, $store } = this
+      this.loading2 = true
       const { list, totalSize } = await getEventsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
+      this.loading2 = false
       this.evensList = list
       // console.log('evensList', list)
       this.totalEventListSize = totalSize
@@ -243,7 +250,9 @@ export default {
     },
     async gotoDelegators(pageNumber) {
       const { $axios, $store } = this
+      this.loading1 = true
       const { list, totalSize } = await getDelegatorsByProposer({ $axios, $store }, this.entityAddress, this.eventListSizer, pageNumber)
+      this.loading1 = false
       this.delegatorsList = list
       // console.log('delegatorsList', list)
       this.totalDelegatorSize = totalSize

@@ -6,11 +6,11 @@
       </template>
     </Head>
     <Panel>
-      <block-table v-if="list && list.length > 0" :columns="columns" :data="list">
+      <BlockTable :columns="columns" :data="list">
         <template v-slot:timestamp="{ data }">
           <span>{{ data.value | timeFormat }} </span>
         </template>
-      </block-table>
+      </BlockTable>
     </Panel>
   </div>
 </template>

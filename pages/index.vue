@@ -51,13 +51,13 @@
       <Col span="12">
         <Panel title="Latest Blocks">
           <router-link slot="headerRight" to="/blocks" class="headerRight">View All</router-link>
-          <BlockTable v-if="blocks&&blocks.length>0" :columns="blockListColumns" :data="blocks" />
+          <BlockTable :columns="blockListColumns" :data="blocks" />
         </Panel>
       </Col>
       <Col span="12">
         <Panel title="Latest Transactions">
           <router-link slot="headerRight" to="/transactions" class="headerRight">View All</router-link>
-          <BlockTable v-if="transactions&&transactions.length>0" :columns="transactionColumns" :data="transactions" />
+          <BlockTable :columns="transactionColumns" :data="transactions" />
         </Panel>
       </Col>
     </Row>
