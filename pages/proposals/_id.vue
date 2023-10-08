@@ -119,7 +119,7 @@ export default {
 
 <style scoped lang="scss">
 .margin-bottom {
-    margin-bottom: rem(20);
+  margin-bottom: rem(20);
 }
 .page-navigation {
   padding-top: 30px;

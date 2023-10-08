@@ -42,14 +42,14 @@
             <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Debonding</div>
             <!-- <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div> -->
           </div>
-          <div v-if="currentEscrowType === EscrowTypes.active">
+          <template v-if="currentEscrowType === EscrowTypes.active">
             <BlockTable :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" />
             <Page slot="footer" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
-          </div>
-          <div v-else>
+          </template>
+          <template v-else>
             <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false"> </BlockTable>
             <Page slot="footer" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
-          </div>
+          </template>
         </Panel>
       </Col>
       <Col span="12">

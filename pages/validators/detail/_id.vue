@@ -44,7 +44,7 @@
       </Col>
       <Col span="12">
         <Panel title="Escrow Events">
-          <BlockTable :loading="loading2" :data="evensList" :columns="columns2" :expand="false">
+          <BlockTable :loading="loading2" :data="evensList" :columns="columns2">
             <template v-slot:amountAndShares="slotData">
               <div class="amount-share" :class="positiveStyle(slotData.data.add)">
                 {{ showAmountShare(slotData.data.value, slotData.data.add) }}

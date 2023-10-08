@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <Head title="BLOCK DETAILS"></Head>
-    <Panel>
+    <Panel class="margin-bottom">
       <Description :list="descriptionList" class="info-list">
         <template #height>
           <div class="label-content">
@@ -151,6 +151,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.margin-bottom {
+  margin-bottom: rem(20);
+}
 .label-content {
   display: flex;
   align-items: center;

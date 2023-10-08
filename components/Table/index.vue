@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table style="text-align: center;" :class="rootClasses">
+  <div class="table_content">
+    <table :class="rootClasses">
       <thead class="header">
         <tr>
           <th v-if="expand" class="table-expand-icon-th"></th>
@@ -48,7 +48,7 @@
         <Loader :loading="loading"></Loader>
       </tbody>
     </table>
-    <NoRecord v-if="!(rowData && rowData.length > 0) && !loading" />
+    <NoRecord v-if="!(rowData && rowData.length > 0) && !loading" class="norecord" />
   </div>
 </template>
 <script>
@@ -161,6 +161,12 @@ export default {
 }
 .text-left {
   text-align: left;
+}
+.table_content{
+  height: 100%;
+  .norecord{
+    height: calc(100% - #{rem(60)});
+  }
 }
 table {
   border-collapse: collapse;
