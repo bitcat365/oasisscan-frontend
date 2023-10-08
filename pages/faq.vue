@@ -48,10 +48,15 @@ export default {
 #faq-root {
   .faq-list {
     padding: 0 rem(10);
+    &:first-child{
+      margin-bottom: rem(20);
+    }
     > p {
       margin-bottom: rem(10);
     }
     a {
+      margin-left: rem(10);
+      font-size: rem(14);
       color: $gray500;
       text-decoration: none;
     }
