@@ -26,7 +26,25 @@ export default {
       return this.$store.state.menuOpen ? '16rem' : '6.25rem'
     }
   },
-  methods: {}
+  methods: {
+    changeMenuWidth(){
+      // console.log(window.innerWidth);
+      if(window.innerWidth <= 1280 && this.$store.state.menuOpen){
+        this.$store.commit('SET_MENU_OPEN', false)
+      }else if(window.innerWidth > 1280 && !this.$store.state.menuOpen){
+        this.$store.commit('SET_MENU_OPEN', true)
+      }
+    }
+  },
+  mounted(){
+    window.onresize = () => {
+      return (() => {
+        this.$nextTick(() => {
+          this.changeMenuWidth()
+        });
+      })();
+    };
+  }
 }
 </script>
 <style lang="scss">
