@@ -617,7 +617,6 @@ export async function fetchValidatorDetail($config, address) {
     return data
   }
 }
-// TODO
 export async function onSearch(vue, text) {
   const searchText = text.trim()
   vue.$Spin.show()
