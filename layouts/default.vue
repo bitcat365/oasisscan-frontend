@@ -58,7 +58,7 @@ export default {
   justify-content: space-between;
 }
 .page-right {
-  margin: 0 rem(24);
+  margin: 0 rem(20);
   .page-header {
     margin: rem(20) 0;
   }
