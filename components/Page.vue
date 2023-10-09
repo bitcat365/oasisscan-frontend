@@ -79,14 +79,6 @@ export default {
       return Math.ceil(this.recordsCount / this.sizer)
     }
   },
-  watch: {
-    page: {
-      handler(val) {
-        if (!this.continuousNumList.includes(val) || (val == 1 && this.continuousNumList[0] !== 2) || (val == this.total && this.continuousNumList[this.continuousNumList.length - 1] !== this.total - 1)) this.continuousNum()
-      },
-      immediate: true
-    }
-  },
   methods: {
     pageSize(name) {
       this.$emit('goto', this.page, name)
@@ -111,31 +103,6 @@ export default {
         }
       }
     },
-    continuousNum() {
-      switch (true) {
-        case [1, 2, 3, 4, 5].includes(this.page) && this.total <= 5:
-          let arr1 = []
-          for (var i = 2; i < this.total; i++) {
-            arr1.push(i)
-          }
-          this.continuousNumList = arr1
-          break
-        case [1, 2, 3, 4, 5].includes(this.page) && this.total > 5:
-          this.continuousNumList = [2, 3, 4, 5]
-          break
-        case [this.total - 4, this.total - 3, this.total - 2, this.total - 1, this.total].includes(this.page):
-          this.continuousNumList = [this.total - 4, this.total - 3, this.total - 2, this.total - 1]
-          break
-        default:
-          let arr2 = []
-          let Q = Math.floor((this.page - this.continuousNumList[0]) / 4)
-          for (var i = 0; i < this.continuousNumList.length; i++) {
-            arr2.push(this.continuousNumList[i] + 4 * Q)
-          }
-          this.continuousNumList = arr2
-          break
-      }
-    },
     gotoPage(i) {
       this.$emit('goto', i, this.sizer)
     },
@@ -152,7 +119,6 @@ export default {
           }
           break
       }
-      this.continuousNum()
     },
     omitRight() {
       switch (true) {
@@ -167,7 +133,6 @@ export default {
           }
           break
       }
-      this.continuousNum()
     }
   }
 }
