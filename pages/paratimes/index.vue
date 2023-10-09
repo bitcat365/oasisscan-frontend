@@ -18,7 +18,7 @@
             <span>{{ data.value | timeFormat }} </span>
           </template>
         </BlockTable>
-        <Page :sizer="sizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
+        <Page :sizer="roundListSizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
       <div v-else-if="currentListType === ListTypes.nodeList" class="block-list-wrapper node-list-wrapper">
         <BlockTable :loading="loading" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
@@ -34,7 +34,7 @@
             <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
         </BlockTable>
-        <Page :sizer="sizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></Page>
+        <Page :sizer="txListSizer" :records-count="txListTotal" :page="txListPage" root-class="block-page" @goto="goto"></Page>
       </div>
     </Panel>
   </div>
@@ -129,26 +129,27 @@ export default {
       co.sortType = 'down'
       this.nodeListColumns = [...this.nodeListColumns]
     },
-    async goto(pageNumber, progress = true) {
-      if (pageNumber > 1) {
-        this.timer && clearTimeout(this.timer)
-        this.timer = null
-      }
+    async goto(pageNumber, pageSize, progress = true) {
+      // if (pageNumber > 1) {
+      //   this.timer && clearTimeout(this.timer)
+      //   this.timer = null
+      // }
       this.loading = true
       if (this.currentListType === ListTypes.roundList) {
-        await this.getRoundList(pageNumber)
+        await this.getRoundList(pageNumber, pageSize)
       } else if (this.currentListType === ListTypes.nodeList) {
         await this.getNodeList(pageNumber)
       } else if (this.currentListType === ListTypes.txList) {
-        await this.getRuntimeTxList(pageNumber)
+        await this.getRuntimeTxList(pageNumber, pageSize)
       }
       this.loading = false
       progress && (document.documentElement.scrollTop = document.body.scrollTop = 0)
     },
-    async getRoundList(pageNumber) {
+    async getRoundList(pageNumber, pageSize) {
       const { $axios, $store } = this
-      const { list, totalSize } = await fetchRoundList({ $axios, $store }, this.runtimeId, pageNumber, this.sizer)
+      const { list, totalSize } = await fetchRoundList({ $axios, $store }, this.runtimeId, pageNumber, pageSize)
       this.roundListPage = pageNumber
+      this.roundListSizer = pageSize
       this.roundList = list
       this.roundListTotal = totalSize
     },
@@ -161,10 +162,11 @@ export default {
       this.onlineNodes = online
       this.offlineNodes = offline
     },
-    async getRuntimeTxList(pageNumber) {
+    async getRuntimeTxList(pageNumber, pageSize) {
       const { $axios, $store } = this
-      const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, this.runtimeId, null, pageNumber, this.sizer)
+      const { list, totalSize } = await fetchRuntimeTxList({ $axios, $store }, this.runtimeId, null, pageNumber, pageSize)
       this.txListPage = pageNumber
+      this.txListSizer = pageSize
       this.txList = list
       this.txListTotal = totalSize
     },
@@ -191,13 +193,15 @@ export default {
   },
   created() {},
   destroyed() {
-    this.timer && clearTimeout(this.timer)
-    this.timer = null
+    // this.timer && clearTimeout(this.timer)
+    // this.timer = null
   },
   data() {
     return {
       loading: false,
       sizer: 20,
+      roundListSizer: 20,
+      txListSizer: 20,
       roundListPage: 1,
       nodeListPage: 1,
       txListPage: 1,
