@@ -29,9 +29,9 @@ export default {
   methods: {
     changeMenuWidth(){
       // console.log(window.innerWidth);
-      if(window.innerWidth <= 1280 && this.$store.state.menuOpen){
+      if(window.innerWidth <= 1440 && this.$store.state.menuOpen){
         this.$store.commit('SET_MENU_OPEN', false)
-      }else if(window.innerWidth > 1280 && !this.$store.state.menuOpen){
+      }else if(window.innerWidth > 1440 && !this.$store.state.menuOpen){
         this.$store.commit('SET_MENU_OPEN', true)
       }
     }
@@ -49,7 +49,7 @@ export default {
 </script>
 <style lang="scss">
 #page-container {
-  min-width: 1512px;
+  min-width: 1280px;
   min-height: 100vh;
   @include fontFamily;
   background-color: $page-background;
