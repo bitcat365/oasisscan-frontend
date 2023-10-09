@@ -72,7 +72,7 @@ export default {
       return this.$store.state.menuOpen
     },
     menuWidth() {
-      return this.$store.state.menuOpen ? '16rem' : '6.25rem'
+      return this.$store.state.menuOpen ? '14.5rem' : '4.5rem'
     },
     menuList1() {
       let menuList = [
@@ -147,7 +147,7 @@ export default {
     }
     .menu-right {
       position: absolute;
-      right: rem(-15);
+      right: rem(-10);
       bottom: 0;
     }
     .svgIcon {
@@ -170,9 +170,9 @@ export default {
     .menu-item {
       position: relative;
       display: block;
-      height: rem(50);
-      line-height: rem(50);
-      margin: 0 rem(25);
+      height: rem(40);
+      line-height: rem(40);
+      margin: rem(10) rem(16);
       font-size: rem(16);
       color: $theme-color;
       border-radius: 5px;
@@ -195,7 +195,7 @@ export default {
       z-index: 999;
     }
     .menu-item-open {
-      padding: 0 rem(10);
+      padding: 0 rem(5);
       text-align: left;
     }
     .menu-item-close {
@@ -210,12 +210,12 @@ export default {
       background-color: $theme-color;
     }
     .svgClass {
-      vertical-align: -0.7em;
+      vertical-align: -0.6em;
       width: rem(30);
       height: rem(30);
     }
     .svgClass-active {
-      vertical-align: -0.7em;
+      vertical-align: -0.6em;
       width: rem(30);
       height: rem(30);
       color: $theme-background;

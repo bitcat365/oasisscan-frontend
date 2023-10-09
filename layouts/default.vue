@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     menuWidth() {
-      return this.$store.state.menuOpen ? '16rem' : '6.25rem'
+      return this.$store.state.menuOpen ? '14.5rem' : '4.5rem'
     }
   },
   methods: {
