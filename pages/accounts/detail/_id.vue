@@ -195,11 +195,11 @@ export default {
       debondingsList: [],
       list: [],
       total: 0,
-      sizer: 10,
+      sizer: 5,
       page: 1,
       runtimeList: [],
       runtimeTotal: 0,
-      runtimeSizer: 10,
+      runtimeSizer: 5,
       runtimePage: 1,
       columns: [
         {
