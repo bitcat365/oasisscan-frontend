@@ -169,6 +169,7 @@ export default {
   }
   /deep/.ivu-select-dropdown {
     padding: 0;
+    border-radius: rem(8);
     .select-list {
       min-width: rem(260);
       background-color: $gray100;
