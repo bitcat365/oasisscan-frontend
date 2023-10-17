@@ -37,6 +37,7 @@ export default {
     }
   },
   mounted(){
+    this.changeMenuWidth()
     window.onresize = () => {
       return (() => {
         this.$nextTick(() => {
