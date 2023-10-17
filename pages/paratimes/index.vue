@@ -450,41 +450,4 @@ export default {
     }
   }
 }
-.no-result {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  font-size: 14px;
-  color: rgba(55, 65, 107, 1);
-  padding: rem(80) 0;
-  .empty-icon {
-    width: rem(80);
-    margin-bottom: rem(11);
-  }
-}
-.node-info {
-  background-color: white;
-  border-radius: rem(8);
-  height: rem(40);
-  width: rem(368);
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: space-between;
-  padding: 0 rem(20);
-  > .info-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    .active-count {
-      color: #ff7a59;
-      font-size: rem(14);
-    }
-    .info-name {
-      padding-left: rem(4);
-      font-size: rem(12);
-    }
-  }
-}
 </style>

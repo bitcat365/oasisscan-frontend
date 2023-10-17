@@ -37,7 +37,6 @@ export default {
     color: $gray800;
   }
   .Head-right {
-    font-size: rem(16);
   }
 }
 </style>

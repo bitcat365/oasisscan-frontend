@@ -158,13 +158,12 @@ export default {
 .title {
   .paratime-tag {
     display: inline-block;
-    margin-left: rem(8);
-    width: rem(100);
+    margin-left: rem(10);
+    padding: 0 rem(10);
     height: rem(30);
     line-height: rem(30);
-    font-size: rem(16);
-    border-radius: rem(12);
-    text-align: center;
+    font-size: rem(14);
+    border-radius: rem(8);
     background: $gray500;
     color: white;
   }

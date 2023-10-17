@@ -51,14 +51,12 @@ export default {
     height: rem(60);
     @extend .flexColumn;
     .name {
-      font-size: rem(16);
       color: $gray400;
     }
     .value {
-      // font-size: rem(20);
-      font-size: rem(18);
+      font-size: 1rem;
       color: $gray600;
-      font-weight: bold;
+      font-weight: 600;
     }
   }
 }

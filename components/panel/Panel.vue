@@ -71,10 +71,10 @@ export default {
       height: rem(30);
     }
     .panel-title-left {
-      font-size: rem(18);
+      font-size: rem(16);
     }
     .panel-title-right {
-      font-size: rem(14);
+      font-size: rem(12);
     }
   }
   .panel-content {

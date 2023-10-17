@@ -134,6 +134,7 @@ export default {
       color: #12b76a;
     }
     .p1_down {
+      font-size: 1rem;
       font-weight: 600;
       color: #f04438;
     }

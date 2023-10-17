@@ -20,18 +20,13 @@ $rem-base: 16;
   @return $px/$rem-base +rem;
 }
 
-@media (-webkit-min-device-pixel-ratio: 2),
-(min-resolution: 192dpi) {
-
-  /* Retina-specific stuff here */
-  html {
-    font-size: $rem-base/1 + px;
-  }
+html {
+  font-size: $rem-base/1 + px;
 }
 
 body {
   @include fontFamily;
-  font-size: $rem-base/1 + px;
+  font-size: 14px;
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;

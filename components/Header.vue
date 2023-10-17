@@ -65,7 +65,7 @@ header {
     height: rem(40);
     line-height: rem(40);
     padding: 0 rem(40);
-    font-size: 1rem;
+    font-size: rem(14);
     color: $gray500;
     border: 0;
     border-radius: rem(20);
@@ -89,6 +89,7 @@ header {
     width: rem(130);
     height: rem(40);
     line-height: rem(40);
+    font-size: rem(14);
     text-align: center;
     border-radius: rem(20);
     background-color: white;
@@ -100,7 +101,7 @@ header {
   .network-select-list {
     min-width: rem(130);
     .network-select-item {
-      font-size: 1rem !important;
+      font-size: rem(14) !important;
       padding: 0;
       text-align: center;
       height: rem(36);

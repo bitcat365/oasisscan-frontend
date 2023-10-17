@@ -158,7 +158,7 @@ export default {
           display: flex;
           align-items: center;
           .name {
-            font-size: rem(20);
+            font-size: rem(18);
           }
           .rank {
             margin-left: rem(10);
@@ -193,7 +193,6 @@ export default {
           }
         }
         .status {
-          font-size: rem(14);
           color: $success500;
           > div {
             display: inline-block;

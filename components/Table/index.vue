@@ -233,6 +233,8 @@ table {
     border-bottom: 1px solid $gray100;
   }
   .header-column {
+    font-size: rem(14);
+    font-weight: 600;
     color: $gray500;
   }
   .sorts {
