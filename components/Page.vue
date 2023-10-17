@@ -20,7 +20,6 @@
         <span>1</span>
       </div>
       <div v-if="page > 5" class="sim-btn-omit" @click="omitLeft">
-        <SvgIcon class="omit-icon" className="svgIcon" iconName="left-double" />
         <span class="omit-show">...</span>
       </div>
       <div v-if="page === 5" class="sim-btn-num" @click="gotoPage(page - 3)">
@@ -45,7 +44,6 @@
         <span>{{ page + 3 }}</span>
       </div>
       <div v-if="total - page >= 5" class="sim-btn-omit" @click="omitRight">
-        <SvgIcon class="omit-icon" className="svgIcon" iconName="right-double" />
         <span class="omit-show">...</span>
       </div>
       <div :class="total === page ? 'sim-btn-num sim-btn-active' : 'sim-btn-num'" @click="gotoPage(total)" v-show="total > 1">
@@ -203,20 +201,6 @@ export default {
   }
   .sim-btn-omit {
     width: rem(32);
-    .omit-icon {
-      display: none;
-    }
-    .omit-show {
-      display: inline;
-    }
-  }
-  .sim-btn-omit:hover {
-    .omit-icon {
-      display: block;
-    }
-    .omit-show {
-      display: none;
-    }
   }
 }
 </style>

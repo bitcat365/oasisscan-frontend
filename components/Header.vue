@@ -98,10 +98,11 @@ header {
     padding: 0;
   }
   .network-select-list {
-    min-width: rem(100);
+    min-width: rem(130);
     .network-select-item {
       font-size: 1rem !important;
-      padding: 0 rem(20);
+      padding: 0;
+      text-align: center;
       height: rem(36);
       line-height: rem(36);
       &:hover {
