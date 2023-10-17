@@ -190,7 +190,6 @@ export default {
     }
   }
   .bottom {
-    margin-bottom: rem(20);
     .ivu-col {
       > * {
         height: rem(760);

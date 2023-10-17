@@ -469,7 +469,6 @@ export default {
     }
   }
   .bottom-table-bot {
-    margin-bottom: rem(20);
     .ivu-col {
       > * {
         // height: rem(490);
