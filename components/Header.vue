@@ -53,7 +53,7 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  height: rem(50);
+  height: rem(40);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -62,21 +62,21 @@ header {
 .input {
   /deep/.ivu-input {
     max-width: rem(808);
-    height: rem(50);
-    line-height: rem(50);
-    padding: 0 rem(50);
+    height: rem(40);
+    line-height: rem(40);
+    padding: 0 rem(40);
     font-size: 1rem;
     color: $gray500;
     border: 0;
-    border-radius: rem(25);
+    border-radius: rem(20);
   }
   /deep/.ivu-input:focus {
     box-shadow: none;
   }
   /deep/.ivu-icon {
-    width: rem(50);
-    height: rem(50);
-    line-height: rem(50);
+    width: rem(40);
+    height: rem(40);
+    line-height: rem(40);
     font-size: rem(24);
   }
 }
@@ -87,10 +87,10 @@ header {
   .network-selector {
     display: block;
     width: rem(130);
-    height: rem(50);
-    line-height: rem(50);
+    height: rem(40);
+    line-height: rem(40);
     text-align: center;
-    border-radius: rem(24);
+    border-radius: rem(20);
     background-color: white;
   }
   /deep/.ivu-select-dropdown {
