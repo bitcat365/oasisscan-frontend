@@ -11,7 +11,9 @@ export default {}
 
 <style scoped lang="scss">
 .noRecord {
-  padding: rem(40) 0;
+  position: absolute;
+  top: calc(50% - #{rem(40)});
+  left: calc(50% - #{rem(34)});
   display: flex;
   flex-direction: column;
   justify-content: center;

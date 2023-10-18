@@ -18,6 +18,9 @@ export default {
 </script>
 <style scoped lang="scss">
 .spin{
+  /deep/.ivu-spin-main{
+    top: rem(100);
+  }
   .spin-icon {
     animation: ani-spin 1s linear infinite;
   }

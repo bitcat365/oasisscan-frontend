@@ -15,7 +15,7 @@
         </template>
       </Description>
     </Panel>
-    <Panel title="Transactions">
+    <Panel title="Transactions" class="Transactions">
       <BlockTable :loading="loading" :data="list" :columns="columns">
         <template v-slot:status="{ data }">
           <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
@@ -168,22 +168,7 @@ export default {
     color: white;
   }
 }
-.no-result {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  font-size: 14px;
-  color: rgba(55, 65, 107, 1);
-  padding: rem(80) 0;
-  .empty-icon {
-    width: rem(80);
-    margin-bottom: rem(11);
-  }
-}
-.loader-con {
-  margin-top: 60px;
-  display: flex;
-  justify-content: center;
+.Transactions{
+  margin-top: rem(20);
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="table_content">
-    <table :class="[rootClasses,loading?'table-loader':'']">
+    <table :class="[rootClasses,loading||!(rowData && rowData.length > 0)?'table-loader':'']">
       <thead class="header">
         <tr>
           <th v-if="expand" class="table-expand-icon-th"></th>
@@ -29,8 +29,9 @@
         </tr>
       </thead>
       <tbody>
+        <NoRecord v-if="!(rowData && rowData.length > 0) && !loading" class="norecord" />
         <tr
-          v-if="rowData && rowData.length > 0"
+          v-else
           v-for="(row, rowIndex) in rowData"
           :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
           :class="['table-row', rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', row.isExtendedRow ? 'extended-row' : 'main-row', row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : '']"
@@ -48,7 +49,6 @@
         <Loader :loading="loading"></Loader>
       </tbody>
     </table>
-    <NoRecord v-if="!(rowData && rowData.length > 0) && !loading" class="norecord" />
   </div>
 </template>
 <script>
@@ -164,13 +164,10 @@ export default {
 }
 .table_content{
   height: 100%;
-  .norecord{
-    height: calc(100% - #{rem(60)});
-  }
 }
 table {
   &.table-loader{
-    min-height: rem(100);
+    min-height: rem(240);
   }
   border-collapse: collapse;
   border-spacing: 0;

@@ -78,6 +78,7 @@ export default {
     }
   }
   .panel-content {
+    position: relative;
     &.height {
       height: 100%;
     }
