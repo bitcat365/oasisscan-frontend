@@ -36,7 +36,7 @@
           <BlockTable :loading="loading1" :data="delegatorsList" :columns="columns1" :expand="false">
             <template v-slot:address="{ data }">
               <router-link :to="data.link">{{ data.text | hashFormat }}</router-link>
-              <span v-if="data.text === entityAddress">(Self)</span>
+              <span v-if="data.text === entityAddress" class="self">Self</span>
             </template>
           </BlockTable>
           <Page slot="footer" type="simple" :sizer="eventListSizer" :records-count="totalDelegatorSize" :page="delegatorListPage" @goto="gotoDelegators" />
@@ -313,6 +313,16 @@ export default {
     .ivu-col {
       > * {
         height: rem(490);
+      }
+      .self{
+        display: inline-block;
+        width: rem(34);
+        height: rem(20);
+        line-height: rem(20);
+        text-align: center;
+        border-radius: rem(4);
+        background-color: $gray300;
+        color: #fff;
       }
     }
   }
