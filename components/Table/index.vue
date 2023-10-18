@@ -1,6 +1,6 @@
 <template>
   <div class="table_content">
-    <table :class="rootClasses">
+    <table :class="[rootClasses,loading?'table-loader':'']">
       <thead class="header">
         <tr>
           <th v-if="expand" class="table-expand-icon-th"></th>
@@ -169,6 +169,9 @@ export default {
   }
 }
 table {
+  &.table-loader{
+    min-height: rem(100);
+  }
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
