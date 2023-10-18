@@ -126,9 +126,10 @@ export default {
 .info-con {
   position: relative;
   .edit {
+    z-index: 9;
     position: absolute;
-    bottom: rem(4);
-    right: rem(4);
+    bottom: 0;
+    right: 0;
     font-size: rem(12);
     color: $gray300;
   }
@@ -198,12 +199,12 @@ export default {
         }
         .status {
           color: $success500;
+          text-align: right;
           > div {
             display: inline-block;
             width: rem(16);
             height: rem(16);
             line-height: rem(16);
-            text-align: center;
             border-radius: 50%;
             background-color: $success500;
           }
