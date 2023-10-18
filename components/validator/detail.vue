@@ -1,5 +1,6 @@
 <template>
   <div class="info-con">
+    <a :href="editURL" target="_blank"><span class="edit">Update validator info?</span></a>
     <Row class="info-con-top">
       <Col span="2" class="left">
         <img v-if="!icon" class="icon" src="~/assets/validator_dafult_icon.svg" />
@@ -19,7 +20,6 @@
             <a v-if="email" target="_blank" :href="`mailto:${email}`" title="email"><SvgIcon className="svg" iconName="validator_email"></SvgIcon></a>
             <a v-if="twitter" target="_blank" :href="`https://twitter.com/${twitter}`" title="twitter"><SvgIcon className="svg" iconName="validator_twitter"></SvgIcon></a>
             <a v-if="keybase" target="_blank" :href="`https://keybase.io/${keybase}`" title="keybase"><SvgIcon className="svg" iconName="validator_keybase"></SvgIcon></a>
-            <a :href="editURL" target="_blank"><span class="edit">Update validator info?</span></a>
           </Col>
           <Col span="2">
             <div v-if="active" class="status">
@@ -124,6 +124,14 @@ export default {
 
 <style scoped lang="scss">
 .info-con {
+  position: relative;
+  .edit {
+    position: absolute;
+    bottom: rem(4);
+    right: rem(4);
+    font-size: rem(12);
+    color: $gray300;
+  }
   .info-con-top {
     height: rem(85);
     margin-bottom: rem(20);
@@ -182,10 +190,6 @@ export default {
             }
             .svg:hover{
               color: $gray400;
-            }
-            .edit {
-              font-size: rem(12);
-              color: $gray300;
             }
           }
           .extra-icon {
