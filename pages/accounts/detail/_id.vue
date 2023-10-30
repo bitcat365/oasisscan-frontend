@@ -146,7 +146,7 @@ export default {
       debondingsListPage: 1,
       columns1: [
         {
-          title: 'Validator/Account',
+          title: 'Validator',
           key: 'validatorName'
         },
         {
@@ -161,15 +161,16 @@ export default {
       ],
       columns2: [
         {
-          title: 'Validator/Account',
+          title: 'Validator',
           key: 'validatorName'
         },
         {
           title: 'Shares',
           key: 'shares'
         },
+        // TODO
         {
-          title: 'Due Epoch',
+          title: 'Unlock Epoch',
           key: 'debondEnd'
         }
       ],

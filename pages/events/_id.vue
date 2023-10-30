@@ -59,6 +59,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.info-list{
+  padding: 0 rem(10);
+}
 .trx-panel {
   margin-top: rem(20);
   .raw-data {

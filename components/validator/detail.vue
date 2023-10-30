@@ -124,6 +124,7 @@ export default {
 
 <style scoped lang="scss">
 .info-con {
+  padding: 0 rem(10);
   position: relative;
   .edit {
     z-index: 9;

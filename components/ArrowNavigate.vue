@@ -21,16 +21,15 @@
 <style lang="scss" scoped>
   .arrow-nav-con {
     display: flex;
+    gap: rem(20);
     .arrow {
       width: rem(24);
       height: rem(24);
       cursor: pointer;
     }
     .pre {
-      margin-left: rem(8);
     }
     .next {
-      margin-left: rem(8);
     }
   }
 </style>

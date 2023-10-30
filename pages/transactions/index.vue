@@ -115,7 +115,7 @@ export default {
       method: '',
       columns: [
         {
-          title: 'Tx Hash',
+          title: 'Block Hash',
           key: 'txHash',
           width: '25%'
         },
@@ -158,6 +158,7 @@ export default {
 }
 .dropdown {
   .method-dropdown {
+    margin: 0 rem(10);
     padding: 0 rem(16);
     height: rem(40);
     line-height: rem(40);

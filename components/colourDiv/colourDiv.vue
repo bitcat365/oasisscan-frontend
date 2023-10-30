@@ -26,7 +26,7 @@ export default {
   justify-content: center;
   &.success {
     color: $success500;
-    background-color: $success200;
+    background-color: $success100;
   }
   &.warning {
     color: $warning500;
