@@ -269,7 +269,7 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
     return {
       ...item,
       delegators: readable(item.delegators),
-      escrow: { escrow: item.escrow, escrowPercent: item.escrowPercent },
+      escrow: { escrow: Number(item.escrow), escrowPercent: item.escrowPercent },
       commission: { value: item.commission, type: 'percent' }
     }
   })
