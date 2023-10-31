@@ -151,9 +151,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.label-content {
-  display: flex;
-  align-items: center;
+.info-list {
+  padding: 0 rem(10);
+  .label-content {
+    display: flex;
+    align-items: center;
+    gap: rem(20);
+  }
 }
 .title {
   .paratime-tag {

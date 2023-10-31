@@ -428,6 +428,9 @@ export default {
 #accountInfo {
   .top {
     margin-bottom: rem(20);
+    .info-list {
+      padding: 0 rem(10);
+    }
     .topDesc{
       display: flex;
       flex-direction: row;
