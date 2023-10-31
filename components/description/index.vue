@@ -1,7 +1,9 @@
 <template>
   <div>
     <Row v-for="item in list" :key="item.title" class="description">
-      <Col :span="span[0]" class="title">{{ item.title }}</Col>
+      <Col :span="span[0]" class="title">
+        <span>{{ item.title }}</span>
+      </Col>
       <Col :span="span[1]" class="content">
         <slot v-if="item.name" :name="item.name"></slot>
         <span v-else-if="item.content && typeof item.content === 'object' && item.content.type ==='time'">{{item.content.value|timeFormat}}</span>
@@ -31,12 +33,12 @@ export default {
 
 <style scoped lang="scss">
 .description {
+  height: rem(40);
+  line-height: rem(40);
   .title {
-    padding: rem(10) 0;
   }
   .content {
     color: $gray500;
-    padding: rem(10) 0;
     a{
       color: $blue500;
     }
