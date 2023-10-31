@@ -440,7 +440,11 @@ export default {
       .address {
         display: flex;
         align-items: center;
+        .copy-con{
+          line-height: 1;
+        }
         .QRcode {
+          line-height: 1;
           position: relative;
           .QRcodeImg {
             position: absolute;
