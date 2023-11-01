@@ -503,7 +503,7 @@ export async function getEventsByProposer($config, address, size = 5, page = 1) 
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
         txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
-        amountAndShares: { value: `${readable(item.amount)}/${readable(item.shares)}`, add: item.add }
+        amountAndShares: { amount:readable(item.amount),shares:readable(item.shares), add: item.add }
       }
     }),
     totalSize
@@ -536,7 +536,7 @@ export async function getDelegatorsByProposer($config, address, size = 5, page =
         ...item,
         address: { text: item.address, type: 'hash-link', link: `/accounts/detail/${item.address}` },
         percent: { value: item.percent, type: 'percent' },
-        amountAndShares: `${readable(item.amount)}/${readable(item.shares)}`
+        amountAndShares: {amount:readable(item.amount),shares:readable(item.shares)}
       }
     }),
     totalSize

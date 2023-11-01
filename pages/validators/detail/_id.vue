@@ -34,6 +34,14 @@
       <Col span="12">
         <Panel title="Delegators">
           <BlockTable :loading="loading1" :data="delegatorsList" :columns="columns1" :expand="false">
+            <template v-slot:amount="{ data }">
+              <span>Amount</span>
+              <span class="gray">/Shares</span>
+            </template>
+            <template v-slot:amountAndShares="slotData">
+              <span>{{slotData.data.amount}}</span>
+              <span class="gray">/{{slotData.data.shares}}</span>
+            </template>
             <template v-slot:address="{ data }">
               <router-link :to="data.link">{{ data.text | hashFormat }}</router-link>
               <span v-if="data.text === entityAddress" class="self">Self</span>
@@ -45,10 +53,13 @@
       <Col span="12">
         <Panel title="Escrow Events">
           <BlockTable :loading="loading2" :data="evensList" :columns="columns2">
+            <template v-slot:amount="{ data }">
+              <span>Amount</span>
+              <span class="gray">/Shares</span>
+            </template>
             <template v-slot:amountAndShares="slotData">
-              <div class="amount-share" :class="positiveStyle(slotData.data.add)">
-                {{ showAmountShare(slotData.data.value, slotData.data.add) }}
-              </div>
+              <span :class="positiveStyle(slotData.data.add)">{{showAmountShare(slotData.data.amount)}}</span>
+              <span :class="positiveStyle(slotData.data.add,'light')">/{{showAmountShare(slotData.data.shares)}}</span>
             </template>
           </BlockTable>
           <Page slot="footer" type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" @goto="gotoEvents" />
@@ -152,8 +163,9 @@ export default {
           slot: true
         },
         {
-          title: 'Amount/Shares',
-          key: 'amountAndShares'
+          titleSlot:'amount',
+          key: 'amountAndShares',
+          slot: true
         },
         {
           title: 'Percentage',
@@ -168,7 +180,7 @@ export default {
           key: 'height'
         },
         {
-          title: 'Amount/Shares',
+          titleSlot:'amount',
           key: 'amountAndShares',
           slot: true,
           width: '50%'
@@ -265,11 +277,11 @@ export default {
         return '-' + amountShare
       }
     },
-    positiveStyle(add) {
+    positiveStyle(add,light) {
       if (add) {
-        return 'success'
+        return light? 'success1': 'success'
       } else {
-        return 'error'
+        return light? 'error1':'error'
       }
     }
   }
@@ -281,8 +293,17 @@ export default {
   .success {
     color: $success500;
   }
+  .success1 {
+    color: $success400;
+  }
   .error {
     color: $error500;
+  }
+  .error1 {
+    color: $error400;
+  }
+  .gray {
+    color: $gray400;
   }
   .top {
     margin-bottom: rem(20);

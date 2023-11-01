@@ -7,7 +7,8 @@
           <th v-for="item in columns" :key="item.key" class="header-column" :class="cellClass" :style="headerStyle(item)">
             <div :class="[item.sortable || item.iconName ? 'header-title' : '', item.textAlign ? 'text-' + item.textAlign : 'text-left']">
               <div>
-                <div v-for="ti in item.title.split('\n')" :key="ti">
+                <slot v-if="item.titleSlot" :name="item.titleSlot" v-bind:data="item.titleSlot"></slot>
+                <div v-else v-for="ti in item.title.split('\n')" :key="ti">
                   {{ ti }}
                 </div>
               </div>
@@ -24,7 +25,7 @@
                 </div>
                 <SvgIcon v-else className="svgIcon1" :iconName="item.iconName" />
               </div>
-            </div>
+            </div> 
           </th>
         </tr>
       </thead>
