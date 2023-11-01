@@ -227,7 +227,6 @@ table {
   border: 0;
   border-bottom: 1px;
   padding: 18px 20px;
-  vertical-align: top;
 }
 .header {
   tr {
