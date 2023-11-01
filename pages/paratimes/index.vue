@@ -11,7 +11,11 @@
         <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
         <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
       </div>
-      <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" prefix="ios-search" placeholder="Node Filter" />
+      <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" placeholder="Node Filter">
+        <template #prefix>
+            <SvgIcon className="svgIcon" iconName="filter"/>
+          </template>
+      </Input>
       <div v-if="currentListType === ListTypes.roundList" class="block-list-wrapper round-list-wrapper">
         <BlockTable :loading="loading" :columns="roundListColumns" :data="roundList">
           <template v-slot:timestamp="{ data }">
@@ -414,16 +418,27 @@ export default {
 }
 .panel {
   /deep/.ivu-input {
-    width: rem(320);
+    width: rem(220);
+    height: rem(40);
+    line-height: rem(40);
+    padding-left: rem(40);
     font-size: 1rem;
     color: $gray500;
     background-color: $gray100;
     border: 0;
     border-radius: rem(8);
   }
+  /deep/.ivu-input::-webkit-input-placeholder{
+    color:$gray500;
+  }
   /deep/.ivu-input:focus {
     box-shadow: none;
   }
+  .svgIcon{
+      width: rem(24);
+      height: rem(40);
+      color: $gray500;
+    }
   .tag-con {
     display: flex;
     flex-direction: row;

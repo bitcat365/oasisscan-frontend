@@ -25,7 +25,11 @@
         </div>
       </template>
       <template slot="headerRight">
-        <Input v-model="name" prefix="ios-search" placeholder="Validator Filter" />
+        <Input v-model="name" placeholder="Validator Filter" >
+          <template #prefix>
+            <SvgIcon className="svgIcon" iconName="filter"/>
+          </template>
+        </Input>
       </template>
       <BlockTable :columns="columns" :data="showList" @sort="sort">
         <template v-slot:status="{ data }">
@@ -267,15 +271,26 @@ export default {
   }
   .panel {
     /deep/.ivu-input {
-      width: rem(320);
+      width: rem(220);
+      height: rem(40);
+      line-height: rem(40);
+      padding-left: rem(40);
       font-size: 1rem;
       color: $gray500;
       background-color: $gray100;
       border: 0;
       border-radius: rem(8);
     }
+    /deep/.ivu-input::-webkit-input-placeholder{
+    	color:$gray500;
+    }
     /deep/.ivu-input:focus {
       box-shadow: none;
+    }
+    .svgIcon{
+      width: rem(24);
+      height: rem(40);
+      color: $gray500;
     }
     .tag-con {
       display: flex;
