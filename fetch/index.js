@@ -37,7 +37,7 @@ export async function fetchMarketChart($config) {
     let yData = []
     for (let i = 0; i < list.length; i++) {
       xData.push(list[i].key)
-      toFixed ? yData.push(Number(list[i].value.toFixed(2))) : yData.push(list[i].value)
+      toFixed ? yData.push(Number(list[i].value.toFixed(0))) : yData.push(list[i].value)
     }
     return {
       xData: xData,
@@ -68,8 +68,14 @@ export async function fetchBlockInfo($config, progress = true) {
   return {}
 }
 export async function fetchNetworkTrend($config) {
-  const { code, data: { tx, escrow } } = await get($config)('/dashboard/trend').catch(() => ({ code: -1 }))
+  const {
+    code,
+    data: { tx, escrow: escrowData }
+  } = await get($config)('/dashboard/trend').catch(() => ({ code: -1 }))
   if (code === 0) {
+    let escrow = escrowData.map(({ key, value }) => {
+      return { key: key, value: Number(value.toFixed(0)) }
+    })
     return { tx, escrow }
   }
   return []
@@ -172,8 +178,8 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
     } else if (item.entityAddress) {
       link = `/accounts/detail/${item.entityAddress}`
     }
-    item.shares = readable(decimalsFormat(item.shares, 2))
-    item.amount = readable(decimalsFormat(item.amount, 2))
+    item.shares = readable(decimalsFormat(item.shares, 0))
+    item.amount = readable(decimalsFormat(item.amount, 0))
     return {
       ...item,
       validatorName: link ? { text: name, link, type: item.validatorName ? 'link' : 'hash-link' } : name
@@ -194,7 +200,7 @@ export async function fetchAccountDebonding($config, address, page = 1, size = 5
   }
   const res = list.map(item => {
     const name = item.validatorName ? item.validatorName : item.validatorAddress
-    item.shares = readable(decimalsFormat(item.shares, 2))
+    item.shares = readable(decimalsFormat(item.shares, 0))
     return {
       ...item,
       validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' }
@@ -215,10 +221,10 @@ export async function fetchAccountsList($config, page = 1, size = 10) {
   const res = list.map(item => {
     return {
       ...item,
-      available: readable(item.available),
-      escrow: readable(item.escrow),
-      debonding: readable(item.debonding),
-      total: readable(item.total),
+      available: readable(Number(item.available).toFixed(0)),
+      escrow: readable(Number(item.escrow).toFixed(0)),
+      debonding: readable(Number(item.debonding).toFixed(0)),
+      total: readable(Number(item.total).toFixed(0)),
       address: { text: item.address, link: `/accounts/detail/${item.address}`, type: 'link', total: item.total },
       id: item.address
     }
@@ -268,8 +274,9 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
   const res = list.map((item, index) => {
     return {
       ...item,
+      escrowChange24: Number(item.escrowChange24).toFixed(0),
       delegators: readable(item.delegators),
-      escrow: { escrow: Number(item.escrow), escrowPercent: item.escrowPercent },
+      escrow: { escrow: Number(item.escrow).toFixed(0), escrowPercent: item.escrowPercent },
       commission: { value: item.commission, type: 'percent' }
     }
   })
@@ -503,7 +510,7 @@ export async function getEventsByProposer($config, address, size = 5, page = 1) 
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
         txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
-        amountAndShares: { amount:readable(item.amount),shares:readable(item.shares), add: item.add }
+        amountAndShares: { amount: readable(Number(item.amount).toFixed(0)), shares: readable(Number(item.shares).toFixed(0)), add: item.add }
       }
     }),
     totalSize
@@ -536,7 +543,7 @@ export async function getDelegatorsByProposer($config, address, size = 5, page =
         ...item,
         address: { text: item.address, type: 'hash-link', link: `/accounts/detail/${item.address}` },
         percent: { value: item.percent, type: 'percent' },
-        amountAndShares: {amount:readable(item.amount),shares:readable(item.shares)}
+        amountAndShares: { amount: readable(Number(item.amount).toFixed(0)), shares: readable(Number(item.shares).toFixed(0)) }
       }
     }),
     totalSize
@@ -580,11 +587,17 @@ export async function fetchEscrowTrendByAddress($config, address) {
   })
   if (code !== 0) {
     return {
-      list: []
+      escrowTrendData: []
     }
   } else {
+    const escrowTrendData = list.reverse().map(({ timestamp, escrow }) => {
+      return {
+        timestamp: timestamp,
+        escrow: Number(escrow).toFixed(0)
+      }
+    })
     return {
-      list
+      escrowTrendData
     }
   }
 }

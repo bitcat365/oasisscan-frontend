@@ -110,7 +110,7 @@ export default {
     const data = await Promise.all([fetchValidatorDetail({ $axios, $store }, entityAddress), fetchEscrowTrendByAddress({ $axios, $store }, entityAddress)])
     const { escrowAmountStatus, ...other } = data[0]
     const detailData = { ...other, entityAddress: entityAddress }
-    const { list: escrowTrendData } = data[1]
+    const { escrowTrendData } = data[1]
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
     const res = {
       entityAddress,
@@ -118,7 +118,7 @@ export default {
       detailData,
       blockList,
       totalBlockListSize,
-      escrowTrendData: [...escrowTrendData].reverse(),
+      escrowTrendData,
       signsList: [],
       proposalsList: [],
       blockInfo: {}

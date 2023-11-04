@@ -37,7 +37,7 @@
           <span v-else class="error">Offline</span>
         </template>
         <template v-slot:escrow="{ data: { escrow, escrowPercent } }">
-          <span>{{ escrow.toFixed(0) | readable  }} ({{ escrowPercent | percentFormat }})</span>
+          <span>{{ escrow | readable  }} ({{ escrowPercent | percentFormat }})</span>
         </template>
         <template v-slot:uptime="slotData">
           <ColourDiv :color="+slotData.data.replace('%', '') >= 80 ? 'success' : +slotData.data.replace('%', '') >= 50 ? 'warning' : 'error'">{{ slotData.data }} </ColourDiv>
