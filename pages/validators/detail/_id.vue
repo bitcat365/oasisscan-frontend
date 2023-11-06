@@ -114,11 +114,7 @@ export default {
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
     const res = {
       entityAddress,
-      escrowAmountStatus:{
-        self:Number(escrowAmountStatus.self).toFixed(0),
-        other:Number(escrowAmountStatus.other).toFixed(0),
-        total:Number(escrowAmountStatus.total).toFixed(0)
-      },
+      escrowAmountStatus,
       detailData,
       blockList,
       totalBlockListSize,
@@ -206,13 +202,13 @@ export default {
       let list = [
         {
           title: 'Self (' + percent(data.self / data.total, 1) + ')',
-          content: readable(data.self) + ' ROSE',
-          content1: '/ ' + readable(data.self) + ' Shares'
+          content: readable(Number(data.self).toFixed(0)) + ' ROSE',
+          content1: '/ ' + readable(Number(data.self).toFixed(0)) + ' Shares'
         },
         {
           title: 'Other (' + percent(data.other / data.total, 1) + ')',
-          content: readable(data.other) + ' ROSE',
-          content1: '/ ' + readable(data.other) + ' Shares'
+          content: readable(Number(data.other).toFixed(0)) + ' ROSE',
+          content1: '/ ' + readable(Number(data.other).toFixed(0)) + ' Shares'
         }
       ]
       return list

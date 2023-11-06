@@ -302,15 +302,15 @@ export default {
       let list = [
         {
           title: 'Available (' + percent(data.available / data.total, 1) + ')',
-          content: readable(data.available) + ' ROSE'
+          content: readable(Number(data.available).toFixed(0)) + ' ROSE'
         },
         {
           title: 'Escrow (' + percent(data.escrow / data.total, 1) + ')',
-          content: readable(data.escrow) + ' ROSE'
+          content: readable(Number(data.escrow).toFixed(0)) + ' ROSE'
         },
         {
           title: 'Debonding (' + percent(data.debonding / data.total, 1) + ')',
-          content: readable(data.debonding) + ' ROSE'
+          content: readable(Number(data.debonding).toFixed(0)) + ' ROSE'
         }
       ]
       return list
