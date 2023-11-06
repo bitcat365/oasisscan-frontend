@@ -392,7 +392,7 @@ export default {
       const { list, totalSize } = await fetchAccountDebonding({ $axios, $store }, this.accountAddress, pageNumber, this.debondingsListSizer)
       this.loading1 = false
       this.debondingsList = list
-      // console.log('delegatorsList', list)
+      console.log('debondingsList', list)
       this.totalDebondingsSize = totalSize
       this.debondingsListPage = pageNumber
     },
