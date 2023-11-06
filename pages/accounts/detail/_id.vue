@@ -98,7 +98,6 @@ import Panel from '../../../components/panel/Panel'
 import BlockTable from '../../../components/Table/index'
 import Page from '../../../components/Page'
 import Description from '~/components/description/index.vue'
-import Emoji from '../../../components/emoji'
 import PieChart from '../../../components/charts/piechart'
 import ColourDiv from '~/components/colourDiv/colourDiv'
 import { percent, readable } from '~/utils'
@@ -115,7 +114,7 @@ const EscrowTypes = {
 }
 export default {
   name: 'accountDetail',
-  components: { Head, PieChart, Panel, Description, BlockTable, Page, Emoji, ColourDiv },
+  components: { Head, PieChart, Panel, Description, BlockTable, Page, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
     const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id)])
     const data = await datas[0]
@@ -371,7 +370,7 @@ export default {
       this.loading2 = false
       this.eventList = list
       console.log('eventList', list)
-      this.eventTotal = totalSize
+      this.eventTotal = totalSize 
       this.eventPage = pageNumber
     },
     async gotoDelegations(pageNumber) {
