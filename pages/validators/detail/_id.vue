@@ -114,7 +114,11 @@ export default {
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
     const res = {
       entityAddress,
-      escrowAmountStatus,
+      escrowAmountStatus:{
+        self:Number(escrowAmountStatus.self).toFixed(0),
+        other:Number(escrowAmountStatus.other).toFixed(0),
+        total:Number(escrowAmountStatus.total).toFixed(0)
+      },
       detailData,
       blockList,
       totalBlockListSize,
