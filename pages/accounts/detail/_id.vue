@@ -143,6 +143,7 @@ export default {
       delegationsListSizer: 5,
       delegationsListPage: 1,
       debondingsListSizer: 5,
+      totalDebondingsSize: 0,
       debondingsListPage: 1,
       columns1: [
         {
@@ -391,7 +392,7 @@ export default {
       const { list, totalSize } = await fetchAccountDebonding({ $axios, $store }, this.accountAddress, pageNumber, this.debondingsListSizer)
       this.loading1 = false
       this.debondingsList = list
-      console.log('delegatorsList', list)
+      // console.log('delegatorsList', list)
       this.totalDebondingsSize = totalSize
       this.debondingsListPage = pageNumber
     },
