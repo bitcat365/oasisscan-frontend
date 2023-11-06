@@ -31,7 +31,7 @@
           </template>
         </Input>
       </template>
-      <BlockTable :columns="columns" :data="showList" @sort="sort">
+      <BlockTable :columns="columns" :data="showList" @sort="sort" class="blockTable">
         <template v-slot:status="{ data }">
           <span v-if="data" class="success">Online</span>
           <span v-else class="error">Offline</span>
@@ -125,8 +125,7 @@ export default {
           title: 'Sign',
           key: 'uptime',
           slot: true,
-          iconName: 'question',
-          iconTip: 'Last 1000 blocks'
+          iconName: 'question'
         }
       ]
     }
@@ -320,6 +319,29 @@ export default {
         }
       }
     }
+    .blockTable{
+      /deep/.question{
+        cursor: pointer;
+        position: relative;
+        &:hover::before{
+          content: 'Last 1000 blocks';
+          position: absolute;
+          top: -1.5rem;
+          left: -4rem;
+          background-color: rgba($gray800,0.8);
+          color: #fff;
+          font-size: rem(14);
+          border-radius: rem(4);
+          padding: rem(4) rem(14);
+      }
+    }
+    /deep/.icon:after{
+      content: 'AAA';
+      color: #333;
+      display: block;
+      width: 50px;
+      height: 50px;
+    }
     .validator-name {
       display: flex;
       align-items: center;
@@ -330,6 +352,7 @@ export default {
       height: rem(30);
       border-radius: rem(4);
     }
+  }
   }
 }
 </style>
