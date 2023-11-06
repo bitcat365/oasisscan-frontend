@@ -12,18 +12,15 @@
                   {{ ti }}
                 </div>
               </div>
+              <div v-if="item.iconName" :class="item.iconName">
+                <SvgIcon className="svgIcon1" :iconName="item.iconName" />
+              </div>
               <div v-if="item.sortable" class="sorts" @click="sort(typeof item.sortKey !== 'undefined' ? item.sortKey : item.key, item.sortType)">
                 <img v-if="item.sortType === 'up' && !item.singleSortDirection" class="up" :data-type="item.sortType === 'up'" src="../../assets/arrow-light.svg" />
                 <img v-else-if="!item.singleSortDirection" class="up" :data-type="item.sortType === 'up'" src="../../assets/arrow.svg" />
                 <div class="sep"></div>
                 <img v-if="item.sortType === 'down'" :data-type="item.sortType === 'down'" class="down" src="../../assets/arrow-light.svg" />
                 <img v-else class="down" :data-type="item.sortType === 'down'" src="../../assets/arrow.svg" />
-              </div>
-              <div v-else-if="item.iconName">
-                <div v-if="item.iconName === 'question'" :title="item.iconTip">
-                  <SvgIcon className="svgIcon" iconName="question" />
-                </div>
-                <SvgIcon v-else className="svgIcon1" :iconName="item.iconName" />
               </div>
             </div> 
           </th>
