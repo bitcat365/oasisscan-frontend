@@ -12,21 +12,17 @@
         <SvgIcon class="menu-right" className="svgIcon2 pointer" iconName="menutoright" v-show="!menuOpen" @click="open()" />
       </div>
       <nav class="menu-list1">
-        <template v-for="(item,index) in menuList1">
-          <router-link
-            v-if="item.to"
-            :key="item.id"
-            :to="item.to"
-            :class="className(item.to)"
-          >
+        <template v-for="(item, index) in menuList1">
+          <router-link v-if="item.to" :key="item.id" :to="item.to" :class="className(item.to)">
             <SvgIcon v-if="item.iconName" :className="ifActive(item.to) ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
             <span :class="menuOpen ? '' : 'hoverText'">{{ item.name }}</span>
           </router-link>
-          <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
+          <span v-else-if="!item.to && menuOpen" class="menu-item-notclick menu-item-open">{{ item.name }}</span>
         </template>
       </nav>
+      <div class="divider"></div>
       <div class="menu-list2">
-        <router-link :to="'/FAQ'" :class="className('/FAQ') + ' top-border'">
+        <router-link :to="'/FAQ'" :class="className('/FAQ')">
           <SvgIcon :className="ifActive('/FAQ') ? 'svgClass-active' : 'svgClass'" iconName="FAQ" />
           <span :class="menuOpen ? '' : 'hoverText'">FAQ</span>
         </router-link>
@@ -44,8 +40,8 @@
     </div>
     <div class="menu-bot">
       <div :class="menuOpen ? 'botIcon1' : 'botIcon2'">
-        <a href="https://twitter.com/BitCat365" target="_blank"><SvgIcon className="svgClass pointer" iconName="Twitter" /></a>
-        <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" target="_blank"><SvgIcon className="svgClass pointer" iconName="Telegram" /></a>
+        <a href="https://twitter.com/BitCat365" target="_blank"><SvgIcon className="svgClass pointer" iconName="Twitter"/></a>
+        <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" target="_blank"><SvgIcon className="svgClass pointer" iconName="Telegram"/></a>
       </div>
       <div class="botText">
         <span>Powered By</span><br v-if="!menuOpen" />
@@ -194,6 +190,16 @@ export default {
       visibility: visible;
       z-index: 999;
     }
+    .menu-item-notclick {
+      position: relative;
+      display: block;
+      height: rem(40);
+      line-height: rem(40);
+      margin: rem(10) rem(16);
+      font-size: rem(16);
+      color: $blue700;
+      border-radius: 5px;
+    }
     .menu-item-open {
       padding: 0 rem(5);
       text-align: left;
@@ -224,10 +230,11 @@ export default {
   }
   .menu-list1 {
   }
+  .divider {
+    margin: rem(20) rem(16);
+    border-top: 1px solid $gray100;
+  }
   .menu-list2 {
-    .top-border {
-      border-top: 1px solid #e0dff0;
-    }
   }
 }
 .menu-bot {
@@ -257,7 +264,7 @@ export default {
   .botText {
     text-align: center;
     font-size: rem(12);
-    .link{
+    .link {
       color: $blue500;
     }
   }
