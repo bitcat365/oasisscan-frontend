@@ -18,7 +18,7 @@
               </div>
             </Description>
             <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
-        </div>
+          </div>
         </panel>
       </Col>
     </Row>
@@ -47,7 +47,7 @@
             <Page slot="footer" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
           </template>
           <template v-else>
-            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false"> </BlockTable>
+            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="blockTable"> </BlockTable>
             <Page slot="footer" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
           </template>
         </Panel>
@@ -168,10 +168,11 @@ export default {
           title: 'Shares',
           key: 'shares'
         },
-        // TODO
         {
           title: 'Unlock Epoch',
-          key: 'debondEnd'
+          key: 'debondEnd',
+          textAlign: 'right',
+          iconName: 'question'
         }
       ],
       eventListSchema: [
@@ -263,7 +264,7 @@ export default {
       qrcodeShow: true,
       loading1: false,
       loading2: false,
-      loading3: false,
+      loading3: false
     }
   },
   computed: {
@@ -370,7 +371,7 @@ export default {
       this.loading2 = false
       this.eventList = list
       console.log('eventList', list)
-      this.eventTotal = totalSize 
+      this.eventTotal = totalSize
       this.eventPage = pageNumber
     },
     async gotoDelegations(pageNumber) {
@@ -425,13 +426,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~@/assets/css/utils';
 #accountInfo {
   .top {
     margin-bottom: rem(20);
     .info-list {
       padding: 0 rem(10);
     }
-    .topDesc{
+    .topDesc {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -440,7 +442,7 @@ export default {
       .address {
         display: flex;
         align-items: center;
-        .copy-con{
+        .copy-con {
           line-height: 1;
         }
         .QRcode {
@@ -505,6 +507,22 @@ export default {
       }
       &:first-child {
         margin-left: 0;
+      }
+    }
+  }
+  .blockTable {
+    /deep/.header-title{
+      justify-content: end;
+    }
+    /deep/.question {
+      cursor: pointer;
+      position: relative;
+      &:hover::before {
+        position: absolute;
+        top: -1.5rem;
+        left: -6rem;
+        content: '1 epoch estimate take 1 hour';
+        @extend .hoverText;
       }
     }
   }

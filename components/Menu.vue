@@ -22,7 +22,7 @@
             <SvgIcon v-if="item.iconName" :className="ifActive(item.to) ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
             <span :class="menuOpen ? '' : 'hoverText'">{{ item.name }}</span>
           </router-link>
-          <router-link v-else-if="!item.to && menuOpen" :to="menuList1[index+1].to" class="menu-item menu-item-open">{{ item.name }}</router-link>
+          <span v-else-if="!item.to && menuOpen" class="menu-item menu-item-open">{{ item.name }}</span>
         </template>
       </nav>
       <div class="menu-list2">

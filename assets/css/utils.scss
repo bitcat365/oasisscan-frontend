@@ -2,6 +2,16 @@
   cursor: pointer;
 }
 
+.hoverText {
+  background-color: rgba(#1D2939, 0.8);
+  color: #fff;
+  font-size: rem(12);
+  font-weight: 400;
+  border-radius: rem(4);
+  padding: rem(4) rem(18);
+  z-index: 99;
+}
+
 .flexRow {
   display: flex;
   flex-direction: row;

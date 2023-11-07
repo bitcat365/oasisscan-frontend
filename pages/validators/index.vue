@@ -25,9 +25,9 @@
         </div>
       </template>
       <template slot="headerRight">
-        <Input v-model="name" placeholder="Validator Filter" >
+        <Input v-model="name" placeholder="Validator Filter">
           <template #prefix>
-            <SvgIcon className="svgIcon" iconName="filter"/>
+            <SvgIcon className="svgIcon" iconName="filter" />
           </template>
         </Input>
       </template>
@@ -37,7 +37,7 @@
           <span v-else class="error">Offline</span>
         </template>
         <template v-slot:escrow="{ data: { escrow, escrowPercent } }">
-          <span>{{ escrow | readable  }} ({{ escrowPercent | percentFormat }})</span>
+          <span>{{ escrow | readable }} ({{ escrowPercent | percentFormat }})</span>
         </template>
         <template v-slot:uptime="slotData">
           <ColourDiv :color="+slotData.data.replace('%', '') >= 80 ? 'success' : +slotData.data.replace('%', '') >= 50 ? 'warning' : 'error'">{{ slotData.data }} </ColourDiv>
@@ -234,6 +234,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~@/assets/css/utils';
 #validators {
   .success {
     color: $success500;
@@ -280,13 +281,13 @@ export default {
       border: 0;
       border-radius: rem(8);
     }
-    /deep/.ivu-input::-webkit-input-placeholder{
-    	color:$gray500;
+    /deep/.ivu-input::-webkit-input-placeholder {
+      color: $gray500;
     }
     /deep/.ivu-input:focus {
       box-shadow: none;
     }
-    .svgIcon{
+    .svgIcon {
       width: rem(24);
       height: rem(40);
       color: $gray500;
@@ -319,40 +320,32 @@ export default {
         }
       }
     }
-    .blockTable{
-      /deep/.question{
+    .blockTable {
+      /deep/.header-title{
+        justify-content: end;
+      }
+      /deep/.question {
         cursor: pointer;
         position: relative;
-        &:hover::before{
-          content: 'Last 1000 blocks';
+        &:hover::before {
           position: absolute;
           top: -1.5rem;
           left: -4rem;
-          background-color: rgba($gray800,0.8);
-          color: #fff;
-          font-size: rem(14);
-          border-radius: rem(4);
-          padding: rem(4) rem(14);
+          @extend .hoverText;
+          content: 'Last 1000 blocks';
+        }
+      }
+      .validator-name {
+        display: flex;
+        align-items: center;
+      }
+      .name-icon {
+        margin-right: rem(5);
+        width: rem(30);
+        height: rem(30);
+        border-radius: rem(4);
       }
     }
-    /deep/.icon:after{
-      content: 'AAA';
-      color: #333;
-      display: block;
-      width: 50px;
-      height: 50px;
-    }
-    .validator-name {
-      display: flex;
-      align-items: center;
-    }
-    .name-icon {
-      margin-right: rem(5);
-      width: rem(30);
-      height: rem(30);
-      border-radius: rem(4);
-    }
-  }
   }
 }
 </style>

@@ -13,7 +13,7 @@
                 </div>
               </div>
               <div v-if="item.iconName" :class="item.iconName">
-                <SvgIcon className="svgIcon1" :iconName="item.iconName" />
+                <SvgIcon className="svgIcon" :iconName="item.iconName" />
               </div>
               <div v-if="item.sortable" class="sorts" @click="sort(typeof item.sortKey !== 'undefined' ? item.sortKey : item.key, item.sortType)">
                 <img v-if="item.sortType === 'up' && !item.singleSortDirection" class="up" :data-type="item.sortType === 'up'" src="../../assets/arrow-light.svg" />
@@ -249,8 +249,8 @@ table {
   }
   .header-title {
     display: flex;
-    align-items: center;
     flex-direction: row;
+    align-items: center;
   }
 }
 .table-row {
@@ -285,9 +285,5 @@ table {
   width: rem(24);
   height: rem(24);
   vertical-align: -4px;
-}
-.svgIcon1 {
-  width: rem(30);
-  height: rem(30);
 }
 </style>
