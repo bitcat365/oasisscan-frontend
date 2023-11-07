@@ -21,7 +21,7 @@ import Page from '../../components/Page'
 import Description from '~/components/description/index.vue'
 import PieChart from '../../components/charts/piechart'
 import { fetchProposalDetail, fetchVotes } from '../../fetch'
-import { decimalConvert, percent, readable } from '~/utils'
+import { decimalConvert, percent, readable, capitalize } from '~/utils'
 export default {
   name: 'proposalDetail',
   components: { Head, Panel, BlockTable, Page, Description, PieChart },
@@ -92,7 +92,7 @@ export default {
       const data = this.data.options
       const list = data.map(item => {
         return {
-          title: item.name
+          title: capitalize(item.name)
           // value:parseFloat(decimalConvert(item.amount))
         }
       })
