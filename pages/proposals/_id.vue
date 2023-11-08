@@ -4,7 +4,7 @@
     <Panel class="margin-bottom">
       <div class="overview-content">
         <Description :list="descriptionList" :span="[8, 16]" class="info-list"></Description>
-        <pie-chart :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80']" class="chart"></pie-chart>
+        <pie-chart :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']" class="chart"></pie-chart>
       </div>
     </Panel>
     <Panel title="Votes" v-if="!isRequesting">
