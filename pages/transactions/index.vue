@@ -157,13 +157,14 @@ export default {
   font-size: rem(16);
 }
 .dropdown {
+  position: relative;
   .method-dropdown {
     margin: 0 rem(10);
     padding: 0 rem(16);
     height: rem(40);
     line-height: rem(40);
     display: inline-block;
-    border-radius: rem(16);
+    border-radius: rem(24);
     background-color: $gray100;
     color: $gray600;
     font-size: rem(14);
@@ -171,6 +172,8 @@ export default {
   /deep/.ivu-select-dropdown {
     padding: 0;
     border-radius: rem(8);
+    left: rem(10) !important;
+    top: rem(40) !important;
     .select-list {
       min-width: rem(260);
       background-color: $gray100;
