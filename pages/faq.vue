@@ -23,6 +23,12 @@
           <a href="https://github.com/bitcat365/oasis_api_server" target="_blank"> https://github.com/bitcat365/oasis_api_server </a>
         </p>
       </div>
+      <div class="faq-list">
+        <p class="title">Cryptocurrency data API</p>
+        <p>
+          <a href="https://api.oasisscan.com/testnet/swagger-ui/" target="_blank"> https://www.coingecko.com </a>
+        </p>
+      </div>
     </Panel>
   </div>
 </template>
@@ -48,7 +54,7 @@ export default {
 #faq-root {
   .faq-list {
     padding: 0 rem(10);
-    &:first-child{
+    &:nth-child(n-1) {
       margin-bottom: rem(20);
     }
     > p {
