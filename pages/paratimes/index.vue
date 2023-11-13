@@ -421,8 +421,8 @@ export default {
     width: rem(220);
     height: rem(40);
     line-height: rem(40);
-    padding-left: rem(40);
-    font-size: 1rem;
+    padding-left: rem(32);
+    font-size: rem(14);
     color: $gray500;
     background-color: $gray100;
     border: 0;
