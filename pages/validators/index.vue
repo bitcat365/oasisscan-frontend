@@ -125,7 +125,8 @@ export default {
           title: 'Sign',
           key: 'uptime',
           slot: true,
-          iconName: 'question'
+          iconName: 'question',
+          textAlign: 'right'
         }
       ]
     }
@@ -321,8 +322,11 @@ export default {
       }
     }
     .blockTable {
-      /deep/.header-title{
-        justify-content: end;
+        /deep/.header-column:last-child{
+        
+        .header-title{
+          justify-content: end;
+        }
       }
       /deep/.question {
         cursor: pointer;
