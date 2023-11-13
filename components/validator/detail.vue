@@ -219,11 +219,10 @@ export default {
         }
       }
       .right-bottom {
-        .address {
-          .value {
-            a {
-              color: $blue500;
-            }
+        .value {
+          color: $gray500;
+          a{
+            color: $blue500;
           }
         }
       }
