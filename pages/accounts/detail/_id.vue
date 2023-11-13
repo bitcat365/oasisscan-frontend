@@ -12,8 +12,8 @@
                   <SvgIcon className="svgIcon" iconName="copy" />
                 </span>
                 <div class="QRcode">
-                  <SvgIcon className="svgIcon" iconName="QRcode" @click="creatQrCode" />
-                  <div v-show="qrcodeShow" class="QRcodeImg" id="qrCode" ref="qrCode"></div>
+                  <SvgIcon className="svgIcon" iconName="QRcode" @mousemove="creatQrCode" />
+                  <div class="QRcodeImg" id="qrCode" ref="qrCode"></div>
                 </div>
               </div>
             </Description>
@@ -261,7 +261,6 @@ export default {
         }
       ],
       qrcode: {},
-      qrcodeShow: true,
       loading1: false,
       loading2: false,
       loading3: false
@@ -359,8 +358,6 @@ export default {
           colorLight: '#ffffff',
           correctLevel: this.$QRCode.CorrectLevel.L
         })
-      } else {
-        this.qrcodeShow = !this.qrcodeShow
       }
     },
     async gotoEvents(pageNumber) {
@@ -449,9 +446,15 @@ export default {
           line-height: 1;
           position: relative;
           .QRcodeImg {
+            display: none;
             position: absolute;
             top: 0;
             left: rem(40);
+          }
+        }
+        .QRcode:hover{
+          .QRcodeImg {
+            display: block;
           }
         }
         .svgIcon {
