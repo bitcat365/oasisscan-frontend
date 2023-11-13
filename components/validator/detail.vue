@@ -23,11 +23,11 @@
           </Col>
           <Col span="2">
             <div v-if="active" class="status">
-              <div>√</div>
+              <div></div>
               <span>Online</span>
             </div>
             <div v-else class="status inactive">
-              <div>×</div>
+              <div></div>
               <span>Offline</span>
             </div>
           </Col>
