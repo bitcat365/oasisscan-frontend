@@ -17,13 +17,12 @@ export default {
 
 <style lang="scss" scoped>
 .colourDiv {
+  display: inline-block;
   text-align: center;
   width: rem(100);
   height: rem(30);
+  line-height: rem(30);
   border-radius: rem(4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   &.success {
     color: $success500;
     background-color: $success100;
