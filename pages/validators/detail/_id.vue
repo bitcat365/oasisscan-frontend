@@ -9,7 +9,7 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <Panel title="Escrow Status">
-          <pie-chart v-if="descList && descList.length > 0" :data="[parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#B692F6', '#36BFFA80']"></pie-chart>
+          <pie-chart v-if="descList && descList.length > 0" :data="[0,parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#026AA2','#B692F6', '#36BFFA80']"></pie-chart>
         </Panel>
       </Col>
       <Col span="12">
@@ -39,8 +39,8 @@
               <span class="gray">/Shares</span>
             </template>
             <template v-slot:amountAndShares="slotData">
-              <span>{{slotData.data.amount}}</span>
-              <span class="gray">/{{slotData.data.shares}}</span>
+              <span>{{ slotData.data.amount }}</span>
+              <span class="gray">/{{ slotData.data.shares }}</span>
             </template>
             <template v-slot:address="{ data }">
               <router-link :to="data.link">{{ data.text | hashFormat }}</router-link>
@@ -58,8 +58,8 @@
               <span class="gray">/Shares</span>
             </template>
             <template v-slot:amountAndShares="slotData">
-              <span :class="positiveStyle(slotData.data.add)">{{showAmountShare(slotData.data.amount,slotData.data.add)}}</span>
-              <span :class="positiveStyle(slotData.data.add,'light')">/{{showAmountShare(slotData.data.shares,slotData.data.add)}}</span>
+              <span :class="positiveStyle(slotData.data.add)">{{ showAmountShare(slotData.data.amount, slotData.data.add) }}</span>
+              <span :class="positiveStyle(slotData.data.add, 'light')">/{{ showAmountShare(slotData.data.shares, slotData.data.add) }}</span>
             </template>
           </BlockTable>
           <Page slot="footer" type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" @goto="gotoEvents" />
@@ -163,7 +163,7 @@ export default {
           slot: true
         },
         {
-          titleSlot:'amount',
+          titleSlot: 'amount',
           key: 'amountAndShares',
           slot: true
         },
@@ -180,7 +180,7 @@ export default {
           key: 'height'
         },
         {
-          titleSlot:'amount',
+          titleSlot: 'amount',
           key: 'amountAndShares',
           slot: true,
           width: '50%'
@@ -199,7 +199,13 @@ export default {
   computed: {
     descList() {
       let data = this.escrowAmountStatus
+      console.log(data)
       let list = [
+        {
+          title: 'Total Escrow',
+          content: readable(Number(data.total).toFixed(0)) + ' ROSE',
+          content1: '/ ' + readable(Number(data.total).toFixed(0)) + ' Shares'
+        },
         {
           title: 'Self (' + percent(data.self / data.total, 1) + ')',
           content: readable(Number(data.self).toFixed(0)) + ' ROSE',
@@ -277,11 +283,11 @@ export default {
         return '-' + amountShare
       }
     },
-    positiveStyle(add,light) {
+    positiveStyle(add, light) {
       if (add) {
-        return light? 'success1': 'success'
+        return light ? 'success1' : 'success'
       } else {
-        return light? 'error1':'error'
+        return light ? 'error1' : 'error'
       }
     }
   }
@@ -335,7 +341,7 @@ export default {
       > * {
         height: rem(490);
       }
-      .self{
+      .self {
         display: inline-block;
         width: rem(34);
         height: rem(20);
