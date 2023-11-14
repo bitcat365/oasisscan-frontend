@@ -1,14 +1,14 @@
 <template>
   <div class="info-con">
     <a :href="editURL" target="_blank"><span class="edit">Update validator info?</span></a>
-    <Row class="info-con-top">
-      <Col span="2" class="left">
+    <div class="info-con-top">
+      <div class="left">
         <img v-if="!icon" class="icon" src="~/assets/validator_dafult_icon.svg" />
         <img v-else class="icon" :src="icon" />
         <div v-if="active" class="status">Active</div>
         <div v-else class="status inactive">Inactive</div>
-      </Col>
-      <Col span="22" class="right">
+      </div>
+      <div class="right">
         <Row class="right-top">
           <Col span="22" class="right-top-left">
             <div class="name">
@@ -48,8 +48,8 @@
             </div>
           </Col>
         </Row>
-      </Col>
-    </Row>
+      </div>
+    </div>
     <Description :list="descriptionList" class="info-con-bot">
       <div slot="bounds">
         {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
@@ -134,6 +134,8 @@ export default {
   .info-con-top {
     height: rem(85);
     margin-bottom: rem(20);
+    display: flex;
+    gap: rem(20);
     .left {
       .icon {
         width: rem(60);
@@ -156,6 +158,7 @@ export default {
       }
     }
     .right {
+      flex-grow: 1;
       height: 100%;
       display: flex;
       flex-direction: column;
