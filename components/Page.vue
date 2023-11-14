@@ -188,6 +188,9 @@ export default {
     cursor: pointer;
     margin: rem(2.5);
   }
+  [class^='sim-btn']:not(.sim-btn-active):hover{
+    background-color: $gray200;
+  }
   .sim-btn-icon {
     width: rem(32);
   }
