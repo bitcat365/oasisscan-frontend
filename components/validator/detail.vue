@@ -53,15 +53,11 @@
     <Description :list="descriptionList" class="info-con-bot">
       <div slot="bounds">
         {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
-        <Tooltip content="1%~25% [start at epoch 14973]">
           <Icon type="ios-information-circle-outline" class="icon" />
-        </Tooltip>
       </div>
       <div slot="rates">
         {{ commission | percentFormat }}
-        <Tooltip content="1% [start at epoch 14973]">
           <Icon type="ios-information-circle-outline" class="icon" />
-        </Tooltip>
       </div>
     </Description>
   </div>
@@ -86,7 +82,7 @@ export default {
         { title: 'Escrow', content: readable(this.detailData.escrow) + ' ROSE' || '0 ROSE' },
         { title: 'Delegators', content: readable(this.detailData.delegators) },
         { title: 'Commission Bounds', name: 'bounds' },
-        { title: 'Commission Rates', name: 'rates' },
+        { title: 'Commission Rates', name: 'rates' }
         // { title: 'Paratimes', content: '?' }
       ]
       return list
@@ -123,6 +119,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~@/assets/css/utils';
 .info-con {
   padding: 0 rem(10);
   position: relative;
@@ -190,7 +187,7 @@ export default {
               height: rem(24);
               color: $gray300;
             }
-            .svg:hover{
+            .svg:hover {
               color: $gray400;
             }
           }
@@ -221,7 +218,7 @@ export default {
       .right-bottom {
         .value {
           color: $gray500;
-          a{
+          a {
             color: $blue500;
           }
         }
@@ -231,9 +228,23 @@ export default {
   .info-con-bot {
     border-top: 1px solid $gray100;
     .icon {
+      cursor: pointer;
       font-size: rem(18);
       margin-left: rem(2);
       vertical-align: -2px;
+      position: relative;
+      &:hover::after {
+        position: absolute;
+        top: -1.5rem;
+        left: -4rem;
+        @extend .hoverText;
+      }
+      &:nth-child(1):hover::after {
+        content: '1%~25% [start at epoch 14973]';
+      }
+      &:nth-child(2):hover::after {
+        content: '1% [start at epoch 14973]';
+      }
     }
   }
 }
