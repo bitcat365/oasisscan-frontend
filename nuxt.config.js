@@ -30,7 +30,7 @@ module.exports = {
         body: true
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/logo_favicon.png' }],
     __dangerouslyDisableSanitizers: ['script']
   },
   router: {
