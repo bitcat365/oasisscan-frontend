@@ -63,7 +63,7 @@ export default {
     type: String,
     page: { type: Number, default: 1 },
     sizer: { type: Number, default: 20 },
-    elevatorList: { type: Array, default: () => [10, 20, 30, 50, 100] },
+    elevatorList: { type: Array, default: () => [ 20, 50, 100] },
     recordsCount: Number
   },
   data() {
@@ -163,7 +163,8 @@ export default {
     color: $gray200;
   }
   /deep/.ivu-select-dropdown {
-    width: rem(66);
+    width: rem(70);
+    margin: rem(8) 0;
   }
   /deep/.ivu-dropdown-item {
     width: rem(66);
