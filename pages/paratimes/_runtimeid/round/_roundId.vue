@@ -62,6 +62,10 @@ export default {
           key: 'txHash'
         },
         {
+          title: 'Round',
+          key: 'round'
+        },
+        {
           title: 'Type',
           key: 'type'
         },
@@ -71,13 +75,10 @@ export default {
           slot: true
         },
         {
-          title: 'Round',
-          key: 'round'
-        },
-        {
           title: 'Time',
           key: 'timestamp',
-          slot: true
+          slot: true,
+          textAlign: 'right'
         }
       ],
       loading: false
@@ -172,7 +173,7 @@ export default {
     color: white;
   }
 }
-.Transactions{
+.Transactions {
   margin-top: rem(20);
 }
 </style>
