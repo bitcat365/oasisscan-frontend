@@ -25,13 +25,13 @@ export default {
   border-radius: rem(4);
   color: #ffffff !important;
   &.success {
-    background-color: $success500;
+    background-color: $success400;
   }
   &.warning {
-    background-color: $warning500;
+    background-color: $warning400;
   }
   &.error {
-    background-color: $error500;
+    background-color: $error400;
   }
 }
 </style>
