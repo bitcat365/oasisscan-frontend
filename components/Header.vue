@@ -46,6 +46,7 @@ export default {
     },
     async onsubmit() {
       onSearch(this, this.keywords)
+      this.keywords = ''
     }
   }
 }
