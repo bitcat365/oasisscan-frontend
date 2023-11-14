@@ -23,17 +23,15 @@ export default {
   height: rem(30);
   line-height: rem(30);
   border-radius: rem(4);
+  color: #ffffff !important;
   &.success {
-    color: $success500;
-    background-color: $success100;
+    background-color: $success500;
   }
   &.warning {
-    color: $warning500;
-    background-color: $warning200;
+    background-color: $warning500;
   }
   &.error {
-    color: $error500;
-    background-color: $error200;
+    background-color: $error500;
   }
 }
 </style>
