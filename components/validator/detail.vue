@@ -53,11 +53,11 @@
     <Description :list="descriptionList" class="info-con-bot">
       <div slot="bounds">
         {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
-          <Icon type="ios-information-circle-outline" class="icon" />
+          <Icon type="ios-information-circle-outline" class="icon bounds" />
       </div>
       <div slot="rates">
         {{ commission | percentFormat }}
-          <Icon type="ios-information-circle-outline" class="icon" />
+          <Icon type="ios-information-circle-outline" class="icon rates" />
       </div>
     </Description>
   </div>
@@ -236,18 +236,18 @@ export default {
       margin-left: rem(2);
       vertical-align: -2px;
       position: relative;
-      &:hover::after {
-        position: absolute;
-        top: -1.5rem;
-        left: -4rem;
-        @extend .hoverText;
-      }
-      &:nth-child(1):hover::after {
-        content: '1%~25% [start at epoch 14973]';
-      }
-      &:nth-child(2):hover::after {
-        content: '1% [start at epoch 14973]';
-      }
+    }
+    .icon:hover::after {
+      position: absolute;
+      top: -1.5rem;
+      left: -4rem;
+      @extend .hoverText;
+    }
+    .bounds:hover::after {
+      content: '1%~25% [start at epoch 14973]';
+    }
+    .rates:hover::after {
+      content: '1% [start at epoch 14973]';
     }
   }
 }
