@@ -87,7 +87,7 @@ export default {
           width: '5%'
         },
         {
-          title: 'Name',
+          title: 'Validator',
           key: 'name',
           slot: true,
           width: '22%'
