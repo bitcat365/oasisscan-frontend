@@ -200,9 +200,12 @@ export default {
         }
         .status {
           color: $success500;
-          text-align: right;
+          display: flex;
+          flex-direction: row;
+          justify-content: end;
+          gap: rem(8);
+          align-items: center;
           > div {
-            display: inline-block;
             width: rem(16);
             height: rem(16);
             line-height: rem(16);

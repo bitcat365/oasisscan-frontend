@@ -50,7 +50,7 @@
           </div>
         </template>
         <template v-slot:escrowChange24="slotData">
-          <div class="escrow-change24" :class="slotData.data > 0 ? 'success' : slotData.data < 0 ? 'error' : ''">{{ showChangeSign(slotData.data) }} {{ slotData.data | readable }}</div>
+          <div class="escrow-change24" :class="slotData.data > 0 ? 'success' : slotData.data < 0 ? 'error' : ''">{{ showChangeSign(slotData.data) }}{{ slotData.data | readable }}</div>
         </template>
         <template v-slot:rank="slotData">
           <div class="rank">
