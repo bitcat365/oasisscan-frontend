@@ -60,24 +60,24 @@ export default {
           content: this.data.id || ''
         },
         {
-          title: 'Submitter',
-          content: this.data.submitter || ''
-        },
-        {
-          title: 'Status',
-          content: this.data.state || ''
-        },
-        {
-          title: 'Deposit',
-          content: this.data.deposit || ''
+          title: 'Title',
+          content: this.data.handler || ''
         },
         {
           title: 'Type',
           content: this.data.type || ''
         },
         {
-          title: 'Handler',
-          content: this.data.handler || ''
+          title: 'Submitter',
+          content: this.data.submitter || ''
+        },
+        {
+          title: 'Deposit',
+          content: this.data.deposit || ''
+        },
+        {
+          title: 'Status',
+          content: this.data.state || ''
         }
       ]
     },
