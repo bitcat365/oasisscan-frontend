@@ -41,11 +41,11 @@ export default {
       columns: [
         // TODO
         {
-          title: 'Voter',
+          title: 'Validator',
           key: 'voter'
         },
         {
-          title: 'Vote',
+          title: 'Answer',
           key: 'vote',
           textAlign: 'right'
         }
