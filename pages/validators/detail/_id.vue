@@ -20,7 +20,7 @@
     </Row>
     <Row :gutter="20" class="center-block">
       <Col span="12">
-        <Panel title="Signatures Blocks">
+        <Panel title="Signature Blocks">
           <Kuai v-if="signsStates && signsStates.length > 0" :list="signsStates"></Kuai>
         </Panel>
       </Col>
