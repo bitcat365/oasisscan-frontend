@@ -53,7 +53,7 @@
         </Panel>
       </Col>
       <Col span="12">
-        <Panel title="Event">
+        <Panel title="Events">
           <BlockTable :loading="loading2" :data="eventList" :columns="eventListSchema" :expand="false" />
           <Page slot="footer" type="simple" :sizer="eventSizer" :records-count="eventTotal" :page="eventPage" @goto="gotoEvents" />
         </Panel>
