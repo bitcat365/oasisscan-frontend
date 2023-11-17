@@ -104,17 +104,18 @@ export default {
     PieChart,
     TrendChart,
     Kuai
-  },
+  }, 
   async asyncData({ $axios, store: $store, params }) {
     const entityAddress = decodeURIComponent(params.id)
     const data = await Promise.all([fetchValidatorDetail({ $axios, $store }, entityAddress), fetchEscrowTrendByAddress({ $axios, $store }, entityAddress)])
-    const { escrowAmountStatus, ...other } = data[0]
+    const { escrowAmountStatus,escrowSharesStatus, ...other } = data[0]
     const detailData = { ...other, entityAddress: entityAddress }
     const { escrowTrendData } = data[1]
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
     const res = {
       entityAddress,
       escrowAmountStatus,
+      escrowSharesStatus,
       detailData,
       blockList,
       totalBlockListSize,
@@ -156,7 +157,7 @@ export default {
         }
       ],
       list: [],
-      columns1: [
+      columns1: [ 
         {
           title: 'Address',
           key: 'address',
@@ -198,23 +199,23 @@ export default {
   },
   computed: {
     descList() {
-      let data = this.escrowAmountStatus
-      console.log(data)
+      const escrowAmountStatus = this.escrowAmountStatus
+      const escrowSharesStatus = this.escrowSharesStatus
       let list = [
         {
           title: 'Total Escrow',
-          content: readable(Number(data.total).toFixed(0)) + ' ROSE',
-          content1: '/ ' + readable(Number(data.total).toFixed(0)) + ' Shares'
+          content: readable(Number(escrowAmountStatus.total).toFixed(0)) + ' ROSE',
+          content1: '/ ' + readable(Number(escrowSharesStatus.total).toFixed(0)) + ' Shares'
         },
         {
-          title: 'Self (' + percent(data.self / data.total, 1) + ')',
-          content: readable(Number(data.self).toFixed(0)) + ' ROSE',
-          content1: '/ ' + readable(Number(data.self).toFixed(0)) + ' Shares'
+          title: 'Self (' + percent(escrowAmountStatus.self / escrowAmountStatus.total, 1) + ')',
+          content: readable(Number(escrowAmountStatus.self).toFixed(0)) + ' ROSE',
+          content1: '/ ' + readable(Number(escrowSharesStatus.self).toFixed(0)) + ' Shares'
         },
         {
-          title: 'Other (' + percent(data.other / data.total, 1) + ')',
-          content: readable(Number(data.other).toFixed(0)) + ' ROSE',
-          content1: '/ ' + readable(Number(data.other).toFixed(0)) + ' Shares'
+          title: 'Other (' + percent(escrowAmountStatus.other / escrowAmountStatus.total, 1) + ')',
+          content: readable(Number(escrowAmountStatus.other).toFixed(0)) + ' ROSE',
+          content1: '/ ' + readable(Number(escrowSharesStatus.other).toFixed(0)) + ' Shares'
         }
       ]
       return list
