@@ -33,11 +33,13 @@ export default {
 
 <style scoped lang="scss">
 .description {
-  height: rem(40);
+  min-height: rem(40);
   line-height: rem(40);
   .title {
   }
   .content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
     color: $gray500;
     a{
       color: $blue500;

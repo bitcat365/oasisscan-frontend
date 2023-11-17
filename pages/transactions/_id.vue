@@ -128,19 +128,6 @@ export default {
     margin-left: 0;
   }
 }
-.no-result {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  font-size: 14px;
-  color: rgba(55, 65, 107, 1);
-  padding: rem(80) 0;
-  .empty-icon {
-    width: rem(80);
-    margin-bottom: rem(11);
-  }
-}
 .error-message {
   color: $error500;
 }

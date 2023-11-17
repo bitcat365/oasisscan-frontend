@@ -281,6 +281,11 @@ table {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/deep/.text-truncate:has(.colourDiv) {
+  overflow: visible;
+  text-overflow: clip;
+}
 .svgIcon {
   width: rem(24);
   height: rem(24);
