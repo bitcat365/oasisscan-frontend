@@ -139,6 +139,10 @@ export default {
       this.repool()
     }, 6000)
   },
+  destroyed() {
+    this.timer && clearTimeout(this.timer)
+    this.timer = null
+  },
   methods: {
     async repool() {
       const $axios = this.$axios
