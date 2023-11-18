@@ -8,8 +8,8 @@
           <span v-else>{{ 0 | unit(isTest) }}</span>
         </template>
         <template #status>
-          <ColourDiv :color="data.status ? 'success' : 'error'">{{ data.status ? 'Success' : 'Fail' }}</ColourDiv>
-          <span v-if="!data.status" class="error-message">{{ data.error }}</span>
+          <ColourDiv :color="data.status.status ? 'success' : 'error'">{{ data.status.status ? 'Success' : 'Fail' }}</ColourDiv>
+          <span v-if="!data.status.status" class="error-message">{{ data.status.error }}</span>
         </template>
         <template #timestamp>
           <span>{{ (data.timestamp * 1000) | timeFormat }} ( {{ (data.timestamp * 1000) | timeFormat2 }} )</span>
