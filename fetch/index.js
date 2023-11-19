@@ -659,13 +659,14 @@ export async function onSearch(vue, text) {
           break
       }
     }
+    vue.$Spin.hide()
   } catch (e) {
     vue.$Spin.hide()
     vue.$router.push(`/not_found`)
   }
-  setTimeout(() => {
-    vue.$Spin.hide()
-  }, 1000)
+  // setTimeout(() => {
+  //   vue.$Spin.hide()
+  // }, 1000)
 }
 
 export async function fetchRuntimeList($config) {
