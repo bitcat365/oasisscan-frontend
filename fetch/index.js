@@ -208,7 +208,7 @@ export async function fetchAccountDebonding($config, address, page = 1, size = 5
   })
   return { list: res, totalSize }
 }
-export async function fetchAccountsList($config, page = 1, size = 10) {
+export async function fetchAccountsList($config, page = 1, size = 20) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/account/list', {
     params: {
       page,
@@ -232,7 +232,7 @@ export async function fetchAccountsList($config, page = 1, size = 10) {
   return { list: res, totalSize }
 }
 
-export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 6) {
+export async function fetchTransactionsList($config, page = 1, size = 20, method = '', progress = true, sliceLength = 6) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/transactions', {
     params: {
       page,
@@ -345,7 +345,7 @@ export async function search($config, key) {
  * @param size
  * @returns {Promise<{totalSize, list: (*&{txHash: {link: string, text: *, type: string}, timestamp: {type: string, value}, status: *})[]}>}
  */
-export async function fetchRuntimeTransactions($config, address = '', page = 1, size = 10) {
+export async function fetchRuntimeTransactions($config, address = '', page = 1, size = 5) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/account/runtime/transactions', {
     params: {
       page,
