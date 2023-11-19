@@ -38,8 +38,6 @@ export default {
   .title {
   }
   .content {
-    white-space: pre-wrap;
-    word-wrap: break-word;
     color: $gray500;
     a{
       color: $blue500;

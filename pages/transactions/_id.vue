@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <Head title="TRANSACTION DETAILS"></Head>
-    <panel>
+    <Panel>
       <Description :list="listSchema" class="info-list">
         <template #fee>
           <span v-if="data.fee">{{ data.fee | unit(isTest) }}</span>
@@ -15,8 +15,8 @@
           <span>{{ (data.timestamp * 1000) | timeFormat }} ( {{ (data.timestamp * 1000) | timeFormat2 }} )</span>
         </template>
       </Description>
-    </panel>
-    <panel title="Contents" class="trx-panel">
+    </Panel>
+    <Panel title="Contents" class="trx-panel">
       <Description v-if="data.method === 'staking.Transfer'" :list="fromToSchema" class="info-list">
         <template v-slot:amount="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
@@ -26,7 +26,7 @@
       <div class="raw-data" v-else>
         <pre> {{ data.raw | pretty }}</pre>
       </div>
-    </panel>
+    </Panel>
   </div>
 </template>
 
@@ -130,5 +130,7 @@ export default {
 }
 .error-message {
   color: $error500;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 </style>

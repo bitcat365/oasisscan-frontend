@@ -121,6 +121,8 @@
   }
   .error-message {
     color: #F7685B;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
   /deep/ .info-list > li > .label {
     width: rem(120);
