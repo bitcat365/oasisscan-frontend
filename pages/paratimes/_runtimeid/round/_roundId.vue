@@ -11,7 +11,7 @@
           <div class="label-content">{{ data.round }} <arrow-navigate :is-last="isLast" @pre="pre" @next="next" /></div>
         </template>
         <template #timestamp>
-          <span>{{ data.timestamp | timeFormat }} ( {{ data.timestamp | timeFormat2 }} )</span>
+          <span>{{ data.timestamp | timeFormat }} ({{ data.timestamp | timeFormat2 }})</span>
         </template>
       </Description>
     </Panel>

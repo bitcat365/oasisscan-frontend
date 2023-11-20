@@ -12,7 +12,7 @@
           <span v-if="!data.status.status" class="error-message">{{ data.status.error }}</span>
         </template>
         <template #timestamp>
-          <span>{{ (data.timestamp * 1000) | timeFormat }} ( {{ (data.timestamp * 1000) | timeFormat2 }} )</span>
+          <span>{{ (data.timestamp * 1000) | timeFormat }} ({{ (data.timestamp * 1000) | timeFormat2 }})</span>
         </template>
       </Description>
     </panel>

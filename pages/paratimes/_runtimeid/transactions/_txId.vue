@@ -8,7 +8,7 @@
     <Panel title="Header">
       <Description :list="listSchema" class="info-list">
         <template #timestamp>
-          <span>{{data.timestamp | timeFormat}} ( {{data.timestamp | timeFormat2}} )</span>
+          <span>{{data.timestamp | timeFormat}} ({{data.timestamp | timeFormat2}})</span>
         </template>
         <template #status>
           <ColourDiv v-if="data.result" color="success">Success</ColourDiv>
