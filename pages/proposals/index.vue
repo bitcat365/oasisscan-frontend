@@ -60,7 +60,7 @@ export default {
           width: '5%'
         },
         {
-          title: 'Handler',
+          title: 'Title',
           key: 'handler',
           width: '35%'
         },
@@ -69,11 +69,11 @@ export default {
           key: 'deposit'
         },
         {
-          title: 'Created Epoch',
+          title: 'Create on Epoch',
           key: 'created_at'
         },
         {
-          title: 'Closes Epoch',
+          title: 'Voting End on Epoch',
           key: 'closes_at'
         },
         {
