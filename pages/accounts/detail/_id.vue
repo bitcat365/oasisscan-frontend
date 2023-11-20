@@ -133,6 +133,9 @@ export default {
       delegationsList
     }
   },
+  created(){
+    this.$Spin.hide()
+  },
   data() {
     return {
       ListTypes,
