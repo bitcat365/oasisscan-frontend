@@ -632,7 +632,7 @@ export async function fetchValidatorDetail($config, address) {
 }
 export async function onSearch(vue, text) {
   const searchText = text.trim()
-  vue.$Spin.show()
+  // vue.$Spin.show()
   try {
     const res = await search({ $store: vue.$store, $axios: vue.$axios }, searchText)
     if (res) {
@@ -654,19 +654,13 @@ export async function onSearch(vue, text) {
           vue.$router.push(`/paratimes/${runtimeId}/transactions/${txHash}`)
           break
         default:
-          vue.$Spin.hide()
           vue.$router.push(`/not_found`)
           break
       }
     }
-    vue.$Spin.hide()
   } catch (e) {
-    vue.$Spin.hide()
     vue.$router.push(`/not_found`)
   }
-  // setTimeout(() => {
-  //   vue.$Spin.hide()
-  // }, 1000)
 }
 
 export async function fetchRuntimeList($config) {
