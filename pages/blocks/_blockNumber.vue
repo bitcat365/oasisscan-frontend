@@ -10,7 +10,7 @@
           </div>
         </template>
         <template #timestamp>
-          <span>{{ data.timestamp.value | timeFormat }} ( {{ data.value | timeFormat2 }} )</span>
+          <span>{{ data.timestamp.value | timeFormat }} ({{ data.value | timeFormat2 }})</span>
         </template>
       </Description>
     </Panel>

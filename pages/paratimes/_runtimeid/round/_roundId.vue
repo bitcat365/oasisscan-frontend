@@ -10,8 +10,13 @@
         <template #round>
           <div class="label-content">{{ data.round }} <arrow-navigate :is-last="isLast" @pre="pre" @next="next" /></div>
         </template>
+        <template #runtimeID> 
+          <router-link v-if="data.runtimeName" :to="{'path': '/paratimes/' + data.runtimeId, 'query': {name:data.runtimeName,runtimeId:data.runtimeId} }">{{data.runtimeName}}</router-link>
+          <span v-else>Unknown</span>
+          <span>({{ data.runtimeId }})</span>
+        </template>
         <template #timestamp>
-          <span>{{ data.timestamp | timeFormat }} ( {{ data.timestamp | timeFormat2 }} )</span>
+          <span>{{ data.timestamp | timeFormat }} ({{ data.timestamp | timeFormat2 }})</span>
         </template>
       </Description>
     </Panel>
@@ -88,36 +93,36 @@ export default {
     listSchema() {
       return [
         {
-          title: 'Round',
+          title: 'Round Height',
           name: 'round'
         },
         {
           title: 'Runtime ID',
-          content: this.data.runtimeIdAndName || ''
+          name: 'runtimeID'
         },
         {
           title: 'Header Type',
           content: this.data.header_type || ''
         },
         {
-          title: 'Time',
-          name: 'timestamp'
-        },
-        {
           title: 'Previous Hash',
           content: this.data.previous_hash || ''
         },
         {
-          title: 'IO Toot',
+          title: 'IO Root',
           content: this.data.io_root || ''
         },
         {
-          title: 'State Toot',
+          title: 'State Root',
           content: this.data.state_root || ''
         },
         {
           title: 'Messages Hash',
           content: this.data.messages_hash || ''
+        },
+        {
+          title: 'Time',
+          name: 'timestamp'
         }
       ]
     }

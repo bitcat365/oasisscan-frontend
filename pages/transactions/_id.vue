@@ -12,7 +12,7 @@
           <span v-if="!data.status.status" class="error-message">{{ data.status.error }}</span>
         </template>
         <template #timestamp>
-          <span>{{ (data.timestamp * 1000) | timeFormat }} ( {{ (data.timestamp * 1000) | timeFormat2 }} )</span>
+          <span>{{ (data.timestamp * 1000) | timeFormat }} ({{ (data.timestamp * 1000) | timeFormat2 }})</span>
         </template>
       </Description>
     </Panel>
@@ -56,16 +56,12 @@ export default {
     listSchema() {
       return [
         {
-          title: 'Tx Hash',
+          title: 'Hash',
           content: this.data.txHash || ''
         },
         {
-          title: 'Status',
-          name: 'status'
-        },
-        {
-          title: 'Time',
-          name: 'timestamp'
+          title: 'Type',
+          content: this.data.method || ''
         },
         {
           title: 'Height',
@@ -80,8 +76,12 @@ export default {
           content: this.data.nonce || ''
         },
         {
-          title: 'Type',
-          content: this.data.method || ''
+          title: 'Status',
+          name: 'status'
+        },
+        {
+          title: 'Time',
+          name: 'timestamp'
         }
       ]
     },
