@@ -342,6 +342,9 @@ export default {
       .validator-name {
         display: flex;
         align-items: center;
+        .hash-link{
+          color: $gray500;
+        }
       }
       .name-icon {
         margin-right: rem(5);
