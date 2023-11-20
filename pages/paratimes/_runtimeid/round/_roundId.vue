@@ -88,7 +88,7 @@ export default {
     listSchema() {
       return [
         {
-          title: 'Round',
+          title: 'Round Height',
           name: 'round'
         },
         {
@@ -100,24 +100,24 @@ export default {
           content: this.data.header_type || ''
         },
         {
-          title: 'Time',
-          name: 'timestamp'
-        },
-        {
           title: 'Previous Hash',
           content: this.data.previous_hash || ''
         },
         {
-          title: 'IO Toot',
+          title: 'IO Root',
           content: this.data.io_root || ''
         },
         {
-          title: 'State Toot',
+          title: 'State Root',
           content: this.data.state_root || ''
         },
         {
           title: 'Messages Hash',
           content: this.data.messages_hash || ''
+        },
+        {
+          title: 'Time',
+          name: 'timestamp'
         }
       ]
     }

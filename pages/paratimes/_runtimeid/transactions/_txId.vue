@@ -64,20 +64,20 @@
             content: this.data.runtimeIdAndName || ''
           },
           {
-            title: 'Status',
-            name: 'status'
-          },
-          {
-            title: 'Time',
-            name: 'timestamp'
-          },
-          {
             title: 'Round',
             content: this.data.round || ''
           },
           {
             title: 'Type',
             content: this.data.type || ''
+          },
+          {
+            title: 'Status',
+            name: 'status'
+          },
+          {
+            title: 'Time',
+            name: 'timestamp'
           },
         ]
       }
