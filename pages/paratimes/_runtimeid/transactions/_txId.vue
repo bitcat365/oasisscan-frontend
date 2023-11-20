@@ -7,6 +7,11 @@
     </Head>
     <Panel title="Header">
       <Description :list="listSchema" class="info-list">
+        <template #runtimeID> 
+          <router-link v-if="data.runtimeName" :to="{'path': '/paratimes/' + data.runtimeId, 'query': {name:data.runtimeName,runtimeId:data.runtimeId} }">{{data.runtimeName}}</router-link>
+          <span v-else>Unknown</span>
+          <span>({{ data.runtimeId }})</span>
+        </template>
         <template #timestamp>
           <span>{{data.timestamp | timeFormat}} ({{data.timestamp | timeFormat2}})</span>
         </template>
@@ -61,7 +66,7 @@
           },
           {
             title: 'Runtime ID',
-            content: this.data.runtimeIdAndName || ''
+            name: 'runtimeID'
           },
           {
             title: 'Round',
@@ -123,7 +128,7 @@
     color: #F7685B;
   }
   /deep/ .info-list > li > .label {
-    width: rem(120);
+    // width: rem(120);
     min-width: rem(120);
   }
 </style>

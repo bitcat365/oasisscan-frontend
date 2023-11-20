@@ -10,6 +10,11 @@
         <template #round>
           <div class="label-content">{{ data.round }} <arrow-navigate :is-last="isLast" @pre="pre" @next="next" /></div>
         </template>
+        <template #runtimeID> 
+          <router-link v-if="data.runtimeName" :to="{'path': '/paratimes/' + data.runtimeId, 'query': {name:data.runtimeName,runtimeId:data.runtimeId} }">{{data.runtimeName}}</router-link>
+          <span v-else>Unknown</span>
+          <span>({{ data.runtimeId }})</span>
+        </template>
         <template #timestamp>
           <span>{{ data.timestamp | timeFormat }} ({{ data.timestamp | timeFormat2 }})</span>
         </template>
@@ -93,7 +98,7 @@ export default {
         },
         {
           title: 'Runtime ID',
-          content: this.data.runtimeIdAndName || ''
+          name: 'runtimeID'
         },
         {
           title: 'Header Type',
