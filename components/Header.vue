@@ -2,10 +2,10 @@
   <header>
     <Input class="input" v-model="keywords" prefix="ios-search" @on-enter="onsubmit" placeholder="Search by Address/Entity/Block/Tx hash"></Input>
     <Dropdown class="dropdown" @on-click="networkClick">
-      <a class="network-selector" href="javascript:void(0)">
+      <span class="network-selector" href="javascript:void(0)">
         {{ net }}&nbsp;
         <Icon type="ios-arrow-down" size="16"></Icon>
-      </a>
+      </span>
       <DropdownMenu class="network-select-list" slot="list">
         <DropdownItem :name="chainId" class="network-select-item">
           Mainnet
