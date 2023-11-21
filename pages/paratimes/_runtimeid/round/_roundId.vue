@@ -127,6 +127,9 @@ export default {
       ]
     }
   },
+  created(){
+    this.$Spin.hide()
+  },
   async mounted() {
     await this.fetchList()
   },

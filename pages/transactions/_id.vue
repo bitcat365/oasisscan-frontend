@@ -102,7 +102,9 @@ export default {
       ]
     }
   },
-  async mounted() {},
+  created(){
+    this.$Spin.hide()
+  },
   methods: {}
 }
 </script>

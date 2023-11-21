@@ -632,7 +632,7 @@ export async function fetchValidatorDetail($config, address) {
 }
 export async function onSearch(vue, text) {
   const searchText = text.trim()
-  // vue.$Spin.show()
+  vue.$Spin.show()
   try {
     const res = await search({ $store: vue.$store, $axios: vue.$axios }, searchText)
     if (res) {

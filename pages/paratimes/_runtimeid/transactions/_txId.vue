@@ -87,7 +87,8 @@
         ]
       }
     },
-    async mounted() {
+    created(){
+      this.$Spin.hide()
     },
     methods: {
     }
