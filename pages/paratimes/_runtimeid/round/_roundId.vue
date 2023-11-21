@@ -22,7 +22,7 @@
     </Panel>
     <Panel title="Transactions" class="Transactions">
       <BlockTable :loading="loading" :data="list" :columns="columns">
-        <template v-slot:status="{ data }">
+        <template v-slot:result="{ data }">
           <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
         </template>
         <template v-slot:timestamp="{ data }">
@@ -76,7 +76,7 @@ export default {
         },
         {
           title: 'Status',
-          key: 'status',
+          key: 'result',
           slot: true
         },
         {
