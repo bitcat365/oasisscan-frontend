@@ -5,7 +5,7 @@
         <div class="paratime-tag">Paratime</div>
       </template>
     </Head>
-    <Panel title="Header">
+    <Panel>
       <Description :list="listSchema" class="info-list">
         <template #round>
           <div class="label-content">{{ data.round }} <arrow-navigate :is-last="isLast" @pre="pre" @next="next" /></div>

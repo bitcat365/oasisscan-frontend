@@ -5,7 +5,7 @@
         <div class="paratime-tag">Paratime</div>
       </template>
     </Head>
-    <Panel title="Header">
+    <Panel>
       <Description :list="listSchema" class="info-list">
         <template #runtimeID> 
           <router-link v-if="data.runtimeName" :to="{'path': '/paratimes/' + data.runtimeId, 'query': {name:data.runtimeName,runtimeId:data.runtimeId} }">{{data.runtimeName}}</router-link>
@@ -129,6 +129,9 @@
     color: #F7685B;
     white-space: pre-wrap;
     word-wrap: break-word;
+  }
+  .info-list {
+    padding: 0 rem(10);
   }
   /deep/ .info-list > li > .label {
     // width: rem(120);
