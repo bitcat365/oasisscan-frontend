@@ -158,6 +158,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   .info-list {
+    padding: 0 rem(10);
     flex: 3;
   }
   .chart {
