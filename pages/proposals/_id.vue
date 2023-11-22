@@ -7,7 +7,7 @@
         <pie-chart :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']" class="chart"></pie-chart>
       </div>
     </Panel>
-    <Panel title="Votes" v-if="!isRequesting">
+    <Panel title="Votes" class="block-list-wrapper" v-if="!isRequesting">
       <BlockTable :data="data.votes" :columns="columns"> </BlockTable>
     </Panel>
   </div>
@@ -163,5 +163,11 @@ export default {
   .chart {
     flex: 1;
   }
+}
+.block-list-wrapper{
+  /deep/.hash-link{
+    color: $gray500 !important;
+  }
+
 }
 </style>

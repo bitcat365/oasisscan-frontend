@@ -379,6 +379,11 @@ export default {
     color: rgba(55, 65, 107, 0.5);
     line-height: 1;
   }
+  &.node-list-wrapper{
+    /deep/.hash-link{
+      color: $gray500 !important;
+    }
+  }
 }
 .operate {
   display: flex;
