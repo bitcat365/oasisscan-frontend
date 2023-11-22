@@ -105,7 +105,7 @@ export default {
           key: 'escrow'
         },
         {
-          title: 'Debonding',
+          title: 'Reclaim',
           key: 'debonding'
         },
         {

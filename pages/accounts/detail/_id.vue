@@ -39,7 +39,7 @@
         <Panel title="Escrow">
           <div class="tag-con" slot="headerRight">
             <div :class="['type', currentEscrowType === EscrowTypes.active ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.active)">Active</div>
-            <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Debonding</div>
+            <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Reclaim</div>
             <!-- <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div> -->
           </div>
           <template v-if="currentEscrowType === EscrowTypes.active">
@@ -290,7 +290,7 @@ export default {
           content: readable(this.data.escrow) || ''
         },
         {
-          title: 'Debonding',
+          title: 'Reclaim',
           content: readable(this.data.debonding) || ''
         },
         {
@@ -312,7 +312,7 @@ export default {
           content: readable(Number(data.escrow).toFixed(0)) + ' ROSE'
         },
         {
-          title: 'Debonding (' + percent(data.debonding / data.total, 1) + ')',
+          title: 'Reclaim (' + percent(data.debonding / data.total, 1) + ')',
           content: readable(Number(data.debonding).toFixed(0)) + ' ROSE'
         }
       ]
