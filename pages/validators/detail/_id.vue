@@ -36,7 +36,7 @@
           <BlockTable :loading="loading1" :data="delegatorsList" :columns="columns1" :expand="false">
             <template v-slot:amount="{ data }">
               <span>Amount</span>
-              <span class="gray">/Shares</span>
+              <span class="gray">/ Shares</span>
             </template>
             <template v-slot:amountAndShares="slotData">
               <span>{{ slotData.data.amount }}</span>
@@ -55,7 +55,7 @@
           <BlockTable :loading="loading2" :data="evensList" :columns="columns2">
             <template v-slot:amount="{ data }">
               <span>Amount</span>
-              <span class="gray">/Shares</span>
+              <span class="gray">/ Shares</span>
             </template>
             <template v-slot:amountAndShares="slotData">
               <span :class="positiveStyle(slotData.data.add)">{{ showAmountShare(slotData.data.amount, slotData.data.add) }}</span>
