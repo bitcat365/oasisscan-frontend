@@ -40,7 +40,7 @@
             </template>
             <template v-slot:amountAndShares="slotData">
               <span>{{ slotData.data.amount }}</span>
-              <span class="gray">/{{ slotData.data.shares }}</span>
+              <span class="gray">/ {{ slotData.data.shares }}</span>
             </template>
             <template v-slot:address="{ data }">
               <router-link :to="data.link">{{ data.text | hashFormat }}</router-link>
@@ -59,7 +59,7 @@
             </template>
             <template v-slot:amountAndShares="slotData">
               <span :class="positiveStyle(slotData.data.add)">{{ showAmountShare(slotData.data.amount, slotData.data.add) }}</span>
-              <span :class="positiveStyle(slotData.data.add, 'light')">/{{ showAmountShare(slotData.data.shares, slotData.data.add) }}</span>
+              <span :class="positiveStyle(slotData.data.add, 'light')">/ {{ showAmountShare(slotData.data.shares, slotData.data.add) }}</span>
             </template>
           </BlockTable>
           <Page slot="footer" type="simple" :sizer="eventListSizer" :records-count="totalEventListSize" :page="eventListPage" @goto="gotoEvents" />
