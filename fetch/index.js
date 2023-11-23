@@ -426,7 +426,7 @@ function parseVotes(list) {
     const name = item.name ? item.name : item.address
     return {
       ...item,
-      voter: { text: name, link: `/accounts/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
+      voter: { text: name, link: `/validators/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
       vote: capitalize(item.vote)
     }
   })
