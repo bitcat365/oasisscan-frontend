@@ -16,6 +16,10 @@
                   <div class="QRcodeImg" id="qrCode" ref="qrCode"></div>
                 </div>
               </div>
+              <template v-for="item in ['total','available','escrow']" :slot="item">
+                <span>{{data[item].split('.')[0] | readable}}.</span>
+                <span class="smalltext">{{data[item].split('.')[1]}}</span>
+              </template>
             </Description>
             <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
           </div>
@@ -278,16 +282,16 @@ export default {
         //   content: '?'
         // },
         {
-          title: 'Total Balance',
-          content: readable(this.data.total) + ' ROSE' || ''
+          title: 'Amount',
+          name: 'total',
         },
         {
           title: 'Available',
-          content: readable(this.data.available) || ''
+          name: 'available',
         },
         {
           title: 'Escrow',
-          content: readable(this.data.escrow) || ''
+          name: 'escrow',
         },
         {
           title: 'Reclaim',
@@ -432,6 +436,9 @@ export default {
     margin-bottom: rem(20);
     .info-list {
       padding: 0 rem(10);
+      .smalltext{
+        font-size: calc(1em - 1px);
+      }
     }
     .topDesc {
       display: flex;
