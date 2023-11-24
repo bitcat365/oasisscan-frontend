@@ -152,9 +152,6 @@ export async function fetchAccountDetail($config, address) {
   let { code, data = {} } = await get($config)(`/chain/account/info/${address}`, {}).catch(() => ({ code: -1 }))
   if (code !== -1) {
     data.debonding = decimalsFormat(data.debonding)
-    data.available = decimalsFormat(data.available)
-    data.escrow = decimalsFormat(data.escrow)
-    data.total = decimalsFormat(data.total)
   }
   return data
 }
@@ -232,7 +229,7 @@ export async function fetchAccountsList($config, page = 1, size = 20) {
   return { list: res, totalSize }
 }
 
-export async function fetchTransactionsList($config, page = 1, size = 20, method = '', progress = true, sliceLength = 6) {
+export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 6) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/transactions', {
     params: {
       page,
