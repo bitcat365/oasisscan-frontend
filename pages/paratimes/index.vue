@@ -25,7 +25,7 @@
         <Page :sizer="roundListSizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
       <div v-else-if="currentListType === ListTypes.nodeList" class="block-list-wrapper node-list-wrapper">
-        <BlockTable :loading="loading" :columns="nodeListColumns" :data="filterNodes" @sort="sortNodeList">
+        <BlockTable :loading="loading" :columns="nodeListColumns" :data="filterNodes">
           <template v-slot:status="{ data }">
             <span v-if="data" class="success">Online</span>
             <span v-else class="error">Offline</span>
@@ -121,18 +121,6 @@ export default {
     }
   },
   methods: {
-    async sortNodeList({ key, sortType }) {
-      console.log(key, sortType)
-      if (this.currentNodeListSortKey) {
-        const currentSortColumn = this.nodeListColumns.find(c => c.sortKey === this.currentNodeListSortKey)
-        currentSortColumn.sortType = ''
-      }
-      await this.getNodeList(0, key)
-      this.currentNodeListSortKey = key
-      const co = this.nodeListColumns.find(c => c.sortKey === key)
-      co.sortType = 'down'
-      this.nodeListColumns = [...this.nodeListColumns]
-    },
     async goto(pageNumber, pageSize, progress = true) {
       // if (pageNumber > 1) {
       //   this.timer && clearTimeout(this.timer)
@@ -222,12 +210,12 @@ export default {
       offlineNodes: 0,
       nodeName: '',
       nodeListColumns: [
-        // {
-        //   title: '#',
-        //   key: 'rank',
-        //   textAlign: 'left',
-        //   width: '5%'
-        // },
+        {
+          title: '#',
+          key: 'rank',
+          textAlign: 'left',
+          width: '5%'
+        },
         {
           title: 'Node',
           key: 'entityId',
@@ -236,29 +224,21 @@ export default {
         {
           title: 'Elected',
           key: 'elected',
-          sortKey: 0,
-          sortable: true,
           singleSortDirection: true
         },
         {
           title: 'Primary',
           key: 'primary',
-          sortKey: 1,
-          sortable: true,
           singleSortDirection: true
         },
         {
           title: 'Backup',
           key: 'backup',
-          sortKey: 2,
-          sortable: true,
           singleSortDirection: true
         },
         {
           title: 'Proposer',
           key: 'proposer',
-          sortKey: 3,
-          sortable: true,
           singleSortDirection: true
         },
         {

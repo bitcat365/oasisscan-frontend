@@ -745,6 +745,7 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
     return {
       ...item.stats,
       status: item.status,
+      rank: index + 1,
       entityId: {
         text: name,
         link: item.validator ? `/validators/detail/${item.address}` : `/accounts/detail/${item.address}`,
