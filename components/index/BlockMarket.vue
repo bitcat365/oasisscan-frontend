@@ -130,6 +130,7 @@ export default {
   .market_right {
     flex: 1;
     text-align: right;
+    font-size: 1rem;
     .p1 {
       font-weight: 600;
     }
@@ -138,12 +139,12 @@ export default {
       color: #12b76a;
     }
     .p1_down {
-      font-size: 1rem;
       font-weight: 600;
       color: #f04438;
     }
     .p2 {
       color: $gray500;
+      font-size: rem(12);
     }
   }
 }

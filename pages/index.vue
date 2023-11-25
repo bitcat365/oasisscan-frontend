@@ -173,6 +173,7 @@ export default {
       .headerRight {
         font-size: rem(18);
         font-weight: 600;
+        color: $gray600;
       }
     }
   }
