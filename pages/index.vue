@@ -5,7 +5,7 @@
         <PanelSmall title="Price">
           <img slot="icon" src="../assets/price.svg" class="icon" />
           <span slot="headerRight" class="headerRight"> ${{ marketInfo.price | readable }} </span>
-          <BlockMarket :marketChange="marketInfo.priceChangePct24h" :marketChart="marketChart.price" />
+          <BlockMarket :marketChange="marketInfo.priceChangePct24h" :marketChart="marketChart.price" desc="ROSE/USD (24H)" />
         </PanelSmall>
       </Col>
       <Col span="8">
@@ -168,7 +168,7 @@ export default {
     margin-bottom: rem(20);
     .ivu-col {
       > * {
-        height: rem(210);
+        height: rem(180);
       }
       .headerRight {
         font-size: rem(18);
