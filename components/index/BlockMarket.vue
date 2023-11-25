@@ -9,7 +9,7 @@
         <img src="../../assets/arrow-down.svg" v-if="marketChange < 0" />
         {{ marketChange.toFixed(2) }}%
       </p>
-      <p class="p2">from yesterday</p>
+      <p class="p2">{{ desc }}</p>
     </div>
   </div>
 </template>
@@ -92,6 +92,10 @@ export default {
     marketChange: {
       type: Number,
       default: 0
+    },
+    desc: {
+      type: String,
+      default: 'Last 24 hours'
     }
   },
   computed: {
@@ -139,7 +143,7 @@ export default {
       color: #f04438;
     }
     .p2 {
-      color: $gray400;
+      color: $gray500;
     }
   }
 }
