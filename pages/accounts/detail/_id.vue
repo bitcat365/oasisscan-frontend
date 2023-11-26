@@ -17,7 +17,7 @@
                 </div>
               </div>
               <template v-for="item in ['total', 'available', 'escrow']" :slot="item">
-                <span>{{ data[item].split('.')[0] | readable }}.</span><span class="smalltext">{{ data[item].split('.')[1] }}</span>
+                <span>{{ data[item].split('.')[0] | readable }}</span><span class="smalltext" v-if="data[item].split('.').length>1">.{{ data[item].split('.')[1] }}</span>
               </template>
             </Description>
             <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
