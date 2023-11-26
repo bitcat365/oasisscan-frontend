@@ -38,9 +38,9 @@ export default {
     networkClick(name) {
       // console.log('name', name)
       if (name === Config.testnetChainId) {
-        location.href = '//' + location.host.replace('www.oasisscan.com', 'testnet.oasisscan.com')
+        location.href = '//' + location.host.replace('www2.oasisscan.com', 'testnet2.oasisscan.com')
       } else {
-        location.href = '//' + location.host.replace('testnet.oasisscan.com', 'www.oasisscan.com')
+        location.href = '//' + location.host.replace('testnet2.oasisscan.com', 'www2.oasisscan.com')
       }
       this.$store.commit('SET_NET', name)
     },
