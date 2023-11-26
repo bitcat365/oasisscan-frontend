@@ -325,7 +325,7 @@ export default {
         /deep/.header-column:last-child{
         
         .header-title{
-          justify-content: end;
+          justify-content: flex-end;
         }
       }
       /deep/.question {

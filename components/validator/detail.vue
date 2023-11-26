@@ -202,7 +202,7 @@ export default {
           color: $success500;
           display: flex;
           flex-direction: row;
-          justify-content: end;
+          justify-content: flex-end;
           gap: rem(8);
           align-items: center;
           > div {

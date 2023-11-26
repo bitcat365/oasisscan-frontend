@@ -524,7 +524,7 @@ export default {
   }
   .blockTable {
     /deep/.header-title {
-      justify-content: end;
+      justify-content: flex-end;
     }
     /deep/.question {
       cursor: pointer;
