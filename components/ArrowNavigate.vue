@@ -6,7 +6,7 @@
       @click.prevent.stop="$emit('pre')"
     />
     <SvgIcon
-      :className="isLast ? ['arrow', 'disabled'] : 'arrow'"
+      :className="isLast ? 'arrow disabled' : 'arrow'"
       iconName="arrows-next"
       @click.prevent.stop="isLast ? '' : $emit('next')"
     />
@@ -40,6 +40,7 @@ export default {
   }
   .disabled {
     color: $gray200;
+    cursor: none;
   }
 }
 </style>
