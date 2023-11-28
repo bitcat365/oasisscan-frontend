@@ -1,6 +1,6 @@
 <template>
   <div class="table_content">
-    <table :class="[rootClasses,loading||!(rowData && rowData.length > 0)?'table-loader':'']">
+    <table :class="[rootClasses, loading || !(rowData && rowData.length > 0) ? 'table-loader' : '']">
       <thead class="header">
         <tr>
           <th v-if="expand" class="table-expand-icon-th"></th>
@@ -22,14 +22,13 @@
                 <img v-if="item.sortType === 'down'" :data-type="item.sortType === 'down'" class="down" src="../../assets/arrow-light.svg" />
                 <img v-else class="down" :data-type="item.sortType === 'down'" src="../../assets/arrow.svg" />
               </div>
-            </div> 
+            </div>
           </th>
         </tr>
       </thead>
-      <tbody>
-        <NoRecord v-if="!(rowData && rowData.length > 0) && !loading" class="norecord" />
+      <NoRecord v-if="!(rowData && rowData.length > 0) && !loading" class="norecord" />
+      <tbody v-else>
         <tr
-          v-else
           v-for="(row, rowIndex) in rowData"
           :key="primaryKey ? row[primaryKey] : 'row' + rowIndex"
           :class="['table-row', rowData[rowIndex + 1] && rowData[rowIndex + 1].isExtendedRow ? 'show-expand' : '', row.isExtendedRow ? 'extended-row' : 'main-row', row.odd === true || (row.isExtendedRow && rowData[rowIndex - 1].odd) ? 'odd' : '']"
@@ -160,11 +159,11 @@ export default {
 .text-left {
   text-align: left;
 }
-.table_content{
+.table_content {
   height: 100%;
 }
 table {
-  &.table-loader{
+  &.table-loader {
     min-height: rem(240);
   }
   border-collapse: collapse;
