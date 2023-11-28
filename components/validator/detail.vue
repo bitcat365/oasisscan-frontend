@@ -53,11 +53,11 @@
     <Description :list="descriptionList" class="info-con-bot">
       <div slot="bounds">
         {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
-          <Icon type="ios-information-circle-outline" class="icon bounds" />
+        <Icon type="ios-information-circle-outline" class="icon bounds" />
       </div>
       <div slot="rates">
         {{ commission | percentFormat }}
-          <Icon type="ios-information-circle-outline" class="icon rates" />
+        <Icon type="ios-information-circle-outline" class="icon rates" />
       </div>
     </Description>
   </div>
@@ -90,7 +90,7 @@ export default {
   },
   data() {
     return {
-      name: this.detailData.name || 'Validator',
+      name: this.detailData.name ? this.detailData.name : this.detailData.entityAddress || 'Validator',
       // escrow: this.detailData.escrow,
       proposals: this.detailData.proposals,
       signs: this.detailData.signs,
