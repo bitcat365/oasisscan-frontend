@@ -40,7 +40,7 @@ export default {
   }
   .disabled {
     color: $gray200;
-    cursor: none;
+    cursor: auto;
   }
 }
 </style>
