@@ -1,5 +1,5 @@
 <template>
-  <div class="table_content">
+  <no-ssr class="table_content">
     <table :class="[rootClasses, loading || !(rowData && rowData.length > 0) ? 'table-loader' : '']">
       <thead class="header">
         <tr>
@@ -46,7 +46,7 @@
         <Loader :loading="loading"></Loader>
       </tbody>
     </table>
-  </div>
+  </no-ssr>
 </template>
 <script>
 import classNames from 'classnames'
