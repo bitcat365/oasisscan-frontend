@@ -1,4 +1,4 @@
-import {capitalize, decimalConvert, decimalsFormat, floatFormat, hashFormat, percent, readable} from '../utils/index'
+import { capitalize, decimalConvert, decimalsFormat, floatFormat, hashFormat, percent, readable } from '../utils/index'
 import Config from '../config'
 function request($axios, method, args) {
   /* eslint-disable no-undef */
@@ -6,14 +6,14 @@ function request($axios, method, args) {
 }
 
 function get({ $axios, $store }) {
-  return function (url, ...args) {
+  return function(url, ...args) {
     // console.log('isTestnet', $store.state.net)
     if ($store.state.net === Config.testnetChainId) {
       url = '/testnet' + (url[0] === '/' ? '' : '/') + url
     } else {
       url = '/mainnet' + (url[0] === '/' ? '' : '/') + url
     }
-    return request($axios, 'get', [url, ...args]).catch((e) => {
+    return request($axios, 'get', [url, ...args]).catch(e => {
       return {
         error: e
       }
@@ -22,7 +22,7 @@ function get({ $axios, $store }) {
 }
 /* eslint-disable no-unused-vars */
 function post(...args) {
-  return request('post', args).catch((e) => {
+  return request('post', args).catch(e => {
     console.log('post error,', e)
     return {
       error: e
@@ -30,17 +30,53 @@ function post(...args) {
   })
 }
 
-export async function fetchBlockInfo($config, progress = true) {
-  const { code, data: blockInfo } = await get($config)('/dashboard/network',{ progress }).catch(() => ({ code: -1 }))
+export async function fetchMarketChart($config) {
+  const { code, data: marketChart } = await get($config)('/market/chart').catch(() => ({ code: -1 }))
+  function getChartData(list, toFixed) {
+    let xData = []
+    let yData = []
+    for (let i = 0; i < list.length; i++) {
+      xData.push(list[i].key)
+      toFixed ? yData.push(Number(list[i].value.toFixed(0))) : yData.push(list[i].value)
+    }
+    return {
+      xData: xData,
+      yData: yData
+    }
+  }
   if (code === 0) {
+    marketChart.price = getChartData(marketChart.price, false)
+    marketChart.marketCap = getChartData(marketChart.marketCap, true)
+    marketChart.volume = getChartData(marketChart.volume, true)
+    return marketChart
+  }
+  return []
+}
+export async function fetchMarketInfo($config) {
+  const { code, data: marketInfo } = await get($config)('/market/info').catch(() => ({ code: -1 }))
+  if (code === 0) {
+    return marketInfo
+  }
+  return []
+}
+export async function fetchBlockInfo($config, progress = true) {
+  const { code, data: blockInfo } = await get($config)('/dashboard/network', { progress }).catch(() => ({ code: -1 }))
+  if (code === 0) {
+    blockInfo.totalEscrow = Number(blockInfo.totalEscrow).toFixed()
     return blockInfo
   }
   return {}
 }
-export async function fetchTxHistory($config) {
-  const { code, data: { list } = { list: [] } } = await get($config)('/chain/transactionhistory').catch(() => ({ code: -1 }))
+export async function fetchNetworkTrend($config) {
+  const {
+    code,
+    data: { tx, escrow: escrowData }
+  } = await get($config)('/dashboard/trend').catch(() => ({ code: -1 }))
   if (code === 0) {
-    return list
+    let escrow = escrowData.map(({ key, value }) => {
+      return { key: key, value: Number(value.toFixed(0)) }
+    })
+    return { tx, escrow }
   }
   return []
 }
@@ -55,14 +91,14 @@ export async function fetchHomeBlockList($config, pageSize = 10, page = 1, progr
       ...item,
       proposer: { text: name, link: `/validators/detail/${item.entityAddress}`, type: item.name ? 'link' : 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
-      height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
+      height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' }
     }
-  });
+  })
   return { list }
 }
 
 export async function fetchProposals($config, page = 1, size = 20, progress = true) {
-  let { code, data: { list, totalSize,...others } = { list: [] } } = await get($config)(`/governance/proposals`, {
+  let { code, data: { list, totalSize, ...others } = { list: [] } } = await get($config)(`/governance/proposals`, {
     params: {
       page,
       size
@@ -76,7 +112,7 @@ export async function fetchProposals($config, page = 1, size = 20, progress = tr
     return {
       ...item,
       deposit: readable(decimalConvert(item.deposit)),
-      handler: { text: handler, link: `/proposals/${item.id}`, type: 'link' },
+      handler: { text: handler, link: `/proposals/${item.id}`, type: 'link' }
     }
   })
   return { list, totalSize }
@@ -94,19 +130,18 @@ export async function fetchBlockList($config, page = 1, size = 20, progress = tr
     const name = item.name ? item.name : item.entityAddress
     return {
       ...item,
-      hash: { text: item.hash, link: `/blocks/${item.height}`, sliceLength: 12, type: 'hash-link' },
+      hash: { text: item.hash, link: `/blocks/${item.height}`, sliceLength: 8, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       proposer: { text: name, link: `/validators/detail/${item.entityAddress}`, type: item.name ? 'link' : 'hash-link' },
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' }
     }
-  });
+  })
   return { list, totalSize }
 }
 export async function fetchChainMethods($config) {
   let { code, data: { list } = { list: [] } } = await get($config)('/chain/methods', {
     progress: false,
-    params: {
-    }
+    params: {}
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []
@@ -114,14 +149,9 @@ export async function fetchChainMethods($config) {
   return { list }
 }
 export async function fetchAccountDetail($config, address) {
-  let { code, data = { } } = await get($config)(`/chain/account/info/${address}`, {
-  }).catch(() => ({ code: -1 }))
+  let { code, data = {} } = await get($config)(`/chain/account/info/${address}`, {}).catch(() => ({ code: -1 }))
   if (code !== -1) {
-    data.debonding = readable(decimalsFormat(data.debonding))
-    data.available = readable(decimalsFormat(data.available))
-    data.escrow = readable(decimalsFormat(data.escrow))
-    data.address = { address: data.address, total: decimalsFormat(data.total) }
-    data.total = readable(decimalsFormat(data.total))
+    data.debonding = decimalsFormat(data.debonding)
   }
   return data
 }
@@ -137,19 +167,19 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
   if (code !== 0) {
     list = []
   }
-  const res = list.map((item) => {
-    const name = item.validatorName ? item.validatorName : (item.validatorAddress ? item.validatorAddress : item.entityAddress)
+  const res = list.map(item => {
+    const name = item.validatorName ? item.validatorName : item.validatorAddress ? item.validatorAddress : item.entityAddress
     let link
     if (item.validatorAddress) {
       link = `/validators/detail/${item.validatorAddress}`
     } else if (item.entityAddress) {
       link = `/accounts/detail/${item.entityAddress}`
     }
-    item.shares = readable(decimalsFormat(item.shares, 2))
-    item.amount = readable(decimalsFormat(item.amount, 2))
+    item.shares = readable(decimalsFormat(item.shares, 0))
+    item.amount = readable(decimalsFormat(item.amount, 0))
     return {
       ...item,
-      validatorName: link ? { text: name, link, type: item.validatorName ? 'link' : 'hash-link' } : name,
+      validatorName: link ? { text: name, link, type: item.validatorName ? 'link' : 'hash-link' } : name
     }
   })
   return { list: res, totalSize }
@@ -165,17 +195,17 @@ export async function fetchAccountDebonding($config, address, page = 1, size = 5
   if (code !== 0) {
     list = []
   }
-  const res = list.map((item) => {
+  const res = list.map(item => {
     const name = item.validatorName ? item.validatorName : item.validatorAddress
-    item.shares = readable(decimalsFormat(item.shares, 2))
+    item.shares = readable(decimalsFormat(item.shares, 0))
     return {
       ...item,
-      validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' },
+      validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' }
     }
   })
   return { list: res, totalSize }
 }
-export async function fetchAccountsList($config, page = 1, size = 10) {
+export async function fetchAccountsList($config, page = 1, size = 20) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/account/list', {
     params: {
       page,
@@ -185,13 +215,13 @@ export async function fetchAccountsList($config, page = 1, size = 10) {
   if (code !== 0) {
     list = []
   }
-  const res = list.map((item) => {
+  const res = list.map(item => {
     return {
       ...item,
-      available: readable(item.available),
-      escrow: readable(item.escrow),
-      debonding: readable(item.debonding),
-      total: readable(item.total),
+      available: readable(Number(item.available).toFixed(0)),
+      escrow: readable(Number(item.escrow).toFixed(0)),
+      debonding: readable(Number(item.debonding).toFixed(0)),
+      total: readable(Number(item.total).toFixed(0)),
       address: { text: item.address, link: `/accounts/detail/${item.address}`, type: 'link', total: item.total },
       id: item.address
     }
@@ -199,7 +229,7 @@ export async function fetchAccountsList($config, page = 1, size = 10) {
   return { list: res, totalSize }
 }
 
-export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 8) {
+export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 6) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/transactions', {
     params: {
       page,
@@ -211,7 +241,7 @@ export async function fetchTransactionsList($config, page = 1, size = 10, method
   if (code !== 0) {
     list = []
   }
-  const res = list.map((item) => {
+  const res = list.map(item => {
     return {
       ...item,
       hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link' },
@@ -227,10 +257,10 @@ export async function fetchTransactionsList($config, page = 1, size = 10, method
 export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') {
   let orderParams = {}
   if (orderBy) {
-    orderParams.orderBy = orderBy;
-    orderParams.sort = sort;
+    orderParams.orderBy = orderBy
+    orderParams.sort = sort
   }
-  let { code, data: { list, active, inactive, delegators } = {} } = await get($config)('/validator/list', {
+  let { code, data: { list, active, inactive, delegators } = {} } = await get($config)('/validator/list/all', {
     params: {
       ...orderParams
     }
@@ -241,9 +271,10 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
   const res = list.map((item, index) => {
     return {
       ...item,
+      escrowChange24: Number(item.escrowChange24).toFixed(0),
       delegators: readable(item.delegators),
-      escrow: { escrow: item.escrow, escrowPercent: item.escrowPercent },
-      commission: { value: item.commission, type: 'percent' },
+      escrow: { escrow: Number(item.escrow).toFixed(0), escrowPercent: item.escrowPercent },
+      commission: { value: item.commission, type: 'percent' }
     }
   })
   res.forEach((item, index) => {
@@ -266,14 +297,13 @@ export async function fetchProposalDetail($config, id) {
     ...data,
     votes: parseVotes(data.votes ? data.votes : []),
     deposit: readable(decimalConvert(data.deposit)),
-    submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' },
+    submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' }
   }
 }
 
 export async function fetchBlockDetail($config, hashOrBlockHeight) {
   let { code, data } = await get($config)(`/chain/block/${hashOrBlockHeight}`, {
-    params: {
-    }
+    params: {}
   })
   if (code !== 0 || !data) {
     data = {}
@@ -285,7 +315,7 @@ export async function fetchBlockDetail($config, hashOrBlockHeight) {
     hash: data.hash,
     txs: data.txs,
     proposer: { text: name, link: `/validators/detail/${data.entityAddress}`, type: 'link' },
-    timestamp: { value: data.timestamp * 1000, type: 'time' },
+    timestamp: { value: data.timestamp * 1000, type: 'time' }
   }
 }
 
@@ -295,7 +325,7 @@ export async function fetchBlockDetail($config, hashOrBlockHeight) {
  * @returns {Promise<void>}
  */
 export async function search($config, key) {
-  let { code, data} = await get($config)('/chain/search', {
+  let { code, data } = await get($config)('/chain/search', {
     params: {
       key
     },
@@ -312,29 +342,29 @@ export async function search($config, key) {
  * @param size
  * @returns {Promise<{totalSize, list: (*&{txHash: {link: string, text: *, type: string}, timestamp: {type: string, value}, status: *})[]}>}
  */
-export async function fetchRuntimeTransactions($config, address = '', page = 1, size = 10) {
+export async function fetchRuntimeTransactions($config, address = '', page = 1, size = 5) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/account/runtime/transactions', {
     params: {
       page,
       size,
-      address,
+      address
     }
-  });
+  })
   if (code !== 0) {
     list = []
   }
-  const res = list.map((item) => {
+  const res = list.map(item => {
     return {
       ...item,
-      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${item.runtimeId}&round=${item.round}`, type: 'hash-link' },
+      txHash: { text: item.txHash, link: `/paratimes/${item.runtimeId}/transactions/${item.txHash}?round=${item.round}`, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       status: item.result
     }
-  });
+  })
   return { list: res, totalSize }
 }
 
-export async function fetchEventDetail($config,id) {
+export async function fetchEventDetail($config, id) {
   let { code, data } = await get($config)(`/chain/staking/events/info`, {
     params: {
       id
@@ -348,7 +378,7 @@ export async function fetchEventDetail($config,id) {
     type: data.type,
     timestamp: { value: data.timestamp * 1000, type: 'time' },
     raw: JSON.stringify(data[data.type]),
-    height: { text: readable(data.height), link: `/blocks/${data.height}`, type: 'link' },
+    height: { text: readable(data.height), link: `/blocks/${data.height}`, type: 'link' }
   }
 }
 
@@ -358,18 +388,18 @@ export async function fetchEventsTransactions($config, address = '', page = 1, p
     params: {
       page,
       size: pageSize,
-      address,
+      address
     }
-  });
+  })
   if (code !== 0) {
     list = []
   }
   // console.log('event transactions', list)
-  const res = list.map((item) => {
+  const res = list.map(item => {
     return {
       ...item,
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.tx_hash, link: `/events/${item.id}`, type: 'hash-link' },
+      txHash: { text: item.tx_hash, link: `/events/${item.id}`, type: 'hash-link' }
     }
   })
   return { list: res, totalSize }
@@ -379,7 +409,7 @@ export async function fetchVotes($config, id) {
     params: {
       id
     }
-  });
+  })
   // console.log('list', list, code)
   if (code !== 0) {
     list = []
@@ -389,11 +419,11 @@ export async function fetchVotes($config, id) {
 }
 
 function parseVotes(list) {
-  const res = list.map((item) => {
+  const res = list.map(item => {
     const name = item.name ? item.name : item.address
     return {
       ...item,
-      voter: { text: name, link: `/accounts/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
+      voter: { text: name, link: `/validators/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
       vote: capitalize(item.vote)
     }
   })
@@ -416,13 +446,13 @@ export async function fetchTransactions($config, blockHeight = '', address = '',
       page,
       size: pageSize,
       height: blockHeight,
-      address,
+      address
     }
-  });
+  })
   if (code !== 0) {
     list = []
   }
-  const res = list.map((item) => {
+  const res = list.map(item => {
     return {
       ...item,
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
@@ -430,7 +460,7 @@ export async function fetchTransactions($config, blockHeight = '', address = '',
       timestamp: { value: item.timestamp * 1000, type: 'time' },
       type: `${item.method}`
     }
-  });
+  })
   return { list: res, totalSize }
 }
 
@@ -442,8 +472,7 @@ export async function fetchTransactions($config, blockHeight = '', address = '',
  */
 export async function fetchTransactionDetail($config, txHash) {
   let { code, data } = await get($config)(`/chain/transaction/${txHash}`, {
-    params: {
-    }
+    params: {}
   })
   if (code !== 0) {
     data = {}
@@ -459,7 +488,7 @@ export async function fetchTransactionDetail($config, txHash) {
     timestamp: data.timestamp,
     height: { text: data.height, link: `/blocks/${data.height}`, type: 'link' },
     fee: data.fee,
-    nonce: data.nonce,
+    nonce: data.nonce
   }
 }
 
@@ -470,15 +499,15 @@ export async function getEventsByProposer($config, address, size = 5, page = 1) 
       page,
       size
     }
-  });
+  })
   return {
-    list: list.map((item) => {
+    list: list.map(item => {
       return {
         ...item,
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
         txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
-        amountAndShares: { value: `${readable(item.amount)}/${readable(item.shares)}`, add: item.add }
+        amountAndShares: { amount: readable(Number(item.amount).toFixed(0)), shares: readable(Number(item.shares).toFixed(0)), add: item.add }
       }
     }),
     totalSize
@@ -493,7 +522,8 @@ export async function validatorStats($config, address) {
     progress: false
   })
   return {
-    signs, proposals
+    signs,
+    proposals
   }
 }
 export async function getDelegatorsByProposer($config, address, size = 5, page = 1) {
@@ -503,14 +533,14 @@ export async function getDelegatorsByProposer($config, address, size = 5, page =
       page,
       size
     }
-  });
+  })
   return {
-    list: list.map((item) => {
+    list: list.map(item => {
       return {
         ...item,
         address: { text: item.address, type: 'hash-link', link: `/accounts/detail/${item.address}` },
         percent: { value: item.percent, type: 'percent' },
-        amountAndShares: `${readable(item.amount)}/${readable(item.shares)}`
+        amountAndShares: { amount: readable(Number(item.amount).toFixed(0)), shares: readable(Number(item.shares).toFixed(0)) }
       }
     }),
     totalSize
@@ -524,14 +554,14 @@ export async function getBlockByProposer($config, address, size = 5, page = 1) {
       page,
       size
     }
-  });
+  })
   // console.log('totalSize', totalSize)
   return {
-    list: list.map((item) => {
+    list: list.map(item => {
       return {
         ...item,
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-        hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link', sliceLength: 12 },
+        hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link', sliceLength: 6 },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         type: `${item.method}`
       }
@@ -554,11 +584,17 @@ export async function fetchEscrowTrendByAddress($config, address) {
   })
   if (code !== 0) {
     return {
-      list: []
+      escrowTrendData: []
     }
   } else {
+    const escrowTrendData = list.reverse().map(({ timestamp, escrow }) => {
+      return {
+        timestamp: timestamp,
+        escrow: Number(escrow).toFixed(0)
+      }
+    })
     return {
-      list
+      escrowTrendData
     }
   }
 }
@@ -612,21 +648,16 @@ export async function onSearch(vue, text) {
           break
         case 'runtime-transaction':
           const [runtimeId, txHash] = res.result.split('_')
-          vue.$router.push(`/paratimes/transactions/${txHash}?runtime=${runtimeId}`)
+          vue.$router.push(`/paratimes/${runtimeId}/transactions/${txHash}`)
           break
         default:
-          vue.$Spin.hide()
           vue.$router.push(`/not_found`)
           break
       }
     }
   } catch (e) {
-    vue.$Spin.hide()
     vue.$router.push(`/not_found`)
   }
-  setTimeout(() => {
-    vue.$Spin.hide()
-  }, 1000)
 }
 
 export async function fetchRuntimeList($config) {
@@ -642,7 +673,7 @@ export async function fetchRoundList($config, runtimeId, page = 1, size = 20) {
     params: {
       id: runtimeId,
       size,
-      page,
+      page
     },
     progress: false
   }).catch(() => ({ code: -1 }))
@@ -654,8 +685,8 @@ export async function fetchRoundList($config, runtimeId, page = 1, size = 20) {
       ...item,
       state_root: { value: item.state_root, type: 'hash' },
       io_root: { value: item.io_root, type: 'hash' },
-      round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },
-      timestamp: { value: item.timestamp * 1000, type: 'time' },
+      round: { text: item.round, link: `/paratimes/${runtimeId}/round/${item.round}`, type: 'link' },
+      timestamp: { value: item.timestamp * 1000, type: 'time' }
     }
   })
   return { list: res, totalSize }
@@ -665,13 +696,12 @@ export async function fetchRoundDetail($config, runtimeId, roundId) {
   let { code, data = {} } = await get($config)('/runtime/round/info', {
     params: {
       id: runtimeId,
-      round: roundId,
+      round: roundId
     }
   }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     data = {}
   } else {
-    data.runtimeIdAndName = (data.runtimeName ? data.runtimeName : 'Unknown') + ` (${data.runtimeId})`
     data.timestamp = data.timestamp * 1000
   }
   return data
@@ -688,8 +718,7 @@ export async function fetchRuntimeTxDetail($config, runtimeId, txHash, roundHeig
   if (code !== 0 || !data) {
     data = {}
   } else {
-    data.runtimeIdAndName = (data.runtimeName ? data.runtimeName : 'Unknown') + ` (${data.runtimeId})`
-    data.round = { text: data.round, link: `/paratimes/round/${data.round}?runtime=${runtimeId}`, type: 'link' }
+    data.round = { text: data.round, link: `/paratimes/${runtimeId}/round/${data.round}`, type: 'link' }
     data.timestamp = data.timestamp * 1000
   }
   return data
@@ -713,11 +742,12 @@ export async function fetchRuntimeNodeList($config, runtimeId, page = 1, size = 
     return {
       ...item.stats,
       status: item.status,
+      rank: index + 1,
       entityId: {
         text: name,
         link: item.validator ? `/validators/detail/${item.address}` : `/accounts/detail/${item.address}`,
         type: item.name ? 'link' : 'hash-link'
-      },
+      }
     }
   })
   return { list: res, totalSize, online, offline }
@@ -727,7 +757,7 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
   let params = {
     id: runtimeId,
     size,
-    page,
+    page
   }
   if (round) {
     params.round = round
@@ -743,9 +773,9 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
     // console.log('item.timestamp * 1000', (item.timestamp * 1000 - new Date()) / 1000)
     return {
       ...item,
-      round: { text: item.round, link: `/paratimes/round/${item.round}?runtime=${runtimeId}`, type: 'link' },
-      txHash: { text: item.txHash, link: `/paratimes/transactions/${item.txHash}?runtime=${runtimeId}&round=${item.round}`, type: 'hash-link', sliceLength: 12 },
-      timestamp: { value: item.timestamp * 1000, type: 'time' },
+      round: { text: item.round, link: `/paratimes/${runtimeId}/round/${item.round}`, type: 'link' },
+      txHash: { text: item.txHash, link: `/paratimes/${runtimeId}/transactions/${item.txHash}?round=${item.round}`, type: 'hash-link', sliceLength: 8 },
+      timestamp: { value: item.timestamp * 1000, type: 'time' }
     }
   })
   return { list: res, totalSize }

@@ -1,18 +1,64 @@
+// Global Style
+
 $max-width: 1080px;
 $max-width-1280: 1280px;
+$theme-background: #ffffff;
+$page-background: #f2f4f7;
 $n-color: #000;
-$theme-color: #FF7A59;
+$theme-color: #1849a9;
+
+@mixin fontFamily {
+  font-family: 'Inter';
+}
+@mixin fontFamily-Poppins {
+  font-family: 'Poppins';
+}
+
+$rem-base: 16;
+
+@function rem($px) {
+  @return $px/$rem-base +rem;
+}
+
+html {
+  font-size: $rem-base/1 + px;
+}
+
+body {
+  @include fontFamily;
+  font-size: 14px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+body,
+button,
+input,
+select,
+textarea{
+  color: $n-color;
+}
+
+*,
+*:before,
+*:after,
+*:hover,
+*:visited {
+  box-sizing: border-box;
+}
 
 @mixin medium {
-  font-family: PingFangSC-Medium;
+  // font-family: PingFangSC-Regular;
 }
+
 @mixin regular {
-  font-family: PingFangSC-Regular;
+  // font-family: PingFangSC-Regular;
 }
+
 @mixin bold {
-  font-family: PingFangSC-Semibold;
-}
-$rem-base: 16;
-@function rem($px) {
-  @return $px/$rem-base + rem;
+  // font-family: PingFangSC-Semibold;
 }

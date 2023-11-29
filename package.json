@@ -16,8 +16,8 @@
   },
   "config": {
     "nuxt": {
-      "host": "0.0.0.0",
-      "port": "8081"
+      "host": "localhost",
+      "port": "3000"
     }
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/proxy": "^1.3.3",
     "@nuxtjs/pwa": "^2.6.0",
+    "@nuxtjs/style-resources": "^1.2.1",
     "bignumber.js": "^9.0.2",
     "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
@@ -37,6 +38,7 @@
     "local-storage": "^2.0.0",
     "moment": "^2.26.0",
     "nuxt": "^2.4.0",
+    "qrcodejs2": "^0.0.2",
     "vue-clipboard2": "^0.3.1",
     "vue-i18n": "^8.11.2",
     "vue-json-pretty": "^1.6.3",
@@ -59,6 +61,7 @@
     "nodemon": "^1.18.9",
     "postcss-px-to-viewport": "^1.1.0",
     "sass-loader": "^7.1.0",
+    "svg-sprite-loader": "^6.0.11",
     "xmlreader": "^0.2.3"
   }
 }

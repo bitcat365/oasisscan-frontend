@@ -1,37 +1,46 @@
 <template>
   <span class="arrow-nav-con">
-    <img class="arrow pre" src="../assets/arrows-pre.svg" @click.prevent.stop="$emit('pre')">
-    <img v-if="!isLast" class="arrow next" src="../assets/arrows-next.svg" @click.prevent.stop="$emit('next')">
-    <img v-else class="arrow next" src="../assets/next-disable.svg">
+    <SvgIcon
+      className="arrow"
+      iconName="arrows-pre"
+      @click.prevent.stop="$emit('pre')"
+    />
+    <SvgIcon
+      :className="isLast ? 'arrow disabled' : 'arrow'"
+      iconName="arrows-next"
+      @click.prevent.stop="isLast ? '' : $emit('next')"
+    />
   </span>
 </template>
 
 <script>
-  export default {
-    name: 'ArrowNavigate',
-    props: {
-      isLast: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  name: "ArrowNavigate",
+  props: {
+    isLast: {
+      type: Boolean,
+      default: false
     }
   }
+};
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/css/common";
-  .arrow-nav-con {
-    display: flex;
-    .arrow {
-      width: rem(16);
-      height: rem(16);
-      cursor: pointer;
-    }
-    .pre {
-      margin-left: rem(8);
-    }
-    .next {
-      margin-left: rem(8);
-    }
+.arrow-nav-con {
+  display: flex;
+  gap: rem(20);
+  .arrow {
+    width: rem(24);
+    height: rem(24);
+    cursor: pointer;
+    color: #fff;
   }
+  .arrow:hover{
+    color: $gray200;
+  }
+  .disabled {
+    color: $gray200;
+    cursor: auto;
+  }
+}
 </style>

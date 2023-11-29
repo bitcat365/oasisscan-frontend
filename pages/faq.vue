@@ -1,130 +1,71 @@
 <template>
-  <div class="faq-root">
-    <nav-bar :active="-1" />
-    <div class="page-container container">
-      <div class="title">
-        <h1>FAQ</h1>
+  <div id="faq-root">
+    <Head title="FAQ"></Head>
+    <Panel>
+      <div class="faq-list">
+        <p class="title">API</p>
+        <p>
+          <a href="https://api.oasisscan.com/testnet/swagger-ui/" target="_blank"> Testnet https://api.oasisscan.com/testnet/swagger-ui/ </a>
+        </p>
+        <p>
+          <a href="https://api.oasisscan.com/mainnet/swagger-ui/" target="_blank"> Mainnet https://api.oasisscan.com/mainnet/swagger-ui/ </a>
+        </p>
       </div>
-      <div class="faq-panel">
-        <Collapse value="0">
-            <Panel key="1">
-            API
-            <p slot="content">
-             Testnet <a href="https://api.oasisscan.com/testnet/swagger-ui/" target="_blank" > https://api.oasisscan.com/testnet/swagger-ui/ </a></br>
-             Mainnet <a href="https://api.oasisscan.com/mainnet/swagger-ui/" target="_blank" > https://api.oasisscan.com/mainnet/swagger-ui/ </a>
-            </p>
-          </Panel>
-          <Panel key="2">
-            Open Source
-            <p slot="content">
-             <a href="https://github.com/bitcat365/oasisscan-frontend" target="_blank" > https://github.com/bitcat365/oasisscan-frontend </a></br>
-             <a href="https://github.com/bitcat365/oasisscan-backend" target="_blank" > https://github.com/bitcat365/oasisscan-backend </a></br>
-             <a href="https://github.com/bitcat365/oasis_api_server" target="_blank" > https://github.com/bitcat365/oasis_api_server </a>
-            </p>
-          </Panel>
-          <Panel key="3">
-            Account emoji
-             <p slot="content">
-              🦐 < 10000 </br>
-              🦞 < 100000 </br>
-              🦀️ < 1000000 </br>
-              🐟 < 10000000 </br>
-              🐬 < 100000000 </br>
-              🐋 < 1000000000 </br>
-              🐳 < 10000000000 </br>
-            </p>
-          </Panel>
-          <Panel key="4">
-            Copyright and tools 
-            <p slot="content">
-            Icons made by  <a href="https://www.flaticon.com/"  target="_blank">www.flaticon.com</a> and  <a href="https://www.iconfont.cn"  target="_blank" >www.iconfont.cn</a> 
-              
-            </p>
-          </Panel>
-        </Collapse>
-        <!--<ul class="faq-list">-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-          <!--<li>-->
-            <!--<a href="/" target="_blank">此处文字和html可以通过改</a>-->
-          <!--</li>-->
-        <!--</ul>-->
+      <div class="faq-list">
+        <p class="title">Open Source</p>
+        <p>
+          <a href="https://github.com/bitcat365/oasisscan-frontend" target="_blank"> https://github.com/bitcat365/oasisscan-frontend </a>
+        </p>
+        <p>
+          <a href="https://github.com/bitcat365/oasisscan-backend" target="_blank"> https://github.com/bitcat365/oasisscan-backend </a>
+        </p>
+        <p>
+          <a href="https://github.com/bitcat365/oasis_api_server" target="_blank"> https://github.com/bitcat365/oasis_api_server </a>
+        </p>
       </div>
-    </div>
+      <div class="faq-list">
+        <p class="title">Cryptocurrency data API</p>
+        <p>
+          <a href="https://api.oasisscan.com/testnet/swagger-ui/" target="_blank"> https://www.coingecko.com </a>
+        </p>
+      </div>
+    </Panel>
   </div>
 </template>
 
 <script>
-  import NavBar from '../components/NavigationBar'
-  export default {
-    components: {
-      NavBar,
-    },
-    mounted() {
-
-    },
-    beforeDestroy() {
-    },
-    methods: {
-    },
-    data() {
-      return {
-      }
-    }
+import Head from '~/components/Head'
+import Panel from '~/components/panel/Panel'
+export default {
+  components: {
+    Head,
+    Panel
+  },
+  mounted() {},
+  beforeDestroy() {},
+  methods: {},
+  data() {
+    return {}
   }
+}
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/css/common";
-  .container {
-    padding-bottom: rem(50);
-  }
-  .faq-root{
-    background-color: #f7f7f7;
-    min-height: calc(100vh - #{rem(100)});
-  }
-  .title {
-    padding-top: rem(20);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    h1 {
-      font-size: rem(20);
-      padding: 0;
-      margin: 0;
-      @include regular;
-      color: black;
-      font-weight: normal;
-      span {
-        font-size: rem(14);
-        color: rgba(0, 0, 0, 0.5);
-      }
-    }
-  }
-  .faq-panel {
-    background: #FFFFFF;
-    border-radius: rem(8);
-    min-height: rem(360);
-    margin-top: rem(16);
-    padding: rem(48);
-    @include regular;
-  }
+#faq-root {
   .faq-list {
-    font-size: rem(14);
-    li {
-      padding: rem(6) 0;
-      line-height: rem(20);
-      a {
-        color: #3273DC;
-        text-decoration: none;
-      }
+    padding: 0 rem(10);
+    &:nth-child(n-1) {
+      margin-bottom: rem(20);
+    }
+    > p {
+      margin-bottom: rem(10);
+    }
+    a {
+      margin-left: rem(10);
+      font-size: rem(14);
+      color: $gray500;
+      text-decoration: none;
     }
   }
+}
 </style>

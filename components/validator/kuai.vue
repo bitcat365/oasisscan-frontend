@@ -1,7 +1,7 @@
 <template>
   <div class="kuai-con">
     <div :key="row" class="kuai-row" v-for="row in rows">
-      <Tooltip v-for="column in columns" :key="`${row}-${column}`" :content="`Block ${item(row, column).height} `">
+      <Tooltip v-for="column in columns" :key="`${row}-${column}`" :content="`${item(row, column).height} `">
         <div class="kuai" :class="item(row, column).block ? 'yes': 'no'"></div>
       </Tooltip>
     </div>
@@ -31,16 +31,15 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/css/common";
   .kuai {
     width: rem(18);
     height: rem(18);
     border-radius: rem(2);
     &.yes {
-      background-color: #FF7A59;
+      background-color: $blue400;
     }
     &.no {
-      border: 1px solid #FF7A59;
+      border: 1px solid $blue400;
     }
   }
   .kuai-row {

@@ -1,257 +1,194 @@
 <template>
   <div class="blocks-root">
-    <nav-bar :active="5"/>
-    <div class="page-container container">
-      <div class="title">
-        <h1>TRANSACTIONS<span class="total-count"> ({{totalTxs | readable}})</span></h1>
-      </div>
-      <Dropdown trigger="click" placement="bottom-start" @on-click="change">
-        <a class="show-cur method-dropdown" href="javascript:void(0)">
-          {{method === '' ? 'All Type' : method}}
-          <Icon type="ios-arrow-down"></Icon>
-        </a>
-        <DropdownMenu slot="list">
-          <DropdownItem name="all">All Type</DropdownItem>
-          <DropdownItem v-for="method in methods" :key="method" :name="method">{{method}}</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-      <div class="block-list-wrapper">
-        <block-table root-class="block-total-list" cell-class="block-total-list-cell" :columns="columns" :data="list">
-          <template v-slot:fee="{data}">
-            <span v-if="data">{{data | unit(isTest)}}</span>
-            <span v-else>0</span>
-          </template>
-          <template v-slot:status="{data}">
-            <span v-if="data" class="status-success">Success</span>
-            <span v-else class="status-fail" :data-data="data">Fail</span>
-          </template>
-          <template v-slot:timestamp="{data}">
-            <span>{{data.value | timeFormat}} </span>
-          </template>
-        </block-table>
-        <div class="page-navigation">
-          <page :sizer="sizer" :records-count="total" :page="page" root-class="block-page" @goto="goto"></page>
-        </div>
-      </div>
-      <!--<div>{{JSON.stringify(list)}}</div>-->
-    </div>
+    <Head title="TRANSACTIONS">
+      <template #HeadLeft>
+        <span class="HeadLeft"> ({{ totalTxs | readable }})</span>
+      </template>
+    </Head>
+    <Panel class="panel">
+      <template slot="headerLeft">
+        <Dropdown class="dropdown" trigger="click" placement="bottom-start" @on-click="change">
+          <a class="method-dropdown" href="javascript:void(0)">
+            {{ method === '' ? 'ALL TYPES' : method }}
+            <Icon type="ios-arrow-down"></Icon>
+          </a>
+          <DropdownMenu slot="list" class="select-list">
+            <DropdownItem name="all" class="select-item">ALL TYPES</DropdownItem>
+            <DropdownItem v-for="method in methods" :key="method" :name="method" class="select-item">{{ method }}</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </template>
+      <BlockTable :loading="loading" :columns="columns" :data="list">
+        <template v-slot:fee="{ data }">
+          <span v-if="data">{{ data | unit(isTest) }}</span>
+          <span v-else>0</span>
+        </template>
+        <template v-slot:status="{ data }">
+          <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
+        </template>
+        <template v-slot:timestamp="{ data }">
+          <span>{{ data.value | timeFormat }} </span>
+        </template>
+      </BlockTable>
+      <Page slot="footer" :sizer="sizer" :records-count="total" :page="page" @goto="goto"></Page>
+    </Panel>
   </div>
 </template>
 
 <script>
-  import {fetchTransactionsList, fetchChainMethods, fetchBlockInfo} from '../../fetch/index'
-  import BlockTable from '../../components/Table/index'
-  import NavBar from '../../components/NavigationBar'
-  import Page from '../../components/Page'
-
-  export default {
-    name: 'index',
-    components: {
-      NavBar,
-      BlockTable,
-      Page
-    },
-    async asyncData({ $axios, store: $store }) {
-      const res = await Promise.all([
-        fetchBlockInfo({ $axios, $store }),
-        fetchTransactionsList({ $axios, $store }, 1, 20, '', true, 12)
-      ])
-      const { totalTxs = 0 } = res[0];
-      const { list, totalSize } = res[1];
-      return { list, total: totalSize, totalTxs }
-    },
-    methods: {
-      async goto(pageNumber, progress = true) {
-        const { $axios, $store } = this
-        if (pageNumber > 1) {
-          this.timer && clearTimeout(this.timer)
-          this.timer = null
-        }
-        const { list, totalSize } = await fetchTransactionsList({ $axios, $store }, pageNumber, this.sizer, this.method, progress, 12)
-        this.page = pageNumber
-        this.list = list
-        this.total = totalSize
-        if (progress) {
-          document.documentElement.scrollTop = document.body.scrollTop = 0
-        }
-        if (this.page === 1) {
-          this.repull()
-        }
-      },
-      change(name) {
-        console.log('name', name)
-        if (name === 'all') {
-          this.method = ''
-        } else {
-          this.method = name
-        }
-        this.goto(1)
-      },
-      repull() {
-        this.timer && clearTimeout(this.timer)
-        this.timer = setTimeout(async () => {
-          if (this.page === 1) {
-            await this.goto(1, false)
-            this.repull()
-          }
-        }, 6000)
-      }
-    },
-    computed: {
-    },
-    created() {
-    },
-    async mounted() {
+import { fetchTransactionsList, fetchChainMethods, fetchBlockInfo } from '../../fetch/index'
+import BlockTable from '../../components/Table/index'
+import Head from '~/components/Head'
+import Panel from '~/components/panel/Panel'
+import Page from '../../components/Page'
+import ColourDiv from '~/components/colourDiv/colourDiv'
+export default {
+  name: 'index',
+  components: {
+    Head,
+    Panel,
+    BlockTable,
+    Page,
+    ColourDiv
+  },
+  async asyncData({ $axios, store: $store }) {
+    const res = await Promise.all([fetchBlockInfo({ $axios, $store }), fetchTransactionsList({ $axios, $store }, 1, 20, '', true, 12)])
+    const { totalTxs = 0 } = res[0]
+    const { list, totalSize } = res[1]
+    return { list, total: totalSize, totalTxs }
+  },
+  methods: {
+    async goto(pageNumber, pageSize ,progress = true) {
       const { $axios, $store } = this
-      const { list } = await fetchChainMethods({ $axios, $store })
-      this.methods = list
-      this.repull()
-    },
-    data() {
-      return {
-        sizer: 20,
-        page: 1,
-        list: [],
-        name: '',
-        methods: [],
-        method: '',
-        columns: [
-          {
-            title: 'Tx Hash',
-            key: 'txHash'
-          },
-          {
-            title: 'Height',
-            key: 'height'
-          },
-          {
-            title: 'Type',
-            key: 'method'
-          },
-          {
-            title: 'Fee',
-            key: 'fee',
-            slot: true
-          },
-          {
-            title: 'Status',
-            key: 'status',
-            slot: true
-          },
-          {
-            title: 'Time',
-            key: 'timestamp',
-            slot: true
-          }
-        ]
+      if (pageNumber > 1) {
+        this.timer && clearTimeout(this.timer)
+        this.timer = null
       }
+      this.loading = true
+      const { list, totalSize } = await fetchTransactionsList({ $axios, $store }, pageNumber, pageSize, this.method, progress, 12)
+      this.loading = false
+      this.page = pageNumber
+      this.sizer = pageSize
+      this.list = list
+      this.total = totalSize
+      if (progress) {
+        document.documentElement.scrollTop = document.body.scrollTop = 0
+      }
+      // if (this.page === 1) {
+      //   this.repull()
+      // }
+    },
+    change(name) {
+      console.log('name', name)
+      if (name === 'all') {
+        this.method = ''
+      } else {
+        this.method = name
+      }
+      this.goto(1)
+    },
+    // repull() {
+    //   this.timer && clearTimeout(this.timer)
+    //   this.timer = setTimeout(async () => {
+    //     if (this.page === 1) {
+    //       await this.goto(1, false)
+    //       this.repull()
+    //     }
+    //   }, 6000)
+    // }
+  },
+  computed: {},
+  created() {},
+  async mounted() {
+    const { $axios, $store } = this
+    const { list } = await fetchChainMethods({ $axios, $store })
+    this.methods = list
+    // this.repull()
+  },
+  data() {
+    return {
+      sizer: 20,
+      page: 1,
+      list: [],
+      name: '',
+      methods: [],
+      method: '',
+      columns: [
+        {
+          title: 'Block Hash',
+          key: 'txHash',
+          width: '25%'
+        },
+        {
+          title: 'Height',
+          key: 'height'
+        },
+        {
+          title: 'Type',
+          key: 'method',
+          width: '25%'
+        },
+        {
+          title: 'Fee',
+          key: 'fee',
+          slot: true
+        },
+        {
+          title: 'Status',
+          key: 'status',
+          slot: true
+        },
+        {
+          title: 'Time',
+          key: 'timestamp',
+          slot: true,
+          textAlign: 'right'
+        }
+      ],
+      loading: false
     }
   }
+}
 </script>
 
 <style scoped lang="scss">
-  @import "../../assets/css/common";
+.HeadLeft {
+  color: $gray500;
+  font-size: rem(16);
+}
+.dropdown {
+  position: relative;
   .method-dropdown {
-    margin-top: rem(20);
-    padding: rem(2) rem(10);
-    border: 1px solid rgba(0, 0, 0, 0.5);
+    margin: 0 rem(10);
+    padding: 0 rem(16);
+    height: rem(40);
+    line-height: rem(40);
     display: inline-block;
-    border-radius: rem(4);
-    background-color: #ffffff;
-    .show-cur {
-      color: #5F5F5F;
-    }
+    border-radius: rem(24);
+    background-color: $gray100;
+    color: $gray600;
+    font-size: rem(14);
   }
-  .status-fail,.status-success {
-    padding: rem(4) rem(10);
-    color: white;
-    border-radius: rem(4);
-    font-size: rem(12);
-  }
-  .status-fail {
-    background-color: #F7685B;
-  }
-  .status-success {
-    background-color: #2ED47A;
-  }
-  .blocks-root {
-    background-color: #f7f7f7;
-    min-height: calc(100vh - #{rem(100)});
-  }
-  .container {
-    padding-bottom: rem(50);
-  }
-  .title {
-    padding-top: rem(20);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    h1 {
-      font-size: rem(20);
-      padding: 0;
-      margin: 0;
-      @include regular;;
-      color: black;
-      font-weight: normal;
-      span {
-        font-size: rem(14);
-        color: rgba(0, 0, 0, 0.5);
-      }
-    }
-  }
-  .block-list-wrapper {
-    margin-top: rem(12);
-    background-color: white;
-    padding:0 rem(30);
+  /deep/.ivu-select-dropdown {
+    padding: 0;
     border-radius: rem(8);
-    .block-total-list{
+    left: rem(10) !important;
+    top: rem(40) !important;
+    .select-list {
+      min-width: rem(260);
+      background-color: $gray100;
+      border-radius: rem(8);
       padding: 0;
-      width: 100%;
-      margin-left: 0;
-      border-radius: 1px;
-      /deep/ td, /deep/ th {
-        vertical-align: middle;
-        padding: 18px 10px;
-      }
-      /deep/ tr th, /deep/ tr td{
-        &:nth-child(1) {
-          width: rem(240)
-        }
-        &:last-child {
-          padding-left: 0;
-          width: 100px;
+      .select-item {
+        font-size: rem(14);
+        padding: 0 rem(10);
+        height: rem(30);
+        line-height: rem(30);
+        &:hover {
+          background: $gray200;
         }
       }
     }
-    .title {
-      margin-left: 0px;
-      margin-top: 6px;
-      font-size:18px;
-      font-family:PingFangSC-Regular;
-      font-weight:400;
-      color:rgba(55,65,107,1);
-      line-height: 1;
-      display: flex;
-      align-items: center;
-      > .icon {
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
-      }
-    }
-    .total-records{
-      margin-left: 40px;
-      margin-top: 9px;
-      font-size:12px;
-      font-family:PingFangSC-Regular;
-      font-weight:400;
-      color:rgba(55,65,107,0.5);
-      line-height: 1;
-    }
   }
-  .page-navigation {
-    display: flex;
-    justify-content: center;
-    padding: 15px 0;
-  }
+}
 </style>

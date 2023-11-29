@@ -29,11 +29,11 @@ export function convertTime(list) {
   })
   return list
 }
-export function hashFormat(val, length = 8) {
+export function hashFormat(val, length = 6) {
   if (!val) {
     return ''
   }
-  return val.substr(0, length) + '...' + val.substr(-length)
+  return val.slice(0, length) + '...' + val.slice(-length)
 }
 export function intFormat(val) {
   if (!val) {
@@ -60,7 +60,7 @@ export function floatFormat(val) {
 export function decimalsFormat(val, length = 4) {
   // console.log('val', val, typeof val);
   if (!val || val === '0') {
-    return '0.00'
+    return '0'
   }
   const with2Decimals = val.toString().match(new RegExp('^-?\\d+(?:\\.\\d{0,' + length + '})?'))[0]
   // if (with2Decimals.match(/\.\d{2}0+$/)) {

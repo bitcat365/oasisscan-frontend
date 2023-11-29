@@ -1,0 +1,28 @@
+.pointer {
+  cursor: pointer;
+}
+
+.hoverText {
+  background-color: rgba(#1D2939, 0.8);
+  color: #fff;
+  padding: 0 rem(18);
+  height: rem(24);
+  line-height: rem(24);
+  font-size: rem(12);
+  font-weight: 400;
+  border-radius: rem(4);
+  z-index: 99;
+  white-space: nowrap;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
