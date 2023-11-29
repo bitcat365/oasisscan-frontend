@@ -1,6 +1,6 @@
 # oasis-explorer
 
-> oasis explorer
+> Oasis Explorer
 
 ## Build Setup
 
@@ -19,5 +19,5 @@ $ yarn start
 $ yarn run generate
 ```
 
-config/index.json 中是配置文件
-pages/parameters 中可编辑HTML
+PS:
+config/index.json is config file. pages/parameters can edit HTML.
