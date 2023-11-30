@@ -87,9 +87,6 @@
         ]
       }
     },
-    created(){
-      this.$Spin.hide()
-    },
     methods: {
     }
   }

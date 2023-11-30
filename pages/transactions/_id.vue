@@ -102,9 +102,6 @@ export default {
       ]
     }
   },
-  created(){
-    this.$Spin.hide()
-  },
   methods: {}
 }
 </script>

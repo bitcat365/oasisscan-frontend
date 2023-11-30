@@ -221,9 +221,6 @@ export default {
       return list
     }
   },
-  created(){
-    this.$Spin.hide()
-  },
   mounted() {
     this.gotoEvents(1)
     this.gotoDelegators(1)

@@ -9,9 +9,6 @@
 <script>
   export default {
     name: 'not_found',
-    created(){
-      this.$Spin.hide()
-    },
   }
 </script>
 
