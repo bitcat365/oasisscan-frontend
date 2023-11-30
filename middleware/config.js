@@ -3,7 +3,7 @@ export default function ({ isHMR, app, req, store, route, isServer, params, erro
   // If middleware is called from hot module replacement, ignore it
   if (isHMR) return
   if (process.server) {
-    if (req.headers.host.indexOf('testnet2.') >= 0) {
+    if (req.headers.host.indexOf('testnet.') >= 0) {
       store.commit('SET_NET', Config.testnetChainId)
     } else {
       store.commit('SET_NET', Config.chainId)
