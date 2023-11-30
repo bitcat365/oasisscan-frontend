@@ -45,7 +45,7 @@ export default {
       this.$store.commit('SET_NET', name)
     },
     async onsubmit() {
-      onSearch(this, this.keywords)
+      if(this.keywords.trim()) onSearch(this, this.keywords)
       this.keywords = ''
     }
   }
