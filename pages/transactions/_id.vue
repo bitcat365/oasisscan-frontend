@@ -18,8 +18,8 @@
     </Panel>
     <Panel title="Contents" class="trx-panel">
       <Description v-if="data.method === 'staking.Transfer'" :list="fromToSchema" class="info-list">
-        <template v-slot:amount="{ data }">
-          <span v-if="data">{{ data | unit(isTest) }}</span>
+        <template #amount>
+          <span v-if="data.amount">{{ data.amount | unit(isTest) }}</span>
           <span v-else>{{ 0 | unit(isTest) }}</span>
         </template>
       </Description>
