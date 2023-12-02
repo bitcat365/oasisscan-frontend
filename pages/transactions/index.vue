@@ -85,13 +85,13 @@ export default {
       } else {
         this.method = name
       }
-      this.goto(1)
+      this.goto(1,this.sizer)
     },
     // repull() {
     //   this.timer && clearTimeout(this.timer)
     //   this.timer = setTimeout(async () => {
     //     if (this.page === 1) {
-    //       await this.goto(1, false)
+    //       await this.goto(1,this.sizer, false)
     //       this.repull()
     //     }
     //   }, 6000)
