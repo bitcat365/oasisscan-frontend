@@ -22,7 +22,7 @@
             <a v-if="keybase" target="_blank" :href="`https://keybase.io/${keybase}`" title="keybase"><SvgIcon className="svg" iconName="validator_keybase"></SvgIcon></a>
           </Col>
           <Col span="2">
-            <div v-if="active" class="status">
+            <div v-if="status" class="status">
               <div></div>
               <span>Online</span>
             </div>
@@ -102,6 +102,7 @@ export default {
       keybase: this.detailData.keybase || '',
       icon: this.detailData.icon || '',
       active: this.detailData.active,
+      status: this.detailData.status,
       rank: this.detailData.rank,
       entityAddress: this.detailData.entityAddress,
       // delegators: this.detailData.delegators,
