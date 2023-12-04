@@ -82,7 +82,7 @@ export default {
       if (this.runtimeList.length > 0) {
         menuList.push({ id: '1-7', name: 'PARATIMES', key: '/paratimes' })
         this.runtimeList.forEach(ele => {
-          menuList.push({ id: '1-' + menuList.length + 1, name: ele.name||'Unknow', to: { path: `/paratimes/${ele.name}` , query: ele }, iconName: 'paratimes' })
+          menuList.push({ id: '1-' + menuList.length + 1, name: ele.name || 'Unknow', to: { path: `/paratimes/${ele.runtimeId}`, query: { name: ele.name } }, iconName: 'paratimes' })
         })
       }
       return menuList

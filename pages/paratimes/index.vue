@@ -13,8 +13,8 @@
       </div>
       <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" placeholder="Node Filter">
         <template #prefix>
-            <SvgIcon className="svgIcon" iconName="filter"/>
-          </template>
+          <SvgIcon className="svgIcon" iconName="filter" />
+        </template>
       </Input>
       <div v-if="currentListType === ListTypes.roundList" class="block-list-wrapper round-list-wrapper">
         <BlockTable :loading="loading" :columns="roundListColumns" :data="roundList">
@@ -66,22 +66,17 @@ export default {
     Page,
     ColourDiv
   },
-  async asyncData({ $axios, store: $store,route:$route, query }) {
+  async asyncData({ $axios, store: $store, route: $route, query }) {
     let currentListType, runtimeId, titleName
     if (query.listType) {
       currentListType = query.listType
     } else {
       currentListType = ListTypes.nodeList
     }
-    if (query.runtimeId) {
-      runtimeId = query.runtimeId
-    }else{
-      runtimeId = ''
-    }
-    console.log($route);
+    runtimeId = $route.params.runtimeid
     if (query.name) {
       titleName = query.name
-    }else{
+    } else {
       titleName = ''
     }
     let roundList = [],
@@ -118,7 +113,7 @@ export default {
       txList,
       nodeListTotal,
       roundListTotal,
-      txListTotal,
+      txListTotal
     }
   },
   methods: {
@@ -360,8 +355,8 @@ export default {
     color: rgba(55, 65, 107, 0.5);
     line-height: 1;
   }
-  &.node-list-wrapper{
-    /deep/.hash-link{
+  &.node-list-wrapper {
+    /deep/.hash-link {
       color: $gray500 !important;
     }
   }
@@ -413,17 +408,17 @@ export default {
     border: 0;
     border-radius: rem(8);
   }
-  /deep/.ivu-input::-webkit-input-placeholder{
-    color:$gray500;
+  /deep/.ivu-input::-webkit-input-placeholder {
+    color: $gray500;
   }
   /deep/.ivu-input:focus {
     box-shadow: none;
   }
-  .svgIcon{
-      width: rem(24);
-      height: rem(40);
-      color: $gray500;
-    }
+  .svgIcon {
+    width: rem(24);
+    height: rem(40);
+    color: $gray500;
+  }
   .tag-con {
     display: flex;
     flex-direction: row;
