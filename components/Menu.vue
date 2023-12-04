@@ -82,7 +82,7 @@ export default {
       if (this.runtimeList.length > 0) {
         menuList.push({ id: '1-7', name: 'PARATIMES', key: '/paratimes' })
         this.runtimeList.forEach(ele => {
-          menuList.push({ id: '1-' + menuList.length + 1, name: ele.name||'Unknow', to: { path: '/paratimes/' + ele.runtimeId, query: ele }, iconName: 'paratimes' })
+          menuList.push({ id: '1-' + menuList.length + 1, name: ele.name||'Unknow', to: { path: `/paratimes/${ele.name}` , query: ele }, iconName: 'paratimes' })
         })
       }
       return menuList
@@ -97,7 +97,7 @@ export default {
     },
     ifActive(to) {
       const path = typeof to == 'string' ? to : to.path
-      const res = this.$route.path == path ? true : this.$route.path.startsWith(path + '/') ? true : this.$route.path.startsWith(to.key)
+      const res = this.$route.path == path ? true : this.$route.path.startsWith(path + '/') ? true : false
       return res
     },
     className(to) {

@@ -8,7 +8,7 @@
     <Panel>
       <Description :list="listSchema" class="info-list">
         <template #runtimeID> 
-          <router-link v-if="data.runtimeName" :to="{'path': '/paratimes/' + data.runtimeId, 'query': {name:data.runtimeName,runtimeId:data.runtimeId} }">{{data.runtimeName}}</router-link>
+          <router-link v-if="data.runtimeName" :to="{'path': `/paratimes/${ele.name}` , 'query': {name:data.runtimeName,runtimeId:data.runtimeId} }">{{data.runtimeName}}</router-link>
           <span v-else>Unknown</span>
           <span>({{ data.runtimeId }})</span>
         </template>

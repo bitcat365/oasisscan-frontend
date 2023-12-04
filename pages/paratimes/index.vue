@@ -66,7 +66,7 @@ export default {
     Page,
     ColourDiv
   },
-  async asyncData({ $axios, store: $store, query }) {
+  async asyncData({ $axios, store: $store,route:$route, query }) {
     let currentListType, runtimeId, titleName
     if (query.listType) {
       currentListType = query.listType
@@ -78,6 +78,7 @@ export default {
     }else{
       runtimeId = ''
     }
+    console.log($route);
     if (query.name) {
       titleName = query.name
     }else{
