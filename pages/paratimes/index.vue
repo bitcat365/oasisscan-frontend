@@ -336,41 +336,6 @@ export default {
     }
   }
 }
-.operate {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  .tags {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    margin-bottom: rem(0);
-    margin-top: rem(20);
-  }
-  input[type='text'] {
-    width: rem(206);
-    height: rem(30);
-    border: 0;
-    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5);
-    border-radius: rem(4);
-    padding: 0 rem(16);
-    outline: none;
-  }
-}
-.runtime-dropdown {
-  padding: rem(2) rem(10);
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  display: inline-block;
-  border-radius: rem(4);
-  background-color: #ffffff;
-  min-width: rem(230);
-  &.show-cur {
-    color: #5f5f5f;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
 .panel {
   /deep/.ivu-input {
     width: rem(220);
