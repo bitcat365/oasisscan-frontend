@@ -44,7 +44,7 @@
         <a href="https://t.me/joinchat/LBbAfRU0nlwushyr9sfJAQ" target="_blank"><SvgIcon className="svgClass pointer" iconName="Telegram"/></a>
       </div>
       <div class="botText">
-        <span>Powered By</span><br v-if="!menuOpen" />
+        <span>Powered by</span><br v-if="!menuOpen" />
         <a href="https://www.bitcat365.com" target="_blank" class="link"> Bit Cat</a>
       </div>
     </div>

@@ -628,9 +628,8 @@ export async function fetchValidatorDetail($config, address) {
   }
 }
 export async function onSearch(vue, text) {
-  const searchText = text.trim()
   try {
-    const res = await search({ $store: vue.$store, $axios: vue.$axios }, searchText)
+    const res = await search({ $store: vue.$store, $axios: vue.$axios }, text)
     if (res) {
       switch (res.type) {
         case 'validator':
