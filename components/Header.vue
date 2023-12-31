@@ -61,6 +61,9 @@ header {
   align-items: center;
 }
 .input {
+  /deep/input::-webkit-input-placeholder{
+    color: $gray500;
+  }
   /deep/.ivu-input {
     max-width: rem(808);
     height: rem(40);
