@@ -330,31 +330,6 @@ export default {
 }
 
 .block-list-wrapper {
-  .title {
-    margin-left: 0px;
-    margin-top: 6px;
-    font-size: 18px;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: rgba(55, 65, 107, 1);
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    > .icon {
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
-    }
-  }
-  .total-records {
-    margin-left: 40px;
-    margin-top: 9px;
-    font-size: 12px;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: rgba(55, 65, 107, 0.5);
-    line-height: 1;
-  }
   &.node-list-wrapper {
     /deep/.hash-link {
       color: $gray500 !important;
