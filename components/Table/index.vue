@@ -208,6 +208,7 @@ table {
   }
   > tbody {
     position: relative;
+    font-weight: 400;
     td {
       height: rem(60);
       word-break: break-all;

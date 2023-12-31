@@ -63,6 +63,7 @@ export default {
     a {
       margin-left: rem(10);
       font-size: rem(14);
+      font-weight: 400;
       color: $gray500;
       text-decoration: none;
     }

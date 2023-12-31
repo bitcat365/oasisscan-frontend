@@ -53,6 +53,7 @@ export default {
   min-width: 1280px;
   min-height: 100vh;
   @include fontFamily;
+  font-weight: 500;
   background-color: $page-background;
   display: flex;
   flex-direction: row;
