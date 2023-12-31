@@ -77,6 +77,7 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  gap: rem(30);
 }
 .chart-con {
   width: rem(200);
@@ -85,8 +86,12 @@ export default {
 .chart-desc {
   font-size: rem(14);
   .title {
+    position: relative;
     .title-icon {
-      display: inline-block;
+      // display: inline-block;
+      position: absolute;
+      left: rem(-40);
+      top: rem(5);
       width: rem(30);
       height: rem(4);
       margin: rem(4) 0;
@@ -94,6 +99,7 @@ export default {
   }
   .values {
     margin-bottom: rem(10);
+    font-weight: 400;
     .values-content {
       color: $gray500;
     }
