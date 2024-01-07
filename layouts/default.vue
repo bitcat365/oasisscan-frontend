@@ -1,5 +1,5 @@
 <template>
-  <div id="page-container">
+  <div id="page-container" v-if="show">
     <Menu />
     <main :style="{ width: `calc(100% - ${menuWidth})` }">
       <div class="page-right">
@@ -19,7 +19,9 @@ export default {
     Header
   },
   data() {
-    return {}
+    return {
+      show: false
+    }
   },
   computed: {
     menuWidth() {
@@ -38,6 +40,7 @@ export default {
   },
   mounted(){
     this.changeMenuWidth()
+    this.show = true
     window.onresize = () => {
       return (() => {
         this.$nextTick(() => {
