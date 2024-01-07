@@ -311,23 +311,6 @@ export default {
   color: $gray500;
   font-size: rem(16);
 }
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  h1 {
-    font-size: rem(20);
-    padding: 0;
-    margin: 0;
-    @include regular;
-    color: black;
-    font-weight: normal;
-    span {
-      font-size: rem(14);
-      color: rgba(0, 0, 0, 0.5);
-    }
-  }
-}
 
 .block-list-wrapper {
   &.node-list-wrapper {
