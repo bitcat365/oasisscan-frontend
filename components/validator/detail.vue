@@ -245,6 +245,7 @@ export default {
       position: absolute;
       top: -1.5rem;
       left: -4rem;
+      font-family: 'Inter';
       @extend .hoverText;
     }
     .bounds:hover::after {
