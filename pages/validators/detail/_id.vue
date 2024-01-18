@@ -178,7 +178,8 @@ export default {
       columns2: [
         {
           title: 'Tx Hash',
-          key: 'height'
+          key: 'txHash',
+          width: '30%'
         },
         {
           titleSlot: 'amount',
