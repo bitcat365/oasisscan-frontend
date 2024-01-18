@@ -177,8 +177,9 @@ export default {
       ],
       columns2: [
         {
-          title: 'Height',
-          key: 'height'
+          title: 'Tx Hash',
+          key: 'txHash',
+          width: '30%'
         },
         {
           titleSlot: 'amount',
