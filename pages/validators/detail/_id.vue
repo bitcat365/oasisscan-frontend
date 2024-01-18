@@ -177,7 +177,7 @@ export default {
       ],
       columns2: [
         {
-          title: 'Height',
+          title: 'Tx Hash',
           key: 'height'
         },
         {
