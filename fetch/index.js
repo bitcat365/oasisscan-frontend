@@ -97,25 +97,17 @@ export async function fetchHomeBlockList($config, pageSize = 10, page = 1, progr
   return { list }
 }
 
-export async function fetchProposals($config, page = 1, size = 20, progress = true) {
-  let { code, data: { list, totalSize, ...others } = { list: [] } } = await get($config)(`/governance/proposals`, {
-    params: {
-      page,
-      size
-    },
-    progress
-  }).catch(() => ({ code: -1 }))
-  // console.log('list', list, totalSize, others)
+export async function fetchProposals($config) {
+  let { code, data: { list } = { list: [] } } = await get($config)(`/governance/proposallist`).catch(() => ({ code: -1 }))
+  // console.log('list', list )
   list = list.map((item, index) => {
-    const upgrade = item.content[Object.keys(item.content)[0]]
-    const handler = upgrade ? upgrade.handler : 'unknown'
     return {
       ...item,
       deposit: readable(decimalConvert(item.deposit)),
-      handler: { text: handler, link: `/proposals/${item.id}`, type: 'link' }
+      handler: { text: item.handler ?item.handler :'unknown', link: `/proposals/${item.id}`, type: 'link' }
     }
   })
-  return { list, totalSize }
+  return { list }
 }
 
 export async function fetchBlockList($config, page = 1, size = 20, progress = true) {
