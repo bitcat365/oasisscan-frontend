@@ -4,7 +4,7 @@
     <panel>
       <Description :list="descriptionList" class="info-list">
         <template #timestamp>
-          <span>{{ data.value | timeFormat }} ({{ data.value | timeFormat2 }})</span>
+          <span>{{ data.timestamp.value | timeFormat }} ({{ data.timestamp.value | timeFormat2 }})</span>
         </template>
       </Description>
     </panel>
