@@ -20,12 +20,11 @@
                 <span>{{ data[item].split('.')[0] | readable }}</span><span class="smalltext" v-if="data[item].split('.').length>1">.{{ data[item].split('.')[1] }}</span>
               </template>
             </Description>
-            <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
           </div>
         </panel>
       </Col>
     </Row>
-    <!-- <Row :gutter="20" class="center-chart">
+    <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Assets">
           <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
@@ -33,10 +32,11 @@
       </Col>
       <Col span="12">
         <panel title="Reward History">
-          柱状图
+          <bar-chart :trends="[148, 133, 124]"></bar-chart>
         </panel>
       </Col>
-    </Row> -->
+    </Row>
+    <!-- {{ rewardList }} -->
     <Row :gutter="20" class="bottom-table-top">
       <Col span="12">
         <Panel title="Escrow">
@@ -102,9 +102,10 @@ import BlockTable from '../../../components/Table/index'
 import Page from '../../../components/Page'
 import Description from '~/components/description/index.vue'
 import PieChart from '../../../components/charts/piechart'
+import BarChart from '../../../components/charts/barchart'
 import ColourDiv from '~/components/colourDiv/colourDiv'
 import { percent, readable } from '~/utils'
-import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions } from '../../../fetch/index'
+import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions, fetchRewardHistory } from '../../../fetch/index'
 const ListTypes = {
   consensus: 'consensus',
   paratime: 'paratime'
@@ -117,17 +118,20 @@ const EscrowTypes = {
 }
 export default {
   name: 'accountDetail',
-  components: { Head, PieChart, Panel, Description, BlockTable, Page, ColourDiv },
+  components: { Head, PieChart, BarChart, Panel, Description, BlockTable, Page, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
-    const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id)])
+    const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id),fetchRewardHistory({ $axios, $store })])
     const data = await datas[0]
     const { list: delegationsList, totalSize: totalDelegationsSize } = await datas[1]
     const { list: eventList, totalSize: eventTotal } = await datas[2]
+    const { list: rewardList } = await datas[3]
     console.log(delegationsList, 'delegationsList')
+    console.log(rewardList, 'rewardList');
     console.log(eventList, 'eventList')
     console.log(eventTotal, 'eventTotal')
     console.log(totalDelegationsSize, 'totalDelegationsSize')
     return {
+      rewardList,
       eventList,
       eventTotal,
       totalDelegationsSize,

@@ -77,8 +77,15 @@ module.exports = {
     credentials: false,
     proxy: true
   },
-  // proxy: ['https://api.oasisscan.com/testnet/', 'https://api.oasisscan.com/mainnet/'],
+  // proxy: [
+  //   'https://api.oasisscan.com/v2/testnet/',
+  //   'https://api.oasisscan.com/v2/mainnet/',
+  //   'https://api.oasisscan.com/testnet/',
+  //   'https://api.oasisscan.com/mainnet/',
+  //   ],
   proxy: {
+    '/V2/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/V2/testnet/': '' } },
+    '/V2/mainnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/V2/mainnet/': '' } },
     '/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/testnet/': '' } },
     '/mainnet/': { target: 'http://127.0.0.1:8181', pathRewrite: { '^/mainnet/': '' } }
   },

@@ -20,6 +20,21 @@ function get({ $axios, $store }) {
     })
   }
 }
+function getV2({ $axios, $store }) {
+  return function(url, ...args) {
+    // console.log('isTestnet', $store.state.net)
+    if ($store.state.net === Config.testnetChainId) {
+      url = '/v2/testnet' + (url[0] === '/' ? '' : '/') + url
+    } else {
+      url = '/v2/mainnet' + (url[0] === '/' ? '' : '/') + url
+    }
+    return request($axios, 'get', [url, ...args]).catch(e => {
+      return {
+        error: e
+      }
+    })
+  }
+}
 /* eslint-disable no-unused-vars */
 function post(...args) {
   return request('post', args).catch(e => {
@@ -260,7 +275,7 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
     orderParams.orderBy = orderBy
     orderParams.sort = sort
   }
-  let { code, data: { list, active, inactive, delegators } = {} } = await get($config)('/validator/list/all', {
+  let { code, data: { list, active, inactive, delegators } = {} } = await getV2($config)('/validator/list', {
     params: {
       ...orderParams
     }
@@ -403,6 +418,24 @@ export async function fetchEventsTransactions($config, address = '', page = 1, p
     }
   })
   return { list: res, totalSize }
+}
+export async function fetchRewardHistory($config, account = 'oasis1qq2xx4pgk0wa73363l287wy48lmaf3v8tymthyhv') {
+  let { code, data: { list } = { list: [] } } = await getV2($config)('account/reward/stats', {
+    params: {account}
+  })
+  console.log('res:',res);
+  if (code !== 0) {
+    list = []
+  }
+  // const res = list.map(item => {
+  //   return {
+  //     ...item,
+  //     height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
+  //     txHash: { text: item.tx_hash, link: `/events/${item.id}`, type: 'hash-link' }
+  //   }
+  // })
+  // return { list: res }
+  return { list }
 }
 export async function fetchVotes($config, id) {
   let { code, data: { list } = { list: [] } } = await get($config)('/governance/votes', {
