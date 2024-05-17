@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { getMonth, readable } from '../../utils'
+
 export default {
   name: 'barchart',
   props: {
@@ -16,15 +18,25 @@ export default {
     }
   },
   data() {
-    const values = this.trends.map(h => +h.escrow).sort((a, b) => a - b)
+    // const values = this.trends.map(h => +h.escrow).sort((a, b) => a - b)
     let daysArray = []
-    for (let i = 0; i < this.trends.length; i++) {
-      let thatDay = new Date(this.trends[i].timestamp)
+    let series = []
+    // rewardList
+    console.log('trends',this.trends);
+    for (let index = 0; index < this.trends.length; index++) {
+      console.log(this.trends[index].dateTime);
+      let thatDay = new Date(this.trends[index].dateTime)
+      console.log(thatDay);
       daysArray.push(thatDay)
+      this.trends[index].rewardList.forEach((ele,i) => {
+        if(!(series[i] && series[i].data.length>0)) series[i] = {data:[],stack:0}
+        series[i].data.push(Number(ele.reward))
+      });
     }
+    console.log('series:',series);
     // let values = this.trends.map(h => h.value)
-    const min = values[0]
-    const max = values[values.length - 1]
+    // const min = values[0]
+    // const max = values[values.length - 1]
     return {
       chartOptions: {
         chart: {
@@ -40,7 +52,7 @@ export default {
           title: {
             text: ''
           },
-          categories: [...daysArray]
+          categories: [...daysArray],
           // labels: {
           // step: 3,
           // formatter: function() {
@@ -104,22 +116,23 @@ export default {
           //   }
           // }
         },
-        series: [
+        series: series
+        // [
           // {
           //   name: '',
           //   data: this.trends.map(h => +h.escrow)
           // }
-          {
-            name: 'Norway',
-            data: [148, 133, 124],
-            stack: 'Europe'
-          },
-          {
-            name: 'Germany',
-            data: [102, 98, 65],
-            stack: 'Europe'
-          }
-        ]
+          // {
+          //   name: 'Norway',
+          //   data: [148, 133, 124],
+          //   stack: '0'
+          // },
+          // {
+          //   name: 'Germany',
+          //   data: [102, 98, 65],
+          //   stack: '0'
+          // }
+        // ]
       }
     }
   }

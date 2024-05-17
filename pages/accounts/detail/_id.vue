@@ -32,11 +32,10 @@
       </Col>
       <Col span="12">
         <panel title="Reward History">
-          <bar-chart :trends="[148, 133, 124]"></bar-chart>
+          <bar-chart :trends="rewardList"></bar-chart>
         </panel>
       </Col>
     </Row>
-    <!-- {{ rewardList }} -->
     <Row :gutter="20" class="bottom-table-top">
       <Col span="12">
         <Panel title="Escrow">
@@ -120,16 +119,16 @@ export default {
   name: 'accountDetail',
   components: { Head, PieChart, BarChart, Panel, Description, BlockTable, Page, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
-    const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id),fetchRewardHistory({ $axios, $store })])
+    const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id),fetchRewardHistory({ $axios, $store }, params.id)])
     const data = await datas[0]
     const { list: delegationsList, totalSize: totalDelegationsSize } = await datas[1]
     const { list: eventList, totalSize: eventTotal } = await datas[2]
     const { list: rewardList } = await datas[3]
     console.log(delegationsList, 'delegationsList')
-    console.log(rewardList, 'rewardList');
+    console.log(totalDelegationsSize, 'totalDelegationsSize')
     console.log(eventList, 'eventList')
     console.log(eventTotal, 'eventTotal')
-    console.log(totalDelegationsSize, 'totalDelegationsSize')
+    console.log(rewardList, 'rewardList');
     return {
       rewardList,
       eventList,
