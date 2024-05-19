@@ -32,7 +32,7 @@
       </Col>
       <Col span="12">
         <panel title="Reward History">
-          <bar-chart :trends="rewardList"></bar-chart>
+          <bar-chart :data="rewardList"></bar-chart>
         </panel>
       </Col>
     </Row>

@@ -10,7 +10,7 @@ import { getMonth, readable } from '../../utils'
 export default {
   name: 'barchart',
   props: {
-    trends: {
+    data: {
       type: Array,
       default: function() {
         return []
@@ -18,25 +18,31 @@ export default {
     }
   },
   data() {
-    // const values = this.trends.map(h => +h.escrow).sort((a, b) => a - b)
+    const values = this.data.map(h => +h.escrow).sort((a, b) => a - b)
     let daysArray = []
     let series = []
     // rewardList
-    console.log('trends',this.trends);
-    for (let index = 0; index < this.trends.length; index++) {
-      console.log(this.trends[index].dateTime);
-      let thatDay = new Date(this.trends[index].dateTime)
-      console.log(thatDay);
+    console.log('data', this.data)
+    for (let index = 0; index < this.data.length; index++) {
+      let thatDay = new Date(this.data[index].dateTime * 1000)
       daysArray.push(thatDay)
-      this.trends[index].rewardList.forEach((ele,i) => {
-        if(!(series[i] && series[i].data.length>0)) series[i] = {data:[],stack:0}
-        series[i].data.push(Number(ele.reward))
-      });
+      this.data[index].rewardList.forEach((item, i) => {
+        const name = item.validatorName ? item.validatorName : item.validatorAddress
+        const value = Number(item.reward)
+        const nameIndex = series.findIndex(ele => ele.name === name)
+        // console.log(nameIndex);
+        if (nameIndex < 0) {
+          series.push({ name: name, data: [value], stack: 0, pointWidth: 20 })
+        } else {
+          series[nameIndex].data.push(value)
+        }
+      })
     }
-    console.log('series:',series);
-    // let values = this.trends.map(h => h.value)
-    // const min = values[0]
-    // const max = values[values.length - 1]
+    // this.$set(series[series.length-1],'pointWidth',20)
+    // series[series.length-1].ponitPadding = 10
+    console.log('series:', series)
+    const min = values[0]
+    const max = values[values.length - 1]
     return {
       chartOptions: {
         chart: {
@@ -48,27 +54,27 @@ export default {
         legend: {
           enabled: false
         },
+        colors: ['#B692F6', '#36BEF8', '#FDB022', '#32D583', '#FDA29B', '#98A2B3'],
         xAxis: {
           title: {
             text: ''
           },
           categories: [...daysArray],
-          // labels: {
-          // step: 3,
-          // formatter: function() {
-          //   let day = this.value.getDate()
-          //   let month = getMonth(this.value.getMonth())
-          //   return day + `<br/>` + month
-          // },
-          // style: {
-          //   color: '#98A2B3'
-          // }
-          // },
-          // crosshair: {
-          //   width: 1,
-          //   dashStyle: 'LongDash',
-          //   color: '#D0D5DD'
-          // }
+          labels: {
+            formatter: function() {
+              let day = this.value.getDate()
+              let month = getMonth(this.value.getMonth())
+              return day + `<br/>` + month
+            },
+            style: {
+              color: '#98A2B3'
+            }
+          },
+          crosshair: {
+            width: 1,
+            dashStyle: 'LongDash',
+            color: '#D0D5DD'
+          }
         },
         yAxis: {
           title: {
@@ -80,19 +86,19 @@ export default {
           floor: 0,
           // min: min - (max - min) * 0.02,
           // max: max + (max - min) * 0.02,
-          // labels: {
-          //   style: {
-          //     color: '#53B1FD'
-          //   }
-          // },
-          // gridLineColor: '#F2F4F7'
+          labels: {
+            style: {
+              color: '#53B1FD'
+            }
+          },
+          gridLineColor: '#F2F4F7'
         },
         tooltip: {
           shared: true,
           backgroundColor: 'rgba(52, 64, 84, 0.7)',
           borderWidth: 0,
           shadow: false,
-          borderRadius: 10,
+          borderRadius: 10
           // formatter: function() {
           //   let date = getMonth(this.x.getMonth()) + ' ' + this.x.getDate() + ' ' + this.x.getFullYear()
           //   return `<span style="font-size:12px;color:#E4E7EC">${date}</span>
@@ -117,22 +123,10 @@ export default {
           // }
         },
         series: series
-        // [
-          // {
-          //   name: '',
-          //   data: this.trends.map(h => +h.escrow)
-          // }
-          // {
-          //   name: 'Norway',
-          //   data: [148, 133, 124],
-          //   stack: '0'
-          // },
-          // {
-          //   name: 'Germany',
-          //   data: [102, 98, 65],
-          //   stack: '0'
-          // }
-        // ]
+        // [{
+        //   name: '',
+        //   data: this.data.map(h => +h.escrow)
+        // }]
       }
     }
   }

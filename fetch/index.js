@@ -423,7 +423,7 @@ export async function fetchRewardHistory($config, account = 'oasis1qq2xx4pgk0wa7
   let { code, data: { list } = { list: [] } } = await getV2($config)('account/reward/stats', {
     params: {account}
   })
-  console.log('res:',res);
+  // console.log('res:',res);
   if (code !== 0) {
     list = []
   }
