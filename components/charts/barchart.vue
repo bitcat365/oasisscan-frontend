@@ -1,84 +1,92 @@
 <template>
   <div class="chart-wrapper">
-    <highcharts ref="chart" class="chart-con" :options="chartOptions"></highcharts>
+    <highcharts
+      ref="chart"
+      class="chart-con"
+      :options="chartOptions"
+    ></highcharts>
   </div>
 </template>
 
 <script>
-import { getMonth, readable } from '../../utils'
+import { getMonth, readable } from "../../utils";
 
 export default {
-  name: 'barchart',
+  name: "barchart",
   props: {
     data: {
-      type: Array,
-      default: function() {
-        return []
-      }
+      type: Object,
+      default: ()=>{}
     }
   },
   data() {
-    const values = this.data.map(h => +h.escrow).sort((a, b) => a - b)
-    let daysArray = []
-    let series = []
-    // rewardList
-    console.log('data', this.data)
-    for (let index = 0; index < this.data.length; index++) {
-      let thatDay = new Date(this.data[index].dateTime * 1000)
-      daysArray.push(thatDay)
-      this.data[index].rewardList.forEach((item, i) => {
-        const name = item.validatorName ? item.validatorName : item.validatorAddress
-        const value = Number(item.reward)
-        const nameIndex = series.findIndex(ele => ele.name === name)
-        // console.log(nameIndex);
-        if (nameIndex < 0) {
-          series.push({ name: name, data: [value], stack: 0, pointWidth: 20 })
-        } else {
-          series[nameIndex].data.push(value)
+    const data = this.data;
+    let daysArray = [];
+    let daysNum = 0
+    let series = [];
+    // console.log("data", this.data);
+    for (var key in data) {
+      const name = data[key].validatorName ? data[key].validatorName : key;
+      let seriesData = []
+      for (let i = 0; i < data[key].rewardList.length; i++) {
+        const ele = data[key].rewardList[i];
+        seriesData.push(Number(ele.reward))
+        if(!daysNum){
+          let thatDay = new Date(ele.dateTime * 1000)
+          daysArray.push(thatDay)
         }
-      })
+      }
+      daysNum++
+      series.push({name: name, data: seriesData, stack: 0, pointWidth: 20})
     }
-    // this.$set(series[series.length-1],'pointWidth',20)
-    // series[series.length-1].ponitPadding = 10
-    console.log('series:', series)
-    const min = values[0]
-    const max = values[values.length - 1]
+    // console.log("series:", series);
+
+    // const values = this.data.map(h => +h.escrow).sort((a, b) => a - b)
+    // const min = values[0];
+    // const max = values[values.length - 1];
     return {
       chartOptions: {
         chart: {
-          type: 'column'
+          type: "column"
         },
         title: {
-          text: ''
+          text: ""
         },
         legend: {
           enabled: false
         },
-        colors: ['#B692F6', '#36BEF8', '#FDB022', '#32D583', '#FDA29B', '#98A2B3'],
+        colors: [
+          "#B692F6",
+          "#36BEF8",
+          "#FDB022",
+          "#32D583",
+          "#FDA29B",
+          "#98A2B3"
+        ],
         xAxis: {
           title: {
-            text: ''
+            text: ""
           },
           categories: [...daysArray],
           labels: {
             formatter: function() {
-              let day = this.value.getDate()
-              let month = getMonth(this.value.getMonth())
-              return day + `<br/>` + month
+              let day = this.value.getDate();
+              let month = getMonth(this.value.getMonth());
+              return day + `<br/>` + month;
             },
             style: {
-              color: '#98A2B3'
+              color: "#98A2B3"
             }
           },
           crosshair: {
             width: 1,
-            dashStyle: 'LongDash',
-            color: '#D0D5DD'
+            dashStyle: "LongDash",
+            color: "#D0D5DD"
           }
         },
         yAxis: {
           title: {
-            text: ''
+            text: ""
           },
           allowDecimals: false,
           min: 0,
@@ -88,14 +96,14 @@ export default {
           // max: max + (max - min) * 0.02,
           labels: {
             style: {
-              color: '#53B1FD'
+              color: "#53B1FD"
             }
           },
-          gridLineColor: '#F2F4F7'
+          gridLineColor: "#F2F4F7"
         },
         tooltip: {
           shared: true,
-          backgroundColor: 'rgba(52, 64, 84, 0.7)',
+          backgroundColor: "rgba(52, 64, 84, 0.7)",
           borderWidth: 0,
           shadow: false,
           borderRadius: 10
@@ -112,7 +120,7 @@ export default {
         },
         plotOptions: {
           column: {
-            stacking: 'normal'
+            stacking: "normal"
           }
           // areaspline: {
           //   fillOpacity: 0.2,
@@ -128,9 +136,9 @@ export default {
         //   data: this.data.map(h => +h.escrow)
         // }]
       }
-    }
+    };
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

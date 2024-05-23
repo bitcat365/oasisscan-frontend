@@ -419,13 +419,13 @@ export async function fetchEventsTransactions($config, address = '', page = 1, p
   })
   return { list: res, totalSize }
 }
-export async function fetchRewardHistory($config, account = 'oasis1qq2xx4pgk0wa73363l287wy48lmaf3v8tymthyhv') {
-  let { code, data: { list } = { list: [] } } = await getV2($config)('account/reward/stats', {
+export async function fetchRewardHistory($config, account) {
+  let { code, data:{stats}={stats:{}} } = await getV2($config)('account/reward/stats', {
     params: {account}
   })
   // console.log('res:',res);
   if (code !== 0) {
-    list = []
+    stats = {}
   }
   // const res = list.map(item => {
   //   return {
@@ -435,7 +435,7 @@ export async function fetchRewardHistory($config, account = 'oasis1qq2xx4pgk0wa7
   //   }
   // })
   // return { list: res }
-  return { list }
+  return { stats }
 }
 export async function fetchVotes($config, id) {
   let { code, data: { list } = { list: [] } } = await get($config)('/governance/votes', {
