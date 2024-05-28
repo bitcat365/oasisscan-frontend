@@ -420,12 +420,12 @@ export async function fetchEventsTransactions($config, address = '', page = 1, p
   return { list: res, totalSize }
 }
 export async function fetchRewardHistory($config, account) {
-  let { code, data:{stats}={stats:{}} } = await getV2($config)('account/reward/stats', {
+  let { code, data } = await getV2($config)('account/reward/stats', {
     params: {account}
   })
   // console.log('res:',res);
   if (code !== 0) {
-    stats = {}
+    data = { stats:{},time:[] }
   }
   // const res = list.map(item => {
   //   return {
@@ -435,7 +435,7 @@ export async function fetchRewardHistory($config, account) {
   //   }
   // })
   // return { list: res }
-  return { stats }
+  return data
 }
 export async function fetchVotes($config, id) {
   let { code, data: { list } = { list: [] } } = await get($config)('/governance/votes', {

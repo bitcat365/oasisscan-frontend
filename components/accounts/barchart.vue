@@ -14,34 +14,41 @@ export default {
       type: Object,
       default: () => {}
     },
+    time: {
+      type: Array,
+      default: () => []
+    },
     colors: {
       type: Array,
       default: () => ['#B692F6', '#36BEF8', '#FDB022', '#32D583', '#FDA29B', '#98A2B3']
     }
   },
   data() {
-    const data = this.data
-    console.log(data)
-    let daysArray = []
-    let count = 0
-    let series = []
-    // console.log("data", this.data);
-    console.log(Object.keys(data).length)
+    const data = this.data;
+    const time = this.time;
+    // console.log(data, "data");
+    // console.log(time, "time");
+    let daysArray = [];
+    let count = 0;
+    let series = [];
+
     for (var key in data) {
-      const name = data[key].validatorName ? data[key].validatorName : key
-      let seriesData = []
-      for (let i = 0; i < data[key].rewardList.length; i++) {
-        const ele = data[key].rewardList[i]
-        const value = Number(Number(ele.reward).toFixed(2))
-        seriesData.push(value)
+      const name = data[key].validatorName ? data[key].validatorName : key;
+      let seriesData = [];
+      for (let index = 0; index < time.length; index++) {
         if (!count) {
-          let thatDay = new Date(ele.dateTime * 1000)
-          daysArray.push(thatDay)
+          let thatDay = new Date(time[index] * 1000);
+          daysArray.push(thatDay);
         }
+        const item = data[key].rewardList.find(
+          ele => ele.dateTime === time[index]
+        );
+        const value = Number(Number(item.reward).toFixed(2))
+        seriesData.push(value);
       }
       const color = this.colors[((Object.keys(data).length - count) % 6) - 1]
       series.push({ name: name, data: seriesData, color: color, stack: 0, pointWidth: 20 })
-      count++
+      count++;
     }
     // console.log("series:", series);
 

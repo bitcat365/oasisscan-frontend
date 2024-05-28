@@ -32,7 +32,7 @@
       </Col>
       <Col span="12">
         <panel title="Reward History">
-          <bar-chart :data="rewardData"></bar-chart>
+          <bar-chart :data="rewardData" :time="rewardTime"></bar-chart>
         </panel>
       </Col>
     </Row>
@@ -123,14 +123,16 @@ export default {
     const data = await datas[0]
     const { list: delegationsList, totalSize: totalDelegationsSize } = await datas[1]
     const { list: eventList, totalSize: eventTotal } = await datas[2]
-    const { stats: rewardData } = await datas[3]
+    const { stats: rewardData, time:rewardTime } = await datas[3]
     console.log(delegationsList, 'delegationsList')
     console.log(totalDelegationsSize, 'totalDelegationsSize')
     console.log(eventList, 'eventList')
     console.log(eventTotal, 'eventTotal')
     console.log(rewardData, 'rewardData');
+    console.log(rewardTime, 'rewardTime');
     return {
       rewardData,
+      rewardTime,
       eventList,
       eventTotal,
       totalDelegationsSize,
