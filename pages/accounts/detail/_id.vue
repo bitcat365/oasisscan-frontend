@@ -49,11 +49,11 @@
             <Page slot="footer" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
           </template>
           <template v-else-if="currentEscrowType === EscrowTypes.debonding">
-            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="blockTable" />
+            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="blockTable_debonding" />
             <Page slot="footer" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
           </template>
           <template v-else>
-            <BlockTable :loading="loading1" :data="rewardList" :columns="columns3" :expand="false" class="blockTable" />
+            <BlockTable :loading="loading1" :data="rewardList" :columns="columns3" :expand="false" class="blockTable_reward" />
             <Page slot="footer" type="simple" :sizer="rewardListSizer" :records-count="totalRewardSize" :page="rewardListPage" @goto="gotoReward" />
           </template>
         </Panel>
@@ -565,10 +565,7 @@ export default {
       }
     }
   }
-  .blockTable {
-    /deep/.header-title {
-      justify-content: flex-end;
-    }
+  [class^='blockTable'] {
     /deep/.question {
       cursor: pointer;
       position: relative;
@@ -578,6 +575,12 @@ export default {
         left: -6rem;
         content: '1 epoch estimate take 1 hour';
         @extend .hoverText;
+      }
+    }
+    
+    &.blockTable_debonding {
+      /deep/.header-title {
+        justify-content: flex-end;
       }
     }
   }
