@@ -42,15 +42,19 @@
           <div class="tag-con" slot="headerRight">
             <div :class="['type', currentEscrowType === EscrowTypes.active ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.active)">Active</div>
             <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Reclaim</div>
-            <!-- <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div> -->
+            <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div>
           </div>
           <template v-if="currentEscrowType === EscrowTypes.active">
             <BlockTable :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" />
             <Page slot="footer" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
           </template>
-          <template v-else>
-            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="blockTable"> </BlockTable>
+          <template v-else-if="currentEscrowType === EscrowTypes.debonding">
+            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="blockTable" />
             <Page slot="footer" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
+          </template>
+          <template v-else>
+            <BlockTable :loading="loading1" :data="rewardList" :columns="columns3" :expand="false" class="blockTable" />
+            <Page slot="footer" type="simple" :sizer="rewardListSizer" :records-count="totalRewardSize" :page="rewardListPage" @goto="gotoReward" />
           </template>
         </Panel>
       </Col>
@@ -104,7 +108,7 @@ import PieChart from '../../../components/charts/piechart'
 import BarChart from '../../../components/accounts/barchart'
 import ColourDiv from '~/components/colourDiv/colourDiv'
 import { percent, readable } from '~/utils'
-import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions, fetchRewardHistory } from '../../../fetch/index'
+import { fetchAccountDetail, fetchAccountDebonding, fetchAccountDelegations, fetchTransactions, fetchRuntimeTransactions, fetchEventsTransactions, fetchRewardHistory, fetchAccountReward } from '../../../fetch/index'
 const ListTypes = {
   consensus: 'consensus',
   paratime: 'paratime'
@@ -119,17 +123,19 @@ export default {
   name: 'accountDetail',
   components: { Head, PieChart, BarChart, Panel, Description, BlockTable, Page, ColourDiv },
   async asyncData({ $axios, store: $store, params }) {
-    const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id),fetchRewardHistory({ $axios, $store }, params.id)])
+    const datas = await Promise.all([fetchAccountDetail({ $axios, $store }, params.id), fetchAccountDelegations({ $axios, $store }, params.id), fetchEventsTransactions({ $axios, $store }, params.id),fetchRewardHistory({ $axios, $store }, params.id),fetchAccountReward({ $axios, $store }, params.id)])
     const data = await datas[0]
     const { list: delegationsList, totalSize: totalDelegationsSize } = await datas[1]
     const { list: eventList, totalSize: eventTotal } = await datas[2]
     const { stats: rewardData, time:rewardTime } = await datas[3]
+    const { list: rewardList, totalSize: totalRewardSize } = await datas[4]
     console.log(delegationsList, 'delegationsList')
     console.log(totalDelegationsSize, 'totalDelegationsSize')
     console.log(eventList, 'eventList')
     console.log(eventTotal, 'eventTotal')
     console.log(rewardData, 'rewardData');
     console.log(rewardTime, 'rewardTime');
+    console.log(rewardList, 'rewardList');
     return {
       rewardData,
       rewardTime,
@@ -138,7 +144,9 @@ export default {
       totalDelegationsSize,
       accountAddress: params.id,
       data,
-      delegationsList
+      delegationsList,
+      rewardList,
+      totalRewardSize
     }
   },
   data() {
@@ -152,6 +160,8 @@ export default {
       debondingsListSizer: 5,
       totalDebondingsSize: 0,
       debondingsListPage: 1,
+      rewardListSizer: 5,
+      rewardListPage: 1,
       columns1: [
         {
           title: 'Validator',
@@ -181,6 +191,22 @@ export default {
           key: 'debondEnd',
           textAlign: 'right',
           iconName: 'question'
+        }
+      ],
+      columns3: [
+        {
+          title: 'Validator',
+          key: 'validatorName'
+        },
+        {
+          title: 'Epoch',
+          key: 'epoch',
+          iconName: 'question'
+        },
+        {
+          title: 'Amount',
+          key: 'amount',
+          textAlign: 'right'
         }
       ],
       eventListSchema: [
@@ -335,9 +361,13 @@ export default {
         if (this.list.length === 0) {
           await this.gotoDelegations(1)
         }
-      } else {
+      } else if((type === EscrowTypes.debonding)) {
         if (this.debondingsList.length === 0) {
           await this.gotoDeboundings(1)
+        }
+      } else {
+        if (this.rewardList.length === 0) {
+          await this.gotoReward(1)
         }
       }
     },
@@ -400,6 +430,17 @@ export default {
       console.log('debondingsList', list)
       this.totalDebondingsSize = totalSize
       this.debondingsListPage = pageNumber
+    },
+    async gotoReward(pageNumber) {
+      const $axios = this.$axios
+      const $store = this.$store
+      this.loading1 = true
+      const { list, totalSize } = await fetchAccountReward({ $axios, $store }, this.accountAddress, pageNumber, this.rewardListSizer)
+      this.loading1 = false
+      console.log('rewardList', list)
+      this.rewardList = list
+      this.totalRewardSize = totalSize
+      this.rewardListPage = pageNumber
     },
     async goto(pageNumber) {
       this.loading3 = true

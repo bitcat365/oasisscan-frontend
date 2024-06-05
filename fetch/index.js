@@ -220,6 +220,28 @@ export async function fetchAccountDebonding($config, address, page = 1, size = 5
   })
   return { list: res, totalSize }
 }
+export async function fetchAccountReward($config, account, page = 1, size = 5) {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/account/reward/list`, {
+    params: {
+      account,
+      page,
+      size
+    }
+  }).catch(() => ({ code: -1 }))
+  if (code !== 0) {
+    list = []
+  }
+  const res = list.map(item => {
+    const name = item.validatorName ? item.validatorName : item.validatorAddress
+    item.epoch = readable(decimalsFormat(item.epoch, 0))
+    return {
+      ...item,
+      amount: readable(decimalsFormat(item.reward, 2)),
+      validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' }
+    }
+  })
+  return { list: res, totalSize }
+}
 export async function fetchAccountsList($config, page = 1, size = 20) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/account/list', {
     params: {
