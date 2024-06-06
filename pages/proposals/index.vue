@@ -6,11 +6,7 @@
       </template>
     </Head>
     <Panel>
-      <BlockTable :columns="columns" :data="list">
-        <template v-slot:timestamp="{ data }">
-          <span>{{ data.value | timeFormat }} </span>
-        </template>
-      </BlockTable>
+      <BlockTable :columns="columns" :data="list"></BlockTable>
     </Panel>
   </div>
 </template>
@@ -31,19 +27,10 @@ export default {
     Panel
   },
   async asyncData({ $axios, store: $store }) {
-    const { list, totalSize } = await fetchProposals({ $axios, $store }, 1, 20)
-    return { list, total: totalSize }
+    const { list } = await fetchProposals({ $axios, $store })
+    return { list }
   },
-  methods: {
-    async goto(pageNumber, progress = true) {
-      const { $axios, $store } = this
-      const { list, totalSize } = await fetchProposals({ $axios, $store }, pageNumber, this.sizer, progress)
-      this.page = pageNumber
-      this.list = list
-      this.total = totalSize
-      progress && (document.documentElement.scrollTop = document.body.scrollTop = 0)
-    }
-  },
+  methods: {},
   computed: {},
   created() {},
   destroyed() {},
