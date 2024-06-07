@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getMonth, readable } from '../../utils'
+import { getMonth, readable, hashFormat } from '../../utils'
 
 export default {
   name: 'barchart',
@@ -33,7 +33,7 @@ export default {
     let series = [];
 
     for (var key in data) {
-      const name = data[key].validatorName ? data[key].validatorName : key;
+      const name = data[key].validatorName ? data[key].validatorName : hashFormat(key);
       let seriesData = [];
       for (let index = 0; index < time.length; index++) {
         if (!count) {
