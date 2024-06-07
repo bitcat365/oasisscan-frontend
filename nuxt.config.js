@@ -84,10 +84,10 @@ module.exports = {
   //   'https://api.oasisscan.com/mainnet/',
   //   ],
   proxy: {
-    '/V2/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/V2/testnet/': '' } },
-    '/V2/mainnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/V2/mainnet/': '' } },
-    '/testnet/': { target: 'http://127.0.0.1:9181', pathRewrite: { '^/testnet/': '' } },
-    '/mainnet/': { target: 'http://127.0.0.1:8181', pathRewrite: { '^/mainnet/': '' } }
+    '/V2/testnet/': { target: 'backend-api-internal.oasisscan.com', pathRewrite: { '^/v2/testnet/': '' } },
+    '/V2/mainnet/': { target: 'backend-api-internal.oasisscan.com', pathRewrite: { '^/v2/mainnet/': '' } },
+    '/testnet/': { target: 'backend-api-v1-internal.oasisscan.com', pathRewrite: { '^/testnet/': '' } },
+    '/mainnet/': { target: 'backend-api-v1-internal.oasisscan.com', pathRewrite: { '^/mainnet/': '' } }
   },
   /*
    ** Build configuration
