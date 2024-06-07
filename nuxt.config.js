@@ -84,10 +84,10 @@ module.exports = {
   //   'https://api.oasisscan.com/mainnet/',
   //   ],
   proxy: {
-    '/V2/testnet/': { target: 'backend-api-internal.oasisscan.com', pathRewrite: { '^/v2/testnet/': '' } },
-    '/V2/mainnet/': { target: 'backend-api-internal.oasisscan.com', pathRewrite: { '^/v2/mainnet/': '' } },
-    '/testnet/': { target: 'backend-api-v1-internal.oasisscan.com', pathRewrite: { '^/testnet/': '' } },
-    '/mainnet/': { target: 'backend-api-v1-internal.oasisscan.com', pathRewrite: { '^/mainnet/': '' } }
+    '/V2/testnet/': { target: 'backend-api-internal.oasisscan.com:9191', pathRewrite: { '^/v2/testnet/': '' } },
+    '/V2/mainnet/': { target: 'backend-api-internal.oasisscan.com:8191', pathRewrite: { '^/v2/mainnet/': '' } },
+    '/testnet/': { target: 'backend-api-v1-internal.oasisscan.com:9181', pathRewrite: { '^/testnet/': '' } },
+    '/mainnet/': { target: 'backend-api-v1-internal.oasisscan.com:8181', pathRewrite: { '^/mainnet/': '' } }
   },
   /*
    ** Build configuration
