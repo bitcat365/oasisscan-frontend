@@ -289,7 +289,8 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
     orderParams.orderBy = orderBy
     orderParams.sort = sort
   }
-  let { code, data: { list, active, inactive, delegators } = {} } = await getV2($config)('/validator/list', {
+  // let { code, data: { list, active, inactive, delegators } = {} } = await getV2($config)('/validator/list', {
+    let { code, data: { list, active, inactive, delegators } = {} } = await get($config)('/validator/list/all', {
     params: {
       ...orderParams
     }
