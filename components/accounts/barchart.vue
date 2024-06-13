@@ -46,15 +46,11 @@ export default {
         const value = Number(Number(item.reward).toFixed(2))
         seriesData.push(value);
       }
+      console.log(seriesData);
       const color = this.colors[((Object.keys(data).length - count) % 6) - 1]
       series.push({ name: name, data: seriesData, color: color, stack: 0, pointWidth: 20 })
       count++;
     }
-    // console.log("series:", series);
-
-    // const values = this.data.map(h => +h.escrow).sort((a, b) => a - b)
-    // const min = values[0];
-    // const max = values[values.length - 1];
     return {
       chartOptions: {
         chart: {
@@ -95,8 +91,6 @@ export default {
           min: 0,
           minPadding: 0.2,
           floor: 0,
-          // min: min - (max - min) * 0.02,
-          // max: max + (max - min) * 0.02,
           labels: {
             style: {
               color: '#53B1FD'
@@ -111,7 +105,7 @@ export default {
           shadow: false,
           borderRadius: 10,
           outside: true,
-          useHTML: true, // 使用HTML格式的tooltip
+          useHTML: true,
           hideDelay:5000,
           style: {
               pointerEvents: 'auto',
@@ -142,10 +136,6 @@ export default {
           }
         },
         series: series
-        // [{
-        //   name: '',
-        //   data: this.data.map(h => +h.escrow)
-        // }]
       }
     }
   },
