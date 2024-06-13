@@ -46,8 +46,7 @@ export default {
         const value = Number(Number(item.reward).toFixed(2))
         seriesData.push(value);
       }
-      console.log(seriesData);
-      const color = this.colors[((Object.keys(data).length - count) % 6) - 1]
+      const color = this.colors[(Object.keys(data).length - 1- count) % 6]
       series.push({ name: name, data: seriesData, color: color, stack: 0, pointWidth: 20 })
       count++;
     }
