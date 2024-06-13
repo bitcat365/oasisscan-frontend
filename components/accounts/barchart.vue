@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { getMonth, readable } from '../../utils'
+import { getMonth, readable, hashFormat } from '../../utils'
 
 export default {
   name: 'barchart',
@@ -33,7 +33,7 @@ export default {
     let series = [];
 
     for (var key in data) {
-      const name = data[key].validatorName ? data[key].validatorName : key;
+      const name = data[key].validatorName ? data[key].validatorName : hashFormat(key);
       let seriesData = [];
       for (let index = 0; index < time.length; index++) {
         if (!count) {
@@ -110,6 +110,12 @@ export default {
           borderWidth: 0,
           shadow: false,
           borderRadius: 10,
+          outside: true,
+          useHTML: true, // 使用HTML格式的tooltip
+          hideDelay:5000,
+          style: {
+              pointerEvents: 'auto',
+          },
           formatter: function() {
             // console.log(this)
             let date = getMonth(this.x.getMonth()) + ' ' + this.x.getDate() + ' ' + this.x.getFullYear()
@@ -118,11 +124,12 @@ export default {
             let content = ''
             for (let i = 0; i < this.points.length; i++) {
               content += `<br/>
-            <span style="font-size:12px;color:${this.points[i].color}">|</span>
+            <span style="font-size:12px;font-weight:600;color:${this.points[i].color}">|</span>
             <span style="font-size:12px;font-weight:600;color:#98A2B3">${this.points[i].series.name}  </span>
             <span style="font-size:12px;color:#fff">${readable(this.points[i].y)}</span>`
             }
-            return desc + content
+            const contentStyle ="max-height: 260px;overflow: auto;scrollbar-width: thin;scrollbar-color: #888 #f1f1f1;"
+            return  desc+`<div style="${contentStyle}">${content}</div>`
           }
         },
         credits: {
@@ -141,7 +148,7 @@ export default {
         // }]
       }
     }
-  }
+  },
 }
 </script>
 
