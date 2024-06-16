@@ -46,15 +46,10 @@ export default {
         const value = Number(Number(item.reward).toFixed(2))
         seriesData.push(value);
       }
-      const color = this.colors[((Object.keys(data).length - count) % 6) - 1]
+      const color = this.colors[(Object.keys(data).length - 1- count) % 6]
       series.push({ name: name, data: seriesData, color: color, stack: 0, pointWidth: 20 })
       count++;
     }
-    // console.log("series:", series);
-
-    // const values = this.data.map(h => +h.escrow).sort((a, b) => a - b)
-    // const min = values[0];
-    // const max = values[values.length - 1];
     return {
       chartOptions: {
         chart: {
@@ -95,8 +90,6 @@ export default {
           min: 0,
           minPadding: 0.2,
           floor: 0,
-          // min: min - (max - min) * 0.02,
-          // max: max + (max - min) * 0.02,
           labels: {
             style: {
               color: '#53B1FD'
@@ -110,6 +103,12 @@ export default {
           borderWidth: 0,
           shadow: false,
           borderRadius: 10,
+          outside: true,
+          useHTML: true,
+          hideDelay:5000,
+          style: {
+              pointerEvents: 'auto',
+          },
           formatter: function() {
             // console.log(this)
             let date = getMonth(this.x.getMonth()) + ' ' + this.x.getDate() + ' ' + this.x.getFullYear()
@@ -118,11 +117,12 @@ export default {
             let content = ''
             for (let i = 0; i < this.points.length; i++) {
               content += `<br/>
-            <span style="font-size:12px;color:${this.points[i].color}">|</span>
+            <span style="font-size:12px;font-weight:600;color:${this.points[i].color}">|</span>
             <span style="font-size:12px;font-weight:600;color:#98A2B3">${this.points[i].series.name}  </span>
             <span style="font-size:12px;color:#fff">${readable(this.points[i].y)}</span>`
             }
-            return desc + content
+            const contentStyle ="max-height: 260px;overflow: auto;scrollbar-width: thin;scrollbar-color: #888 #f1f1f1;"
+            return  desc+`<div style="${contentStyle}">${content}</div>`
           }
         },
         credits: {
@@ -135,13 +135,9 @@ export default {
           }
         },
         series: series
-        // [{
-        //   name: '',
-        //   data: this.data.map(h => +h.escrow)
-        // }]
       }
     }
-  }
+  },
 }
 </script>
 

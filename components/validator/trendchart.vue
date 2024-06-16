@@ -94,7 +94,7 @@ export default {
             let date = getMonth(this.x.getMonth()) + ' ' + this.x.getDate() + ' ' + this.x.getFullYear()
             return `<span style="font-size:12px;color:#E4E7EC">${date}</span>
             <br/>
-            <span style="font-size:12px;color:#53B1FD">|</span>
+            <span style="font-size:12px;font-weight:600;color:#53B1FD">|</span>
             <span style="font-size:12px;font-weight:600;color:#fff">${readable(this.y)}</span>`
           }
         },
