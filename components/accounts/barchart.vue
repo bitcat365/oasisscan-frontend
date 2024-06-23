@@ -24,31 +24,29 @@ export default {
     }
   },
   data() {
-    const data = this.data;
-    const time = this.time;
+    const data = this.data
+    const time = this.time
     // console.log(data, "data");
     // console.log(time, "time");
-    let daysArray = [];
-    let count = 0;
-    let series = [];
+    let daysArray = []
+    let count = 0
+    let series = []
 
     for (var key in data) {
-      const name = data[key].validatorName ? data[key].validatorName : hashFormat(key);
-      let seriesData = [];
+      const name = data[key].validatorName ? data[key].validatorName : hashFormat(key)
+      let seriesData = []
       for (let index = 0; index < time.length; index++) {
         if (!count) {
-          let thatDay = new Date(time[index] * 1000);
-          daysArray.push(thatDay);
+          let thatDay = new Date(time[index] * 1000)
+          daysArray.push(thatDay)
         }
-        const item = data[key].rewardList.find(
-          ele => ele.dateTime === time[index]
-        );
+        const item = data[key].rewardList.find(ele => ele.dateTime === time[index])
         const value = Number(Number(item.reward).toFixed(2))
-        seriesData.push(value);
+        seriesData.push(value)
       }
-      const color = this.colors[(Object.keys(data).length - 1- count) % 6]
+      const color = this.colors[(Object.keys(data).length - 1 - count) % 6]
       series.push({ name: name, data: seriesData, color: color, stack: 0, pointWidth: 20 })
-      count++;
+      count++
     }
     return {
       chartOptions: {
@@ -105,12 +103,11 @@ export default {
           borderRadius: 10,
           outside: true,
           useHTML: true,
-          hideDelay:5000,
+          hideDelay: 1000,
           style: {
-              pointerEvents: 'auto',
+            pointerEvents: 'auto'
           },
           formatter: function() {
-            // console.log(this)
             let date = getMonth(this.x.getMonth()) + ' ' + this.x.getDate() + ' ' + this.x.getFullYear()
             let desc = `<span style="font-size:12px;font-weight:600;color:#fff;">${this.points[0].total} ROSE</span>
             <span style="font-size:12px;color:#F2F4F7;margin-left:16px">${date}</span>`
@@ -121,8 +118,10 @@ export default {
             <span style="font-size:12px;font-weight:600;color:#98A2B3">${this.points[i].series.name}  </span>
             <span style="font-size:12px;color:#fff">${readable(this.points[i].y)}</span>`
             }
-            const contentStyle ="max-height: 260px;overflow: auto;scrollbar-width: thin;scrollbar-color: #888 #f1f1f1;"
-            return  desc+`<div style="${contentStyle}">${content}</div>`
+            const contentStyle = 'max-height: 260px;overflow: auto;scrollbar-width: thin;scrollbar-color: #888 #f1f1f1;'
+            return `<div onmouseenter=tooltipMouseenter() onmouseleave=tooltipMouseleave()>${desc}
+              <div style="${contentStyle}">${content}</div>
+              </div>`
           }
         },
         credits: {
@@ -138,6 +137,22 @@ export default {
       }
     }
   },
+  methods: {
+    tooltipMouseenter() {
+      this.$refs.chart.chart.tooltip.hide(60000)
+    },
+    tooltipMouseleave() {
+      this.$refs.chart.chart.tooltip.hide(1000)
+    }
+  },
+  mounted() {
+    window.tooltipMouseenter = () => {
+      this.tooltipMouseenter()
+    }
+    window.tooltipMouseleave = () => {
+      this.tooltipMouseleave()
+    }
+  }
 }
 </script>
 
