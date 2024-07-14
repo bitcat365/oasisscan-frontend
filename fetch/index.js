@@ -46,13 +46,13 @@ function post(...args) {
 }
 
 export async function fetchMarketChart($config) {
-  const { code, data: marketChart } = await get($config)('/market/chart').catch(() => ({ code: -1 }))
+  const { code, data: marketChart } = await getV2($config)('/market/chart').catch(() => ({ code: -1 }))
   function getChartData(list, toFixed) {
     let xData = []
     let yData = []
     for (let i = 0; i < list.length; i++) {
       xData.push(list[i].key)
-      toFixed ? yData.push(Number(list[i].value.toFixed(0))) : yData.push(list[i].value)
+      toFixed ? yData.push(Number(Number(list[i].value).toFixed(0))) : yData.push(Number(list[i].value))
     }
     return {
       xData: xData,
@@ -68,7 +68,7 @@ export async function fetchMarketChart($config) {
   return []
 }
 export async function fetchMarketInfo($config) {
-  const { code, data: marketInfo } = await get($config)('/market/info').catch(() => ({ code: -1 }))
+  const { code, data: marketInfo } = await getV2($config)('/market/info').catch(() => ({ code: -1 }))
   if (code === 0) {
     return marketInfo
   }
@@ -113,13 +113,13 @@ export async function fetchHomeBlockList($config, pageSize = 10, page = 1, progr
 }
 
 export async function fetchProposals($config) {
-  let { code, data: { list } = { list: [] } } = await get($config)(`/governance/proposallist`).catch(() => ({ code: -1 }))
+  let { code, data: { list } = { list: [] } } = await getV2($config)(`/governance/proposallist`).catch(() => ({ code: -1 }))
   // console.log('list', list )
   list = list.map((item, index) => {
     return {
       ...item,
-      deposit: readable(decimalConvert(item.deposit)),
-      handler: { text: item.handler ?item.handler :'unknown', link: `/proposals/${item.id}`, type: 'link' }
+      deposit: readable(item.deposit),
+      handler: { text: item.title ?item.title :'unknown', link: `/proposals/${item.id}`, type: 'link' }
     }
   })
   return { list }
@@ -156,14 +156,14 @@ export async function fetchChainMethods($config) {
   return { list }
 }
 export async function fetchAccountDetail($config, address) {
-  let { code, data = {} } = await get($config)(`/chain/account/info/${address}`, {}).catch(() => ({ code: -1 }))
+  let { code, data = {} } = await getV2($config)(`/account/info/${address}`, {}).catch(() => ({ code: -1 }))
   if (code !== -1) {
     data.debonding = decimalsFormat(data.debonding)
   }
   return data
 }
 export async function fetchAccountDelegations($config, address, page = 1, size = 5) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/account/delegations`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/account/delegations`, {
     params: {
       address,
       page,
@@ -192,7 +192,7 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
   return { list: res, totalSize }
 }
 export async function fetchAccountDebonding($config, address, page = 1, size = 5) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/account/debonding`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/chain/account/debonding`, {
     params: {
       address,
       page,
@@ -315,7 +315,7 @@ export async function fetchValidatorsList($config, orderBy = '', sort = 'desc') 
 }
 
 export async function fetchProposalDetail($config, id) {
-  let { code, data } = await get($config)(`/governance/proposalwithvotes`, {
+  let { code, data } = await getV2($config)(`/governance/proposalwithvotes`, {
     params: {
       id
     }
@@ -326,7 +326,7 @@ export async function fetchProposalDetail($config, id) {
   return {
     ...data,
     votes: parseVotes(data.votes ? data.votes : []),
-    deposit: readable(decimalConvert(data.deposit)),
+    deposit: readable(data.deposit),
     submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' }
   }
 }
@@ -395,7 +395,7 @@ export async function fetchRuntimeTransactions($config, address = '', page = 1, 
 }
 
 export async function fetchEventDetail($config, id) {
-  let { code, data } = await get($config)(`/chain/staking/events/info`, {
+  let { code, data } = await getV2($config)(`/account/staking/events/info`, {
     params: {
       id
     }
@@ -403,18 +403,29 @@ export async function fetchEventDetail($config, id) {
   if (code !== 0) {
     data = {}
   }
+  let type
+  if(data.transafer){
+    type = 'transafer'
+  }else if(data.burn){
+    type = 'burn'
+  }else if(data.escrow){
+    type = 'escrow'
+  }else if(data.allowanceChange){
+    type = 'allowanceChange'
+  }else{
+    type = ''
+  }
   return {
-    txHash: data.tx_hash,
-    type: data.type,
+    txHash: data.txHash,
+    kind: data.kind,
     timestamp: { value: data.timestamp * 1000, type: 'time' },
-    raw: JSON.stringify(data[data.type]),
+    raw: type?JSON.stringify(data[type]):'',
     height: { text: readable(data.height), link: `/blocks/${data.height}`, type: 'link' }
   }
 }
 
 export async function fetchEventsTransactions($config, address = '', page = 1, pageSize = 5) {
-  // /chain/staking/events
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/staking/events', {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)('/account/staking/events', {
     params: {
       page,
       size: pageSize,
@@ -429,7 +440,7 @@ export async function fetchEventsTransactions($config, address = '', page = 1, p
     return {
       ...item,
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.tx_hash, link: `/events/${item.id}`, type: 'hash-link' }
+      txHash: { text: item.txHash, link: `/events/${item.id}`, type: 'hash-link' }
     }
   })
   return { list: res, totalSize }

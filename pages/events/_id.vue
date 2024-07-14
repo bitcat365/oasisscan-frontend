@@ -41,8 +41,8 @@ export default {
           content: this.data.txHash || ''
         },
         {
-          title: 'Type',
-          content: this.data.type || ''
+          title: 'Kind',
+          content: this.data.kind || ''
         },
         {
           title: 'Height',

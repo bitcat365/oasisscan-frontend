@@ -219,8 +219,8 @@ export default {
           key: 'height'
         },
         {
-          title: 'Type',
-          key: 'type',
+          title: 'Kind',
+          key: 'kind',
           textAlign: 'right'
         }
       ],
