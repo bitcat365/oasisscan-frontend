@@ -765,7 +765,7 @@ export async function fetchRoundDetail($config, runtimeId, roundId) {
 }
 
 export async function fetchRuntimeTxDetail($config, runtimeId, txHash, roundHeight) {
-  let { code, data = {} } = await get($config)('/runtime/transaction/info', {
+  let { code, data = {} } = await getV2($config)('/runtime/transaction/info', {
     params: {
       id: runtimeId,
       hash: txHash,
@@ -819,7 +819,7 @@ export async function fetchRuntimeTxList($config, runtimeId, round, page = 1, si
   if (round) {
     params.round = round
   }
-  let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/transaction/list', {
+  let { code, data: { list, totalSize } = {} } = await getV2($config)('/runtime/transaction/list', {
     params: params,
     progress: false
   }).catch(() => ({ code: -1 }))
