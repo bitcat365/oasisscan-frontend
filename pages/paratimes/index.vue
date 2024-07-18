@@ -17,7 +17,7 @@
         </template>
       </Input>
       <div v-if="currentListType === ListTypes.roundList" class="block-list-wrapper round-list-wrapper">
-        <BlockTable :loading="loading" :columns="roundListColumns" :data="roundList">
+        <BlockTable :loading="loading" :columns="roundListColumns" :data="roundList" key="1">
           <template v-slot:timestamp="{ data }">
             <span>{{ data.value | timeFormat }} </span>
           </template>
@@ -25,7 +25,7 @@
         <Page :sizer="roundListSizer" :records-count="roundListTotal" :page="roundListPage" root-class="block-page" @goto="goto"></Page>
       </div>
       <div v-else-if="currentListType === ListTypes.nodeList" class="block-list-wrapper node-list-wrapper">
-        <BlockTable :loading="loading" :columns="nodeListColumns" :data="filterNodes">
+        <BlockTable :loading="loading" :columns="nodeListColumns" :data="filterNodes" key="2">
           <template v-slot:status="{ data }">
             <span v-if="data" class="success">Online</span>
             <span v-else class="error">Offline</span>
@@ -33,7 +33,7 @@
         </BlockTable>
       </div>
       <div v-else-if="currentListType === ListTypes.txList" class="block-list-wrapper tx-list-wrapper">
-        <BlockTable :loading="loading" :columns="txListColumns" :data="txList">
+        <BlockTable :loading="loading" :columns="txListColumns" :data="txList" key="3">
           <template v-slot:result="{ data }">
             <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
           </template>
