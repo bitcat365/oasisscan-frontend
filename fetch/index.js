@@ -192,7 +192,7 @@ export async function fetchAccountDelegations($config, address, page = 1, size =
   return { list: res, totalSize }
 }
 export async function fetchAccountDebonding($config, address, page = 1, size = 5) {
-  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/chain/account/debonding`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/account/debonding`, {
     params: {
       address,
       page,
@@ -204,7 +204,7 @@ export async function fetchAccountDebonding($config, address, page = 1, size = 5
   }
   const res = list.map(item => {
     const name = item.validatorName ? item.validatorName : item.validatorAddress
-    item.shares = readable(decimalsFormat(item.shares, 0))
+    item.shares = readable(decimalsFormat(item.shares, 4))
     return {
       ...item,
       validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' }
