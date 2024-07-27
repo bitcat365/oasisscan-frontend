@@ -56,12 +56,12 @@
         <span :class="escrowChange24 > 0 ? 'success' : escrowChange24 < 0 ? 'error' : ''">{{ showChangeSign(escrowChange24) }}{{ escrowChange24 | readable }}(24h)</span>
       </div>
       <div slot="bounds">
-        {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
-        <Icon type="ios-information-circle-outline" class="icon bounds" />
+        {{ boundDesc }}
+        <Icon type="ios-information-circle-outline" class="icon bounds" :data-attr="boundDesc + ' [start at epoch ' + bound.start + ']'" />
       </div>
       <div slot="rates">
         {{ commission | percentFormat }}
-        <Icon type="ios-information-circle-outline" class="icon rates" />
+        <Icon type="ios-information-circle-outline" class="icon rates" :data-attr="commissionDesc" />
       </div>
       <div slot="runtimes">
         <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'">{{ item.name }}</ColourDiv>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { readable } from '~/utils/index'
+import { readable, percent } from '~/utils/index'
 import Config from '~/config'
 import Description from '~/components/description/index.vue'
 import ColourDiv from '~/components/colourDiv/colourDiv'
@@ -94,6 +94,9 @@ export default {
         { title: 'Paratimes', name: 'runtimes' }
       ]
       return list
+    },
+    commissionDesc() {
+      return percent(this.commission, 1) + ' [start at epoch ' + this.rates[0].start + ']'
     }
   },
   data() {
@@ -116,10 +119,11 @@ export default {
       rank: this.detailData.rank,
       entityAddress: this.detailData.entityAddress,
       rates: this.detailData.rates,
-      bounds: this.detailData.bounds,
       nonce: this.detailData.nonce,
       commission: this.detailData.commission,
+      bounds: this.detailData.bounds,
       bound: this.detailData.bounds[0],
+      boundDesc: this.detailData.bounds && this.detailData.bounds[0] ? this.detailData.bounds[0].min * 100 + '%' + '~' + this.detailData.bounds[0].max * 100 + '%' : 'No Schedule',
       entityId: this.detailData.entityId,
       runtimes: this.detailData.runtimes,
       editURL: Config.editURL
@@ -275,10 +279,10 @@ export default {
       @extend .hoverText;
     }
     .bounds:hover::after {
-      content: '1%~25% [start at epoch 14973]';
+      content: attr(data-attr);
     }
     .rates:hover::after {
-      content: '1% [start at epoch 14973]';
+      content: attr(data-attr);
     }
   }
 }
