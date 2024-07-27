@@ -51,6 +51,10 @@
       </div>
     </div>
     <Description :list="descriptionList" class="info-con-bot">
+      <div slot="escrow">
+        <span>{{ escrow | readable }} ROSE({{ escrowPercent | percentFormat }}) </span>&nbsp;
+        <span :class="escrowChange24 > 0 ? 'success' : escrowChange24 < 0 ? 'error' : ''">{{ showChangeSign(escrowChange24) }}{{ escrowChange24 | readable }}(24h)</span>
+      </div>
       <div slot="bounds">
         {{ bound ? bound.min * 100 + '%' + '~' + bound.max * 100 + '%' : 'No Schedule' }}
         <Icon type="ios-information-circle-outline" class="icon bounds" />
@@ -58,6 +62,9 @@
       <div slot="rates">
         {{ commission | percentFormat }}
         <Icon type="ios-information-circle-outline" class="icon rates" />
+      </div>
+      <div slot="runtimes">
+        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'">{{ item.name }}</ColourDiv>
       </div>
     </Description>
   </div>
@@ -67,8 +74,9 @@
 import { readable } from '~/utils/index'
 import Config from '~/config'
 import Description from '~/components/description/index.vue'
+import ColourDiv from '~/components/colourDiv/colourDiv'
 export default {
-  components: { Description },
+  components: { Description, ColourDiv },
   props: {
     detailData: {
       type: Object,
@@ -79,11 +87,11 @@ export default {
     descriptionList() {
       const list = [
         { title: 'Node ID', content: this.detailData.nodeId || '' },
-        { title: 'Escrow', content: readable(this.detailData.escrow) + ' ROSE' || '0 ROSE' },
+        { title: 'Escrow', name: 'escrow' },
         { title: 'Delegators', content: readable(this.detailData.delegators) },
         { title: 'Commission Bounds', name: 'bounds' },
-        { title: 'Commission Rates', name: 'rates' }
-        // { title: 'Paratimes', content: '?' }
+        { title: 'Commission Rates', name: 'rates' },
+        { title: 'Paratimes', name: 'runtimes' }
       ]
       return list
     }
@@ -91,7 +99,9 @@ export default {
   data() {
     return {
       name: this.detailData.name ? this.detailData.name : this.detailData.entityAddress || 'Validator',
-      // escrow: this.detailData.escrow,
+      escrow: this.detailData.escrow,
+      escrowPercent: this.detailData.escrowPercent,
+      escrowChange24: this.detailData.escrowChange24,
       proposals: this.detailData.proposals,
       signs: this.detailData.signs,
       nodes: this.detailData.nodes || [''],
@@ -105,15 +115,25 @@ export default {
       status: this.detailData.status,
       rank: this.detailData.rank,
       entityAddress: this.detailData.entityAddress,
-      // delegators: this.detailData.delegators,
       rates: this.detailData.rates,
       bounds: this.detailData.bounds,
       nonce: this.detailData.nonce,
       commission: this.detailData.commission,
-      bound: this.detailData.bound,
+      bound: this.detailData.bounds[0],
       entityId: this.detailData.entityId,
-      // nodeId: this.detailData.nodeId,
+      runtimes: this.detailData.runtimes,
       editURL: Config.editURL
+    }
+  },
+  methods: {
+    showChangeSign(value) {
+      if (value > 0) {
+        return '+'
+      } else if (value < 0) {
+        //        return '-' + value
+        return ''
+      }
+      return ''
     }
   }
 }
@@ -124,6 +144,12 @@ export default {
 .info-con {
   padding: 0 rem(10);
   position: relative;
+  .success {
+    color: $success500;
+  }
+  .error {
+    color: $error500;
+  }
   .edit {
     z-index: 9;
     position: absolute;

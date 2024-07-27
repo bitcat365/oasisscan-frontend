@@ -33,5 +33,8 @@ export default {
   &.error {
     background-color: $error400;
   }
+  &:not(:first-child){
+    margin-left: 0.5rem;
+  }
 }
 </style>

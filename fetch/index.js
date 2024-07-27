@@ -683,7 +683,11 @@ export async function fetchValidatorDetail($config, address) {
     }
   } else {
     // console.log('data', data)
-    return data
+      return {
+        ...data,
+        escrowChange24: Number(data.escrowChange24).toFixed(0),
+        escrow: Number(data.escrow).toFixed(0)
+      }
   }
 }
 export async function onSearch(vue, text) {
