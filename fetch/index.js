@@ -658,7 +658,7 @@ export async function fetchEscrowTrendByAddress($config, address) {
   }
 }
 export async function fetchValidatorDetail($config, address) {
-  let { code, data, ...others } = await get($config)(`/validator/info`, {
+  let { code, data, ...others } = await getV2($config)(`/validator/info`, {
     params: {
       address
     }
@@ -685,8 +685,8 @@ export async function fetchValidatorDetail($config, address) {
     // console.log('data', data)
       return {
         ...data,
-        escrowChange24: Number(data.escrowChange24).toFixed(0),
-        escrow: Number(data.escrow).toFixed(0)
+        escrowChange24: Number(data.escrowChange24).toFixed(2),
+        escrow: Number(data.escrow).toFixed(2)
       }
   }
 }
