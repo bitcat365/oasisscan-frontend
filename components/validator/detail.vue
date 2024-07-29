@@ -57,11 +57,11 @@
       </div>
       <div slot="bounds">
         {{ boundDesc }}
-        <Icon type="ios-information-circle-outline" class="icon bounds" :data-attr="boundDesc + ' [start at epoch ' + bound.start + ']'" />
+        <Icon type="ios-information-circle-outline" class="icon bounds" v-if="bound" :data-attr="boundDesc + (bound && bound.start ? ' [start at epoch ' + bound.start + ']' : '')" />
       </div>
       <div slot="rates">
         {{ commission | percentFormat }}
-        <Icon type="ios-information-circle-outline" class="icon rates" :data-attr="commissionDesc" />
+        <Icon type="ios-information-circle-outline" class="icon rates" v-if="commissionDesc" :data-attr="commissionDesc" />
       </div>
       <div slot="runtimes">
         <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'">{{ item.name }}</ColourDiv>
@@ -96,7 +96,7 @@ export default {
       return list
     },
     commissionDesc() {
-      return percent(this.commission, 1) + ' [start at epoch ' + this.rates[0].start + ']'
+      return this.rates[0] ? percent(this.rates[0].rate, 1) + ' [start at epoch ' + this.rates[0].start + ']' : false
     }
   },
   data() {
