@@ -57,7 +57,7 @@
       </div>
       <div slot="bounds">
         {{ boundDesc }}
-        <Icon type="ios-information-circle-outline" class="icon bounds" v-if="bound" :data-attr="boundDesc + (bound && bound.start ? ' [start at epoch ' + bound.start + ']' : '')" />
+        <Icon type="ios-information-circle-outline" class="icon bounds" v-if="bound" :data-attr="boundDesc + (bound ? ' [start at epoch ' + bound.start + ']' : '')" />
       </div>
       <div slot="rates">
         {{ commission | percentFormat }}
