@@ -330,6 +330,18 @@ export async function fetchProposalDetail($config, id) {
     submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' }
   }
 }
+function parseVotes(list) {
+  const res = list.map(item => {
+    const name = item.name ? item.name : item.address
+    return {
+      ...item,
+      voter: { text: name, link: `/validators/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
+      vote: capitalize(item.vote)
+    }
+  })
+  return res
+}
+
 
 export async function fetchBlockDetail($config, hashOrBlockHeight) {
   let { code, data } = await get($config)(`/chain/block/${hashOrBlockHeight}`, {
@@ -475,11 +487,6 @@ export async function fetchVotes($config, validator, size = 5, page = 1) {
   if (code !== 0) {
     list = []
   }
-  const res = parseVotes(list)
-  return { list: res,totalSize }
-}
-
-function parseVotes(list) {
   const res = list.map(item => {
     const title = item.title ? item.title : item.address
     return {
@@ -488,7 +495,7 @@ function parseVotes(list) {
       vote: capitalize(item.vote)
     }
   })
-  return res
+  return { list: res,totalSize }
 }
 
 /**
