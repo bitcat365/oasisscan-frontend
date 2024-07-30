@@ -463,10 +463,12 @@ export async function fetchRewardHistory($config, account) {
   // return { list: res }
   return data
 }
-export async function fetchVotes($config, id) {
-  let { code, data: { list } = { list: [] } } = await get($config)('/governance/votes', {
+export async function fetchVotes($config, validator, size = 5, page = 1) {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)('/governance/votes', {
     params: {
-      id
+      validator,
+      page,
+      size
     }
   })
   // console.log('list', list, code)
@@ -474,7 +476,7 @@ export async function fetchVotes($config, id) {
     list = []
   }
   const res = parseVotes(list)
-  return { list: res }
+  return { list: res,totalSize }
 }
 
 function parseVotes(list) {

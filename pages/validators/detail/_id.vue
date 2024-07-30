@@ -9,7 +9,7 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <Panel title="Escrow Status">
-          <pie-chart v-if="descList && descList.length > 0" :data="[0,parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#026AA2','#B692F6', '#36BFFA80']"></pie-chart>
+          <pie-chart v-if="descList && descList.length > 0" :data="[0, parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#026AA2', '#B692F6', '#36BFFA80']"></pie-chart>
         </Panel>
       </Col>
       <Col span="12">
@@ -67,16 +67,18 @@
       </Col>
     </Row>
     <Row :gutter="20" class="bottom-table-bot">
-      <!-- <Col span="12"> -->
-      <Col span="24">
+      <Col span="12">
         <Panel title="Proposed Blocks">
           <BlockTable :loading="loading3" :columns="blockListColumns" :data="blockList"> </BlockTable>
           <Page slot="footer" type="simple" :sizer="blockListSizer" :records-count="totalBlockListSize" :page="blockListPage" @goto="goto" />
         </Panel>
       </Col>
-      <!-- <Col span="12">
-        <Panel title="Votes"></Panel>
-      </Col> -->
+      <Col span="12">
+        <Panel title="Votes">
+          <BlockTable :loading="loading4" :columns="votesColumns" :data="votesList"> </BlockTable>
+          <Page slot="footer" type="simple" :sizer="votesListSizer" :records-count="votesListSize" :page="votesListPage" @goto="gotoVotes" />
+        </Panel>
+      </Col>
     </Row>
   </div>
 </template>
@@ -90,7 +92,7 @@ import Detail from '../../../components/validator/detail'
 import PieChart from '../../../components/charts/piechart'
 import TrendChart from '../../../components/validator/trendchart'
 import Kuai from '../../../components/validator/kuai'
-import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer, validatorStats, fetchEscrowTrendByAddress } from '../../../fetch'
+import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer,fetchVotes, validatorStats, fetchEscrowTrendByAddress } from '../../../fetch'
 import Config from '../../../config'
 import { percent, readable } from '~/utils'
 export default {
@@ -104,21 +106,24 @@ export default {
     PieChart,
     TrendChart,
     Kuai
-  }, 
+  },
   async asyncData({ $axios, store: $store, params }) {
     const entityAddress = decodeURIComponent(params.id)
     const data = await Promise.all([fetchValidatorDetail({ $axios, $store }, entityAddress), fetchEscrowTrendByAddress({ $axios, $store }, entityAddress)])
-    const { escrowAmountStatus,escrowSharesStatus, ...other } = data[0]
+    const { escrowAmountStatus, escrowSharesStatus, ...other } = data[0]
     const detailData = { ...other, entityAddress: entityAddress }
     const { escrowTrendData } = data[1]
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
+    const { list: votesList, totalSize: votesListSize } = await fetchVotes({ $axios, $store }, entityAddress)
     const res = {
       entityAddress,
       escrowAmountStatus,
       escrowSharesStatus,
       detailData,
       blockList,
+      votesList,
       totalBlockListSize,
+      votesListSize,
       escrowTrendData,
       signsList: [],
       proposalsList: [],
@@ -129,8 +134,10 @@ export default {
   data() {
     return {
       editURL: Config.editURL,
+      votesListSizer: 5,
       blockListSizer: 5,
       eventListSizer: 5,
+      votesListPage:1,
       blockListPage: 1,
       delegatorListPage: 1,
       eventListPage: 1,
@@ -156,8 +163,23 @@ export default {
           textAlign: 'right'
         }
       ],
+      votesColumns: [
+        {
+          title: 'ID',
+          key: 'proposalId'
+        },
+        {
+          title: 'Title',
+          key: 'voter',
+          width: '40%'
+        },
+        {
+          title: 'Answer',
+          key: 'vote'
+        }
+      ],
       list: [],
-      columns1: [ 
+      columns1: [
         {
           title: 'Address',
           key: 'address',
@@ -195,7 +217,8 @@ export default {
       ],
       loading1: false,
       loading2: false,
-      loading3: false
+      loading3: false,
+      loading4: false
     }
   },
   computed: {
@@ -248,6 +271,15 @@ export default {
       // console.log('signs', signs)
       this.signsStates = signs
       this.proposalsStates = proposals
+    },
+    async gotoVotes(pageNumber) {
+      const { $axios, $store } = this
+      this.loading4 = true
+      const { list, totalSize } = await fetchVotes({ $axios, $store }, this.entityAddress, this.votesListSizer, pageNumber)
+      this.loading4 = false
+      this.votesList = list
+      this.votesListSize = totalSize
+      this.votesListPage = pageNumber
     },
     async goto(pageNumber) {
       const { $axios, $store } = this
