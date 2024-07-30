@@ -481,10 +481,10 @@ export async function fetchVotes($config, validator, size = 5, page = 1) {
 
 function parseVotes(list) {
   const res = list.map(item => {
-    const name = item.name ? item.name : item.address
+    const title = item.title ? item.title : item.address
     return {
       ...item,
-      voter: { text: name, link: `/validators/detail/${item.address}`, type: item.name ? 'link' : 'hash-link' },
+      voter: { text: title, link: `/proposals/${item.proposalId}`, type: item.title ? 'link' : 'hash-link' },
       vote: capitalize(item.vote)
     }
   })

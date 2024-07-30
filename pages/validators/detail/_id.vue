@@ -175,7 +175,8 @@ export default {
         },
         {
           title: 'Answer',
-          key: 'vote'
+          key: 'vote',
+          textAlign: 'right'
         }
       ],
       list: [],
