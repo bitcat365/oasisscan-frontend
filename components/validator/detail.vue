@@ -64,7 +64,9 @@
         <Icon type="ios-information-circle-outline" class="icon rates" v-if="commissionDesc" :data-attr="commissionDesc" />
       </div>
       <div slot="runtimes">
-        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'">{{ item.name }}</ColourDiv>
+        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'" :data-attr="item.online ? 'Online' : 'Offline'">
+          {{ item.name }}
+        </ColourDiv>
       </div>
     </Description>
   </div>
@@ -283,6 +285,13 @@ export default {
     }
     .rates:hover::after {
       content: attr(data-attr);
+    }
+    /deep/.colourDiv:hover::after {
+      content: attr(data-attr);
+      position: absolute;
+      top: -1.5rem;
+      font-family: 'Inter';
+      @extend .hoverText;
     }
   }
 }
