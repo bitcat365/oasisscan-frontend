@@ -730,7 +730,7 @@ export async function onSearch(vue, text) {
 }
 
 export async function fetchRuntimeList($config) {
-  const { code, data: { list } = { list: [] } } = await get($config)('/runtime/list', {
+  const { code, data: { list } = { list: [] } } = await getV2($config)('/runtime/list', {
     params: {},
     progress: false
   }).catch(() => ({ code: -1 }))
