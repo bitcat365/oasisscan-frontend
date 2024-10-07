@@ -74,7 +74,7 @@ export default {
       let menuList = [
         { id: '1-1', name: 'DASHBOARD', to: '/', iconName: 'home' },
         { id: '1-2', name: 'VALIDATORS', to: '/validators', iconName: 'validator' },
-        { id: '1-3', name: 'ACCOUNTS', to: '/accounts', iconName: 'accounts' },
+        // { id: '1-3', name: 'ACCOUNTS', to: '/accounts', iconName: 'accounts' },
         { id: '1-4', name: 'BLOCKS', to: '/blocks', iconName: 'blocks' },
         { id: '1-5', name: 'TRANSACTIONS', to: '/transactions', iconName: 'transactions' },
         { id: '1-6', name: 'PROPOSALS', to: '/proposals', iconName: 'proposals' }

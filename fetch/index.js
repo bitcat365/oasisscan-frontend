@@ -75,28 +75,32 @@ export async function fetchMarketInfo($config) {
   return []
 }
 export async function fetchBlockInfo($config, progress = true) {
-  const { code, data: blockInfo } = await get($config)('/dashboard/network', { progress }).catch(() => ({ code: -1 }))
+  const { code, data: blockInfo } = await getV2($config)('/network/status', { progress }).catch(() => ({ code: -1 }))
   if (code === 0) {
     blockInfo.totalEscrow = Number(blockInfo.totalEscrow).toFixed()
     return blockInfo
   }
   return {}
 }
+
 export async function fetchNetworkTrend($config) {
   const {
     code,
-    data: { tx, escrow: escrowData }
-  } = await get($config)('/dashboard/trend').catch(() => ({ code: -1 }))
+    data: { tx:txData, escrow: escrowData }
+  } = await getV2($config)('/trend').catch(() => ({ code: -1 }))
   if (code === 0) {
     let escrow = escrowData.map(({ key, value }) => {
-      return { key: key, value: Number(value.toFixed(0)) }
+      return { key: key, value: Number(value.split('.')[0]) }
+    })
+    let tx = txData.map(({ key, value }) => {
+      return { key: key, value: Number(value) }
     })
     return { tx, escrow }
   }
   return []
 }
 export async function fetchHomeBlockList($config, pageSize = 10, page = 1, progress = true) {
-  let { code, data: { list } = { list: [] } } = await get($config)(`/chain/blocks?size=${pageSize}&page=${page}`, { progress }).catch(() => ({ code: -1 }))
+  let { code, data: { list } = { list: [] } } = await getV2($config)(`/chain/blocks?size=${pageSize}&page=${page}`, { progress }).catch(() => ({ code: -1 }))
   if (code !== 0) {
     list = []
   }
@@ -126,7 +130,7 @@ export async function fetchProposals($config) {
 }
 
 export async function fetchBlockList($config, page = 1, size = 20, progress = true) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/blocks`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/chain/blocks`, {
     params: {
       page,
       size
@@ -145,8 +149,9 @@ export async function fetchBlockList($config, page = 1, size = 20, progress = tr
   })
   return { list, totalSize }
 }
+
 export async function fetchChainMethods($config) {
-  let { code, data: { list } = { list: [] } } = await get($config)('/chain/methods', {
+  let { code, data: { list } = { list: [] } } = await getV2($config)('/chain/methods', {
     progress: false,
     params: {}
   }).catch(() => ({ code: -1 }))
@@ -234,6 +239,7 @@ export async function fetchAccountReward($config, account, page = 1, size = 5) {
   })
   return { list: res, totalSize }
 }
+// todo delete
 export async function fetchAccountsList($config, page = 1, size = 20) {
   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/account/list', {
     params: {
@@ -259,7 +265,7 @@ export async function fetchAccountsList($config, page = 1, size = 20) {
 }
 
 export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 6) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/transactions', {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)('/chain/transactions', {
     params: {
       page,
       size,
@@ -273,6 +279,7 @@ export async function fetchTransactionsList($config, page = 1, size = 10, method
   const res = list.map(item => {
     return {
       ...item,
+      fee: Number(item.fee),
       hash: { text: item.hash, link: `/blocks/${item.height}`, type: 'hash-link' },
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
       txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link', sliceLength },
@@ -343,7 +350,7 @@ function parseVotes(list) {
 
 
 export async function fetchBlockDetail($config, hashOrBlockHeight) {
-  let { code, data } = await get($config)(`/chain/block/${hashOrBlockHeight}`, {
+  let { code, data } = await getV2($config)(`/chain/block/${hashOrBlockHeight}`, {
     params: {}
   })
   if (code !== 0 || !data) {
@@ -366,7 +373,7 @@ export async function fetchBlockDetail($config, hashOrBlockHeight) {
  * @returns {Promise<void>}
  */
 export async function search($config, key) {
-  let { code, data } = await get($config)('/chain/search', {
+  let { code, data } = await getV2($config)('/chain/search', {
     params: {
       key
     },
@@ -384,7 +391,7 @@ export async function search($config, key) {
  * @returns {Promise<{totalSize, list: (*&{txHash: {link: string, text: *, type: string}, timestamp: {type: string, value}, status: *})[]}>}
  */
 export async function fetchRuntimeTransactions($config, address = '', page = 1, size = 5) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/account/runtime/transactions', {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)('runtime/transaction/list', {
     params: {
       page,
       size,
@@ -508,7 +515,7 @@ export async function fetchVotes($config, validator, size = 5, page = 1) {
  * @returns {Promise<{total, list: *, totalRecordsCount}>}
  */
 export async function fetchTransactions($config, blockHeight = '', address = '', page = 1, pageSize = 10) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('chain/transactions', {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)('chain/transactions', {
     params: {
       page,
       size: pageSize,
@@ -519,9 +526,11 @@ export async function fetchTransactions($config, blockHeight = '', address = '',
   if (code !== 0) {
     list = []
   }
+  
   const res = list.map(item => {
     return {
       ...item,
+      fee: Number(item.fee),
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
       txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
       timestamp: { value: item.timestamp * 1000, type: 'time' },
@@ -538,7 +547,7 @@ export async function fetchTransactions($config, blockHeight = '', address = '',
  * @returns {Promise<void>}
  */
 export async function fetchTransactionDetail($config, txHash) {
-  let { code, data } = await get($config)(`/chain/transaction/${txHash}`, {
+  let { code, data } = await getV2($config)(`/chain/transaction/${txHash}`, {
     params: {}
   })
   if (code !== 0) {
@@ -554,13 +563,13 @@ export async function fetchTransactionDetail($config, txHash) {
     status: { status: !!data.status, error: data.errorMessage ? data.errorMessage : '' },
     timestamp: data.timestamp,
     height: { text: data.height, link: `/blocks/${data.height}`, type: 'link' },
-    fee: data.fee,
+    fee: Number(data.fee),
     nonce: data.nonce
   }
 }
 
 export async function getEventsByProposer($config, address, size = 5, page = 1) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/powerevent`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/validator/escrowevent`, {
     params: {
       address: address,
       page,
@@ -580,9 +589,9 @@ export async function getEventsByProposer($config, address, size = 5, page = 1) 
     totalSize
   }
 }
-
+ 
 export async function validatorStats($config, address) {
-  let { code, data: { signs, proposals } = { signs: [], proposals: [] } } = await get($config)(`/validator/stats`, {
+  let { code, data: { signs, proposals } = { signs: [], proposals: [] } } = await getV2($config)(`/validator/blocksstats`, {
     params: {
       address
     },
@@ -594,7 +603,7 @@ export async function validatorStats($config, address) {
   }
 }
 export async function getDelegatorsByProposer($config, address, size = 5, page = 1) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/validator/delegators`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/validator/delegators`, {
     params: {
       address,
       page,
@@ -615,14 +624,14 @@ export async function getDelegatorsByProposer($config, address, size = 5, page =
 }
 
 export async function getBlockByProposer($config, address, size = 5, page = 1) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)(`/chain/getBlockByProposer`, {
+  let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)(`/chain/proposedblocks`, {
     params: {
       address,
       page,
       size
     }
   })
-  // console.log('totalSize', totalSize)
+  // console.log('list', list)
   return {
     list: list.map(item => {
       return {
@@ -644,7 +653,7 @@ export async function getBlockByProposer($config, address, size = 5, page = 1) {
  * @returns {Promise<void>}
  */
 export async function fetchEscrowTrendByAddress($config, address) {
-  let { code, data: { list } = { list: [] } } = await get($config)(`/validator/escrowstats`, {
+  let { code, data: { list } = { list: [] } } = await getV2($config)(`/validator/escrowstats`, {
     params: {
       address
     }
@@ -730,7 +739,7 @@ export async function onSearch(vue, text) {
 }
 
 export async function fetchRuntimeList($config) {
-  const { code, data: { list } = { list: [] } } = await get($config)('/runtime/list', {
+  const { code, data: { list } = { list: [] } } = await getV2($config)('/runtime/list', {
     params: {},
     progress: false
   }).catch(() => ({ code: -1 }))
@@ -738,7 +747,7 @@ export async function fetchRuntimeList($config) {
 }
 
 export async function fetchRoundList($config, runtimeId, page = 1, size = 20) {
-  let { code, data: { list, totalSize } = {} } = await get($config)('/runtime/round/list', {
+  let { code, data: { list, totalSize } = {} } = await getV2($config)('/runtime/round/list', {
     params: {
       id: runtimeId,
       size,
@@ -762,7 +771,7 @@ export async function fetchRoundList($config, runtimeId, page = 1, size = 20) {
 }
 
 export async function fetchRoundDetail($config, runtimeId, roundId) {
-  let { code, data = {} } = await get($config)('/runtime/round/info', {
+  let { code, data = {} } = await getV2($config)('/runtime/round/info', {
     params: {
       id: runtimeId,
       round: roundId

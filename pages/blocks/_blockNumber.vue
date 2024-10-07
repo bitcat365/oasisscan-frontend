@@ -18,7 +18,7 @@
       <BlockTable :loading="loading" :data="list" :columns="columns">
         <template v-slot:fee="{ data }">
           <span v-if="data">{{ data | unit(isTest) }}</span>
-          <span v-else>0</span>
+          <span v-else>0 ROSE</span>
         </template>
         <template v-slot:status="{ data }">
           <ColourDiv :color="data ? 'success' : 'error'">{{ data ? 'Success' : 'Fail' }}</ColourDiv>
