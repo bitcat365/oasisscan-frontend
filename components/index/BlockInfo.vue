@@ -21,7 +21,7 @@
       </block-status>
       <block-status
         name="Total Delegators"
-        :value="blockInfo.totalDelegate"
+        :value="blockInfo.totalDelegator"
         :border="false"
       >
         <SvgIcon slot="icon" className="icon" iconName="b6" />
