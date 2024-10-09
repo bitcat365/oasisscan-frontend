@@ -703,7 +703,7 @@ export async function fetchValidatorDetail($config, address) {
       return {
         ...data,
         escrowChange24: Number(data.escrowChange24).toFixed(2),
-        escrow: Number(data.escrow).toFixed(2)
+        escrow: Number(data.escrow).toFixed(0)
       }
   }
 }
