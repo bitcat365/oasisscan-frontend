@@ -41,7 +41,7 @@ export default {
           daysArray.push(thatDay)
         }
         const item = data[key].rewardList.find(ele => ele.dateTime === time[index])
-        const value = Number(Number(item.reward).toFixed(2))
+        const value = item && item.reward?Number(Number(item.reward).toFixed(2)) : null
         seriesData.push(value)
       }
       const color = this.colors[(Object.keys(data).length - 1 - count) % 6]
