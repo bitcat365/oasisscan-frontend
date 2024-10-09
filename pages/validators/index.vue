@@ -20,8 +20,8 @@
     <Panel class="panel">
       <template slot="headerLeft">
         <div class="tag-con">
-          <div :class="['type active', type === 'active' ? 'sel' : '']" @click="type = 'active'">Active</div>
-          <div :class="['type inactive', type === 'inactive' ? 'sel' : '']" @click="type = 'inactive'">Inactive</div>
+          <div :class="['type active', type === 'active' ? 'sel' : 'notsel']" @click="type = 'active'">Active</div>
+          <div :class="['type inactive', type === 'inactive' ? 'sel' : 'notsel']" @click="type = 'inactive'">Inactive</div>
         </div>
       </template>
       <template slot="headerRight">
@@ -312,6 +312,9 @@ export default {
         &.sel {
           color: white;
           background-color: $theme-color;
+        }
+        &.notsel:hover{
+          background-color: $gray200;
         }
         .inactive {
           margin-left: 1.06rem;

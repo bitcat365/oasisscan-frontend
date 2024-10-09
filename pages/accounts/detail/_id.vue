@@ -41,9 +41,9 @@
       <Col span="12">
         <Panel title="Escrow">
           <div class="tag-con" slot="headerRight">
-            <div :class="['type', currentEscrowType === EscrowTypes.active ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.active)">Active</div>
-            <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.debonding)">Reclaim</div>
-            <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : '']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div>
+            <div :class="['type', currentEscrowType === EscrowTypes.active ? 'sel' : 'notsel']" @click="changeEscrowListType(EscrowTypes.active)">Active</div>
+            <div :class="['type', currentEscrowType === EscrowTypes.debonding ? 'sel' : 'notsel']" @click="changeEscrowListType(EscrowTypes.debonding)">Reclaim</div>
+            <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : 'notsel']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div>
           </div>
           <template v-if="currentEscrowType === EscrowTypes.active">
             <BlockTable :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" />
@@ -70,8 +70,8 @@
       <Col span="24">
         <Panel title="Transactions">
           <div class="tag-con" slot="headerRight">
-            <div :class="['type', currentTxListType === ListTypes.consensus ? 'sel' : '']" @click="changeTxListType(ListTypes.consensus)">Consensus</div>
-            <div :class="['type', currentTxListType === ListTypes.paratime ? 'sel' : '']" @click="changeTxListType(ListTypes.paratime)">Paratime</div>
+            <div :class="['type', currentTxListType === ListTypes.consensus ? 'sel' : 'notsel']" @click="changeTxListType(ListTypes.consensus)">Consensus</div>
+            <div :class="['type', currentTxListType === ListTypes.paratime ? 'sel' : 'notsel']" @click="changeTxListType(ListTypes.paratime)">Paratime</div>
           </div>
           <div v-if="currentTxListType === ListTypes.consensus">
             <BlockTable :loading="loading3" :data="list" :columns="columns">
@@ -560,6 +560,9 @@ export default {
       &.sel {
         color: white;
         background-color: $theme-color;
+      }
+      &.notsel:hover{
+        background-color: $gray200;
       }
       &:first-child {
         margin-left: 0;

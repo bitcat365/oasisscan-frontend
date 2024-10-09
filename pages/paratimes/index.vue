@@ -7,9 +7,9 @@
     </Head>
     <Panel class="panel">
       <div class="tag-con" slot="headerLeft">
-        <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : '']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
-        <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : '']" @click="changeListType(ListTypes.roundList)">Rounds</div>
-        <div :class="['type', currentListType === ListTypes.txList ? 'sel' : '']" @click="changeListType(ListTypes.txList)">Transactions</div>
+        <div :class="['type', currentListType === ListTypes.nodeList ? 'sel' : 'notsel']" @click="changeListType(ListTypes.nodeList)">Nodes</div>
+        <div :class="['type', currentListType === ListTypes.roundList ? 'sel' : 'notsel']" @click="changeListType(ListTypes.roundList)">Rounds</div>
+        <div :class="['type', currentListType === ListTypes.txList ? 'sel' : 'notsel']" @click="changeListType(ListTypes.txList)">Transactions</div>
       </div>
       <Input slot="headerRight" v-if="currentListType === ListTypes.nodeList" v-model="nodeName" placeholder="Node Filter">
         <template #prefix>
@@ -361,6 +361,9 @@ export default {
       &.sel {
         color: white;
         background-color: $theme-color;
+      }
+      &.notsel:hover{
+        background-color: $gray200;
       }
       &:first-child {
         margin-left: 0;
