@@ -35,6 +35,9 @@ export default {
   .Head-left {
     font-size: rem(20);
     color: $gray800;
+    display: flex;
+    align-items: center;
+    gap: rem(4);
   }
   .Head-right {
   }
