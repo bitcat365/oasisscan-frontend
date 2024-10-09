@@ -26,7 +26,7 @@
       <div class="faq-list">
         <p class="title">Cryptocurrency data API</p>
         <p>
-          <a href="https://api.oasisscan.com/testnet/swagger-ui/" target="_blank"> https://www.coingecko.com </a>
+          <a href="https://www.coingecko.com" target="_blank"> https://www.coingecko.com </a>
         </p>
       </div>
     </Panel>
