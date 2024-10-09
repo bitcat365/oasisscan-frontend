@@ -17,7 +17,8 @@
                 </div>
               </div>
               <template v-for="item in ['total', 'available', 'escrow']" :slot="item">
-                <span>{{ data[item].split('.')[0] | readable }}</span><span class="smalltext" v-if="data[item].split('.').length>1">.{{ data[item].split('.')[1] }}</span>
+                <span :key="item">{{ data[item].split('.')[0] | readable }}</span>
+                <span :key="item+1" v-if="data[item].split('.').length>1" class="smalltext">.{{ data[item].split('.')[1] }}</span>
               </template>
             </Description>
           </div>
@@ -32,7 +33,7 @@
       </Col>
       <Col span="12">
         <panel title="Reward History">
-          <bar-chart :data="rewardData" :time="rewardTime"></bar-chart>
+          <bar-chart v-if="rewardTime && rewardTime.length > 0" :data="rewardData" :time="rewardTime"></bar-chart>
         </panel>
       </Col>
     </Row>
