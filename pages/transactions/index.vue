@@ -161,8 +161,8 @@ export default {
   .method-dropdown {
     margin: 0 rem(10);
     padding: 0 rem(16);
-    height: rem(40);
-    line-height: rem(40);
+    height: rem(32);
+    line-height: rem(32);
     display: inline-block;
     border-radius: rem(24);
     background-color: $gray100;
