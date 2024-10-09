@@ -467,7 +467,7 @@ export async function fetchRewardHistory($config, account) {
   let { code, data } = await getV2($config)('account/reward/stats', {
     params: {account}
   })
-  // console.log('res:',res);
+  console.log('data:',data);
   if (code !== 0) {
     data = { stats:{},time:[] }
   }
