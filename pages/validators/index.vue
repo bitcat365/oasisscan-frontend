@@ -7,7 +7,7 @@
       <template #HeadRight>
         <div class="validator-info">
           <div class="info-item">
-            <div class="info-name">Active validators</div>
+            <div class="info-name">Active Validators</div>
             <div class="active-count">{{ active | readable }}</div>
           </div>
           <div class="info-item">
