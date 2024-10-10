@@ -16,9 +16,14 @@
                   <div class="QRcodeImg" id="qrCode" ref="qrCode"></div>
                 </div>
               </div>
-              <template v-for="item in ['total', 'available', 'escrow']" :slot="item">
-                <span :key="item">{{ data[item].split('.')[0] | readable }}</span>
-                <span :key="item+1" v-if="data[item].split('.').length>1" class="smalltext">.{{ data[item].split('.')[1] }}</span>
+              <template slot="total">
+                <span>{{ data.total.split('.')[0] | readable }}.</span>
+                <span v-if="data.total.split('.').length>1" class="smalltext">{{ data.total.split('.')[1] }}</span>
+                <span> ROSE</span>
+              </template>
+              <template v-for="item in ['available','escrow']" :slot="item">
+                <span :key="item">{{ data[item].split('.')[0] | readable }}.</span>
+                <span :key="item+1" v-if="data[item].split('.').length>1" class="smalltext">{{ data[item].split('.')[1] }}</span>
               </template>
             </Description>
           </div>
@@ -337,15 +342,15 @@ export default {
       let list = [
         {
           title: 'Available (' + percent(data.available / data.total, 1) + ')',
-          content: readable(Number(data.available).toFixed(0)) + ' ROSE'
+          content: readable(Number(data.available).toFixed(0))
         },
         {
           title: 'Escrow (' + percent(data.escrow / data.total, 1) + ')',
-          content: readable(Number(data.escrow).toFixed(0)) + ' ROSE'
+          content: readable(Number(data.escrow).toFixed(0))
         },
         {
           title: 'Reclaim (' + percent(data.debonding / data.total, 1) + ')',
-          content: readable(Number(data.debonding).toFixed(0)) + ' ROSE'
+          content: readable(Number(data.debonding).toFixed(0))
         }
       ]
       return list
