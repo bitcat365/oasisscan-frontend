@@ -8,7 +8,7 @@ export function percent(a, b) {
 }
 export function readable(val) {
   if (parseFloat(val) === 0) {
-    return val
+    return '0'
   }
   let valStr = String(val)
   const nums = valStr.split(/[,.]/)
