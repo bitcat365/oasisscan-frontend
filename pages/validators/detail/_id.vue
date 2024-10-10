@@ -201,19 +201,18 @@ export default {
       columns2: [
         {
           title: 'Tx Hash',
-          key: 'txHash',
-          width: '30%'
+          key: 'txHash'
         },
         {
           titleSlot: 'amount',
           key: 'amountAndShares',
-          slot: true,
-          width: '50%'
+          slot: true
         },
         {
           title: 'Time',
           key: 'timestamp',
-          textAlign: 'right'
+          textAlign: 'right',
+          width: '20%'
         }
       ],
       loading1: false,
