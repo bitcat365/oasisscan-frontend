@@ -578,6 +578,7 @@ export default {
     /deep/.question {
       cursor: pointer;
       position: relative;
+      margin-left: rem(4);
       &:hover::before {
         position: absolute;
         top: -1.5rem;

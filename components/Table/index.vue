@@ -287,8 +287,8 @@ table {
   text-overflow: clip;
 }
 .svgIcon {
-  width: rem(24);
-  height: rem(24);
+  width: rem(16);
+  height: rem(16);
   vertical-align: -4px;
 }
 </style>
