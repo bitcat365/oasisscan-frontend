@@ -75,6 +75,14 @@ export default {
           title: 'Deposit',
           content: this.data.deposit || ''
         },
+          {
+          title: 'Create Epoch',
+          content: this.data.created_at || ''
+        },
+        {
+          title: 'Voting End on Epoch',
+          content: this.data.closes_at || ''
+        },
         {
           title: 'Status',
           content: this.data.state || ''
