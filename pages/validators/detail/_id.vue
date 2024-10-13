@@ -43,7 +43,7 @@
               <span class="gray">/ {{ slotData.data.shares }}</span>
             </template>
             <template v-slot:address="{ data }">
-              <router-link :to="data.link">{{ data.text | hashFormat }}</router-link>
+              <router-link :to="data.link">{{ data.text | hashFormat(data.sliceLength) }}</router-link>
               <span v-if="data.text === entityAddress" class="self">Self</span>
             </template>
           </BlockTable>

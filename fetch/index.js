@@ -458,7 +458,7 @@ export async function fetchEventsTransactions($config, address = '', page = 1, p
     return {
       ...item,
       height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-      txHash: { text: item.txHash, link: `/events/${item.id}`, type: 'hash-link' }
+      txHash: { text: item.txHash, link: `/events/${item.id}`, type: 'hash-link', sliceLength: 6 }
     }
   })
   return { list: res, totalSize }
@@ -581,7 +581,7 @@ export async function getEventsByProposer($config, address, size = 5, page = 1) 
       return {
         ...item,
         height: { text: item.height, link: `/blocks/${item.height}`, type: 'link' },
-        txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link' },
+        txHash: { text: item.txHash, link: `/transactions/${item.txHash}`, type: 'hash-link', sliceLength:6 },
         timestamp: { value: item.timestamp * 1000, type: 'time' },
         amountAndShares: { amount: readable(Number(item.amount).toFixed(0)), shares: readable(Number(item.shares).toFixed(0)), add: item.add }
       }
@@ -614,7 +614,7 @@ export async function getDelegatorsByProposer($config, address, size = 5, page =
     list: list.map(item => {
       return {
         ...item,
-        address: { text: item.address, type: 'hash-link', link: `/accounts/detail/${item.address}` },
+        address: { text: item.address, type: 'hash-link', link: `/accounts/detail/${item.address}`, sliceLength: 6 },
         percent: { value: item.percent, type: 'percent' },
         amountAndShares: { amount: readable(Number(item.amount).toFixed(0)), shares: readable(Number(item.shares).toFixed(0)) }
       }
