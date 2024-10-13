@@ -156,7 +156,7 @@ export default {
     padding: rem(6) rem(12);
     border: 1px solid $gray200;
     border-radius: rem(6);
-    color: $gray800;
+    color: $gray500;
     cursor: pointer;
   }
   /deep/.ivu-icon {
@@ -167,8 +167,9 @@ export default {
     margin: rem(8) 0;
   }
   /deep/.ivu-dropdown-item {
-    width: rem(66);
+    width: rem(70);
     font-size: rem(14) !important;
+    color: $gray500;
   }
 }
 .simple {
