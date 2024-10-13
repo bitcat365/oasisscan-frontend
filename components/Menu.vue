@@ -17,7 +17,10 @@
             <SvgIcon v-if="item.iconName" :className="ifActive(item.to) ? 'svgClass-active' : 'svgClass'" :iconName="item.iconName" />
             <span :class="menuOpen ? '' : 'hoverText'">{{ item.name }}</span>
           </router-link>
-          <span v-else-if="!item.to && menuOpen" class="menu-item-notclick menu-item-open">{{ item.name }}</span>
+          <template v-else-if="!item.to">
+            <span v-if="menuOpen" class="menu-item-notclick menu-item-open">{{ item.name }}</span>
+            <div v-else-if="item.name === 'PARATIMES'" class="menu-item-notclick menu-item-close">-----</div>
+          </template>
         </template>
       </nav>
       <div class="divider"></div>
@@ -80,7 +83,7 @@ export default {
         { id: '1-6', name: 'PROPOSALS', to: '/proposals', iconName: 'proposals' }
       ]
       if (this.runtimeList.length > 0) {
-        menuList.push({ id: '1-7', name: 'PARATIMES', key: '/paratimes' })
+        menuList.push({ id: '1-7', name: 'PARATIMES', key: '/paratimes', iconName: 'dottedLine' })
         this.runtimeList.forEach(ele => {
           menuList.push({ id: '1-' + menuList.length + 1, name: ele.name || 'Unknow', to: { path: `/paratimes/${ele.runtimeId}`, query: { name: ele.name } }, iconName: 'paratimes' })
         })
