@@ -65,7 +65,7 @@ export default {
         },
         {
           title: 'Height',
-          content: this.data.height || ''
+          content: this.data.height
         },
         {
           title: 'Fee',
@@ -73,7 +73,7 @@ export default {
         },
         {
           title: 'Nonce',
-          content: this.data.nonce || ''
+          content: this.data.nonce
         },
         {
           title: 'Status',
