@@ -81,7 +81,7 @@ export default {
         },
         {
           title: 'Voting End on Epoch',
-          content: this.data.closes_at || ''
+          content: this.data.closed_at || ''
         },
         {
           title: 'Status',
