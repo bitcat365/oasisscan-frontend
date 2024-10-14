@@ -61,7 +61,7 @@ export default {
         },
         {
           title: 'Voting End on Epoch',
-          key: 'closes_at'
+          key: 'closed_at'
         },
         {
           title: 'Status',
