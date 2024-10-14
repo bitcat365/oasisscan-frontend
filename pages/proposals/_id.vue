@@ -3,7 +3,14 @@
     <Head title="PROPOSAL DETAILS"></Head>
     <Panel class="margin-bottom">
       <div class="overview-content">
-        <Description :list="descriptionList" :span="[8, 16]" class="info-list"></Description>
+        <Description :list="descriptionList" :span="[8, 16]" class="info-list">
+          <template #created>
+            <span>{{ data.created_at }} ({{ data.created_time | timeFormat2 }})</span>
+          </template>
+          <template #closed>
+            <span>{{ data.closed_at }} ({{ data.closed_time | timeFormat2 }})</span>
+          </template>
+        </Description>
         <pie-chart :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']" class="chart"></pie-chart>
       </div>
     </Panel>
@@ -77,11 +84,11 @@ export default {
         },
           {
           title: 'Create Epoch',
-          content: this.data.created_at || ''
+          name: 'created'
         },
         {
           title: 'Voting End on Epoch',
-          content: this.data.closed_at || ''
+          name: "closed"
         },
         {
           title: 'Status',

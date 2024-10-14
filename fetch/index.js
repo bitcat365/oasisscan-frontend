@@ -333,7 +333,9 @@ export async function fetchProposalDetail($config, id) {
     ...data,
     votes: parseVotes(data.votes ? data.votes : []),
     deposit: readable(data.deposit),
-    submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' }
+    submitter: { text: data.submitter, link: `/accounts/detail/${data.submitter}`, type: 'link' },
+    created_time: data.created_time * 1000,
+    closed_time: data.closed_time * 1000
   }
 }
 function parseVotes(list) {
