@@ -17,13 +17,15 @@
                 </div>
               </div>
               <template slot="total">
-                <span>{{ data.total.split('.')[0] | readable }}.</span>
-                <span v-if="data.total.split('.').length>1" class="smalltext">{{ data.total.split('.')[1] }}</span>
-                <span> ROSE</span>
+                <span>
+                  {{ data.total.split('.')[0] | readable }}<span v-if="data.total.split('.').length>1" class="smalltext">.{{ data.total.split('.')[1] }}</span>
+                  <span> ROSE</span>
+                </span>
               </template>
               <template v-for="item in ['available','escrow']" :slot="item">
-                <span :key="item">{{ data[item].split('.')[0] | readable }}.</span>
-                <span :key="item+1" v-if="data[item].split('.').length>1" class="smalltext">{{ data[item].split('.')[1] }}</span>
+                <span :key="item">
+                  {{ data[item].split('.')[0] | readable }}<span v-if="data[item].split('.').length>1" class="smalltext">.{{ data[item].split('.')[1] }}</span>
+                </span>
               </template>
             </Description>
           </div>
