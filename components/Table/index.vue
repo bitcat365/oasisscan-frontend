@@ -223,7 +223,8 @@ table {
 .table th {
   border: 0;
   border-bottom: 1px;
-  padding: 18px 20px;
+  padding: 0 20px;
+  height: rem(60);
 }
 .header {
   tr {
