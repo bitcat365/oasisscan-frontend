@@ -77,7 +77,9 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  gap: rem(30);
+  >* {
+    flex: 1;
+  }
 }
 .chart-con {
   width: rem(200);

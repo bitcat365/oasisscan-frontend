@@ -4,31 +4,29 @@
     <Row class="top">
       <Col>
         <panel>
-          <div class="topDesc">
-            <Description :list="descriptionList" class="info-list">
-              <div slot="address" class="address">
-                <span>{{ data.address }}</span>
-                <span class="copy-con" v-clipboard:copy="data.address" v-clipboard:success="onCopy">
-                  <SvgIcon className="svgIcon" iconName="copy" />
-                </span>
-                <div class="QRcode">
-                  <SvgIcon className="svgIcon" iconName="QRcode" @mousemove="creatQrCode" />
-                  <div class="QRcodeImg" id="qrCode" ref="qrCode"></div>
-                </div>
+          <Description :list="descriptionList" class="info-list">
+            <div slot="address" class="address">
+              <span>{{ data.address }}</span>
+              <span class="copy-con" v-clipboard:copy="data.address" v-clipboard:success="onCopy">
+                <SvgIcon className="svgIcon" iconName="copy" />
+              </span>
+              <div class="QRcode">
+                <SvgIcon className="svgIcon" iconName="QRcode" @mousemove="creatQrCode" />
+                <div class="QRcodeImg" id="qrCode" ref="qrCode"></div>
               </div>
-              <template slot="total">
-                <span>
-                  {{ data.total.split('.')[0] | readable }}<span v-if="data.total.split('.').length>1" class="smalltext">.{{ data.total.split('.')[1] }}</span>
-                  <span> ROSE</span>
-                </span>
-              </template>
-              <template v-for="item in ['available','escrow']" :slot="item">
-                <span :key="item">
-                  {{ data[item].split('.')[0] | readable }}<span v-if="data[item].split('.').length>1" class="smalltext">.{{ data[item].split('.')[1] }}</span>
-                </span>
-              </template>
-            </Description>
-          </div>
+            </div>
+            <template slot="total">
+              <span>
+                {{ data.total.split('.')[0] | readable }}<span v-if="data.total.split('.').length>1" class="smalltext">.{{ data.total.split('.')[1] }}</span>
+                <span> ROSE</span>
+              </span>
+            </template>
+            <template v-for="item in ['available','escrow']" :slot="item">
+              <span :key="item">
+                {{ data[item].split('.')[0] | readable }}<span v-if="data[item].split('.').length>1" class="smalltext">.{{ data[item].split('.')[1] }}</span>
+              </span>
+            </template>
+          </Description>
         </panel>
       </Col>
     </Row>
@@ -489,11 +487,6 @@ export default {
       .smalltext {
         font-size: calc(1em - 1px);
       }
-    }
-    .topDesc {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
     }
     .ivu-col {
       .address {
