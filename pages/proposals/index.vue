@@ -6,7 +6,12 @@
       </template>
     </Head>
     <Panel>
-      <BlockTable :columns="columns" :data="list"></BlockTable>
+      <BlockTable :columns="columns" :data="list">
+          <template v-slot:closed="{ data }">
+            <span>{{data.closed_at}}</span><br/>
+            <span class="time">{{ data.created_time | timeFormat2 }}</span>
+          </template>
+      </BlockTable>
     </Panel>
   </div>
 </template>
@@ -52,22 +57,22 @@ export default {
           width: '35%'
         },
         {
-          title: 'Deposit',
-          key: 'deposit'
-        },
-        {
-          title: 'Create on Epoch',
-          key: 'created_at'
-        },
-        {
-          title: 'Voting End on Epoch',
-          key: 'closed_at'
+          title: 'Type',
+          key: 'type',
+          
         },
         {
           title: 'Status',
-          key: 'state',
+          key: 'state'
+        },
+        {
+          title: 'Voting End on Epoch',
+          // key: 'closed_at',
+          // key: 'closed_time',
+          key: 'closed',
+          slot: true,
           textAlign: 'right'
-        }
+        },
       ]
     }
   }
@@ -78,5 +83,9 @@ export default {
 .HeadLeft {
   color: $gray500;
   font-size: rem(16);
+}
+.time{
+  color: $gray400;
+  font-size: rem(12);
 }
 </style>

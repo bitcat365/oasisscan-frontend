@@ -123,6 +123,7 @@ export async function fetchProposals($config) {
     return {
       ...item,
       deposit: readable(item.deposit),
+      closed: {closed_at: item.closed_at, closed_time: item.closed_time,},
       handler: { text: item.title ?item.title :'unknown', link: `/proposals/${item.id}`, type: 'link' }
     }
   })
