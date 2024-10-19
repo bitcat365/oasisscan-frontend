@@ -5,10 +5,7 @@
       <div class="faq-list">
         <p class="title">API</p>
         <p>
-          <a href="https://api.oasisscan.com/testnet/swagger-ui/" target="_blank"> Testnet https://api.oasisscan.com/testnet/swagger-ui/ </a>
-        </p>
-        <p>
-          <a href="https://api.oasisscan.com/mainnet/swagger-ui/" target="_blank"> Mainnet https://api.oasisscan.com/mainnet/swagger-ui/ </a>
+          <a href="https://api.oasisscan.com/v2/swagger/" target="_blank"> https://api.oasisscan.com/v2/swagger/ </a>
         </p>
       </div>
       <div class="faq-list">
@@ -18,9 +15,6 @@
         </p>
         <p>
           <a href="https://github.com/bitcat365/oasisscan-backend" target="_blank"> https://github.com/bitcat365/oasisscan-backend </a>
-        </p>
-        <p>
-          <a href="https://github.com/bitcat365/oasis_api_server" target="_blank"> https://github.com/bitcat365/oasis_api_server </a>
         </p>
       </div>
       <div class="faq-list">
