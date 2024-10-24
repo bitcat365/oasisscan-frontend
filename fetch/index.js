@@ -556,11 +556,12 @@ export async function fetchTransactionDetail($config, txHash) {
   if (code !== 0) {
     data = {}
   }
+  let toLink = ['staking.AddEscrow','staking.ReclaimEscrow'].includes(data.method)?`/validators/detail/${data.to}`:`/accounts/detail/${data.to}`
   return {
     txHash: data.txHash,
     method: data.method,
     from: { text: data.from, link: `/accounts/detail/${data.from}`, type: 'link' },
-    to: { text: data.to, link: `/accounts/detail/${data.to}`, type: 'link' },
+    to: { text: data.to, link: toLink, type: 'link' },
     amount: Number(data.amount),
     raw: data.raw,
     status: { status: !!data.status, error: data.errorMessage ? data.errorMessage : '' },
