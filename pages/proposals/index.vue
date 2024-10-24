@@ -67,8 +67,6 @@ export default {
         },
         {
           title: 'Voting End on Epoch',
-          // key: 'closed_at',
-          // key: 'closed_time',
           key: 'closed',
           slot: true,
           textAlign: 'right'

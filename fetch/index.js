@@ -123,7 +123,7 @@ export async function fetchProposals($config) {
     return {
       ...item,
       deposit: readable(item.deposit),
-      closed: {closed_at: item.closed_at, closed_time: item.closed_time,},
+      closed: {closed_at: item.closed_at, closed_time: item.closed_time},
       handler: { text: item.title ?item.title :'unknown', link: `/proposals/${item.id}`, type: 'link' }
     }
   })
@@ -561,7 +561,7 @@ export async function fetchTransactionDetail($config, txHash) {
     method: data.method,
     from: { text: data.from, link: `/accounts/detail/${data.from}`, type: 'link' },
     to: { text: data.to, link: `/accounts/detail/${data.to}`, type: 'link' },
-    amount: data.amount,
+    amount: Number(data.amount),
     raw: data.raw,
     status: { status: !!data.status, error: data.errorMessage ? data.errorMessage : '' },
     timestamp: data.timestamp,
