@@ -17,7 +17,7 @@
       </Description>
     </Panel>
     <Panel title="Contents" class="trx-panel">
-      <Description v-if="data.method === 'staking.Transfer'" :list="fromToSchema" class="info-list">
+      <Description v-if="['staking.Transfer','staking.AddEscrow','staking.ReclaimEscrow'].includes(data.method)" :list="fromToSchema" class="info-list">
         <template #amount>
           <span v-if="data.amount">{{ data.amount | unit(isTest) }}</span>
           <span v-else>{{ 0 | unit(isTest) }}</span>
