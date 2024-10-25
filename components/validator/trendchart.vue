@@ -30,7 +30,7 @@ export default {
     const values = this.trends.map(h => +h.escrow).sort((a, b) => a - b)
     let daysArray = []
     for (let i = 0; i < this.trends.length; i++) {
-      let thatDay = new Date(this.trends[i].timestamp)
+      let thatDay = new Date(this.trends[i].timestamp * 1000)
       daysArray.push(thatDay)
     }
     // let values = this.trends.map(h => h.value)
