@@ -9,7 +9,7 @@
       <BlockTable :columns="columns" :data="list">
           <template v-slot:closed="{ data }">
             <span>{{data.closed_at}}</span><br/>
-            <span class="time">{{ data.created_time | timeFormat2 }}</span>
+            <span class="time">{{ data.closed_time | timeFormat2 }}</span>
           </template>
       </BlockTable>
     </Panel>
