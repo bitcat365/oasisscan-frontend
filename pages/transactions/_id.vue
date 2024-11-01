@@ -68,6 +68,10 @@ export default {
           content: this.data.height
         },
         {
+          title: 'Signer',
+          content: this.data.from
+        },
+        {
           title: 'Fee',
           name: 'fee'
         },
