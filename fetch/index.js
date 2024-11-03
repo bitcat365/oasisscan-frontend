@@ -123,7 +123,7 @@ export async function fetchProposals($config) {
     return {
       ...item,
       deposit: readable(item.deposit),
-      closed: {closed_at: item.closed_at, closed_time: item.closed_time},
+      closed: {closed_at: item.closed_at, closed_time: item.closed_time * 1000},
       handler: { text: item.title ?item.title :'unknown', link: `/proposals/${item.id}`, type: 'link' }
     }
   })
@@ -470,7 +470,7 @@ export async function fetchRewardHistory($config, account) {
   let { code, data } = await getV2($config)('account/reward/stats', {
     params: {account}
   })
-  console.log('data:',data);
+  // console.log('data:',data);
   if (code !== 0) {
     data = { stats:{},time:[] }
   }
@@ -604,6 +604,18 @@ export async function validatorStats($config, address) {
   return {
     signs,
     proposals
+  }
+}
+export async function signsStats($config, address) {
+  let { code, data: { stats, time } = { stats: [], time: [] } }  = await getV2($config)(`/validator/signstats`, {
+    params: {
+      address
+    },
+    progress: false
+  })
+  return {
+    stats,
+    time
   }
 }
 export async function getDelegatorsByProposer($config, address, size = 5, page = 1) {

@@ -25,8 +25,8 @@
         </Panel>
       </Col>
       <Col span="12">
-        <Panel title="Proposal Blocks">
-          <Kuai v-if="proposalsStates && proposalsStates.length > 0" :list="proposalsStates"></Kuai>
+        <Panel title="Signature Efficiency">
+          <bar-chart v-if="stats && stats.length > 0"  :data="stats" :time="statsTime"></bar-chart>
         </Panel>
       </Col>
     </Row>
@@ -91,8 +91,9 @@ import Page from '../../../components/Page'
 import Detail from '../../../components/validator/detail'
 import PieChart from '../../../components/charts/piechart'
 import TrendChart from '../../../components/validator/trendchart'
+import BarChart from '../../../components/validator/barchart'
 import Kuai from '../../../components/validator/kuai'
-import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer,fetchVotes, validatorStats, fetchEscrowTrendByAddress } from '../../../fetch'
+import { getDelegatorsByProposer, getEventsByProposer, fetchValidatorDetail, getBlockByProposer,fetchVotes, validatorStats, fetchEscrowTrendByAddress,signsStats } from '../../../fetch'
 import Config from '../../../config'
 import { percent, readable } from '~/utils'
 export default {
@@ -105,6 +106,7 @@ export default {
     Detail,
     PieChart,
     TrendChart,
+    BarChart,
     Kuai
   },
   async asyncData({ $axios, store: $store, params }) {
@@ -115,6 +117,7 @@ export default {
     const { escrowTrendData } = data[1]
     const { list: blockList, totalSize: totalBlockListSize } = await getBlockByProposer({ $axios, $store }, entityAddress)
     const { list: votesList, totalSize: votesListSize } = await fetchVotes({ $axios, $store }, entityAddress)
+     const { stats, time: statsTime } = await signsStats({ $axios, $store }, entityAddress)
     const res = {
       entityAddress,
       escrowAmountStatus,
@@ -127,7 +130,9 @@ export default {
       escrowTrendData,
       signsList: [],
       proposalsList: [],
-      blockInfo: {}
+      blockInfo: {},
+      stats,
+      statsTime
     }
     return res
   },
@@ -146,7 +151,6 @@ export default {
       delegatorsList: [],
       evensList: [],
       signsStates: [],
-      proposalsStates: [],
       blockListColumns: [
         {
           title: 'Height',
@@ -270,7 +274,7 @@ export default {
       const { signs, proposals } = await validatorStats({ $axios, $store }, this.entityAddress)
       // console.log('signs', signs)
       this.signsStates = signs
-      this.proposalsStates = proposals
+      // this.proposalsStates = proposals
     },
     async gotoVotes(pageNumber) {
       const { $axios, $store } = this

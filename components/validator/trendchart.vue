@@ -18,22 +18,12 @@ export default {
     }
   },
   data() {
-    // const days = this.trends.length
-    // const daysArray = []
-    // const latest = days > 0 ? this.trends[days - 1].timestamp : +new Date()
-    // for (let day = 0; day < days; day++) {
-    //   const thatDay = new Date(latest)
-    //   thatDay.setDate(new Date(latest).getDate() - day)
-    //   daysArray.push(thatDay.getDate() + '<br/>' + getMonth(thatDay.getMonth()))
-    // }
-    // daysArray.reverse()
     const values = this.trends.map(h => +h.escrow).sort((a, b) => a - b)
     let daysArray = []
     for (let i = 0; i < this.trends.length; i++) {
       let thatDay = new Date(this.trends[i].timestamp * 1000)
       daysArray.push(thatDay)
     }
-    // let values = this.trends.map(h => h.value)
     const min = values[0]
     const max = values[values.length - 1]
     return {
