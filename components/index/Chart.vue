@@ -52,9 +52,15 @@ export default {
             text: ''
           },
           categories: [...daysArray],
+          // 使用 tickPositioner 函数来精确控制刻度位置
+          tickPositioner: function () {
+            const positions = [];
+            for (let i = 1; i <= this.dataMax; i += 3) {
+                positions.push(i);
+            }
+            return positions;
+          },
           labels: {
-            align: 'right',
-            step: 3,
             formatter: function() {
               let day = this.value.getDate()
               let month = getMonth(this.value.getMonth())
