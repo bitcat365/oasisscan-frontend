@@ -3,11 +3,11 @@
     <highcharts ref="chart" class="chart-con" :options="chartOptions"></highcharts>
     <div class="chart-desc">
       <template v-for="(item, index) in descList">
-        <div class="title">
+        <div class="title" :key="item">
           <div class="title-icon" :style="{ backgroundColor: colors[index].slice(0, 7) }"></div>
           <span :style="{ color: colors[index].slice(0, 7) }" v-if="item.title">{{ item.title }}</span>
         </div>
-        <div class="values">
+        <div class="values" :key="item">
           <span class="values-content" v-if="item.content">{{ item.content }} </span>
           <span class="values-content1" v-if="item.content1">{{ item.content1 }} </span>
           <slot v-if="item.contentName"></slot>
@@ -75,8 +75,8 @@ export default {
 .chart-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   align-items: center;
+  // justify-content: space-around;
   >* {
     flex: 1;
   }
@@ -87,6 +87,7 @@ export default {
 }
 .chart-desc {
   font-size: rem(14);
+    padding-left: rem(40);
   .title {
     position: relative;
     .title-icon {
