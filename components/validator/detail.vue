@@ -1,5 +1,5 @@
 <template>
-  <div class="info-con">{{detailData}}
+  <div class="info-con">
     <a :href="editURL" target="_blank"><span class="edit">Update validator info?</span></a>
     <div class="info-con-top">
       <div class="left">
