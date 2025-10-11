@@ -32,7 +32,7 @@
             </div>
           </Col>
         </Row>
-        <Row class="right-bottom">
+        <Row class=" right-bottom">
           <Col span="12">
             <div class="address">
               <div class="label">Address</div>
