@@ -51,22 +51,27 @@
             <div :class="['type', currentEscrowType === EscrowTypes.reward ? 'sel' : 'notsel']" @click="changeEscrowListType(EscrowTypes.reward)">Reward</div>
           </div>
           <template v-if="currentEscrowType === EscrowTypes.active">
-            <BlockTable :loading="loading1" :data="delegationsList" :columns="columns1" :expand="false" />
+            <BlockTable :loading="loading1" :data="delegationsList" :columns="columns1" />
             <Page slot="footer" type="simple" :sizer="delegationsListSizer" :records-count="totalDelegationsSize" :page="delegationsListPage" @goto="gotoDelegations" />
           </template>
           <template v-else-if="currentEscrowType === EscrowTypes.debonding">
-            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" :expand="false" class="blockTable_debonding" />
+            <BlockTable :loading="loading1" :data="debondingsList" :columns="columns2" class="blockTable_debonding" >
+              <template v-slot:debondEndObj="{ data }" v-if="data">
+                <span>{{data.debondEnd}}</span><br/>
+                <span class="time">{{ data.endTime | timeFormat2 }}</span>
+              </template>
+             </BlockTable>
             <Page slot="footer" type="simple" :sizer="debondingsListSizer" :records-count="totalDebondingsSize" :page="debondingsListPage" @goto="gotoDeboundings" />
           </template>
           <template v-else>
-            <BlockTable :loading="loading1" :data="rewardList" :columns="columns3" :expand="false" class="blockTable_reward" />
+            <BlockTable :loading="loading1" :data="rewardList" :columns="columns3" class="blockTable_reward" />
             <Page slot="footer" type="simple" :sizer="rewardListSizer" :records-count="totalRewardSize" :page="rewardListPage" @goto="gotoReward" />
           </template>
         </Panel>
       </Col>
       <Col span="12">
         <Panel title="Events">
-          <BlockTable :loading="loading2" :data="eventList" :columns="eventListSchema" :expand="false" />
+          <BlockTable :loading="loading2" :data="eventList" :columns="eventListSchema" />
           <Page slot="footer" type="simple" :sizer="eventSizer" :records-count="eventTotal" :page="eventPage" @goto="gotoEvents" />
         </Panel>
       </Col>
@@ -194,7 +199,8 @@ export default {
         },
         {
           title: 'Unlock Epoch',
-          key: 'debondEnd',
+          key: 'debondEndObj',
+          slot: true,
           textAlign: 'right',
           iconName: 'question'
         }
@@ -532,6 +538,10 @@ export default {
       > * {
         height: rem(490);
       }
+    }
+    .time{
+      color: $gray400;
+      font-size: rem(12);
     }
   }
   .bottom-table-bot {

@@ -213,6 +213,7 @@ export async function fetchAccountDebonding($config, address, page = 1, size = 5
     item.shares = readable(decimalsFormat(item.shares, 4))
     return {
       ...item,
+      debondEndObj: {debondEnd: item.debondEnd, endTime: item.endTime * 1000},
       validatorName: { text: name, link: `/validators/detail/${item.validatorAddress}`, type: item.validatorName ? 'link' : 'hash-link' }
     }
   })
