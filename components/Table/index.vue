@@ -89,8 +89,7 @@ export default {
     rowData() {
       return this.data.map((item, index) => {
         let odd = !item.isExtendedRow ? ++index % 2 === 1 : undefined
-        Object.assign(item, { odd: odd })
-        return { ...item }
+        return { ...item, odd: odd }
       })
     }
   },
