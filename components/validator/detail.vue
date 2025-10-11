@@ -1,5 +1,5 @@
 <template>
-  <div class="info-con">
+  <div class="info-con">{{detailData}}
     <a :href="editURL" target="_blank"><span class="edit">Update validator info?</span></a>
     <div class="info-con-top">
       <div class="left">
@@ -64,8 +64,8 @@
         <Icon type="ios-information-circle-outline" class="icon rates" v-if="commissionDesc" :data-attr="commissionDesc" />
       </div>
       <div slot="runtimes">
-        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'" :data-attr="item.online ? 'Online' : 'Offline'">
-          {{ item.name }}
+        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'" :data-attr="'Node ID:'+item.nodeId">
+          <span style="cursor: pointer" v-clipboard:copy="item.nodeId" v-clipboard:success="onCopy">{{ item.name }}</span>
         </ColourDiv>
       </div>
     </Description>
@@ -140,7 +140,10 @@ export default {
         return ''
       }
       return ''
-    }
+    },
+    onCopy() {
+      this.$toast.top('Node ID Copied')
+    },
   }
 }
 </script>
