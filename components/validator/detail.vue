@@ -64,7 +64,7 @@
         <Icon type="ios-information-circle-outline" class="icon rates" v-if="commissionDesc" :data-attr="commissionDesc" />
       </div>
       <div slot="runtimes">
-        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'" :data-attr="'Node ID:'+item.nodeId">
+        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'" :data-attr="'Node ID: '+item.nodeId">
           <span style="cursor: pointer" v-clipboard:copy="item.nodeId" v-clipboard:success="onCopy">{{ item.name }}</span>
         </ColourDiv>
       </div>
