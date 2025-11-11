@@ -33,7 +33,7 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <panel title="Assets">
-          <pie-chart :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
+          <pie-chart v-if="pieDataZero" :data="[parseFloat(data.available), parseFloat(data.escrow), parseFloat(data.debonding)]" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']"> </pie-chart>
         </panel>
       </Col>
       <Col span="12">
@@ -360,6 +360,16 @@ export default {
         }
       ]
       return list
+    },
+    pieDataZero() {
+      const available = parseFloat(this.data.available);
+      const escrow = parseFloat(this.data.escrow);
+      const debonding = parseFloat(this.data.debonding);
+      if (available === 0 && escrow === 0 && debonding === 0) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   async mounted() {
