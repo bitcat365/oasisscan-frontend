@@ -1,5 +1,5 @@
 <template>
-  <div :class="['colourDiv',color]">
+  <div :class="['colourDiv', color]">
     <slot></slot>
   </div>
 </template>
@@ -9,10 +9,10 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'error'
+      default: "error"
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -33,7 +33,12 @@ export default {
   &.error {
     background-color: $error400;
   }
-  &:not(:first-child){
+  &.disabled {
+    background-color: #808080; // 灰色
+    cursor: not-allowed;
+  }
+
+  &:not(:first-child) {
     margin-left: 0.5rem;
   }
 }

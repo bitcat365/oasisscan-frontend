@@ -55,7 +55,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/axios.js', '@/plugins/iview', '~/plugins/i18n.js', '~/plugins/my-mixin.js', { src: '~plugins/highchart.js' }, '~/plugins/clipboard.js', '~/plugins/toast.js', '~/plugins/filters.js', '~/plugins/svg-icon.js', { src: '~/plugins/QRCode.js', ssr: false }],
+  plugins: ['~/plugins/axios.js', '@/plugins/iview', '~/plugins/i18n.js', '~/plugins/my-mixin.js', '~plugins/highchart.js' , '~/plugins/clipboard.js', '~/plugins/toast.js', '~/plugins/filters.js', '~/plugins/svg-icon.js', { src: '~/plugins/QRCode.js', ssr: false }],
 
   /*
    ** Nuxt.js modules
@@ -77,18 +77,18 @@ module.exports = {
     credentials: false,
     proxy: true
   },
-  // proxy: [
-  //   'https://api.oasisscan.com/v2/testnet/',
-  //   'https://api.oasisscan.com/v2/mainnet/',
-  //   'https://api.oasisscan.com/testnet/',
-  //   'https://api.oasisscan.com/mainnet/',
-  //   ],
-  proxy: {
-    '/v2/testnet/': { target: 'http://api.internal.oasisscan.com:9191', pathRewrite: { '^/v2/testnet/': '' } },
-    '/v2/mainnet/': { target: 'http://api.internal.oasisscan.com:8191', pathRewrite: { '^/v2/mainnet/': '' } },
-    '/testnet/': { target: 'http://api-internal-v1.oasisscan.com:9181', pathRewrite: { '^/testnet/': '' } },
-    '/mainnet/': { target: 'http://api-internal-v1.oasisscan.com:8181', pathRewrite: { '^/mainnet/': '' } }
-  },
+  proxy: [
+    'https://api.oasisscan.com/v2/testnet/',
+    'https://api.oasisscan.com/v2/mainnet/',
+    'https://api.oasisscan.com/testnet/',
+    'https://api.oasisscan.com/mainnet/',
+    ],
+  // proxy: {
+  //   '/v2/testnet/': { target: 'http://api.internal.oasisscan.com:9191', pathRewrite: { '^/v2/testnet/': '' } },
+  //   '/v2/mainnet/': { target: 'http://api.internal.oasisscan.com:8191', pathRewrite: { '^/v2/mainnet/': '' } },
+  //   '/testnet/': { target: 'http://api-internal-v1.oasisscan.com:9181', pathRewrite: { '^/testnet/': '' } },
+  //   '/mainnet/': { target: 'http://api-internal-v1.oasisscan.com:8181', pathRewrite: { '^/mainnet/': '' } }
+  // },
   /*
    ** Build configuration
    */
