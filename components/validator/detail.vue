@@ -64,21 +64,68 @@
         <Icon type="ios-information-circle-outline" class="icon rates" v-if="commissionDesc" :data-attr="commissionDesc" />
       </div>
       <div slot="runtimes">
-        <ColourDiv v-for="item in runtimes" :key="item.id" :color="item.online ? 'success' : 'error'" :data-attr="'Node ID:'+item.nodeId">
-          <span style="cursor: pointer" v-clipboard:copy="item.nodeId" v-clipboard:success="onCopy">{{ item.name }}</span>
-        </ColourDiv>
+        <!-- <ColourDiv
+          v-for="item in runtimes"
+          :key="item.id"
+          :color="item.online ? 'success' : 'error'"
+          :data-attr="'Node ID:' + item.nodeId"
+        >
+          <span
+            style="cursor: pointer"
+            v-clipboard:copy="item.nodeId"
+            v-clipboard:success="onCopy"
+            >{{ item.name }}</span
+          >
+        </ColourDiv> -->
+        <!-- 使用Popover组件包裹ColourDiv -->
+        <Popover v-for="item in runtimes" :key="item.id">
+          <ColourDiv :color="item.online ? 'success' : 'disabled'">
+            {{ item.name }}
+          </ColourDiv>
+
+          <!-- 这是弹窗内容，使用slot="content" -->
+          <template v-slot:content>
+            <div class="tooltip-content">
+              <div class="tooltip-row">
+                <span>Paratime</span>
+                <span>{{ item.name }}</span>
+              </div>
+              <div class="tooltip-row">
+                <span>Status</span>
+                <span :class="item.online ? 'status-online' : 'status-offline'">
+                  <span class="status-dot"></span>
+                  {{ item.online ? "Online" : "Offline" }}
+                </span>
+              </div>
+              <div class="tooltip-row">
+                <span>Node ID:</span>
+                <div class="node-id-wrapper">
+                  <span class="node-id-text">{{ item.nodeId }}</span>
+                  <span
+                    class="copy-con"
+                    v-clipboard:copy="item.nodeId"
+                    v-clipboard:success="onCopy"
+                  >
+                    <SvgIcon className="svg" iconName="copy" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </template>
+        </Popover>
       </div>
     </Description>
   </div>
 </template>
 
 <script>
-import { readable, percent } from '~/utils/index'
-import Config from '~/config'
-import Description from '~/components/description/index.vue'
-import ColourDiv from '~/components/colourDiv/colourDiv'
+import { readable, percent } from "~/utils/index";
+import Config from "~/config";
+import Description from "~/components/description/index.vue";
+import ColourDiv from "~/components/colourDiv/colourDiv";
+import Popover from "~/components/colourDiv/popover";
 export default {
-  components: { Description, ColourDiv },
+  components: { Description, ColourDiv, Popover },
   props: {
     detailData: {
       type: Object,
@@ -289,12 +336,74 @@ export default {
     .rates:hover::after {
       content: attr(data-attr);
     }
-    /deep/.colourDiv:hover::after {
-      content: attr(data-attr);
-      position: absolute;
-      top: -1.5rem;
-      font-family: 'Inter';
-      @extend .hoverText;
+    // /deep/.colourDiv:hover::after {
+    //   content: attr(data-attr);
+    //   position: absolute;
+    //   top: -1.5rem;
+    //   font-family: "Inter";
+    //   @extend .hoverText;
+    // }
+  }
+}
+
+/* 提示框内容的样式 */
+.tooltip-content {
+  font-family: "Inter";
+  font-size: rem(14);
+  display: flex;
+  flex-direction: column;
+  gap: rem(8);
+  .tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+
+    &:last-child {
+      border-top: 1px solid $gray700;
+    }
+
+    > span:first-child {
+      // color: #a0a0a0; // 左侧标签颜色
+      margin-right: 2rem;
+    }
+
+    .status-online {
+      color: #28a745; // 绿色
+    }
+
+    .status-offline {
+      color: #dc3545; // 红色
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 5px;
+      background-color: currentColor;
+    }
+
+    .node-id-wrapper {
+      display: flex;
+      align-items: center;
+      gap: rem(8);
+      background-color: #1a1a1a;
+      padding: 4px 8px;
+      border-radius: 4px;
+      .node-id-text {
+        white-space: nowrap;
+      }
+      .copy-con {
+        line-height: 1;
+      }
+      .svg {
+        width: rem(30);
+        height: rem(30);
+        cursor: pointer;
+        color: #ffffff;
+      }
     }
   }
 }
