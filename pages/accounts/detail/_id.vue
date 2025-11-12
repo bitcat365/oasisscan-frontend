@@ -530,6 +530,7 @@ export default {
           width: rem(30);
           height: rem(30);
           cursor: pointer;
+          color: $blue700;
         }
       }
     }
