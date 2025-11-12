@@ -64,43 +64,27 @@
         <Icon type="ios-information-circle-outline" class="icon rates" v-if="commissionDesc" :data-attr="commissionDesc" />
       </div>
       <div slot="runtimes">
-        <!-- <ColourDiv
-          v-for="item in runtimes"
-          :key="item.id"
-          :color="item.online ? 'success' : 'error'"
-          :data-attr="'Node ID:' + item.nodeId"
-        >
-          <span
-            style="cursor: pointer"
-            v-clipboard:copy="item.nodeId"
-            v-clipboard:success="onCopy"
-            >{{ item.name }}</span
-          >
-        </ColourDiv> -->
-        <!-- 使用Popover组件包裹ColourDiv -->
         <Popover v-for="item in runtimes" :key="item.id">
           <ColourDiv :color="item.online ? 'success' : 'disabled'">
             {{ item.name }}
           </ColourDiv>
-
-          <!-- 这是弹窗内容，使用slot="content" -->
           <template v-slot:content>
             <div class="tooltip-content">
-              <div class="tooltip-row">
-                <span>Paratime</span>
-                <span>{{ item.name }}</span>
+              <div class="tooltip-row row-layout1">
+                <span class="row-title">Paratime</span>
+                <span class="row-content">{{ item.name }}</span>
               </div>
-              <div class="tooltip-row">
-                <span>Status</span>
-                <span :class="item.online ? 'status-online' : 'status-offline'">
-                  <span class="status-dot"></span>
+              <div class="tooltip-row row-layout1">
+                <span class="row-title">Status</span>
+                <span class="row-content">
+                  <span :class="['status-dot',item.online ? 'status-online' : 'status-offline']"></span>
                   {{ item.online ? "Online" : "Offline" }}
                 </span>
               </div>
-              <div class="tooltip-row">
-                <span>Node ID:</span>
+              <div class="tooltip-row row-layout2">
+                <span class="row-title">Node ID:</span>
                 <div class="node-id-wrapper">
-                  <span class="node-id-text">{{ item.nodeId }}</span>
+                  <span class="row-content node-id-text">{{ item.nodeId }}</span>
                   <span
                     class="copy-con"
                     v-clipboard:copy="item.nodeId"
@@ -336,44 +320,43 @@ export default {
     .rates:hover::after {
       content: attr(data-attr);
     }
-    // /deep/.colourDiv:hover::after {
-    //   content: attr(data-attr);
-    //   position: absolute;
-    //   top: -1.5rem;
-    //   font-family: "Inter";
-    //   @extend .hoverText;
-    // }
   }
 }
 
-/* 提示框内容的样式 */
 .tooltip-content {
   font-family: "Inter";
   font-size: rem(14);
   display: flex;
   flex-direction: column;
-  gap: rem(8);
-  .tooltip-row {
+  gap: rem(4);
+  .row-layout1{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
-
+  }
+  .row-layout2{
+    display: flex;
+    flex-direction: column;
+  }
+  .tooltip-row {
     &:last-child {
       border-top: 1px solid $gray700;
     }
 
-    > span:first-child {
-      // color: #a0a0a0; // 左侧标签颜色
-      margin-right: 2rem;
+    .row-title {
+      color: $gray300;
+      font-size: rem(14);
+    }
+    .row-content {
+      font-size: rem(12);
     }
 
     .status-online {
-      color: #28a745; // 绿色
+      color: $success500;
     }
 
     .status-offline {
-      color: #dc3545; // 红色
+      color: $error500;
     }
 
     .status-dot {
@@ -389,9 +372,9 @@ export default {
       display: flex;
       align-items: center;
       gap: rem(8);
-      background-color: #1a1a1a;
-      padding: 4px 8px;
-      border-radius: 4px;
+      background-color: rgba($color: #101828, $alpha: 0.5);
+      padding:rem(4) rem(8);
+      border-radius: rem(4);
       .node-id-text {
         white-space: nowrap;
       }
