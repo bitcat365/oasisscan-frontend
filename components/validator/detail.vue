@@ -83,7 +83,7 @@
               </div>
               <div class="tooltip-row row-layout2">
                 <span class="row-title">Node ID:</span>
-                <div class="node-id-wrapper">
+                <div class="node-id-wrapper" v-if="item.nodeId">
                   <span class="row-content node-id-text">{{ item.nodeId }}</span>
                   <span
                     class="copy-con"
