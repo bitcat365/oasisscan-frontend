@@ -9,7 +9,7 @@
     <Row :gutter="20" class="center-chart">
       <Col span="12">
         <Panel title="Escrow Status">
-          <pie-chart v-if="descList && descList.length > 0" :data="[0, parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#026AA2', '#B692F6', '#36BFFA80']"></pie-chart>
+          <pie-chart v-if="pieDataZero" :data="[0, parseFloat(this.escrowAmountStatus.self), parseFloat(this.escrowAmountStatus.other)]" :descList="descList" :colors="['#026AA2', '#B692F6', '#36BFFA80']"></pie-chart>
         </Panel>
       </Col>
       <Col span="12">
@@ -247,6 +247,15 @@ export default {
         }
       ]
       return list
+    },
+    pieDataZero() {
+     const escrowAmountStatus = this.escrowAmountStatus
+      const escrowSharesStatus = this.escrowSharesStatus
+      if (escrowAmountStatus === 0 && escrowSharesStatus === 0) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   mounted() {

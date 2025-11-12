@@ -11,7 +11,7 @@
             <span>{{ data.closed_at }} ({{ data.closed_time | timeFormat2 }})</span>
           </template>
         </Description>
-        <pie-chart :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']" class="chart"></pie-chart>
+        <pie-chart v-if="pieChartData&&!pieChartData.every(ele=>ele===0)" :data="pieChartData" :descList="descList" :colors="['#B692F6', '#36BFFA80', '#016AA3']" class="chart"></pie-chart>
       </div>
     </Panel>
     <Panel title="Votes" class="block-list-wrapper" v-if="!isRequesting">
