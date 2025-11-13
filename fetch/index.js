@@ -242,29 +242,29 @@ export async function fetchAccountReward($config, account, page = 1, size = 5) {
   return { list: res, totalSize }
 }
 // todo delete
-export async function fetchAccountsList($config, page = 1, size = 20) {
-  let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/account/list', {
-    params: {
-      page,
-      size
-    }
-  }).catch(() => ({ code: -1 }))
-  if (code !== 0) {
-    list = []
-  }
-  const res = list.map(item => {
-    return {
-      ...item,
-      available: readable(Number(item.available).toFixed(0)),
-      escrow: readable(Number(item.escrow).toFixed(0)),
-      debonding: readable(Number(item.debonding).toFixed(0)),
-      total: readable(Number(item.total).toFixed(0)),
-      address: { text: item.address, link: `/accounts/detail/${item.address}`, type: 'link', total: item.total },
-      id: item.address
-    }
-  })
-  return { list: res, totalSize }
-}
+// export async function fetchAccountsList($config, page = 1, size = 20) {
+//   let { code, data: { list, totalSize } = { list: [] } } = await get($config)('/chain/account/list', {
+//     params: {
+//       page,
+//       size
+//     }
+//   }).catch(() => ({ code: -1 }))
+//   if (code !== 0) {
+//     list = []
+//   }
+//   const res = list.map(item => {
+//     return {
+//       ...item,
+//       available: readable(Number(item.available).toFixed(0)),
+//       escrow: readable(Number(item.escrow).toFixed(0)),
+//       debonding: readable(Number(item.debonding).toFixed(0)),
+//       total: readable(Number(item.total).toFixed(0)),
+//       address: { text: item.address, link: `/accounts/detail/${item.address}`, type: 'link', total: item.total },
+//       id: item.address
+//     }
+//   })
+//   return { list: res, totalSize }
+// }
 
 export async function fetchTransactionsList($config, page = 1, size = 10, method = '', progress = true, sliceLength = 6) {
   let { code, data: { list, totalSize } = { list: [] } } = await getV2($config)('/chain/transactions', {
