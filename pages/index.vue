@@ -77,7 +77,8 @@ export default {
   components: { Panel, PanelSmall, BlockInfo, BlockTable, Chart, BlockMarket },
   data() {
     return {
-      timer: -1,
+      timer: null,
+      isDestroyed: false,
       blockListColumns: [
         {
           title: 'Height',
@@ -134,17 +135,26 @@ export default {
     return { marketChart, marketInfo, blockInfo, blocks, transactions, newsList: Config.news, tx, escrow }
   },
   mounted() {
-    this.timer && clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      this.repool()
-    }, 6000)
+    this.startPolling()
   },
-  destroyed() {
-    this.timer && clearTimeout(this.timer)
-    this.timer = null
+  beforeDestroy() {
+    this.stopPolling()
   },
   methods: {
+    startPolling() {
+      this.stopPolling()
+      this.timer = setTimeout(() => {
+        this.repool()
+      }, 6000)
+    },
+    stopPolling() {
+      if (this.timer) {
+        clearTimeout(this.timer)
+        this.timer = null
+      }
+    },
     async repool() {
+      if (this.isDestroyed) return
       const $axios = this.$axios
       const $store = this.$store
       const data = await Promise.all([fetchBlockInfo({ $axios, $store }, false), fetchHomeBlockList({ $axios, $store }, 10, 1, false), fetchTransactionsList({ $axios, $store }, 1, 10, '', false)])
