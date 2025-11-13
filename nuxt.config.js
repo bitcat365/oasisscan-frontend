@@ -77,18 +77,18 @@ module.exports = {
     credentials: false,
     proxy: true
   },
-  proxy: [
-    'https://api.oasisscan.com/v2/testnet/',
-    'https://api.oasisscan.com/v2/mainnet/',
-    'https://api.oasisscan.com/testnet/',
-    'https://api.oasisscan.com/mainnet/',
-    ],
-  // proxy: {
-  //   '/v2/testnet/': { target: 'http://api.internal.oasisscan.com:9191', pathRewrite: { '^/v2/testnet/': '' } },
-  //   '/v2/mainnet/': { target: 'http://api.internal.oasisscan.com:8191', pathRewrite: { '^/v2/mainnet/': '' } },
-  //   '/testnet/': { target: 'http://api-internal-v1.oasisscan.com:9181', pathRewrite: { '^/testnet/': '' } },
-  //   '/mainnet/': { target: 'http://api-internal-v1.oasisscan.com:8181', pathRewrite: { '^/mainnet/': '' } }
-  // },
+  // proxy: [
+  //   'https://api.oasisscan.com/v2/testnet/',
+  //   'https://api.oasisscan.com/v2/mainnet/',
+  //   'https://api.oasisscan.com/testnet/',
+  //   'https://api.oasisscan.com/mainnet/',
+  //   ],
+  proxy: {
+    '/v2/testnet/': { target: 'http://api.internal.oasisscan.com:9191', pathRewrite: { '^/v2/testnet/': '' } },
+    '/v2/mainnet/': { target: 'http://api.internal.oasisscan.com:8191', pathRewrite: { '^/v2/mainnet/': '' } },
+    '/testnet/': { target: 'http://api-internal-v1.oasisscan.com:9181', pathRewrite: { '^/testnet/': '' } },
+    '/mainnet/': { target: 'http://api-internal-v1.oasisscan.com:8181', pathRewrite: { '^/mainnet/': '' } }
+  },
   /*
    ** Build configuration
    */
